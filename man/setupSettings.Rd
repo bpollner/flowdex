@@ -4,7 +4,12 @@
 \alias{setupSettings}
 \title{Perform settings setup}
 \usage{
-setupSettings()
+setupSettings(path = NULL)
+}
+\arguments{
+\item{path}{Character length one, holding the path to the location where the 
+folder containing the settings.R file should be located. Defaults to 'NULL'. 
+If left at the default 'NULL', the location should be selectable interactively.}
 }
 \value{
 No return value, is called for its side effects, i.e. to set up 
@@ -16,4 +21,9 @@ Perform the setup of the setting-system provided by package
 }
 \details{
 Has to be done only once.
+}
+\examples{
+\dontrun{
+setupSettings(path="~/foo/bar")
+}
 }

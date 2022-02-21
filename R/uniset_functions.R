@@ -18,6 +18,10 @@ updateSettings <- function(silent=FALSE) {
 # Can be used inside a function of the package 'flowdex' to automatically update the settings.
 # No message will be displayed upon success.
 autoUpS <- function() {
+
+	## while in DEV mode
+	return(invisible(NULL))
+	
 	stn <- uniset::uniset_autoUpS(get("uniset_env_name"), setupFunc="setupSettings")
 	return(invisible(stn))
 } # EOF
@@ -27,6 +31,18 @@ autoUpS <- function() {
 # Can be used inside a function of the package 'flowdex' to conveniently get the list holding the settings, 
 # i.e. the key=value pairs from the file flowdex_settings.R
 getstn <- function(){
+
+
+	## while in DEV mode
+	if (dir.exists("inst")) {
+		stn <- source("inst/flowdex_settings.R")$value
+	} else {
+		stn <- source("flowdex_settings.R")$value
+	}
+	return(stn)
+
+
+
     stn <-  try(get("settings", envir=get(".flowdex_settingsEnv", pos="pkg_flowdex_envs")), silent=TRUE)
     if (class(stn) == "try-error") {
     	# if no manual 'updateSettings' has been called yet, this will throw an error. Hence, we have to force the 

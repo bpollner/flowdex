@@ -1,6 +1,6 @@
 <!-- badges: start -->
-[![Codecov test coverage](https://codecov.io/gh/bpollner/flowdex/branch/main/graph/badge.svg)](https://app.codecov.io/gh/bpollner/flowdex?branch=main)
-[![codecov](https://codecov.io/gh/bpollner/flowdex/branch/main/graph/badge.svg)](https://codecov.io/gh/bpollner/flowdex)
+[![R-CMD-check](https://github.com/bpollner/flowdex/workflows/R-CMD-check/badge.svg)](https://github.com/bpollner/flowdex/actions)
+[![codecov](https://codecov.io/gh/bpollner/flowdex/branch/main/graph/badge.svg?token=aZFS02SMwz)](https://codecov.io/gh/bpollner/flowdex)
 [![CRAN status](https://www.r-pkg.org/badges/version/flowdex)](https://CRAN.R-project.org/package=flowdex)
 [![metacran downloads](https://cranlogs.r-pkg.org/badges/grand-total/flowdex)](https://cran.r-project.org/package=flowdex)
 <!-- badges: end -->

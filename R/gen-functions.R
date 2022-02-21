@@ -11,6 +11,7 @@ setupSettings <- function() {
 	return(invisible(NULL))
 } # EOF
 
+
 #' @title Test
 #' @description Test
 #' @export

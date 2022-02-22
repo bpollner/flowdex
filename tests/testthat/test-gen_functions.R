@@ -18,9 +18,13 @@ if (dir.exists(paste0(ptp, "/inst"))) {
 
 stn <- source(paste0(ptpInst, "/flowdex_settings.R"))$value
 
-assign("onFdT", TRUE, pos=.GlobalEnv)
-
-
+test_that("checkOnTest", {
+    expect_false(checkOnTest())
+}) # EOT
+assign("onFdT", TRUE, pos=.GlobalEnv) ## !!!! here assigning the onFdT variable !!! ####
+test_that("checkOnTest", {
+    expect_true(checkOnTest())
+}) # EOT
 
 tmpdir <- tempdir()
 homeDir <- "fld_Home"
@@ -32,7 +36,6 @@ if (!dir.exists(pathToHome)) {
 
 
 ##### simple helpers #######
-
 test_that("checkCh1", {
     a <- "a"; b <- "a"
     expect_null(checkCh1(a,b))
@@ -49,7 +52,9 @@ test_that("checkDefToSetVal", {
     expect_match(checkDefToSetVal(".", fnf, "argN", stn), "fcsFiles")
 }) # EOT
 
-
+test_that("devGetLocalStn", {
+    expect_type(devGetLocalStn(), "list")
+}) # EOT
 
 
 ###### Setting up the folder structure ########
@@ -117,7 +122,17 @@ test_that("repairVolumes", {
 }) # EOT
 file.copy(from, to, overwrite = TRUE) # get back original fcs files
 
+# repairVolumes(patt=NULL, 50000, fn=pa, includeAll = TRUE, confirm = FALSE, verbose=FALSE)
+siName <- list.files(pa)[2]
+test_that("repairSID", {
+    expect_s4_class(repairSID(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=pa, confirm=FALSE), "flowSet")
+    fs <- repairSID(fn=pa)
+    expect_error(repairSID(fs=fs, name="aaa", newSID=NULL, patt=NULL, fn=pa, confirm=FALSE), "Please provide a value")
+    expect_error(repairSID(fs=fs, name="aaa", newSID="newSID_bbb", patt=NULL, fn=pa, confirm=FALSE), "seems not to be present")
+    expect_output(repairSID(fs=fs, name=siName, newSID="newSID_HaHaHa", patt=NULL, fn=pa, confirm=FALSE), "has been rewritten")
+#    fs <- repairSID(fn=pa)
+#    print(fs@phenoData@data)
+}) # EOT
 
 
-
-
+##### Make Gating Set #########

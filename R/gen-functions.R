@@ -140,7 +140,7 @@ readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL, volCheck=TRUE
 repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm=TRUE, verbose=TRUE) {
 	stn <- autoUpS()	
 	#
-	folderName <- checkDefToSetVal(fn, "folderName_fcsFiles", "fn", stn, checkFor="char", defValue=".")
+	folderName <- checkDefToSetVal(fn, "folderName_fcsFiles", "fn", stn, checkFor="char")
 	#
 	if (includeAll) {
 		pomText <- "present or missing"
@@ -188,6 +188,67 @@ repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm
 		cat(".")
 	} # end for i
 	cat(" ok.\n")
+	return(invisible(NULL))
+} # EOF
+
+#' @title Repair a single Sample ID.
+#' @description Replace a faulty sample ID with a new one and write the single
+#' fcs file back to disc.
+#' @details To first obtain the flowSet, leave the parameter `fs`at its default
+#' NULL. By providing a pattern to `patt`, subgroups of fcs files can be read in.
+#' Provide the so obtained flowSet to the parameter `fs`, and specify the
+#' name and the new sample ID in order to re-write the specified file with its
+#' new Sample ID. 'object@phenoData@data' can be used to inspect and verify names 
+#' of FCS files and the sample IDs therein -- see examples.
+#' @section Note: The sample ID, esp. the correct sample ID is of importance 
+#' when using the 'dictionary' to expand the abbreviations in the sample ID - 
+#' see XXX.
+#' @param fs The object returned by this function if parameter \code{fs} is left
+#' at its default NULL, what then can be used as input for the parameter \code{fs}.
+#' @param name Character length one. The name of the fcs file within the flowset 
+#' that should get a new sample ID.
+#' @param newSID Character legnth one. The new Sample ID.
+#' @inheritParams flowdexit
+#' @param confirm Logical. If the user should be asked for additional confirmation
+#' before the rewriting of the fcs file is performed. Defaults to TRUE.
+#' @return Nothing, called for its side effects: the specified single fcs file gets
+#' written to disc with its new sample ID.
+#' @family Repair functions
+#' @examples
+#' \dontrun{
+#' fs <- repairSID()
+#' fs <- repairSID(patt="foo")
+#' fs@phenoData@data
+#' repairSID(fs, "sample1", "newSID")
+#' }
+#' @export
+repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".", confirm=TRUE) {
+	stn <- autoUpS()	
+	#
+	fn <- checkDefToSetVal(fn, "folderName_fcsFiles", "fn", stn, checkFor="char")
+	#	
+	if (is.null(fs)) {
+		return(invisible(readInFlowSet(patt, folderName=fn)))
+	}
+	if (is.null(name) | is.null(newSID)) {
+		stop("Please provide a value to `name` and `newSID`.", call.=FALSE)
+	}
+	if (! name %in% ls(fs@frames)) {
+		stop(paste0("Sorry, the fcs file `", name, "` seems not to be present in the provided flowSet."), call.=FALSE)
+	}
+	if (confirm) {
+		cat(paste0("The new sample ID of the fcs-file `", name, "` will be:\n", newSID, "\n\nPress enter to continue or escape to abort:"))
+		scan(file = "", n = 1, quiet = TRUE)
+	}
+	flowFile <- paste0("fs@frames$", name)
+	txt <- paste0(flowFile, "@description$`$SMNO` <- \"", newSID, "\"")
+	eval(parse(text=txt)) # write the new sample ID into the single flowFrame.
+	ffn <- paste0(fn,"/", name, "") # the name of folder and file
+	options(warn=-1)
+	txt <- paste0("flowCore::write.FCS(", flowFile, ", \"", ffn, "\")")
+	eval(parse(text=txt)) # write the single flowFrame with corrected sample ID back to file
+	options(warn=0)
+	if (TRUE) {cat(paste0("`", name, "` has been rewritten with the modified sample ID.\n"))}
 	return(invisible(NULL))
 } # EOF
 

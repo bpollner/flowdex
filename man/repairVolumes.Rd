@@ -50,4 +50,8 @@ value and write the FCS-files back to disc.
 This function is intended to be used when, for known or unknown
 reasons, there is no volume information encoded in the original fcs file.
 }
+\seealso{
+Other Repair functions: 
+\code{\link{repairSID}()}
+}
 \concept{Repair functions}

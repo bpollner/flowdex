@@ -36,10 +36,10 @@ createSingleFolder <- function(where, fn) {
 } # EOF
 
 createFolders <- function(where, stn) {
-	foN_gating <- stn$folderName_gating
-	foN_fcsFiles <- stn$folderName_fcsFiles
-	foN_rawData <- stn$folderName_rawData
-	foN_templ <- stn$folderName_templates
+	foN_gating <- stn$foN_gating
+	foN_fcsFiles <- stn$foN_fcsFiles
+	foN_rawData <- stn$foN_rawData
+	foN_templ <- stn$foN_templates
 	#
 	aa <- createSingleFolder(where, foN_gating)
 	bb <- createSingleFolder(where, foN_fcsFiles)
@@ -56,7 +56,7 @@ copyAllTemplates <- function(home, stn) {
  		fromFolder <- paste0(ptp, "/templates")
  	} # end else
 	#
-	foN_templ <- stn$folderName_templates
+	foN_templ <- stn$foN_templates
 	to <- paste0(home, "/", foN_templ)
 	dicFile <- paste0(fromFolder, "/dictionary.xlsx")
 	gaStraF <- paste0(fromFolder, "/gateStrat.xlsx")
@@ -97,8 +97,13 @@ genfs <- function(where=getwd(), copyTemplates=TRUE) {
 	return(invisible(NULL))
 } # EOF
 
-readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL, volCheck=TRUE) {
-	rawdata <- try(flowCore::read.flowSet(path = folderName, pattern=patt, column.pattern=colPat, alter.names = TRUE, name.keyword="$FIL", ), silent=FALSE)
+readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL, volCheck=TRUE, ignoreTextOffset=TRUE) {
+	# ignoreTextOffset (passed on to ignore.text.offset in function flowCore::read.FCS) had to be introduced in FEB 2022.
+	# Before that, when I was developing the code (~2017/2018), everything was good with ignore.text.offset left at the default FALSE
+	# flowCore and flowWorkspace did have some updates since 2017 - so maybe something was changed there that makes it necessary to turn
+	# ignore.text.offset to TRUE. 
+	# 
+	rawdata <- try(flowCore::read.flowSet(path = folderName, pattern=patt, column.pattern=colPat, alter.names = TRUE, name.keyword="$FIL", ignore.text.offset=ignoreTextOffset), silent=FALSE)
 	if (class(rawdata) == "try-error") {
 		stop("Sorry, an error while trying to read in the flowSet occured.", call.=FALSE)
 	} # end try error
@@ -131,8 +136,6 @@ readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL, volCheck=TRUE
 #' \code{$VOL} slot in the description of the single flowFrame.
 #' @param confirm Logical. If the user should be asked for additional confirmation
 #' before the rewriting of the fcs files is performed. Defaults to TRUE.
-#' @param verbose Logical. If detailed status messages should be displayed.
-#' Defaults to TRUE.
 #' @return Nothing, resp. the modified fcs files written back into the same folder
 #' and replacing the original ones.
 #' @family Repair functions
@@ -140,7 +143,7 @@ readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL, volCheck=TRUE
 repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm=TRUE, verbose=TRUE) {
 	stn <- autoUpS()	
 	#
-	folderName <- checkDefToSetVal(fn, "folderName_fcsFiles", "fn", stn, checkFor="char")
+	folderName <- checkDefToSetVal(fn, "foN_fcsFiles", "fn", stn, checkFor="char")
 	#
 	if (includeAll) {
 		pomText <- "present or missing"
@@ -225,7 +228,7 @@ repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm
 repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".", confirm=TRUE) {
 	stn <- autoUpS()	
 	#
-	fn <- checkDefToSetVal(fn, "folderName_fcsFiles", "fn", stn, checkFor="char")
+	fn <- checkDefToSetVal(fn, "foN_fcsFiles", "fn", stn, checkFor="char")
 	#	
 	if (is.null(fs)) {
 		return(invisible(readInFlowSet(patt, folderName=fn)))
@@ -252,6 +255,49 @@ repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".", confir
 	return(invisible(NULL))
 } # EOF
 
+#' @title Make Gating Set
+#' @description Read in FCS files and put them together in a gating set.
+#' @details If no folder name is specified, FCS files are being read in from the 
+#' default FCS-files folder. 
+#' @inheritParams flowdexit
+#' @section Regarding Compensation: Due to the circumstances when developing 
+#' this code, it was never required to apply any kind of compensation. The 
+#' functionality to apply compensation was therefore never tested or verified. 
+#' It is strongly advised to use caution when applying compensation. It might 
+#' well be necessary to modify the source code of this function 
+#'(fork from \url{https://github.com/bpollner/flowdex}) in order to achieve 
+#' correct compensation results.
+#' @return A gating set produced by \code{\link[flowWorkspace]{GatingSet}}.
+#' @family Extraction functions
+#' @export
+makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", verbose=".") {
+	stn <- autoUpS()		
+	#
+	comp <- checkDefToSetVal(comp, "dV_comp", "comp", stn, checkFor="logi")
+	fn <- checkDefToSetVal(fn, "foN_fcsFiles", "fn", stn, checkFor="char")
+	tx <- checkDefToSetVal(tx, "dV_tx", "tx", stn, checkFor="char")
+	channel <- checkDefToSetVal(channel, "dV_channel", "channel", stn, checkFor="char")
+	verbose <- checkDefToSetVal(verbose, "dV_verbose", "verbose", stn, checkFor="logi")
+	#
+	if (verbose) {cat("Reading in fcs files... ")}
+	rawdata <- readInFlowSet(patt=patt, folderName=fn, colPat=channel)
+	if (verbose) {cat("ok. \n")}
+	if (verbose) {cat("Producing gating set... ")}
+	print(pData(rawdata))
+	gs <- flowWorkspace::GatingSet(rawdata) 
+	if (comp) {  # first compensate, then flowJoBiexpTrans
+		if (verbose) {cat("Applying compensation matrix... ")}
+		compMat <- flowCore::compensation(flowCore::spillover(rawdata[[1]]))
+		gs <- flowWorkspace::compensate(gs, compMat) #  !!! compensation has not been tested. I simply did not have the required dataset for that. And it never was required to apply compensation in my case. Sorry everybody for any inconvenience....
+		if (verbose) {cat("maybe ok. (!! see documentation for ?makeGatingSet !!)\n")}
+	}
+	if (verbose) {cat(paste0("Applying ", tx, " transformation... "))}
+	biexpTFL <- flowWorkspace::transformerList(colnames(gs), flowWorkspace::flowjo_biexp_trans())
+	gs <- flowWorkspace::transform(gs, biexpTFL)
+	if (verbose) {cat("ok. \n")}
+	return(gs)
+} # EOF
+
 #' @title Read in FCS Files and Extract Data
 #' @description XXX
 #' @param fn Character length one. The name of the folder where FCS files should 
@@ -259,9 +305,35 @@ repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".", confir
 #' settings file will be used.
 #' @param patt A regular expression defining a possible subset of FCS files
 #' residing in the directory specified by \code{fn} to read in. Only matching
-#' patterns will be included.#' @export
-flowdexit <- function(fn=".", patt) {
+#' patterns will be included.
+#' @param comp Logical. If compensation should be applied or not. If left at 
+#' the default '.', the value as defined in the settings file (key 'dV_comp') 
+#' will be used.
+#' @param tx Character length one. The transformation applied to *all* channels 
+#' within the individual flow sets. If left at the default '.', the value as 
+#' defined in the settings file (key 'dV_tx') will be used. (Currently only 
+#' 'fjbiex' is implemented.)
+#' @param verbose Logical. If status messages should be displayed. If left at 
+#' the default '.', the value as defined in the settings file (key 'dV_verbose') 
+#' will be used.
+#' @param channel A regular expression indicating which channels, i.e. which
+#' columns to keep from the original flowframes; is passed down to argument
+#' \code{column.pattern} of \code{\link[flowCore]{read.flowSet}}. Set to NULL
+#' to read data from all channels. If left at the default '.', the value as 
+#' defined in the settings file (key 'dV_channel') will be used.
+#' @section Regarding Compensation: Due to the circumstances when developing 
+#' this code, it was never required to apply any kind of compensation. The 
+#' functionality to apply compensation was therefore never tested or verified. 
+#' It is strongly advised to use caution when applying compensation. It might 
+#' well be necessary to modify the source code of this package in order to 
+#' achieve correct compensation results (compensation is applied in the 
+#' function \code{\link{makeGatingSet}}).
+#' @export
+flowdexit <- function(fn=".", patt=NULL, comp=".", tx=".", channel=".", verbose=".") {
 	return(NULL)
 } # EOF
+
+
+
 
 

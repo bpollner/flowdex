@@ -24,7 +24,7 @@ that should get a new sample ID.}
 
 \item{patt}{A regular expression defining a possible subset of FCS files
 residing in the directory specified by \code{fn} to read in. Only matching
-patterns will be included.#' @export}
+patterns will be included.}
 
 \item{fn}{Character length one. The name of the folder where FCS files should 
 be read from. If left at the default '.', the folder name as defined in the 

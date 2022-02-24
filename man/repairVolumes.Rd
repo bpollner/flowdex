@@ -16,7 +16,7 @@ repairVolumes(
 \arguments{
 \item{patt}{A regular expression defining a possible subset of FCS files
 residing in the directory specified by \code{fn} to read in. Only matching
-patterns will be included.#' @export}
+patterns will be included.}
 
 \item{vol}{Numeric length one. The value that should be written into the
 \code{$VOL} slot in the description of the single flowFrame.}
@@ -34,8 +34,9 @@ in \code{vol} will be assigned to them.}
 \item{confirm}{Logical. If the user should be asked for additional confirmation
 before the rewriting of the fcs files is performed. Defaults to TRUE.}
 
-\item{verbose}{Logical. If detailed status messages should be displayed.
-Defaults to TRUE.}
+\item{verbose}{Logical. If status messages should be displayed. If left at 
+the default '.', the value as defined in the settings file (key 'dV_verbose') 
+will be used.}
 }
 \value{
 Nothing, resp. the modified fcs files written back into the same folder

@@ -1,13 +1,17 @@
 library(testthat)
 
-# for manual only
-devtools::load_all("~/Documents/RPS/flowdex_R/flowdex")
+# for manual line by line only
+# devtools::load_all("~/Documents/RPS/flowdex_R/flowdex")
 # delete all in tempdir !!
-# setwd("~/Documents/RPS/flowdex_R/flowdex")
-rm(list=ls(all.names = TRUE))
+# rm(list=ls(all.names = TRUE))
 
 
 ###### Prepare #####
+
+# the path to the function for this project to calculate code coverage
+myCodeCovPath <- "/Users/bernhard/Documents/RPS/flowdex_R/misc/func_codecov.R"
+assign(myCodeCovPath, "myCodeCovPath", pos=.GlobalEnv)
+
 ptp <- path.package("flowdex")
 # set up the stn object
 if (dir.exists(paste0(ptp, "/inst"))) {
@@ -21,7 +25,7 @@ stn <- source(paste0(ptpInst, "/flowdex_settings.R"))$value
 test_that("checkOnTest", {
     expect_false(checkOnTest())
 }) # EOT
-assign("onFdT", TRUE, pos=.GlobalEnv) ## !!!! here assigning the onFdT variable !!! ####
+assign("onFdT", TRUE, pos=.GlobalEnv) ## !!!! here assigning the onFdT variable !!! ##
 test_that("checkOnTest", {
     expect_true(checkOnTest())
 }) # EOT
@@ -33,7 +37,7 @@ noFo <- paste0(pathToHome, "/blabla")
 if (!dir.exists(pathToHome)) {
 	dir.create(pathToHome) # simulating the users experiment home directory
 }
-
+#
 
 ##### simple helpers #######
 test_that("checkCh1", {
@@ -45,11 +49,42 @@ test_that("checkCh1", {
     expect_error(checkCh1(a,b))
 }) # EOT
 
-fnf <- "folderName_fcsFiles"
+test_that("checkLogi", {
+    a <- TRUE; b <- "a"
+    expect_null(checkLogi(a,b))
+    a <- c(TRUE, FALSE); b <- "a"
+    expect_error(checkLogi(a,b))
+    a <- 1; b <- "a"
+    expect_error(checkLogi(a,b))
+}) # EOT
+
+test_that("checkNum1", {
+    a <- 1; b <- "a"
+    expect_null(checkNum1(a,b))
+    a <- c(2, 3); b <- "a"
+    expect_error(checkNum1(a,b))
+    a <- "blabla"; b <- "a"
+    expect_error(checkNum1(a,b))
+}) # EOT
+
+test_that("haveDefDot", {
+    expect_true(haveDefDot("."))
+    expect_false(haveDefDot(123))
+}) # EOT
+
+
+test_that("getDefValFromStn", {
+    expect_match(getDefValFromStn(".", "foN_fcsFiles", stn, "."), "fcsFiles")
+    expect_match(getDefValFromStn("aaa", "foN_fcsFiles", stn, "."), "aaa")
+}) # EOT
+
+fnf <- "foN_fcsFiles"
 test_that("checkDefToSetVal", {
-    expect_error(checkDefToSetVal(1, fnf, "argN", stn))
-    expect_identical(checkDefToSetVal("aaa", fnf, "argN", stn), "aaa")
-    expect_match(checkDefToSetVal(".", fnf, "argN", stn), "fcsFiles")
+    expect_error(checkDefToSetVal(1, fnf, "argN", stn, "char"))
+    expect_identical(checkDefToSetVal("aaa", fnf, "argN", stn,  "char"), "aaa")
+    expect_match(checkDefToSetVal(".", fnf, "argN", stn,  "char"), "fcsFiles")
+    expect_true(checkDefToSetVal(TRUE, "dV_comp", "comp", stn, "logi"))
+    expect_identical(checkDefToSetVal(1, "dV_volFac", "argN", stn,  "num"), 1)
 }) # EOT
 
 test_that("devGetLocalStn", {
@@ -102,7 +137,7 @@ test_that("readInFlowSet", {
 }) # EOT
 
 # now delete two volume data
-repairVolumes(patt="b7", NA, fn=pa, includeAll = TRUE, confirm = FALSE, verbose = FALSE)
+repairVolumes(patt="th1", NA, fn=pa, includeAll = TRUE, confirm = FALSE, verbose = FALSE)
 test_that("readInFlowSet", {
     expect_error(readInFlowSet(folderName=pa))
 }) # EOT
@@ -116,7 +151,7 @@ test_that("readInFlowSet", {
 test_that("repairVolumes", {
     expect_output(repairVolumes(patt=NULL, vol=30000, fn=pa, includeAll=FALSE, confirm=FALSE), "All volume values are present")
     expect_output(repairVolumes(patt=NULL, vol=30000, fn=pa, includeAll=TRUE, confirm=FALSE), "Re-writing volume data of 6 FCS files")
-    expect_output(repairVolumes(patt="b7", vol=NA, fn=pa, includeAll=TRUE, confirm=FALSE), "using `NA` to replace")
+    expect_output(repairVolumes(patt="th1", vol=NA, fn=pa, includeAll=TRUE, confirm=FALSE), "using `NA` to replace")
     expect_output(repairVolumes(patt=NULL, vol=30000, fn=pa, includeAll=FALSE, confirm=FALSE), "Re-writing volume data of 2 FCS files")
     expect_output(repairVolumes(patt=NULL, vol=30000, fn=pa, includeAll=FALSE, confirm=FALSE), "All volume values are present")
 }) # EOT
@@ -133,6 +168,62 @@ test_that("repairSID", {
 #    fs <- repairSID(fn=pa)
 #    print(fs@phenoData@data)
 }) # EOT
-
+file.copy(from, to, overwrite = TRUE) # get back original fcs files
+# fs <- readInFlowSet(pa)
 
 ##### Make Gating Set #########
+
+
+# makeGatingSet(fn=pa)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -22,24 +22,67 @@ devGetLocalStn <- function() {
 
 ##############
 
-
-checkCh1 <- function(char, argName) {
-	if (!all(is.character(char)) | length(char) != 1) {
-		stop(paste0("Please provide a character length one to the argument '", argName, "'."), call.=FALSE)
+haveDefDot <- function(val) {
+	if (all(val == ".") & length(val) == 1) {
+		return(TRUE)
+	} else {
+		return(FALSE)
 	}
-    return(invisible(NULL))
 } # EOF
 
-checkDefToSetVal <- function(val, keyName, argName, stn, checkFor="char", defValue=".") {
+checkCh1 <- function(val, argName) {
+	if (!haveDefDot(val)) {
+		if (!all(is.character(val)) | length(val) != 1) {
+			stop(paste0("Please provide a character length one to the argument '", argName, "'."), call.=FALSE)
+		}
+    	return(invisible(NULL))
+    } # end if
+} # EOF
+
+checkLogi <- function(val, argName) {
+	if (!haveDefDot(val)) {
+		if (!all(is.logical(val)) | length(val) != 1) {
+			stop(paste0("Please provide either TRUE or FALSE to the argument '", argName, "'."), call.=FALSE)
+		}
+		return(invisible(NULL))
+	} # end if
+} # EOF
+
+checkNum1 <- function(val, argName) {
+	if (!haveDefDot(val)) {
+		if (!all(is.numeric(val)) | length(val) != 1) {
+			stop(paste0("Please provide a numeric length one to the argument '", argName, "'."), call.=FALSE)
+		}
+		return(invisible(NULL))
+	} # end if
+} # EOF
+
+
+getDefValFromStn <- function(val, keyName, stn, defValue=".") {
+	if (val == defValue) {
+		ind <- which(names(stn) == keyName)
+		out <- unlist(stn[ind])
+		return(out)
+	} else { # now we want to take what is in val, user´s decision
+		return(val)
+	} # end else
+} # EOF
+
+
+checkDefToSetVal <- function(val, keyName, argName, stn, checkFor, defValue=".") {
 	if (checkFor == "char") {
 		checkCh1(val, argName)
-		if (val == defValue) {
-			ind <- which(names(stn) == keyName)
-			out <- unlist(stn[ind])
-			return(out)
-		} else { # now we want to take what is in val, user´s decision
-			return(val)
-		}
-	} # end if checkFor == "char
+		return(getDefValFromStn(val, keyName, stn, defValue))
+	} # end if checkFor == "char"
+	#
+	if (checkFor == "logi") {
+		checkLogi(val, argName)
+		return(getDefValFromStn(val, keyName, stn, defValue))
+	} # end if checkFor == "logi"
+	#
+	if (checkFor == "num") {
+		checkNum1(val, argName)
+		return(getDefValFromStn(val, keyName, stn, defValue))
+	} # end if checkFor == "logi"
 	#
 } # EOF

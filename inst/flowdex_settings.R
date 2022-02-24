@@ -15,15 +15,26 @@ settings <- list(
 		
 	## general behavior
 	gen_autoUpdateSettings = TRUE, 			## Do not delete this variable (but of course you can change its value)
-	
+	dV_verbose = TRUE,						## default value for 'verbose'; if status messages should be displayed
+
 	
 		
-	## folders and files
-	folderName_gating = "gating",
-	folderName_fcsFiles = "fcsFiles",
-	folderName_rawData = "rawdata",
-	folderName_templates = "templates", 
+	## default names for folders (foN) and files (fiN)
+	foN_gating = "gating",
+	foN_fcsFiles = "fcsFiles",
+	foN_rawData = "rawdata",
+	foN_templates = "templates", 
+	fiN_gate = "", 
 	
+	
+	## default values in functions
+	dV_tx = "fjbiexp", 						## which transformation to apply. Currently, only "fjbiexp" is implemented
+	dV_channel = "A$", 						## which channels to import when making the gating set
+	dV_comp = FALSE, 						## if compensation should be applied
+	
+	
+	## calculation of events / volume
+	dV_volFac = 100000, 						## the volume factor as given from the manual / help of the FCS machine
 	
 	
 	######

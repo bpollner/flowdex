@@ -337,7 +337,44 @@ makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", igno
 } # EOF
 
 
-# next: addGates
+#' @title Add Polygon Gates
+#' @description Load the gating strategy from the Excel file
+#' "gatingStrategty.xlsx" and apply the gates as defined in the file.
+#' @details The ending `.xlsx`will be added to the character supplied in
+#' \code{gateStrat} automatically.
+#' @param gs A gating set as produced by \code{\link{makeGatingSet}}.
+#' @inheritParams flowdexit
+#' @return A gating set.
+#' @family Extraction functions
+#' @export
+addGates <- function(gs, gateStrat="gatingStrategy") {
+	fnRData <- gl_rData
+	#
+	gsfn <- checkExistenceGatingStrategy(gateStrat) # returns the path and filename for the xls file containing the gating strategy
+	gsdf <- openxlsx::read.xlsx(gsfn) # returns a nice data.frame
+	checkLocMatsExistence(gsdf[, "GateDefinition"]) # is vectorized
+	#
+	nlAdd <- " "
+	gtNoun <- "gate"
+	nrGates <- nrow(gsdf)
+	if (nrGates > 1) {
+		nlAdd <- "\n"
+		gtNoun <- "gates"
+	}
+	if (gl_verbose) {cat(paste0("Gating: (", nrGates, " ", gtNoun, ")", nlAdd)) }
+	for (i in 1: nrow(gsdf)) {
+		gateOn <- c(gsdf[i,"GateOnX"], gsdf[i,"GateOnY"]) # extract the x and y channels from the i-th row
+		locMatChar <- gsdf[i,"GateDefinition"]
+		fn <- paste0(fnRData, "/", locMatChar)
+		gateMat <- eval(parse(text=load(fn)))
+		names(gateMat) <- gateOn
+		pg <- polygonGate(.gate=gateMat, filterId=locMatChar)
+		gs_pop_add(gs, pg, parent=gsdf[i,"Parent"], name=gsdf[i, "GateName"]) # gs_pop_add is in flowWorkspace
+	} # end for i
+	recompute(gs)
+	out <- new("GatingSet_fd", gs, gateStrat=gateStrat, gsdf=gsdf) # attach the data frame with the gating strategy to the gating set
+	return(out)
+} # EOF
 
 #' @title Read in FCS Files and Extract Data
 #' @description XXX

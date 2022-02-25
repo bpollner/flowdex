@@ -97,16 +97,51 @@ genfs <- function(where=getwd(), copyTemplates=TRUE) {
 	return(invisible(NULL))
 } # EOF
 
-readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL, volCheck=TRUE, ignoreTextOffset=TRUE) {
-	# ignoreTextOffset (passed on to ignore.text.offset in function flowCore::read.FCS) had to be introduced in FEB 2022.
-	# Before that, when I was developing the code (~2017/2018), everything was good with ignore.text.offset left at the default FALSE
-	# flowCore and flowWorkspace did have some updates since 2017 - so maybe something was changed there that makes it necessary to turn
-	# ignore.text.offset to TRUE. 
-	# 
-	rawdata <- try(flowCore::read.flowSet(path = folderName, pattern=patt, column.pattern=colPat, alter.names = TRUE, name.keyword="$FIL", ignore.text.offset=ignoreTextOffset), silent=FALSE)
+checkConsolidateFcsFiles <- function(folderName, igTeOff=FALSE,  verbose=TRUE) {
+	# Error: 'HEADER and the TEXT segment define different starting point'
+	#  ignore.text.offset and using 'flowWorkspace::load_cytoframe_from_fcs' had to be introduced in FEB 2022.
+	# Before that, when I was developing the code (~2017/2018), everything was good with the simple 'read.FCS' resp. 'flowCore::read.flowSet'
+	# flowCore and flowWorkspace did have some updates since 2017 - so probably something was changed that made it necessary to re-save the fcs-files with the text-offset ignored.
+	####
+	namesOut <- NULL
+	#	
+	fcsNames <- list.files(folderName)
+	for (i in 1: length(fcsNames)) {
+		ptf <- paste0(folderName, "/", fcsNames[i])
+		bana <- basename(ptf)
+		siCF <- try(flowWorkspace::load_cytoframe_from_fcs(ptf, ignore.text.offset = FALSE), silent=TRUE) # this will fail if the "The HEADER and the TEXT segment define different starting point ... to read the data" is present
+		if (class(siCF) == "try-error") {
+			if (!igTeOff) {
+ 				msg1 <- paste0("Trying to read in the fcs-file '", bana, "' gives the error-message: \n", simpleMessage(siCF), "")
+ 				msg2 <- paste0("Consider setting the argument 'ignore.text.offset' to TRUE. \nThis will be passed on to the function 'flowWorkspace::load_cytoframe_from_fcs', the fcs-file will then be read in again with \n'The value in TEXT being ignored', \nand and the fcs-file will be re-written to disc.\n\nCAVE: With 'ignore.text.offset' set to TRUE, afflicted files in the folder \n'", folderName,"' \nwill be overwritten without further warning.")
+				stop(paste0(msg1, msg2), call.=FALSE)
+			} # end if !doCons
+			siCF <- try(flowWorkspace::load_cytoframe_from_fcs(ptf, ignore.text.offset = TRUE), silent=TRUE)
+			if (class(siCF) == "try-error") {
+				stop(paste0("Sorry, reading the fcs-file '", bana, "' still did not work."), call.=FALSE)
+			}
+			siFF <- flowWorkspace::cytoframe_to_flowFrame(siCF)
+			flowCore::write.FCS(siFF, ptf)
+			namesOut <- c(namesOut, bana)
+		} # end if
+	} # end for i
+	if (verbose & length(namesOut) != 0) {
+		cat(paste0("\n\nThe following files have been re-written to disc:\n", paste(namesOut, collapse=", \n"), "\n"))
+	} # end verbose
+	return(NULL)
+} # EOF
+
+readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL, volCheck=TRUE, igTeOff=FALSE, verbose=TRUE) {
+	checkConsolidateFcsFiles(folderName, igTeOff, verbose)
+	#
+	rawdata <- try(flowCore::read.flowSet(path = folderName, pattern=patt, column.pattern=colPat, alter.names = TRUE, name.keyword="$FIL"), silent=FALSE)
 	if (class(rawdata) == "try-error") {
-		stop("Sorry, an error while trying to read in the flowSet occured.", call.=FALSE)
+		stop("Sorry, an error while trying to read in the flowSet occured.", call.=TRUE)
 	} # end try error
+	#
+	# now transform into flowCore "space" so that repairing volume and sample ID still work
+	rawdata <- flowWorkspace::cytoset_to_flowSet(rawdata) # now we are back in the flowSet as produced by package "flowCore"
+	#
 	pdkw=list(volume="VOL", btim="$BTIM", sampleId="$SMNO") # define what to use in the pheno-data
 	kw <- flowCore::keyword(rawdata, pdkw)  # "keyword" is a function in package "flowCore"; as seen on 21.04.2021 on https://support.bioconductor.org/p/p132747/#p132763
 	flowWorkspace::pData(rawdata) <- as.data.frame(kw) # pData is a function in package "flowWorkspace"
@@ -140,7 +175,7 @@ readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL, volCheck=TRUE
 #' and replacing the original ones.
 #' @family Repair functions
 #' @export
-repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm=TRUE, verbose=TRUE) {
+repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm=TRUE, ignore.text.offset=FALSE, verbose=TRUE) {
 	stn <- autoUpS()	
 	#
 	folderName <- checkDefToSetVal(fn, "foN_fcsFiles", "fn", stn, checkFor="char")
@@ -159,7 +194,7 @@ repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm
 		pattAdd <- paste0("fcsFiles in folder `", folderName, "` with pattern matching `", patt, "`...")
 	}
 	if (verbose) {cat(paste0("Reading in ", pattAdd))}
-	fs <- readInFlowSet(folderName, patt, volCheck=FALSE)
+	fs <- readInFlowSet(folderName=folderName, patt=patt, volCheck=FALSE, igTeOff=ignore.text.offset, verbose=verbose)
 	if (verbose) {cat(" ok.\n")}
 	pDat <- flowWorkspace::pData(fs)
 	if  (includeAll) {
@@ -219,19 +254,19 @@ repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm
 #' @family Repair functions
 #' @examples
 #' \dontrun{
-#' fs <- repairSID()
+#' fs <- repairSID() # or 
 #' fs <- repairSID(patt="foo")
 #' fs@phenoData@data
 #' repairSID(fs, "sample1", "newSID")
 #' }
 #' @export
-repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".", confirm=TRUE) {
+repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".", confirm=TRUE, ignore.text.offset=FALSE) {
 	stn <- autoUpS()	
 	#
 	fn <- checkDefToSetVal(fn, "foN_fcsFiles", "fn", stn, checkFor="char")
 	#	
 	if (is.null(fs)) {
-		return(invisible(readInFlowSet(patt, folderName=fn)))
+		return(invisible(readInFlowSet(folderName=fn, patt=patt, igTeOff=ignore.text.offset)))
 	}
 	if (is.null(name) | is.null(newSID)) {
 		stop("Please provide a value to `name` and `newSID`.", call.=FALSE)
@@ -270,7 +305,7 @@ repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".", confir
 #' @return A gating set produced by \code{\link[flowWorkspace]{GatingSet}}.
 #' @family Extraction functions
 #' @export
-makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", verbose=".") {
+makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", ignore.text.offset=FALSE, verbose=".") {
 	stn <- autoUpS()		
 	#
 	comp <- checkDefToSetVal(comp, "dV_comp", "comp", stn, checkFor="logi")
@@ -280,10 +315,9 @@ makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", verb
 	verbose <- checkDefToSetVal(verbose, "dV_verbose", "verbose", stn, checkFor="logi")
 	#
 	if (verbose) {cat("Reading in fcs files... ")}
-	rawdata <- readInFlowSet(patt=patt, folderName=fn, colPat=channel)
+	rawdata <- readInFlowSet(folderName=fn, patt=patt, colPat=channel, igTeOff=ignore.text.offset, verbose)
 	if (verbose) {cat("ok. \n")}
 	if (verbose) {cat("Producing gating set... ")}
-	print(pData(rawdata))
 	gs <- flowWorkspace::GatingSet(rawdata) 
 	if (comp) {  # first compensate, then flowJoBiexpTrans
 		if (verbose) {cat("Applying compensation matrix... ")}
@@ -292,11 +326,18 @@ makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", verb
 		if (verbose) {cat("maybe ok. (!! see documentation for ?makeGatingSet !!)\n")}
 	}
 	if (verbose) {cat(paste0("Applying ", tx, " transformation... "))}
-	biexpTFL <- flowWorkspace::transformerList(colnames(gs), flowWorkspace::flowjo_biexp_trans())
+	fiNa <- ls(rawdata@frames)[1] # take the first frame in the rawdata. It has to contain at least one.
+	txt <- paste0("colnames(rawdata@frames$", fiNa, "@exprs)") # extract the colnames. Because for the gating set, that does not work here within the function (?)
+	cns <- eval(parse(text=txt))  
+#	biexpTFL <- flowWorkspace::transformerList(colnames(gs), flowWorkspace::flowjo_biexp_trans()) ## that did work before? now not any more ???
+	biexpTFL <- flowWorkspace::transformerList(cns, flowWorkspace::flowjo_biexp_trans())
 	gs <- flowWorkspace::transform(gs, biexpTFL)
 	if (verbose) {cat("ok. \n")}
 	return(gs)
 } # EOF
+
+
+# next: addGates
 
 #' @title Read in FCS Files and Extract Data
 #' @description XXX
@@ -321,6 +362,11 @@ makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", verb
 #' \code{column.pattern} of \code{\link[flowCore]{read.flowSet}}. Set to NULL
 #' to read data from all channels. If left at the default '.', the value as 
 #' defined in the settings file (key 'dV_channel') will be used.
+#' @param ignore.text.offset Logical. If set to true, fcs-files in the folder 
+#' specified at argument 'fn' will be checked for inconsistencies in the 
+#' HEADER and TEXT segment and, if those inconsistency is present, the 
+#' afflicted fcs-file will be \strong{re-written to disc without further warning}, 
+#' with the values in TEXT being ignored.
 #' @section Regarding Compensation: Due to the circumstances when developing 
 #' this code, it was never required to apply any kind of compensation. The 
 #' functionality to apply compensation was therefore never tested or verified. 
@@ -329,7 +375,7 @@ makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", verb
 #' achieve correct compensation results (compensation is applied in the 
 #' function \code{\link{makeGatingSet}}).
 #' @export
-flowdexit <- function(fn=".", patt=NULL, comp=".", tx=".", channel=".", verbose=".") {
+flowdexit <- function(fn=".", patt=NULL, comp=".", tx=".", channel=".", ignore.text.offset=FALSE, verbose=".") {
 	return(NULL)
 } # EOF
 

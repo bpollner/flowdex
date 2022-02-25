@@ -10,7 +10,8 @@ repairSID(
   newSID = NULL,
   patt = NULL,
   fn = ".",
-  confirm = TRUE
+  confirm = TRUE,
+  ignore.text.offset = FALSE
 )
 }
 \arguments{
@@ -32,6 +33,12 @@ settings file will be used.}
 
 \item{confirm}{Logical. If the user should be asked for additional confirmation
 before the rewriting of the fcs file is performed. Defaults to TRUE.}
+
+\item{ignore.text.offset}{Logical. If set to true, fcs-files in the folder 
+specified at argument 'fn' will be checked for inconsistencies in the 
+HEADER and TEXT segment and, if those inconsistency is present, the 
+afflicted fcs-file will be \strong{re-written to disc without further warning}, 
+with the values in TEXT being ignored.}
 }
 \value{
 Nothing, called for its side effects: the specified single fcs file gets
@@ -57,7 +64,7 @@ see XXX.
 
 \examples{
 \dontrun{
-fs <- repairSID()
+fs <- repairSID() # or 
 fs <- repairSID(patt="foo")
 fs@phenoData@data
 repairSID(fs, "sample1", "newSID")

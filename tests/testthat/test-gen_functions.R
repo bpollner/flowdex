@@ -132,8 +132,16 @@ to <- paste0(pathToHome, "/fcsFiles/", fcsNames)
 file.copy(from, to, overwrite = TRUE)
 
 pa <- paste0(pathToHome, "/fcsFiles")
+test_that("checkConsolidateFcsFiles", {
+    expect_error(checkConsolidateFcsFiles(folderName=pa, igTeOff = FALSE))
+    expect_output(checkConsolidateFcsFiles(folderName=pa, igTeOff = TRUE), "have been re-written to disc")
+    expect_null(checkConsolidateFcsFiles(folderName=pa, igTeOff = FALSE))
+}) # EOT
+
+file.copy(from, to, overwrite = TRUE)
 test_that("readInFlowSet", {
-    expect_s4_class(readInFlowSet(folderName=pa), "flowSet")
+    expect_error(readInFlowSet(folderName=pa, igTeOff = FALSE))
+    expect_s4_class(readInFlowSet(folderName=pa, igTeOff = TRUE), "flowSet")
 }) # EOT
 
 # now delete two volume data
@@ -160,7 +168,8 @@ file.copy(from, to, overwrite = TRUE) # get back original fcs files
 # repairVolumes(patt=NULL, 50000, fn=pa, includeAll = TRUE, confirm = FALSE, verbose=FALSE)
 siName <- list.files(pa)[2]
 test_that("repairSID", {
-    expect_s4_class(repairSID(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=pa, confirm=FALSE), "flowSet")
+    expect_error(repairSID(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=pa, confirm=FALSE, ignore.text.offset = FALSE))
+    expect_s4_class(repairSID(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=pa, confirm=FALSE, ignore.text.offset = TRUE), "flowSet")
     fs <- repairSID(fn=pa)
     expect_error(repairSID(fs=fs, name="aaa", newSID=NULL, patt=NULL, fn=pa, confirm=FALSE), "Please provide a value")
     expect_error(repairSID(fs=fs, name="aaa", newSID="newSID_bbb", patt=NULL, fn=pa, confirm=FALSE), "seems not to be present")
@@ -171,21 +180,14 @@ test_that("repairSID", {
 file.copy(from, to, overwrite = TRUE) # get back original fcs files
 # fs <- readInFlowSet(pa)
 
-##### Make Gating Set #########
+##### Make Gating Set etc. #########
+test_that("makeGatingSet", {
+    expect_s4_class(makeGatingSet(fn=pa, ignore.text.offset = TRUE), "GatingSet")
+}) # EOT
 
+gs <- makeGatingSet(fn=pa, verbose = FALSE)
 
-# makeGatingSet(fn=pa)
-
-
-
-
-
-
-
-
-
-
-
+# now add the gates
 
 
 

@@ -10,6 +10,7 @@ repairVolumes(
   fn = ".",
   includeAll = FALSE,
   confirm = TRUE,
+  ignore.text.offset = FALSE,
   verbose = TRUE
 )
 }
@@ -33,6 +34,12 @@ in \code{vol} will be assigned to them.}
 
 \item{confirm}{Logical. If the user should be asked for additional confirmation
 before the rewriting of the fcs files is performed. Defaults to TRUE.}
+
+\item{ignore.text.offset}{Logical. If set to true, fcs-files in the folder 
+specified at argument 'fn' will be checked for inconsistencies in the 
+HEADER and TEXT segment and, if those inconsistency is present, the 
+afflicted fcs-file will be \strong{re-written to disc without further warning}, 
+with the values in TEXT being ignored.}
 
 \item{verbose}{Logical. If status messages should be displayed. If left at 
 the default '.', the value as defined in the settings file (key 'dV_verbose') 

@@ -181,7 +181,7 @@ test_that("repairSID", {
 file.copy(from, to, overwrite = TRUE) # get back original fcs files
 # fs <- readInFlowSet(pa)
 
-##### Make Gating Set etc. #########
+##### Gating Set & add & draw gates etc. #########
 test_that("makeGatingSet", {
     expect_s4_class(makeGatingSet(fn=pa, ignore.text.offset = TRUE), "GatingSet")
     expect_s4_class(makeGatingSet(fn=pa, comp=TRUE, ignore.text.offset = FALSE), "GatingSet")
@@ -189,33 +189,48 @@ test_that("makeGatingSet", {
 
 gs <- makeGatingSet(fn=pa, verbose = FALSE)
 
-# now add the gates
+## now add the gates ####
+# first copy material from the testHelpers/gates folder
+ptGaFo <- paste0(ptpInst, "/testHelpers/gates")
+aaa <- list.files(ptGaFo)
+gaFrom <- paste0(ptGaFo, "/", aaa)
+gaTo <- paste(pathToHome, stn$foN_gating, aaa, sep="/")
+file.copy(gaFrom, gaTo, overwrite = TRUE)
+#
+stn <- source(paste0(ptpInst, "/flowdex_settings.R"))$value # conveniently here again
 
+foN_gating <- paste0(pathToHome, "/gating")
+fiN_gateStrat <- stn$fiN_gateStrat
+test_that("checkFileExistence", {
+    expect_error(checkFileExistence(foN_gating, "blabla", typE=".csv"))
+    expect_true(checkFileExistence(foN_gating, fiN_gateStrat, typE=".csv"))
+}) # EOT
 
+test_that("loadGaXFile", {
+    expect_s3_class(loadGaXFile(foN_gating, fiN_gateStrat, "csv"), "data.frame")
+    expect_s3_class(loadGaXFile(foN_gating, fiN_gateStrat, "xlsx"), "data.frame")
+    expect_type(loadGaXFile(foN_gating, "Select", "pgg"), "list")
+}) # EOT
 
+test_that("importCheckGatingStrategy", {
+    expect_error(importCheckGatingStrategy(fiN_gateStrat, stn, prefType="bla", foN_gating))
+    expect_s3_class(importCheckGatingStrategy(fiN_gateStrat, stn, prefType=".", foN_gating), "data.frame")
+    expect_s3_class(importCheckGatingStrategy(fiN_gateStrat, stn, prefType="csv", foN_gating), "data.frame")
+    expect_s3_class(importCheckGatingStrategy(fiN_gateStrat, stn, prefType="xlsx", foN_gating), "data.frame")
+}) # EOT
 
+gsdf <- importCheckGatingStrategy(fiN_gateStrat, stn, prefType="csv", foN_gating)
 
+test_that("checkPggExistence", {
+    expect_true(checkPggExistence(gsdf, foN_gating, fiN_gateStrat))
+    file.remove(paste0(pathToHome, "/gating/Select"))
+    expect_error(checkPggExistence(gsdf, foN_gating, fiN_gateStrat), "'Select' seems not to exist")
+    file.remove(paste0(pathToHome, "/gating/BactStain_pn3"))
+    expect_error(checkPggExistence(gsdf, foN_gating, fiN_gateStrat), "'Select', 'BactStain_pn3' seem not to exist")
+}) # EOT
+file.copy(gaFrom, gaTo, overwrite = TRUE) # and restore again
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+gs <- addGates(gs, foN.gateStrat = foN_gating)
 
 
 

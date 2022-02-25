@@ -68,4 +68,8 @@ well be necessary to modify the source code of this function
 correct compensation results.
 }
 
+\seealso{
+Other Extraction functions: 
+\code{\link{addGates}()}
+}
 \concept{Extraction functions}

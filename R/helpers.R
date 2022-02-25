@@ -86,3 +86,59 @@ checkDefToSetVal <- function(val, keyName, argName, stn, checkFor, defValue=".")
 	} # end if checkFor == "logi"
 	#
 } # EOF
+
+checkFileExistence <- function(foN_gating, fiN_gateStrat, typE, addTxt="") {
+	paToFile <- paste0(foN_gating, "/", fiN_gateStrat, typE)
+	if (!file.exists(paToFile)) {
+		stop(paste0("Sorry, the ", addTxt, "file '", basename(paToFile), "' does not seem to exist in '", foN_gating, "'."), call.=FALSE)
+	} # end stop
+	return(TRUE) # if all is good
+} # EOF
+
+loadGaXFile <- function(foN, fiN, type) { # fiN must be complete with ending
+	ptf <- paste0(foN, "/", fiN)
+	#
+	if (type == "csv") {
+		return(read.csv(paste0(ptf, ".csv")))
+	} # end if
+	#
+	if (type == "xlsx") {
+		return(openxlsx::read.xlsx(paste0(ptf, ".xlsx")))
+	} # end if
+	#
+	if (type == "pgg") {
+		return(eval(parse(text=load(ptf))))
+	} # end if
+	#	
+} # EOF
+
+checkPggExistence <- function(gsdf,foN_gating, fiN_gateStrat) {
+	pggDef <- gsdf[, "GateDefinition"]
+	if (length(pggDef) == 0) {
+		stop(paste0("Sorry, there must be at least one gate defined in the gating-strategy file '", fiN_gateStrat, "'."), call.=FALSE)
+	} # end if
+	#
+	addG <- "gate "
+	addV <- " seems "
+	pggAvail <- list.files(foN_gating)
+	if (!all(pggDef %in% pggAvail)) {
+		ind <- which(!pggDef %in% pggAvail)
+		missChar <- pggDef[ind]
+		if (length(missChar) > 1) {
+			addG <- "gates "
+			addV <- " seem "
+		}
+		stop(paste0("Sorry, the requested ", addG,  "'", paste(missChar, collapse= "', '"), "'", addV, "not to exist in the folder \n`", foN_gating, "`."), call.=FALSE)
+	} # end if
+	return(TRUE) # if all is good
+} # EOF
+
+
+
+
+
+
+
+
+
+

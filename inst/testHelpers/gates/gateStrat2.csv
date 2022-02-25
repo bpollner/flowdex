@@ -1,0 +1,5 @@
+GateName,Parent,GateOnX,GateOnY,GateDefinition,extractOn,minRange,maxRange,keepData
+Selection,root,FITC.A,FSC.A,Select,FITC.A,750,4000,FALSE
+DNA+,Selection,FITC.A,PerCP.A,BactStain_pn1,FITC.A,1250,3500,TRUE
+NotSelect,root,FITC.A,FSC.A,NotSelect,FITC.A,0,1000,FALSE
+highSSC,NotSelect,FSC.A,SSC.A,highSSC_pn2,SSC.A,2000,4000,TRUE

@@ -24,14 +24,17 @@ settings <- list(
 	foN_fcsFiles = "fcsFiles",
 	foN_rawData = "rawdata",
 	foN_templates = "templates", 
-	fiN_gate = "", 
+	fiN_gate = "polyGate",					## the default name for the polygon gate 
+	fiN_gateStrat = "gateStrat", 			## the default name for the file holding the gating strategy
 	
 	
 	## default values in functions
 	dV_tx = "fjbiexp", 						## which transformation to apply. Currently, only "fjbiexp" is implemented
 	dV_channel = "A$", 						## which channels to import when making the gating set
 	dV_comp = FALSE, 						## if compensation should be applied
-	
+	dV_gateStratInputType = "csv", 			## can be "csv" or "xlsx. If the file holding the gating strategy is a csv or an xlsx file.
+	dV_rawDataOutputType = "csv", 			## the format of the rawdata output. Can be "csv" or "xlsx".
+
 	
 	## calculation of events / volume
 	dV_volFac = 100000, 						## the volume factor as given from the manual / help of the FCS machine

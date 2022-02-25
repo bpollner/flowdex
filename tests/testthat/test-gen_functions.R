@@ -160,6 +160,7 @@ test_that("repairVolumes", {
     expect_output(repairVolumes(patt=NULL, vol=30000, fn=pa, includeAll=FALSE, confirm=FALSE), "All volume values are present")
     expect_output(repairVolumes(patt=NULL, vol=30000, fn=pa, includeAll=TRUE, confirm=FALSE), "Re-writing volume data of 6 FCS files")
     expect_output(repairVolumes(patt="th1", vol=NA, fn=pa, includeAll=TRUE, confirm=FALSE), "using `NA` to replace")
+    expect_error(repairVolumes(patt=NULL, vol=NULL, fn=pa, includeAll=TRUE, confirm=FALSE))
     expect_output(repairVolumes(patt=NULL, vol=30000, fn=pa, includeAll=FALSE, confirm=FALSE), "Re-writing volume data of 2 FCS files")
     expect_output(repairVolumes(patt=NULL, vol=30000, fn=pa, includeAll=FALSE, confirm=FALSE), "All volume values are present")
 }) # EOT
@@ -183,6 +184,7 @@ file.copy(from, to, overwrite = TRUE) # get back original fcs files
 ##### Make Gating Set etc. #########
 test_that("makeGatingSet", {
     expect_s4_class(makeGatingSet(fn=pa, ignore.text.offset = TRUE), "GatingSet")
+    expect_s4_class(makeGatingSet(fn=pa, comp=TRUE, ignore.text.offset = FALSE), "GatingSet")
 }) # EOT
 
 gs <- makeGatingSet(fn=pa, verbose = FALSE)

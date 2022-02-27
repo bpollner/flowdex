@@ -145,7 +145,7 @@ test_that("readInFlowSet", {
 }) # EOT
 
 # now delete two volume data
-repairVolumes(patt="th1", NA, fn=pa, includeAll = TRUE, confirm = FALSE, verbose = FALSE)
+repairVolumes(patt="th1", vol=NA, fn=pa, includeAll = TRUE, confirm = FALSE, verbose = FALSE)
 test_that("readInFlowSet", {
     expect_error(readInFlowSet(folderName=pa))
 }) # EOT

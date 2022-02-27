@@ -3,6 +3,7 @@
 export(addGates)
 export(flowdexit)
 export(genfs)
+export(makeAddGatingSet)
 export(makeGatingSet)
 export(repairSID)
 export(repairVolumes)

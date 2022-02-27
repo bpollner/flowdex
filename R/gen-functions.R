@@ -336,22 +336,28 @@ makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", igno
 	return(gs)
 } # EOF
 
-importCheckGatingStrategy <- function(fiN_gateStrat, stn, prefType=".", foName=".") {
-	prefType <- checkDefToSetVal(prefType, "dV_gateStratInputType", "dV_gateStratInputType (settings.R)", stn, checkFor="char")
+importCheckGatingStrategy <- function(fiN_gateStrat, stn, gsType=".", foName=".") {
+	cnsReq <- gl_requiredGateStratColnames
+	#
+	gsType <- checkDefToSetVal(gsType, "dV_gateStratInputType", "dV_gateStratInputType (settings.R)", stn, checkFor="char")
 	foN_gating <- checkDefToSetVal(foName, "foN_gating", "foN_gating (settings.R)", stn, checkFor="char")
 	#
 	typE <- NULL
-	if (prefType == "csv") {
+	if (gsType == "csv") {
 		typE <- ".csv"
 	}
-	if (prefType == "xlsx") {
+	if (gsType == "xlsx") {
 		typE <- ".xlsx"
 	}
 	if (is.null(typE)) {
 		stop("Please provide either 'csv' or 'xlsx' as preferred input type for the gating-strategy file (settings.R file key name 'dV_gateStratInputType')", call.=FALSE)
 	}
 	checkFileExistence(foN_gating, fiN_gateStrat, typE, addTxt="gating strategy file ")
-	gateStrat <- loadGaXFile(foN_gating, fiN_gateStrat, prefType)
+	gateStrat <- loadGaXFile(foN_gating, fiN_gateStrat, gsType)
+	cns <- sort(colnames(gateStrat))
+	if (!identical(cns, sort(cnsReq))) {
+		stop(paste0("Sorry, the provided gating strategy file '", fiN_gateStrat, "' does not contain the required column names.\nPlease see the template for an example.\nThe required column names are:\n'", paste(cnsReq, collapse="', '"), "'."), call.=FALSE)
+	} # end if
 	return(gateStrat)	
 } # EOF
 
@@ -379,7 +385,7 @@ addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", v
 	#
 	gateStrat <- checkDefToSetVal(gateStrat, "fiN_gateStrat", "gateStrat", stn, checkFor="char")
 	foN_gating <- checkDefToSetVal(foN.gateStrat, "foN_gating", "foN_gating (settings.R)", stn, checkFor="char")
-	gsType <- checkDefToSetVal(type.gateStrat, "dV_gateStratInputType", "gsType", stn, checkFor="char")
+	gsType <- checkDefToSetVal(type.gateStrat, "dV_gateStratInputType", "type.gateStrat", stn, checkFor="char")
 	verbose <- checkDefToSetVal(verbose, "dV_verbose", "verbose", stn, checkFor="logi")
 	#
 	gsdf <- importCheckGatingStrategy(gateStrat, stn, gsType, foN_gating)
@@ -409,6 +415,41 @@ addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", v
 	out <- new("GatingSet_fd", gs, gateStrat=gateStrat, gsdf=gsdf) # attach the data frame with the gating strategy to the gating set
 	return(out)
 } # EOF
+
+#' @title Make Gating Set and Add Gates
+#' @description Read in FCS files, put them together in a gating set and apply 
+#' the gating strategy as previously defined.
+#' @details This is convenience wrapper for the two functions 
+#' \code{\link{makeGatingSet}} and \code{\link{addGates}}.
+#' @inheritParams flowdexit
+#' @return A gating set with added and recomputed gates.
+#' @examples
+#' \dontrun{
+#' gs <-  makeAddGatingSet()
+#' plot(gs)
+#' }
+#' @family Extraction functions
+#' @export
+makeAddGatingSet <- function(patt=NULL, fn=".", gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", ignore.text.offset=FALSE, verbose=".") {
+	stn <- autoUpS()
+	#
+	fn <- checkDefToSetVal(fn, "foN_fcsFiles", "fn", stn, checkFor="char")
+	gateStrat <- checkDefToSetVal(gateStrat, "fiN_gateStrat", "gateStrat", stn, checkFor="char")
+	foN_gating <- checkDefToSetVal(foN.gateStrat, "foN_gating", "foN.gateStrat", stn, checkFor="char")
+	gsType <- checkDefToSetVal(type.gateStrat, "dV_gateStratInputType", "type.gateStrat", stn, checkFor="char")
+	comp <- checkDefToSetVal(comp, "dV_comp", "comp", stn, checkFor="logi")
+	tx <- checkDefToSetVal(tx, "dV_tx", "tx", stn, checkFor="char")
+	channel <- checkDefToSetVal(channel, "dV_channel", "channel", stn, checkFor="char")
+	verbose <- checkDefToSetVal(verbose, "dV_verbose", "verbose", stn, checkFor="logi")
+	#
+	gsdf <- importCheckGatingStrategy(gateStrat, stn, gsType, foN_gating)
+	checkPggExistence(gsdf, foN_gating, gateStrat)
+	gs <- makeGatingSet(patt, comp, fn, tx, channel, ignore.text.offset, verbose)
+	gs <- addGates(gs, gateStrat, foN_gating, gsType, verbose)
+	return(gs)
+} # EOF
+
+
 
 #' @title Read in FCS Files and Extract Data
 #' @description XXX

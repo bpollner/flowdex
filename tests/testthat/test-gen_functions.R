@@ -213,13 +213,14 @@ test_that("loadGaXFile", {
 }) # EOT
 
 test_that("importCheckGatingStrategy", {
-    expect_error(importCheckGatingStrategy(fiN_gateStrat, stn, prefType="bla", foN_gating))
-    expect_s3_class(importCheckGatingStrategy(fiN_gateStrat, stn, prefType=".", foN_gating), "data.frame")
-    expect_s3_class(importCheckGatingStrategy(fiN_gateStrat, stn, prefType="csv", foN_gating), "data.frame")
-    expect_s3_class(importCheckGatingStrategy(fiN_gateStrat, stn, prefType="xlsx", foN_gating), "data.frame")
+    expect_error(importCheckGatingStrategy(fiN_gateStrat, stn, gsType="bla", foN_gating))
+    expect_s3_class(importCheckGatingStrategy(fiN_gateStrat, stn, gsType=".", foN_gating), "data.frame")
+    expect_s3_class(importCheckGatingStrategy(fiN_gateStrat, stn, gsType="csv", foN_gating), "data.frame")
+    expect_s3_class(importCheckGatingStrategy(fiN_gateStrat, stn, gsType="xlsx", foN_gating), "data.frame")
+    expect_error(importCheckGatingStrategy("gateStrat_wrongColnames", stn, gsType="csv", foN_gating), "does not contain the required column names")
 }) # EOT
 
-gsdf <- importCheckGatingStrategy(fiN_gateStrat, stn, prefType="csv", foN_gating)
+gsdf <- importCheckGatingStrategy(fiN_gateStrat, stn, gsType="csv", foN_gating)
 
 test_that("checkPggExistence", {
     expect_true(checkPggExistence(gsdf, foN_gating, fiN_gateStrat))
@@ -234,11 +235,16 @@ test_that("addGates", {
     expect_s4_class(addGates(gs=gs, foN.gateStrat = foN_gating), "GatingSet_fd")
     expect_message(addGates(gs=gs, foN.gateStrat = foN_gating), "already contains")
 }) # EOT
-# by now, we have a gating-set 'gs' with two added gates, check via plotting plot(gs)
+# by now, we have a gating-set 'gs' with two added gates ??, check via plotting plot(gs)
 
+# and all together
+test_that("makeAddGatingSet", {
+    expect_s4_class(makeAddGatingSet(fn=pa, foN.gateStrat=foN_gating, verbose=FALSE), "GatingSet_fd")
+}) # EOT
 
+gs <- makeAddGatingSet(fn=pa, foN.gateStrat=foN_gating, verbose=FALSE)
 
-
+#### draw gates ####
 
 
 

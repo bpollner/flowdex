@@ -54,6 +54,7 @@ plot(gs)
 }
 \seealso{
 Other Extraction functions: 
+\code{\link{makeAddGatingSet}()},
 \code{\link{makeGatingSet}()}
 }
 \concept{Extraction functions}

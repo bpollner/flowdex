@@ -34,7 +34,7 @@ settings <- list(
 	dV_comp = FALSE, 						## if compensation should be applied
 	dV_gateStratInputType = "csv", 			## can be "csv" or "xlsx. If the file holding the gating strategy is a csv or an xlsx file.
 	dV_rawDataOutputType = "csv", 			## the format of the rawdata output. Can be "csv" or "xlsx".
-
+	dV_channelsForPGG = c("FITC.A", "PerCP.A"), 	## the default channels used for manually drawing a polygon gate
 	
 	## calculation of events / volume
 	dV_volFac = 100000, 						## the volume factor as given from the manual / help of the FCS machine

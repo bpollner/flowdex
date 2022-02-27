@@ -31,8 +31,9 @@ gating strategy. If left at the default '.', the name as defined in the
 settings file (key: 'fiN_gateStrat') will be used.}
 
 \item{foN.gateStrat}{Character length one. The name of the folder where the 
-file defining the gating strategy resides. If left at the default '.', the 
-name as defined in the settings file (key: 'foN_gating') will be used.}
+file defining the gating strategy and the gate definitions reside. If left 
+at the default '.', the name as defined in the settings file 
+(key: 'foN_gating') will be used.}
 
 \item{type.gateStrat}{Character length one, can be either 'csv' or 'xlsx'. 
 files are supported. If left at the default '.', the filetype as defined in 

@@ -41,8 +41,11 @@
 #'
 #' @import methods
 #' @import utils
+#' 
 #' @importClassesFrom flowWorkspace GatingSet
 #' 
+#' @importFrom graphics abline lines
+#'
 #' @docType package
 #' @name flowdex
 NULL

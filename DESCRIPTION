@@ -24,3 +24,14 @@ Suggests:
     covr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Collate: 
+    'cl_classFunctions.R'
+    'flowdex.R'
+    'cl_classDefs.R'
+    'gen-functions.R'
+    'gen_funcForCalc.R'
+    'gl_globals.R'
+    'globals.R'
+    'helpers.R'
+    'uniset_functions.R'
+    'zzz.R'

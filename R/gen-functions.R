@@ -358,7 +358,7 @@ importCheckGatingStrategy <- function(fiN_gateStrat, stn, gsType=".", foName="."
 	if (!identical(cns, sort(cnsReq))) {
 		stop(paste0("Sorry, the provided gating strategy file '", fiN_gateStrat, "' does not contain the required column names.\nPlease see the template for an example.\nThe required column names are:\n'", paste(cnsReq, collapse="', '"), "'."), call.=FALSE)
 	} # end if
-	return(gateStrat)	
+	return(new("gatingStrategy_fd", gateStrat, filename=paste0(fiN_gateStrat, typE)))	
 } # EOF
 
 #' @title Add Polygon Gates
@@ -412,7 +412,7 @@ addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", v
 		} # end if try error
 	} # end for i
 	flowWorkspace::recompute(gs)
-	out <- new("GatingSet_fd", gs, gateStrat=gateStrat, gsdf=gsdf) # attach the data frame with the gating strategy to the gating set
+	out <- new("GatingSet_fd", gs, gateStrat=gsdf) # the gating strategy into the slot
 	return(out)
 } # EOF
 
@@ -449,6 +449,102 @@ makeAddGatingSet <- function(patt=NULL, fn=".", gateStrat=".", foN.gateStrat="."
 	return(gs)
 } # EOF
 
+#' @title Manually Draw Polygon Gate
+#' @description Produce a simple x~y dotplot on the specified channels that is 
+#' used with \code{locator} to define the gate boundaries, similar to defining 
+#' a polygon gate in standard FCM GUIs. The resulting data are saved as an 
+#' R-object under the name specified in \code{pggId}.
+#' @details The generated R-object is saved automatically and can be used as a 
+#' gate-definition in the gating strategy. 
+#' For the lines to be drawn while the locator points 
+#' are clicked, it is recommended to use this function NOT within R-Studio. 
+#' The sample names within the gating set can be obtained via 'show' - see 
+#' examples.
+#' @inheritParams flowdexit
+#' @param gs A gating set as produced by \code{\link{makeGatingSet}} or 
+#' \code{\link{makeAddGatingSet}}
+#' @param flf Character or numeric length one. The identifier of the flowframe 
+#' within the gating set where the gate should be drawn on. Optimally, this is 
+#' a flowframe, i.e. sample, with a very good representation of the desired 
+#' population. Possible input values can be determined via 'show'.
+#' @param gn Character length one. The name of a gate further specifying the 
+#' desired subset of data; defaults to "root".
+#' @param pggId Character length one. The name of the resulting file containing 
+#' the boundaries of the gate. If left at the default '.', the name as defined 
+#' in the settings file (key: 'fiN_gate') will be used. 
+#' @param channels Character length two. The channels the gate should be defined 
+#' in. If left at the default '.', the two channels as defined in the settings 
+#' file (key: 'dV_channelsForPGG') will be used. Available channels can be 
+#' viewed via 'show' - see examples. 
+#' @param useLoc Logical. If, after plotting, the locator should be used. 
+#' Defaults to TRUE.
+#' @param locN Numeric length one. How many points to acquire in the locator. 
+#' Defaults to 512; use "ESC" to abort the locator action.
+#' @param bnd NULL or numeric length four. The boundaries to be marked on the 
+#' plot, format: (x1, x2, y1, y2). If values are provided, two straight lines 
+#' on the x-axis and two on the y-axis will be drawn.
+#' @param showGate Character length one. The name of an already existing gate 
+#' residing in the folder specified by 'foN.gateDefs'. If provided, this gate 
+#' will be additionally drawn on the dotplot. This can be helpful when e.g. 
+#' on old, sub-optimal gate should be replaced with a new one: In this case the 
+#' name of the 'old' would be provided at 'showGate' with the same name 
+#' specified at 'ppfId'. Thus, the old gate will be replaced with the new one.
+#' @section Warning: Existing locator matrix files with the same name will be 
+#' overwritten without asking!
+#' @return A list with the locator coordinates resp. this data saved as an 
+#' R-object in the standard data-export folder.
+#' @examples
+#' \dontrun{
+#' gs <- makeGatingSet()
+#' gs # same as show(gs)
+#' }
+#' @family Plotting functions
+#' @export
+drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateStrat=".", useLoc=TRUE, locN=512, bnd=NULL, showGate=NULL) {
+	stn <- autoUpS()
+	#
+	foN_gating <- fnData <- checkDefToSetVal(foN.gateStrat, "foN_gating", "foN.gateDefs", stn, checkFor="char")
+	ppgId <- checkDefToSetVal(pggId, "fiN_gate", "pggId", stn, checkFor="char")
+	showGate <- checkDefToSetVal(showGate, "..x..", "showGate", stn, checkFor="charNull", defValue=NULL)
+	channels <- checkDefToSetVal(channels, "dV_channelsForPGG", "channels", stn, checkFor="char", len=2)
+	#
+	bnd=c(1250, 4000, 0, 4000)
+	#
+	if (is.null(flf)) {
+		stop("Please provide either a name or an index to specify on which flowframe the gate should be drawn.\nUse `gsinfo()` to see possible values.", call.=FALSE)
+	}
+	datMat <- flowCore::fsApply(flowWorkspace::gs_pop_get_data(gs[flf], gn), function(x) x[, channels], use.exprs=TRUE)
+	return(datMat)
+	
+	yMax <- max(datMat)
+	yRan <- c(0, yMax + ((yMax/100)*10) )
+	xMax <- bnd[2] + ((bnd[2]/100)*10)
+	plot(datMat[, channels[1]], datMat[, channels[2]], type="p", ylim=yRan, xlim=c(0, xMax), xlab=channels[1], ylab=channels[2])
+	return(NULL)
+	
+	
+	abline(h=bnd[3], col="red")
+	abline(h=bnd[4], col="red")
+	abline(v=bnd[1], col="blue")
+	abline(v=bnd[2], col="red")
+	if (!is.null(showGate)) {
+		checkPggExistence(showGate, foN_gating) 
+		load(paste0(fnData, "/", showGate)) # this loads the file, creating an object with the name "locMat" (as the file is saved with "locMat", see just below)
+		lines(x=locMat[[1]], y=locMat[[2]], col="green") # XXX improve here: stop and explain if the axes do not match (via names(locMat); if not matching the channels)
+	} # end !is.null(showGate)
+	if (useLoc) {
+		if (!dir.exists(foN_gating)) {
+			stop(paste0("Sorry, the destination folder `", foN_gating, "` for the polygon gate data does not seem to exist."), call.=FALSE)
+		}
+		locMat <- graphics::locator(type="l", n=locN) # here the locator waits for user input; use ESC to stop input
+		locMat <- lapply(locMat, function(x) round(x, 0))
+		locMat$x[length(locMat$x)+1] <- locMat$x[1] # close the circle (to be sure)
+		locMat$y[length(locMat$y)+1] <- locMat$y[1]
+		names(locMat) <- channels
+		save(locMat, file=paste0(foN_gating, "/", pggId))
+	}
+	return(invisible(locMat))
+} # EOF
 
 
 #' @title Read in FCS Files and Extract Data
@@ -463,8 +559,9 @@ makeAddGatingSet <- function(patt=NULL, fn=".", gateStrat=".", foN.gateStrat="."
 #' gating strategy. If left at the default '.', the name as defined in the 
 #' settings file (key: 'fiN_gateStrat') will be used. 
 #' @param foN.gateStrat Character length one. The name of the folder where the 
-#' file defining the gating strategy resides. If left at the default '.', the 
-#' name as defined in the settings file (key: 'foN_gating') will be used. 
+#' file defining the gating strategy and the gate definitions reside. If left 
+#' at the default '.', the name as defined in the settings file 
+#' (key: 'foN_gating') will be used. 
 #' @param type.gateStrat Character length one, can be either 'csv' or 'xlsx'. 
 ## The type of file defining the gating strategy. Currently, csv and xlsx 
 #' files are supported. If left at the default '.', the filetype as defined in 

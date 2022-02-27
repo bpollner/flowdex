@@ -19,10 +19,13 @@ devGetLocalStn <- function() {
 	return(stn)
 } # EOF
 
-
 ##############
 
 haveDefDot <- function(val) {
+	if (is.null(val)) {
+		return(FALSE)
+	}
+	#
 	if (all(val == ".") & length(val) == 1) {
 		return(TRUE)
 	} else {
@@ -30,10 +33,22 @@ haveDefDot <- function(val) {
 	}
 } # EOF
 
-checkCh1 <- function(val, argName) {
+checkCharX <- function(val, argName, len=1) {
 	if (!haveDefDot(val)) {
-		if (!all(is.character(val)) | length(val) != 1) {
-			stop(paste0("Please provide a character length one to the argument '", argName, "'."), call.=FALSE)
+		if (!all(is.character(val)) | length(val) != len) {
+			stop(paste0("Please provide a character length ", len, " to the argument '", argName, "'."), call.=FALSE)
+		}
+    	return(invisible(NULL))
+    } # end if
+} # EOF
+
+checkCharX_null <- function(val, argName, len=1) {
+	if (!haveDefDot(val)) {
+		if (is.null(val)) {
+			return(invisible(NULL))
+		} # end if
+		if (!all(is.character(val)) | length(val) != len) {
+			stop(paste0("Please provide a character length ", len, " to the argument '", argName, "'."), call.=FALSE)
 		}
     	return(invisible(NULL))
     } # end if
@@ -48,17 +63,23 @@ checkLogi <- function(val, argName) {
 	} # end if
 } # EOF
 
-checkNum1 <- function(val, argName) {
+checkNumX <- function(val, argName, len=1) {
 	if (!haveDefDot(val)) {
-		if (!all(is.numeric(val)) | length(val) != 1) {
-			stop(paste0("Please provide a numeric length one to the argument '", argName, "'."), call.=FALSE)
+		if (!all(is.numeric(val)) | length(val) != len) {
+			stop(paste0("Please provide a numeric length ", len, " to the argument '", argName, "'."), call.=FALSE)
 		}
 		return(invisible(NULL))
 	} # end if
 } # EOF
 
-
-getDefValFromStn <- function(val, keyName, stn, defValue=".") {
+getDefValFromStn <- function(val, keyName, stn, argName=NULL, defValue=".") {
+	if (is.null(defValue)) {
+		if (haveDefDot(val)) {
+			stop(paste0("Sorry, there is no default value defined for argument '", argName, "'."), call.=FALSE)
+		} #end if		
+		return(val)
+	} # end if is null defValue
+	#
 	if (val == defValue) {
 		ind <- which(names(stn) == keyName)
 		out <- unlist(stn[ind])
@@ -68,21 +89,25 @@ getDefValFromStn <- function(val, keyName, stn, defValue=".") {
 	} # end else
 } # EOF
 
-
-checkDefToSetVal <- function(val, keyName, argName, stn, checkFor, defValue=".") {
+checkDefToSetVal <- function(val, keyName, argName, stn, checkFor, len=1, defValue=".") {
 	if (checkFor == "char") {
-		checkCh1(val, argName)
-		return(getDefValFromStn(val, keyName, stn, defValue))
+		checkCharX(val, argName, len)
+		return(getDefValFromStn(val, keyName, stn, argName, defValue))
 	} # end if checkFor == "char"
 	#
+	if (checkFor == "charNull") {
+		checkCharX_null(val, argName, len)
+		return(getDefValFromStn(val, keyName, stn, argName, defValue))
+	} # end if checkFor == "char"
+	#	
 	if (checkFor == "logi") {
 		checkLogi(val, argName)
-		return(getDefValFromStn(val, keyName, stn, defValue))
+		return(getDefValFromStn(val, keyName, stn, argName, defValue))
 	} # end if checkFor == "logi"
 	#
 	if (checkFor == "num") {
-		checkNum1(val, argName)
-		return(getDefValFromStn(val, keyName, stn, defValue))
+		checkNumX(val, argName, len)
+		return(getDefValFromStn(val, keyName, stn, argName, defValue))
 	} # end if checkFor == "logi"
 	#
 } # EOF
@@ -112,8 +137,12 @@ loadGaXFile <- function(foN, fiN, type) { # fiN must be complete with ending
 	#	
 } # EOF
 
-checkPggExistence <- function(gsdf,foN_gating, fiN_gateStrat) {
-	pggDef <- gsdf[, "GateDefinition"]
+checkPggExistence <- function(gsdf,foN_gating, fiN_gateStrat=NULL) {
+	if (is.data.frame(gsdf)) {
+		pggDef <- gsdf[, "GateDefinition"]
+	} else { # so we want to check for a single gate definition, gsdf comes in as character length one
+		pggDef <- gsdf
+	}
 	if (length(pggDef) == 0) {
 		stop(paste0("Sorry, there must be at least one gate defined in the gating-strategy file '", fiN_gateStrat, "'."), call.=FALSE)
 	} # end if
@@ -132,6 +161,7 @@ checkPggExistence <- function(gsdf,foN_gating, fiN_gateStrat) {
 	} # end if
 	return(TRUE) # if all is good
 } # EOF
+
 
 
 

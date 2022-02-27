@@ -40,13 +40,28 @@ if (!dir.exists(pathToHome)) {
 #
 
 ##### simple helpers #######
-test_that("checkCh1", {
+test_that("checkCharX", {
     a <- "a"; b <- "a"
-    expect_null(checkCh1(a,b))
+    expect_null(checkCharX(a,b))
     a <- c("a", "b"); b <- "a"
-    expect_error(checkCh1(a,b))
+    expect_error(checkCharX(a,b))
     a <- 1; b <- "a"
-    expect_error(checkCh1(a,b))
+    expect_error(checkCharX(a,b))
+}) # EOT
+
+test_that("checkCharX_null", {
+    a <- "a"; b <- "a"
+    expect_null(checkCharX_null(a,b))
+    a <- c("a", "b"); b <- "a"
+    expect_error(checkCharX_null(a,b))
+    a <- 1; b <- "a"
+    expect_error(checkCharX_null(a,b))
+    a <- NULL; b <- "a"
+    expect_null(checkCharX_null(a,b))
+    a <- 1; b <- "a"
+    expect_error(checkCharX_null(a,b))
+    a <- c("a", "b"); b <- "a"
+    expect_null(checkCharX_null(a,b, len=2))
 }) # EOT
 
 test_that("checkLogi", {
@@ -58,24 +73,28 @@ test_that("checkLogi", {
     expect_error(checkLogi(a,b))
 }) # EOT
 
-test_that("checkNum1", {
+test_that("checkNumX", {
     a <- 1; b <- "a"
-    expect_null(checkNum1(a,b))
+    expect_null(checkNumX(a,b))
     a <- c(2, 3); b <- "a"
-    expect_error(checkNum1(a,b))
+    expect_error(checkNumX(a,b))
     a <- "blabla"; b <- "a"
-    expect_error(checkNum1(a,b))
+    expect_error(checkNumX(a,b))
 }) # EOT
 
 test_that("haveDefDot", {
     expect_true(haveDefDot("."))
     expect_false(haveDefDot(123))
+    expect_false(haveDefDot(NULL))
 }) # EOT
 
 
 test_that("getDefValFromStn", {
-    expect_match(getDefValFromStn(".", "foN_fcsFiles", stn, "."), "fcsFiles")
-    expect_match(getDefValFromStn("aaa", "foN_fcsFiles", stn, "."), "aaa")
+    expect_match(getDefValFromStn(".", "foN_fcsFiles", stn, defValue="."), "fcsFiles")
+    expect_match(getDefValFromStn("aaa", "foN_fcsFiles", stn, defValue="."), "aaa")
+    expect_error(getDefValFromStn(".", "aaa", stn, "blabla", defValue=NULL), "no default value defined")
+    expect_identical(getDefValFromStn(NULL, "aaa", stn, "blabla", defValue=NULL), NULL)
+    expect_identical(getDefValFromStn(1, "aaa", stn, "blabla", defValue=NULL), 1)
 }) # EOT
 
 fnf <- "foN_fcsFiles"
@@ -85,6 +104,10 @@ test_that("checkDefToSetVal", {
     expect_match(checkDefToSetVal(".", fnf, "argN", stn,  "char"), "fcsFiles")
     expect_true(checkDefToSetVal(TRUE, "dV_comp", "comp", stn, "logi"))
     expect_identical(checkDefToSetVal(1, "dV_volFac", "argN", stn,  "num"), 1)
+    expect_identical(checkDefToSetVal(NULL, "..x..", "argN", stn,  "charNull", defValue=NULL), NULL)
+    expect_identical(checkDefToSetVal("blabla", "..x..", "argN", stn,  "charNull", defValue=NULL), "blabla")
+    expect_error(checkDefToSetVal(1, "..x..", "argN", stn,  "charNull", defValue=NULL), NULL)
+    expect_error(checkDefToSetVal(".", "..x..", "argN", stn,  "charNull", defValue=NULL), "no default value defined")
 }) # EOT
 
 test_that("devGetLocalStn", {
@@ -214,9 +237,9 @@ test_that("loadGaXFile", {
 
 test_that("importCheckGatingStrategy", {
     expect_error(importCheckGatingStrategy(fiN_gateStrat, stn, gsType="bla", foN_gating))
-    expect_s3_class(importCheckGatingStrategy(fiN_gateStrat, stn, gsType=".", foN_gating), "data.frame")
-    expect_s3_class(importCheckGatingStrategy(fiN_gateStrat, stn, gsType="csv", foN_gating), "data.frame")
-    expect_s3_class(importCheckGatingStrategy(fiN_gateStrat, stn, gsType="xlsx", foN_gating), "data.frame")
+    expect_s4_class(importCheckGatingStrategy(fiN_gateStrat, stn, gsType=".", foN_gating), "gatingStrategy_fd")
+    expect_s4_class(importCheckGatingStrategy(fiN_gateStrat, stn, gsType="csv", foN_gating), "gatingStrategy_fd")
+    expect_s4_class(importCheckGatingStrategy(fiN_gateStrat, stn, gsType="xlsx", foN_gating), "gatingStrategy_fd")
     expect_error(importCheckGatingStrategy("gateStrat_wrongColnames", stn, gsType="csv", foN_gating), "does not contain the required column names")
 }) # EOT
 
@@ -245,6 +268,32 @@ test_that("makeAddGatingSet", {
 gs <- makeAddGatingSet(fn=pa, foN.gateStrat=foN_gating, verbose=FALSE)
 
 #### draw gates ####
+
+
+
+# dm <- datMat <- drawGate(gs, 1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -7,6 +7,9 @@
 flowdexit(
   fn = ".",
   patt = NULL,
+  gateStrat = ".",
+  foN.gateStrat = ".",
+  type.gateStrat = ".",
   comp = ".",
   tx = ".",
   channel = ".",
@@ -17,11 +20,23 @@ flowdexit(
 \arguments{
 \item{fn}{Character length one. The name of the folder where FCS files should 
 be read from. If left at the default '.', the folder name as defined in the 
-settings file will be used.}
+settings file (key: 'foN_fcsFiles') will be used.}
 
 \item{patt}{A regular expression defining a possible subset of FCS files
 residing in the directory specified by \code{fn} to read in. Only matching
 patterns will be included.}
+
+\item{gateStrat}{Character length one. The name of the file defining the 
+gating strategy. If left at the default '.', the name as defined in the 
+settings file (key: 'fiN_gateStrat') will be used.}
+
+\item{foN.gateStrat}{Character length one. The name of the folder where the 
+file defining the gating strategy resides. If left at the default '.', the 
+name as defined in the settings file (key: 'foN_gating') will be used.}
+
+\item{type.gateStrat}{Character length one, can be either 'csv' or 'xlsx'. 
+files are supported. If left at the default '.', the filetype as defined in 
+the settings (key: 'dV_gateStratInputType') file will be used.}
 
 \item{comp}{Logical. If compensation should be applied or not. If left at 
 the default '.', the value as defined in the settings file (key 'dV_comp') 
@@ -41,8 +56,8 @@ defined in the settings file (key 'dV_channel') will be used.}
 \item{ignore.text.offset}{Logical. If set to true, fcs-files in the folder 
 specified at argument 'fn' will be checked for inconsistencies in the 
 HEADER and TEXT segment and, if those inconsistency is present, the 
-afflicted fcs-file will be \strong{re-written to disc without further warning}, 
-with the values in TEXT being ignored.}
+afflicted fcs-file will be re-written to disc, with the values in TEXT 
+being ignored. The file will be \strong{overwritten without further warning.}}
 
 \item{verbose}{Logical. If status messages should be displayed. If left at 
 the default '.', the value as defined in the settings file (key 'dV_verbose') 

@@ -25,7 +25,7 @@ will be used.}
 
 \item{fn}{Character length one. The name of the folder where FCS files should 
 be read from. If left at the default '.', the folder name as defined in the 
-settings file will be used.}
+settings file (key: 'foN_fcsFiles') will be used.}
 
 \item{tx}{Character length one. The transformation applied to *all* channels 
 within the individual flow sets. If left at the default '.', the value as 
@@ -41,8 +41,8 @@ defined in the settings file (key 'dV_channel') will be used.}
 \item{ignore.text.offset}{Logical. If set to true, fcs-files in the folder 
 specified at argument 'fn' will be checked for inconsistencies in the 
 HEADER and TEXT segment and, if those inconsistency is present, the 
-afflicted fcs-file will be \strong{re-written to disc without further warning}, 
-with the values in TEXT being ignored.}
+afflicted fcs-file will be re-written to disc, with the values in TEXT 
+being ignored. The file will be \strong{overwritten without further warning.}}
 
 \item{verbose}{Logical. If status messages should be displayed. If left at 
 the default '.', the value as defined in the settings file (key 'dV_verbose') 

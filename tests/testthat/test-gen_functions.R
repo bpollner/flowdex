@@ -3,7 +3,7 @@ library(testthat)
 # for manual line by line only
 # devtools::load_all("~/Documents/RPS/flowdex_R/flowdex")
 # delete all in tempdir !!
-# rm(list=ls(all.names = TRUE))
+ rm(list=ls(all.names = TRUE))
 
 
 ###### Prepare #####
@@ -230,9 +230,16 @@ test_that("checkPggExistence", {
 }) # EOT
 file.copy(gaFrom, gaTo, overwrite = TRUE) # and restore again
 
-gs <- addGates(gs, foN.gateStrat = foN_gating)
+test_that("addGates", {
+ #   expect_s4_class(addGates(gs=gs, foN.gateStrat = foN_gating), "GatingSet_fd")
+ #   expect_error(addGates(gs=gs, foN.gateStrat = foN_gating))
+}) # EOT
 
 
+# gs <- makeGatingSet(fn=pa, verbose = FALSE)
+
+
+# gs <- addGates(gs, foN.gateStrat = foN_gating)
 
 
 

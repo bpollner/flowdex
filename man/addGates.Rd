@@ -15,6 +15,18 @@ addGates(
 \arguments{
 \item{gs}{A gating set as produced by \code{\link{makeGatingSet}}.}
 
+\item{gateStrat}{Character length one. The name of the file defining the 
+gating strategy. If left at the default '.', the name as defined in the 
+settings file (key: 'fiN_gateStrat') will be used.}
+
+\item{foN.gateStrat}{Character length one. The name of the folder where the 
+file defining the gating strategy resides. If left at the default '.', the 
+name as defined in the settings file (key: 'foN_gating') will be used.}
+
+\item{type.gateStrat}{Character length one, can be either 'csv' or 'xlsx'. 
+files are supported. If left at the default '.', the filetype as defined in 
+the settings (key: 'dV_gateStratInputType') file will be used.}
+
 \item{verbose}{Logical. If status messages should be displayed. If left at 
 the default '.', the value as defined in the settings file (key 'dV_verbose') 
 will be used.}
@@ -27,8 +39,18 @@ Load the predefined gating strategy (as .csv or .xlsx file) and
 apply the gates as defined in the file.
 }
 \details{
-The xlsx file can hold one or more gates. One row in the xls files represents The ending `.xlsx`will be added to the character supplied in
-\code{gateStrat} automatically.
+The gating strategy file can hold one or more gates. One row in the 
+files represents one gate. In order to see a schematic representation of 
+'parent' and 'child' gates, simply use 'plot'.
+}
+\examples{
+\dontrun{
+gs <- addGates(gs)
+plot(gs)
+gs <- addGates(gs, gateStrat="fooBar.csv") # the use a different then the 
+# default gating strategy
+plot(gs)
+}
 }
 \seealso{
 Other Extraction functions: 

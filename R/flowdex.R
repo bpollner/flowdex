@@ -1,1 +1,48 @@
-
+#' @title Extract Fluorescence Distribution Data from FCM Files and Recalculate 
+#' to Events per Volume
+#' @description Extract fluorescence distribution data from any bivariate 
+#' distribution within a previously defined flow cytometry gating set and 
+#' recalculate the fluorescence distribution data to events per volume. 
+#' To (meaningfully) use flowdex, the FCM files have to contain volumetric 
+#' measurement data denoting the acquired sample volume.
+#' @details When calling \code{\link{flowdexit}}, the gating set "gs" is assigned
+#' to the parent envelope. This gating set "gs" can then be used to directly
+#' extract the events/ml via the function XXX.
+#' @section CAVE: Some functions like e.g. \code{\link{repairVolumes}} or 
+#' \code{\link{repairSID}} can possibly re-write fcs files to disc, and then
+#' original files get overwritten without further warning. It is therefore 
+#' advised to work on a copy of the original fcs files, just to be sure. 
+#' @author Bernhard Pollner
+#' @section Maintainer: Bernhard Pollner <bernhard.pollner@@mac.com>
+#' @section Workflow: XXX
+#' @section Important Functions: XXX
+#' @examples
+#' \dontrun{
+#' # all in one
+#' require(flowdex)
+#' mat <- flowdexit()
+#' plot(mat)
+#' plotgate(gs)
+#' getEvml(gs)
+#'
+#' # step by step
+#' require(flowdex)
+#' gs <- makeGatingSet()
+#' gs <- addGates(gs)
+#' mat <- makefdmat(gs)
+#' plot(mat)
+#' plotgate(gs)
+#' getEvml(gs)
+#'
+#' # for drawing the gate
+#' locMat <- drawGate(gs, "foo") # draw the gate on the flowframe named "foo".
+#' locMat <- drawGate(gs, 3) # to draw on the third flowframe
+#' }
+#'
+#' @import methods
+#' @import utils
+#' @importClassesFrom flowWorkspace GatingSet
+#' 
+#' @docType package
+#' @name flowdex
+NULL

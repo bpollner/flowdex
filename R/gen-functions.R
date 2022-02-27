@@ -358,11 +358,20 @@ importCheckGatingStrategy <- function(fiN_gateStrat, stn, prefType=".", foName="
 #' @title Add Polygon Gates
 #' @description Load the predefined gating strategy (as .csv or .xlsx file) and 
 #' apply the gates as defined in the file.
-#' @details The xlsx file can hold one or more gates. One row in the xls files represents The ending `.xlsx`will be added to the character supplied in
-#' \code{gateStrat} automatically.
+#' @details The gating strategy file can hold one or more gates. One row in the 
+#' files represents one gate. In order to see a schematic representation of 
+#' 'parent' and 'child' gates, simply use 'plot'.
 #' @param gs A gating set as produced by \code{\link{makeGatingSet}}.
 #' @inheritParams flowdexit
 #' @return A gating set.
+#' @examples
+#' \dontrun{
+#' gs <- addGates(gs)
+#' plot(gs)
+#' gs <- addGates(gs, gateStrat="fooBar.csv") # the use a different then the 
+#' # default gating strategy
+#' plot(gs)
+#' }
 #' @family Extraction functions
 #' @export
 addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", verbose=".") {
@@ -389,8 +398,8 @@ addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", v
 		pggName <- gsdf[i,"GateDefinition"]
 		gateMat <- loadGaXFile(foN_gating, pggName, type="pgg")		
 		names(gateMat) <- gateOn
-		pg <- flowCore::polygonGate(.gate=gateMat, filterId=pggName)
-		flowWorkspace::gs_pop_add(gs, pg, parent=gsdf[i,"Parent"], name=gsdf[i, "GateName"]) # gs_pop_add is in flowWorkspace
+		pgg <- flowCore::polygonGate(.gate=gateMat, filterId=pggName)
+		flowWorkspace::gs_pop_add(gs, pgg, parent=gsdf[i,"Parent"], name=gsdf[i, "GateName"]) # gs_pop_add is in flowWorkspace
 	} # end for i
 	flowWorkspace::recompute(gs)
 	out <- new("GatingSet_fd", gs, gateStrat=gateStrat, gsdf=gsdf) # attach the data frame with the gating strategy to the gating set
@@ -401,10 +410,20 @@ addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", v
 #' @description XXX
 #' @param fn Character length one. The name of the folder where FCS files should 
 #' be read from. If left at the default '.', the folder name as defined in the 
-#' settings file will be used.
+#' settings file (key: 'foN_fcsFiles') will be used.
 #' @param patt A regular expression defining a possible subset of FCS files
 #' residing in the directory specified by \code{fn} to read in. Only matching
 #' patterns will be included.
+#' @param gateStrat Character length one. The name of the file defining the 
+#' gating strategy. If left at the default '.', the name as defined in the 
+#' settings file (key: 'fiN_gateStrat') will be used. 
+#' @param foN.gateStrat Character length one. The name of the folder where the 
+#' file defining the gating strategy resides. If left at the default '.', the 
+#' name as defined in the settings file (key: 'foN_gating') will be used. 
+#' @param type.gateStrat Character length one, can be either 'csv' or 'xlsx'. 
+## The type of file defining the gating strategy. Currently, csv and xlsx 
+#' files are supported. If left at the default '.', the filetype as defined in 
+#' the settings (key: 'dV_gateStratInputType') file will be used. 
 #' @param comp Logical. If compensation should be applied or not. If left at 
 #' the default '.', the value as defined in the settings file (key 'dV_comp') 
 #' will be used.
@@ -423,8 +442,8 @@ addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", v
 #' @param ignore.text.offset Logical. If set to true, fcs-files in the folder 
 #' specified at argument 'fn' will be checked for inconsistencies in the 
 #' HEADER and TEXT segment and, if those inconsistency is present, the 
-#' afflicted fcs-file will be \strong{re-written to disc without further warning}, 
-#' with the values in TEXT being ignored.
+#' afflicted fcs-file will be re-written to disc, with the values in TEXT 
+#' being ignored. The file will be \strong{overwritten without further warning.}
 #' @section Regarding Compensation: Due to the circumstances when developing 
 #' this code, it was never required to apply any kind of compensation. The 
 #' functionality to apply compensation was therefore never tested or verified. 
@@ -433,7 +452,7 @@ addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", v
 #' achieve correct compensation results (compensation is applied in the 
 #' function \code{\link{makeGatingSet}}).
 #' @export
-flowdexit <- function(fn=".", patt=NULL, comp=".", tx=".", channel=".", ignore.text.offset=FALSE, verbose=".") {
+flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", ignore.text.offset=FALSE, verbose=".") {
 	return(NULL)
 } # EOF
 

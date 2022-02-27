@@ -399,7 +399,11 @@ addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", v
 		gateMat <- loadGaXFile(foN_gating, pggName, type="pgg")		
 		names(gateMat) <- gateOn
 		pgg <- flowCore::polygonGate(.gate=gateMat, filterId=pggName)
-		flowWorkspace::gs_pop_add(gs, pgg, parent=gsdf[i,"Parent"], name=gsdf[i, "GateName"]) # gs_pop_add is in flowWorkspace
+		erm <- try(flowWorkspace::gs_pop_add(gs, pgg, parent=gsdf[i,"Parent"], name=gsdf[i, "GateName"]), silent=TRUE) # gs_pop_add is in flowWorkspace
+		if (class(erm) == "try-error") {
+			msgTxt <- paste0("The gate '", gsdf[i, "GateName"], "' already contains the gate as defined in '", gsdf[i, "GateDefinition"], "'.")
+			message(msgTxt)
+		} # end if try error
 	} # end for i
 	flowWorkspace::recompute(gs)
 	out <- new("GatingSet_fd", gs, gateStrat=gateStrat, gsdf=gsdf) # attach the data frame with the gating strategy to the gating set

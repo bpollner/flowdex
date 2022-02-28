@@ -94,6 +94,21 @@ makeCyTags <- function(gs, dictionary, stn) {
 } # EOF
 
 ################
+checkForVolumeData <- function(gs) {
+	options(warn=-1)
+	naInd <- which(is.na(as.numeric(as.character(flowWorkspace::pData(gs)[,"volume"]))))
+	options(warn=0)
+	tubeIns <- "tube"
+	verbIns <- "is"
+	if (length(naInd) > 0) {
+		if (length(naInd) > 1) {
+		 	tubeIns <- "tubes"
+		 	verbIns <- "are"
+		}
+		stop(paste0("Sorry, it seems that for the ", tubeIns, " '", paste(rownames(flowWorkspace::pData(gs))[naInd], collapse="', '"), "' there ", verbIns, " no volume-data available."), call.=FALSE)
+	} # end if
+	return(TRUE)
+} # EOF
 
 getEventsPerVolume_single <- function(gs, gateName="DNA+", chName="FITC.A", volFac=1e6,  volUnit="ml", apc=TRUE, coV=125) {
 	volUnitTxt <- paste0("events_", volUnit)
@@ -101,7 +116,9 @@ getEventsPerVolume_single <- function(gs, gateName="DNA+", chName="FITC.A", volF
 	vols <- as.numeric(as.character(flowWorkspace::pData(gs)[,"volume"])) # read the acquired volumes from the pheno data of the gating set
 	fls <- flowWorkspace::gs_pop_get_data(gs, gateName) # function was "getData"
 	cnsFls <- names(flowCore::markernames(fls)) # strangely, simply using 'colnames' does not work any more. Hmm.
+#	print(colnames(fls))
 	#
+#	print(chName); print(cnsFls); print(gateName)
 	if (! chName %in% cnsFls) {
 		stop(paste0("Sorry, the channel '", chName, "' seems not to exist in the provided data."), call.=FALSE)
 	}
@@ -157,4 +174,169 @@ getEventsPerVolume <- function(gs) {
 } # EFO
 
 #################
+
+ignoreEdge <- function(x, perc=5, minLe=10) {
+    tot <- length(x)
+    if (tot <= minLe) {
+    	return(x)
+    }
+    if (perc <= 0) {
+    	return(x)
+    }
+    cut <- round((perc * tot) / 100, 0)
+    cutIndLow <- 1:cut
+    cutIndHigh <- seq(length(x)-cut+1, length(x))
+    cutOff <- c(cutIndLow, cutIndHigh)
+    x <- sort(x)
+    out <- x[-cutOff]
+    return(out)
+} # EOF
+
+getSomeXmin <- function(fluorList) {
+    someMin <- NULL
+    for (i in 1: length(fluorList)) {
+        if (is.null(someMin)) {
+        	if (length(fluorList[[i]]) > 0) { # so it is not empty
+        		someMin <- round(min(fluorList[[i]]), 0)
+        	}
+        } # end if
+    } # end for i
+    return(someMin)
+} # EOF
+
+calcHistBreaks <- function(x, nr) { # the nr is how many elements should be in each cell
+	x <- sort(x)
+} # EOF
+
+extractHistoData <- function(x, sm, flscRan, res=220, igp=FALSE, smN=11, smP=5, dev=FALSE) {
+   	mainAdd <- ""; xRange <- NULL; mainTxt <- ""; plotHist <- FALSE; devPlot <- dev # used in DEV for plotting
+   	if (devPlot) {xOrig <- x; plotHist <- TRUE; mainTxt <- paste0("resolution: ", res, mainAdd)}
+	#
+	if (length(x) == 0) {
+        return(list(mids=sm, countsSmo=0, countsOrig=0)) # is assigning the count of zero to a fluorescence value existent in the range; sm = "some minimum"
+    }
+    breaksPos <- seq(flscRan[1], flscRan[2], length.out=res)
+    if (is.numeric(igp)){
+		x <- ignoreEdge(x, perc=igp)
+	 	if (devPlot) {
+   	       	mainAdd <- paste0(", ", igp, "% of edge ignored")
+			graphics::par(mfrow=c(2,1))
+			hda <- graphics::hist(xOrig, breaks=breaksPos, plot=plotHist, main=paste0("resolution: ", res, "  (all data)"))
+		   	graphics::lines(x=hda$mids, y=hda$counts, type="l", col="gray")
+    	  	graphics::lines(hda$mids, signal::sgolayfilt(hda$counts, n=smN, p=smP), col="red", lwd=2)
+    	} # DEV only
+    } else {if (igp == TRUE) {stop("Please provide either a numeric or `FALSE` to ignore the edge percent", call.=FALSE)}}
+    options(warn=-1)
+    histData <- graphics::hist(x, breaks=breaksPos, plot=plotHist, main=mainTxt)
+    options(warn=0)
+    out <- list(mids=round(histData$mids, 0), countsSmo=signal::sgolayfilt(histData$counts, n=smN, p=smP), countsOrig=histData$counts)
+    if (devPlot) {
+    	graphics::lines(x=out$mids, y=out$countsOrig, type="l", col="gray", xlim=NULL)
+	    graphics::lines(out$mids, out$countsSmo, col="blue", lwd=2)
+	} # DEV only
+    return(out)
+} # EOIF
+
+cleanUpHistList <- function(histList) {
+	midsVec <- NULL
+	for (i in 1: length(histList)) {
+		if (is.null(midsVec)) {
+			if (length(histList[[i]]$mids) > 1) { # so that is a non-empty sample
+				midsVec <- histList[[i]]$mids
+			}
+		}
+	} # end for i
+	for (i in 1: length(histList)) {
+		if (length(histList[[i]]$mids) == 1) { # so that is an empty sample
+			histList[[i]]$mids <- midsVec
+			histList[[i]]$countsSmo <- rep(0, length(midsVec))
+			histList[[i]]$countsOrig <- rep(0, length(midsVec))
+		}
+	} # end for i
+	return(histList)
+} #EOF
+
+recalcHistListToVolume <- function(histList, gs, volFac) {
+	volumes <- as.numeric(as.character(flowWorkspace::pData(gs)[,"volume"]))
+	for (i in 1: length(histList)) {
+		histList[[i]]$countsSmo <- ( histList[[i]]$countsSmo / volumes[[i]] ) * volFac # gives the counts in events/volume for each fluorescence unit
+		histList[[i]]$countsOrig <- ( histList[[i]]$countsOrig / volumes[[i]] ) * volFac
+	}
+	return(histList)
+} # EOF
+
+# is also calculating events/ml
+checkCutFluorList <- function(fluorList, gs, apc=TRUE, coR=10, coV=125, volFac=1e6) {
+	if (apc) {
+		vols <- as.numeric(as.character(flowWorkspace::pData(gs)[,"volume"])) # read the acquired volumes from the pheno data of the gating set
+#		nrEvRaw <- as.numeric(unlist(lapply(fluorList, length)))
+		for (i in 1: length(fluorList)) {
+			nrEvRaw <- length(fluorList[[i]])
+			nrEvVol <- round((nrEvRaw/vols[i]) * volFac, 0) # calculate the events per volume
+			if (nrEvRaw <= coR | nrEvVol <= coV) {
+				fluorList[[i]] <- numeric(0) # if below the defined cutoff values, set all the values to zero, i.e. have no single event in the list
+			} # end if
+		} # end for i
+	} # end if apc
+	return(fluorList)
+} # EOF
+
+# can return calculated to volume, here checking for cutoff
+getHistoData <- function(gs, gateName="DNA+", chName="FITC.A", res=220, flRange=c(1250, 4000), apc=TRUE, coR=10, coV=125, igp=FALSE, smN=11, smP=5, rcv=TRUE, dev=FALSE, volFac=1e6) {
+#	fls <- getData(gs, gateName)
+	fls <- flowWorkspace::gs_pop_get_data(gs, gateName) # function was "getData"
+	cnsFls <- names(flowCore::markernames(fls)) # strangely, simply using 'colnames' does not work any more. Hmm.
+	#
+	if (! chName %in% cnsFls) {
+		stop(paste0("\nSorry, the channel '", chName, "' seems not to exist in the provided data."), call.=FALSE)
+	}
+	fluorList <- flowCore::fsApply(fls, function(x) x[,chName], use.exprs = TRUE, simplify = FALSE) # extract a single channel
+	fluorList <- checkCutFluorList(fluorList, gs, apc, coR, coV, volFac) # here perform the cutoff-value check; needs the gs for the volume in the pheno data
+	outIndList <- lapply(fluorList, function(x) which(x > flRange[2]))
+	for (i in 1: length(fluorList)) {
+		if (length(outIndList[[i]]) > 0) {
+			fluorList[[i]] <- fluorList[[i]][-(outIndList[[i]])] # cut off everything above max(flRange), so that in the histogram we have no data running over the defined breaks
+		}
+	}
+	# same on the lower side
+	outIndList <- lapply(fluorList, function(x) which(x < flRange[1]))
+	for (i in 1: length(fluorList)) {
+		if (length(outIndList[[i]]) > 0) {
+			fluorList[[i]] <- fluorList[[i]][-(outIndList[[i]])] # cut off everything below min(flRange), so that in the histogram we have no data running below the defined breaks
+		}
+	}
+	#
+	histList <- lapply(fluorList, extractHistoData, sm=getSomeXmin(fluorList), flscRan=flRange, res=res, igp=igp, smN=smN, smP=smP, dev=dev) ### CORE ###
+	histList <- cleanUpHistList(histList)
+	if (rcv) {
+		histList <- recalcHistListToVolume(histList, gs, volFac)
+	}
+	return(histList)
+} # EOF
+
+makefdmat_single <- function(gs, gateName="DNA+", chName="FITC.A", res=220, flRange=c(1250, 4000), apc=TRUE, coR=10, coV=125, rcv=TRUE, igp=FALSE, smo=TRUE, smN=11, smP=5, chPrevWl="flsc", gateDef="locMat", dev=FALSE, volFac=1e6, verbose=TRUE) {
+	rcvAdd <- ""
+	if (rcv) {
+		rcvAdd <- " and recalc. to volume"
+	} # end if
+	if (verbose) {cat(paste0(gateName, ": Extracting binned data on ", chName, " (res=", res, ")", rcvAdd, "... "))}
+	##
+	histList <- getHistoData(gs, gateName, chName, res, flRange, apc, coR, coV, igp, smN, smP, rcv, dev, volFac) ### CORE ###
+	flscX <- histList[[1]]$mids # just take the first one, the mids are all identical
+	mat <- matrix(0, ncol=length(flscX), nrow=(length(histList)))
+	for (i in 1: length(histList)) {
+		vals <- histList[[i]]$countsOrig # take the original values (possibly re-calculated to volume)
+		if (smo) {
+			vals <- signal::sgolayfilt(vals, n=smN, p=smP) # smoothing
+			vals[which(vals < 0)] <- 0 # because with smoothing values below zero can appear
+		} # end if smo
+		mat[i,] <- vals
+	} # end for i
+	colnames(mat) <- paste0(chPrevWl, flscX)
+	rownames(mat) <- paste0(make.names(names(histList), unique=TRUE), "|", gateName)
+#	zeroInd <- as.numeric(which(apply(mat,1, function(x) all(x==0)))) # the indices of all the rows that contain all zero
+	md <- data.frame(gateName=gateName, gateDef=gateDef, extractOn=chName, res=res, flRange=paste(flRange, collapse=","), apc=apc, coR=coR, coV=coV, rcv=rcv, igp=igp, smo=smo, smN=smN, smP=smP, ncpwl=nchar(chPrevWl))
+	if (verbose) {cat("ok. \n")}
+	return(list(mat=mat, md=md))
+} # EOF
 

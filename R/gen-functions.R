@@ -604,7 +604,7 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateS
 #' @seealso \code{\link{makeAddGatingSet}}, \code{\link{flowdexit}}
 #' @family Extraction functions
 #' @export
-makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict=".", foN.dict=".", dev=FALSE) {
+makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict=".", foN.dict=".", verbose=".", dev=FALSE) {
 	#
 	stn <- autoUpS()
 	#
@@ -612,11 +612,16 @@ makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict="."
 	assignHereStnValues(stn)
 	#
 	expoType <- checkDefToSetVal(expo.type, "dE_exportType", "expo.type", stn, checkFor="char")
+	expoGate <- checkDefToSetVal(expo.gate, "dE_exportGate", "expo.gate", stn, checkFor="charNull")
 	nameDict <- checkDefToSetVal(name.dict, "dD_dict_name", "name.dict", stn, checkFor="char")
 	foN_dict <- checkDefToSetVal(foN.dict, "foN_dictionary", "foN.dict", stn, checkFor="char")
+	verbose <- checkDefToSetVal(verbose, "dV_verbose", "verbose", stn, checkFor="logi")
 	dictTypeE <- paste0(".", dictType)
 	#
 	checkObjClass(object=gs, "GatingSet_fd", argName="gs") 
+	checkForVolumeData(gs)
+	#
+	eventsPerVol <- getEventsPerVolume(gs)
 	#
 	if (useDic) {
 		checkFileExistence(foN_dict, nameDict, dictTypeE, addTxt="dictionary file ")
@@ -624,14 +629,6 @@ makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict="."
 		cyTags <- makeCyTags(gs, dictionary, stn) # extract from the sampleId column in the pheno Data; returns FALSE if either the dictionary or the sampleId column from the single tubes is not present
 	} # end if
 	#
-	eventsPerVol <- getEventsPerVolume(gs)
-
-	outMat <- matrix(NA, nrow=1, ncol=1)
-	outMd <- data.frame(outMat)
-	#
-#	mat <- new("fdmat", outMat, metadata=outMd, pData=flowWorkspace::pData(gs), eventsPerVol=eventsPerVol, cyTags=cyTags, gateStrat=gs@gateStrat, note="original")
-#	return(mat)
-	
 	#	
 	gsdf <- gs@gateStrat
 	for (i in 1: nrow(gsdf)) {
@@ -639,7 +636,7 @@ makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict="."
 		chName <- gsdf[i,"extractOn"]
 		gateDef <- gsdf[i,"GateDefinition"]
 		flRange <- c(gsdf[i,"minRange"], gsdf[i,"maxRange"])
-		aa <- makefdmat_single(gs, gateName, chName, res, flRange, apc, coR, coV, rcv, igp, smo, smN, smP, chPrevWl, toXls, gateDef, dev, volFac)
+		aa <- makefdmat_single(gs, gateName, chName, res, flRange, apc, coR, coV, rcv, igp, smo, smN, smP, chPrevWl, gateDef, dev, volFac, verbose)
 		if (gsdf[i, "keepData"]) {
 			outMat <- rbind(outMat, aa$mat)
 			outMd <- rbind(outMd, aa$md)
@@ -648,7 +645,7 @@ makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict="."
 	#
 	mat <- new("fdmat", outMat, metadata=outMd, pData=flowWorkspace::pData(gs), eventsPerVol=eventsPerVol, cyTags=cyTags, gateStrat=gs@gateStrat, note="original")
 	#
-#	if (toXls) {
+#	if (expo) {
 		# XLSgate <- expo.gate 	### weg
 		# toXls <- expo			### weg
 #		exportMatrixToXls(cutfdmatToGate(mat, XLSgate), rcv)

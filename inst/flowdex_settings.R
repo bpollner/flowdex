@@ -33,6 +33,7 @@ settings <- list(
 	
 	## exporting Data
 	dE_exportType = "csv", 					## The filetype of the exported data. Possible values are 'csv' and 'xlsx'.
+	dE_exportGate = NULL, 					## The name of the gate that should be exported. Set to NULL to export data from ALL gates in the gating set
 	
 	
 		
@@ -78,10 +79,6 @@ settings <- list(
 	dG_locatorLine = "darkgreen", 			## the color used to re-draw the polygon gate after having pressed 'esc'
 	dG_locatorLineWidth = 1.4, 				## the line width used to re-draw the polygon gate
 	dG_gateShowColor = "violet", 			## the color used for drawing a gate possibly specified at 'showGate'
-	
-	
-	
-	
 	
 	
 	

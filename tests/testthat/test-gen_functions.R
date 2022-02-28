@@ -386,12 +386,12 @@ test_that("getEventsPerVolume", {
     expect_equal(nrow(getEventsPerVolume(gsDouble)), 12)
 }) # EOT
 
+flowWorkspace::pData(gs)[,"volume"][1] <- NA
+test_that("checkForVolumeData", {
+    expect_error(checkForVolumeData(gs), "no volume-data available")
+    expect_true(checkForVolumeData(gsA))
+}) # EOT
 
-#fdm <- makefdmat(gsA, foN.dict = foN_dict)
-#fdmD <- makefdmat(gsDouble, foN.dict = foN_dict)
-#fdm
-#fdmD
-
-
+# hmm. It looks like we need a fatter set of example files
 
 

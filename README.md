@@ -20,3 +20,13 @@ Extract fluorescence distribution data from any bivariate distribution within a 
 
 ## Usage
 ### Set up example
+XXX
+
+
+### General Workflow
+XXX
+
+
+### Define Polygon Gates
+Explain workflow how to create complex gating strategy; create nested gates
+Step by Step gating hin und her Gating Strategy; define gate, draw Gate.. build it up

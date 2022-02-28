@@ -19,7 +19,8 @@ Imports:
 	uniset, 
 	flowCore,
 	flowWorkspace,
-	openxlsx
+	openxlsx,
+	signal
 Suggests: 
     covr,
     testthat (>= 3.0.0)

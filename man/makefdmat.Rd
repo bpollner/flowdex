@@ -11,6 +11,7 @@ makefdmat(
   expo.type = ".",
   name.dict = ".",
   foN.dict = ".",
+  verbose = ".",
   dev = FALSE
 )
 }
@@ -28,6 +29,10 @@ Possible values are 'csv' and 'xlsx'.}
 
 \item{foN.dict}{Character length one. The name of the folder where the 
 dictionary resides.}
+
+\item{verbose}{Logical. If status messages should be displayed. If left at 
+the default '.', the value as defined in the settings file (key 'dV_verbose') 
+will be used.}
 
 \item{dev}{Logical. If set to true, a histogram showing the bins and the
 smoothed mid-points is plotted. (Only intended for development.) Defaults to

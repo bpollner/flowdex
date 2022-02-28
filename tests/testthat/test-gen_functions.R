@@ -375,22 +375,22 @@ test_that("assignHereStnValues", {
     expect_true(assignHereStnValues(stn))
 }) # EOT
 
+test_that("getEventsPerVolume_single", {
+    expect_equal(ncol(getEventsPerVolume_single(gsA, gateName="DNA+", chName="FITC.A", volUnit="ml", apc=TRUE, coV=125)), 5)
+    expect_equal(ncol(getEventsPerVolume_single(gsA, gateName="DNA+", chName="FITC.A", volUnit="ml", apc=FALSE, coV=125)), 3)
+    expect_error(getEventsPerVolume_single(gsA, gateName="DNA+", chName="blabla", volUnit="ml", apc=FALSE, coV=125), "seems not to exist")
+}) # EOT
+
+test_that("getEventsPerVolume", {
+    expect_equal(nrow(getEventsPerVolume(gsA)), 6)
+    expect_equal(nrow(getEventsPerVolume(gsDouble)), 12)
+}) # EOT
 
 
-getEventsPerVolume_single(gsA, gateName="DNA+", chName="FITC.A", volUnit="ml", apc=TRUE, coV=125)
-getEventsPerVolume_single(gsA, gateName="DNA+", chName="FITC.A", volUnit="ml", apc=F, coV=125)
-
-
-
-fls <- flowWorkspace::gs_pop_get_data(gsA, "DNA+")
-colnames(fls)
-
-
-
-
-
-
-
+#fdm <- makefdmat(gsA, foN.dict = foN_dict)
+#fdmD <- makefdmat(gsDouble, foN.dict = foN_dict)
+#fdm
+#fdmD
 
 
 

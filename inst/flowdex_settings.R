@@ -31,6 +31,11 @@ settings <- list(
 	
 	
 	
+	## exporting Data
+	dE_exportType = "csv", 					## The filetype of the exported data. Possible values are 'csv' and 'xlsx'.
+	
+	
+		
 	## default values in functions
 	dV_tx = "fjbiexp", 						## which transformation to apply. Currently, only "fjbiexp" is implemented
 	dV_channel = "A$", 						## which channels to import when making the gating set
@@ -73,6 +78,10 @@ settings <- list(
 	dG_locatorLine = "darkgreen", 			## the color used to re-draw the polygon gate after having pressed 'esc'
 	dG_locatorLineWidth = 1.4, 				## the line width used to re-draw the polygon gate
 	dG_gateShowColor = "violet", 			## the color used for drawing a gate possibly specified at 'showGate'
+	
+	
+	
+	
 	
 	
 	

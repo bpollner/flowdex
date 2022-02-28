@@ -95,7 +95,7 @@ makeCyTags <- function(gs, dictionary, stn) {
 
 ################
 
-getEventsPerVolume_single <- function(gs, gateName="DNA+", chName="FITC.A", volUnit="ml", apc=TRUE, coV=125) {
+getEventsPerVolume_single <- function(gs, gateName="DNA+", chName="FITC.A", volFac=1e6,  volUnit="ml", apc=TRUE, coV=125) {
 	volUnitTxt <- paste0("events_", volUnit)
 	#
 	vols <- as.numeric(as.character(flowWorkspace::pData(gs)[,"volume"])) # read the acquired volumes from the pheno data of the gating set
@@ -108,23 +108,22 @@ getEventsPerVolume_single <- function(gs, gateName="DNA+", chName="FITC.A", volU
 	fluorList <- flowCore::fsApply(fls, function(x) x[,chName], use.exprs = TRUE, simplify = FALSE) # extract a single channel
 	nrEvRaw <- as.numeric(unlist(lapply(fluorList, length)))
 	means <- round(as.numeric(unlist(lapply(fluorList, mean))),0)
-	evml <- evmlCorr <- round((nrEvRaw / vols) * 1000 * 1000, 0) ##### here calculation ######
+	evml <- evmlOrig <- round((nrEvRaw / vols) * volFac , 0) ##### here calculation ######
 	filtVec <- rep("FALSE", length(evml))
 	gateNameVec <- rep(gateName, length(evml))
 	out <- data.frame(gateNameVec, evml, means)
 	primCns <- c("gate", volUnitTxt, "mean")
 	colnames(out) <- primCns
 	rownames(out) <- paste0(flowWorkspace::sampleNames(gs), "|", gateName)
-	if (apc) {
+	if (apc) { # change in the first and add the original
 		aa <- which(evml <= coV)
-		evmlCorr[aa] <- 0
+		out[aa, volUnitTxt] <- 0
 		filtVec[aa] <- "TRUE"
-		out <- cbind(out, data.frame(evmlCorr), data.frame(filtVec))
-		colnames(out) <- c(primCns, "events_ml.filt", "is_filtered")
+		out <- cbind(out, data.frame(filtVec), data.frame(evmlOrig))
+		colnames(out) <- c(primCns, "is_filtered", paste0(volUnitTxt, "_orig"))
 	} # end if
 	return(out)
 } # EOF
-
 
 #' @title Get Events per Volume Unit
 #' @description From the data contained in the provided gating set, produce a 
@@ -137,6 +136,9 @@ getEventsPerVolume_single <- function(gs, gateName="DNA+", chName="FITC.A", volU
 getEventsPerVolume <- function(gs) {
 	stn <- autoUpS()
 	#
+	checkObjClass(object=gs, "GatingSet_fd", argName="gs") 
+	#
+	volFac <- stn$dV_volumeFactor
 	volUnit <- stn$dV_volumeUnit
 	apc <- stn$dV_cutoff_apply
 	coV <- stn$dV_cutoff_Vol
@@ -147,7 +149,7 @@ getEventsPerVolume <- function(gs) {
 		gateName <- gsdf[i,"GateName"]
 		chName <- gsdf[i,"extractOn"]
 		if (gsdf[i, "keepData"]) {
-			siEvml <- getEventsPerVolume_single(gs, gateName, chName, volUnit, apc, coV)
+			siEvml <- getEventsPerVolume_single(gs, gateName, chName, volFac, volUnit, apc, coV)
 			out <- rbind(out, siEvml)
 		} # end if
 	} # end for i
@@ -155,3 +157,4 @@ getEventsPerVolume <- function(gs) {
 } # EFO
 
 #################
+

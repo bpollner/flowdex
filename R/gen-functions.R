@@ -606,18 +606,15 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateS
 #' @export
 makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict=".", foN.dict=".", dev=FALSE) {
 	#
-	XLSgate <- expo.gate 	### weg
-	toXls <- expo			### weg
-	#
 	stn <- autoUpS()
 	#
 	outMat <- outMd <- res <- apc <- coR <- coV <- rcv <- igp <- smo <- smN <- smP <- chPrevWl <- volFac <- dictionary <- useDic <-  dictType <- cyTags <- NULL # some get assigned below
 	assignHereStnValues(stn)
 	#
-	expoType <- expo.type
-	nameDict <- name.dict
-	foN_dict <- foN.dict
-	dictTypeE <- paste(".", dictType)
+	expoType <- checkDefToSetVal(expo.type, "dE_exportType", "expo.type", stn, checkFor="char")
+	nameDict <- checkDefToSetVal(name.dict, "dD_dict_name", "name.dict", stn, checkFor="char")
+	foN_dict <- checkDefToSetVal(foN.dict, "foN_dictionary", "foN.dict", stn, checkFor="char")
+	dictTypeE <- paste0(".", dictType)
 	#
 	checkObjClass(object=gs, "GatingSet_fd", argName="gs") 
 	#
@@ -627,10 +624,15 @@ makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict="."
 		cyTags <- makeCyTags(gs, dictionary, stn) # extract from the sampleId column in the pheno Data; returns FALSE if either the dictionary or the sampleId column from the single tubes is not present
 	} # end if
 	#
-	evPerVol <- getEventsPerVolume(gs) # was evml
+	eventsPerVol <- getEventsPerVolume(gs)
+
+	outMat <- matrix(NA, nrow=1, ncol=1)
+	outMd <- data.frame(outMat)
 	#
-	return(cyTags)
+#	mat <- new("fdmat", outMat, metadata=outMd, pData=flowWorkspace::pData(gs), eventsPerVol=eventsPerVol, cyTags=cyTags, gateStrat=gs@gateStrat, note="original")
+#	return(mat)
 	
+	#	
 	gsdf <- gs@gateStrat
 	for (i in 1: nrow(gsdf)) {
 		gateName <- gsdf[i,"GateName"]
@@ -644,10 +646,11 @@ makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict="."
 		} # end if
 	} # end for i
 	#
-	#
-	mat <- new("fdmat", outMat, metadata=outMd, pData=flowWorkspace::pData(gs), evml=evml, cyTags=cyTags, gateStrat=gs@gateStrat, note="original")
+	mat <- new("fdmat", outMat, metadata=outMd, pData=flowWorkspace::pData(gs), eventsPerVol=eventsPerVol, cyTags=cyTags, gateStrat=gs@gateStrat, note="original")
 	#
 #	if (toXls) {
+		# XLSgate <- expo.gate 	### weg
+		# toXls <- expo			### weg
 #		exportMatrixToXls(cutfdmatToGate(mat, XLSgate), rcv)
 #	}
 	return(mat)

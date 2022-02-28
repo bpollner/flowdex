@@ -71,6 +71,7 @@ correct compensation results.
 \seealso{
 Other Extraction functions: 
 \code{\link{addGates}()},
-\code{\link{makeAddGatingSet}()}
+\code{\link{makeAddGatingSet}()},
+\code{\link{makefdmat}()}
 }
 \concept{Extraction functions}

@@ -40,12 +40,15 @@ createFolders <- function(where, stn) {
 	foN_fcsFiles <- stn$foN_fcsFiles
 	foN_rawData <- stn$foN_rawData
 	foN_templ <- stn$foN_templates
+	foN_dict <- stn$foN_dictionary
 	#
 	aa <- createSingleFolder(where, foN_gating)
 	bb <- createSingleFolder(where, foN_fcsFiles)
 	cc <- createSingleFolder(where, foN_rawData)
 	dd <- createSingleFolder(where, foN_templ)
-	return(aa & bb & cc & dd)
+	ee <- createSingleFolder(where, foN_dict)
+	#
+	return(aa & bb & cc & dd & ee)
 } # EOF
 
 copyAllTemplates <- function(home, stn) {
@@ -583,6 +586,85 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateS
 	return(invisible(locMat))
 } # EOF
 
+#' @title Extract Fluorescence Distribution Matrix
+#' @description Extract fluorescence distribution along a specified channel 
+#' from the gating set as defined in the gating strategy file and re-calculate 
+#' data to events per volume. 
+#' @param gs A gating set as produced by \code{\link{makeAddGatingSet}}.
+#' @param dev Logical. If set to true, a histogram showing the bins and the
+#' smoothed mid-points is plotted. (Only intended for development.) Defaults to
+#' FALSE.
+#' @inheritParams flowdexit
+#' @return A matrix of class "fdmat" with one row for every FCS file in the 
+#' gating set.
+#' @examples
+#' \dontrun{
+#' XXX
+#' }
+#' @seealso \code{\link{makeAddGatingSet}}, \code{\link{flowdexit}}
+#' @family Extraction functions
+#' @export
+makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict=".", foN.dict=".", dev=FALSE) {
+	#
+	XLSgate <- expo.gate 	### weg
+	toXls <- expo			### weg
+	#
+	stn <- autoUpS()
+	#
+	outMat <- outMd <- NULL
+	res <- stn$dV_resolution
+	apc <- stn$dV_cutoff_apply
+	coR <- stn$dV_cutoff_raw
+	coV <- stn$dV_cutoff_Vol
+	rcv <- stn$dV_doRecalcToVolume
+	igp <- stn$dV_ignoreEdgePercent
+	smo <- stn$dV_doSmooth
+	smN <- stn$dV_smooth_n
+	smP <- stn$dV_smooth_p
+	chPrevWl <- stn$dV_charBeforeFlscNr
+	volFac <- stn$dV_volumeFactor
+	#
+	expoType <- expo.type
+	useDic <- stn$dD_useDictionary
+	nameDict <- name.dict
+	foN_dict <- foN.dict
+	dictType <- stn$dD_dict_type
+	dictTypeE <- paste(".", dictType)
+	#
+	checkObjClass(object=gs, "GatingSet_fd", argName="gs") 
+	#
+	dictionary <- cyTags <- NULL
+	if (useDic) {
+		checkFileExistence(foN_dict, nameDict, dictTypeE, addTxt="dictionary file ")
+		dictionary <- loadGaXFile(foN_dict, nameDict, dictType)
+		cyTags <- makeCyTags(gs, dictionary, stn) # extract from the sampleId column in the pheno Data; returns FALSE if either the dictionary or the sampleId column from the single tubes is not present
+	} # end if
+	return(cyTags)
+	
+	gsdf <- gs@gateStrat
+	for (i in 1: nrow(gsdf)) {
+		gateName <- gsdf[i,"GateName"]
+		chName <- gsdf[i,"extractOn"]
+		gateDef <- gsdf[i,"GateDefinition"]
+		flRange <- c(gsdf[i,"minRange"], gsdf[i,"maxRange"])
+		aa <- makefdmat_single(gs, gateName, chName, res, flRange, apc, coR, coV, rcv, igp, smo, smN, smP, chPrevWl, toXls, gateDef, dev, volFac)
+		if (gsdf[i, "keepData"]) {
+			outMat <- rbind(outMat, aa$mat)
+			outMd <- rbind(outMd, aa$md)
+		} # end if
+	} # end for i
+	#
+	evml <- getEvml(gs, apc, coV)
+	#
+	mat <- new("fdmat", outMat, metadata=outMd, pData=flowWorkspace::pData(gs), evml=evml, cyTags=cyTags, gateStrat=gs@gateStrat, note="original")
+	#
+#	if (toXls) {
+#		exportMatrixToXls(cutfdmatToGate(mat, XLSgate), rcv)
+#	}
+	return(mat)
+} # EOF
+
+
 #' @title Read in FCS Files and Extract Data
 #' @description XXX
 #' @param fn Character length one. The name of the folder where FCS files should 
@@ -629,8 +711,15 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateS
 #' well be necessary to modify the source code of this package in order to 
 #' achieve correct compensation results (compensation is applied in the 
 #' function \code{\link{makeGatingSet}}).
+#' @param expo.gate Which gate to export XXX.
+#' @param expo Logical, if extracted data should exported at all.
+#' @param expo.type Character length one. The filetype of the data export. 
+#' Possible values are 'csv' and 'xlsx'.
+#' @param name.dict Character length one. The name of the dictionary.
+#' @param foN.dict Character length one. The name of the folder where the 
+#' dictionary resides.
 #' @export
-flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", ignore.text.offset=FALSE, verbose=".") {
+flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", expo.gate=".", expo=TRUE, expo.type=".", name.dict=".", foN.dict=".", ignore.text.offset=FALSE, verbose=".") {
 	return(NULL)
 } # EOF
 

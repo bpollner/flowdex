@@ -13,6 +13,11 @@ flowdexit(
   comp = ".",
   tx = ".",
   channel = ".",
+  expo.gate = ".",
+  expo = TRUE,
+  expo.type = ".",
+  name.dict = ".",
+  foN.dict = ".",
   ignore.text.offset = FALSE,
   verbose = "."
 )
@@ -53,6 +58,18 @@ columns to keep from the original flowframes; is passed down to argument
 \code{column.pattern} of \code{\link[flowCore]{read.flowSet}}. Set to NULL
 to read data from all channels. If left at the default '.', the value as 
 defined in the settings file (key 'dV_channel') will be used.}
+
+\item{expo.gate}{Which gate to export XXX.}
+
+\item{expo}{Logical, if extracted data should exported at all.}
+
+\item{expo.type}{Character length one. The filetype of the data export. 
+Possible values are 'csv' and 'xlsx'.}
+
+\item{name.dict}{Character length one. The name of the dictionary.}
+
+\item{foN.dict}{Character length one. The name of the folder where the 
+dictionary resides.}
 
 \item{ignore.text.offset}{Logical. If set to true, fcs-files in the folder 
 specified at argument 'fn' will be checked for inconsistencies in the 

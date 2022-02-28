@@ -336,15 +336,42 @@ test_that("drawGate", {
 
 
 
+#### make fdmat ####
+#
+# first copy material from the dictionary folder in testHelpers
+stn <- source(paste0(ptpInst, "/flowdex_settings.R"))$value # conveniently here again
+ptDic <- paste0(ptpInst, "/testHelpers/dictionary")
+aaa <- list.files(ptDic)
+dictFrom <- paste0(ptDic, "/", aaa)
+dictTo <- paste(pathToHome, stn$foN_dictionary, aaa, sep="/")
+file.copy(dictFrom, dictTo, overwrite = TRUE)
+#
+foN_dict <- paste0(pathToHome, "/", stn$foN_dictionary)
+nameDict <- stn$dD_dict_name
+typeDict <- stn$dD_dict_type
+dictTypeE <- paste0(".", typeDict)
+dicGood <- loadGaXFile(foN_dict, "dictionary", typeDict)
+dicMiss <- loadGaXFile(foN_dict, "dictionary_miss", typeDict)
+dicDouble <- loadGaXFile(foN_dict, "dictionary_double", typeDict)
+#
+test_that("makeCyTags_inner", {
+    expect_s3_class(makeCyTags_inner(gsA, dicGood, stn), "data.frame")
+    expect_error(makeCyTags_inner(gsA, dicMiss, stn), "is not present")
+    expect_error(makeCyTags_inner(gsA, dicDouble, stn), "more than one translation")
+    colnames(flowWorkspace::pData(gsA))[1] <- "blabla"
+    expect_error(makeCyTags_inner(gsA, dicGood, stn), "the required column 'sampleId' is not available")
+}) # EOT
 
+gsA <- makeAddGatingSet(fn=pa, foN.gateStrat=foN_gating, verbose=FALSE) # and restore
+gsDouble <- makeAddGatingSet(fn=pa, foN.gateStrat=foN_gating, gateStrat="gateStrat_keep", verbose=FALSE)
 
+test_that("makeCyTags", {
+    expect_s3_class(makeCyTags(gsA, dicGood, stn), "data.frame")
+    expect_equal(nrow(makeCyTags(gsA, dicGood, stn)), 6)
+    expect_equal(nrow(makeCyTags(gsDouble, dicGood, stn)), 12)
+}) # EOT
 
-
-
-
-
-
-
+# cyt <- makeCyTags(gsDouble, dictionary, stn)
 
 
 

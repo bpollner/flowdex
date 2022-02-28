@@ -611,34 +611,24 @@ makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict="."
 	#
 	stn <- autoUpS()
 	#
-	outMat <- outMd <- NULL
-	res <- stn$dV_resolution
-	apc <- stn$dV_cutoff_apply
-	coR <- stn$dV_cutoff_raw
-	coV <- stn$dV_cutoff_Vol
-	rcv <- stn$dV_doRecalcToVolume
-	igp <- stn$dV_ignoreEdgePercent
-	smo <- stn$dV_doSmooth
-	smN <- stn$dV_smooth_n
-	smP <- stn$dV_smooth_p
-	chPrevWl <- stn$dV_charBeforeFlscNr
-	volFac <- stn$dV_volumeFactor
+	outMat <- outMd <- res <- apc <- coR <- coV <- rcv <- igp <- smo <- smN <- smP <- chPrevWl <- volFac <- dictionary <- useDic <-  dictType <- cyTags <- NULL # some get assigned below
+	assignHereStnValues(stn)
 	#
 	expoType <- expo.type
-	useDic <- stn$dD_useDictionary
 	nameDict <- name.dict
 	foN_dict <- foN.dict
-	dictType <- stn$dD_dict_type
 	dictTypeE <- paste(".", dictType)
 	#
 	checkObjClass(object=gs, "GatingSet_fd", argName="gs") 
 	#
-	dictionary <- cyTags <- NULL
 	if (useDic) {
 		checkFileExistence(foN_dict, nameDict, dictTypeE, addTxt="dictionary file ")
 		dictionary <- loadGaXFile(foN_dict, nameDict, dictType)
 		cyTags <- makeCyTags(gs, dictionary, stn) # extract from the sampleId column in the pheno Data; returns FALSE if either the dictionary or the sampleId column from the single tubes is not present
 	} # end if
+	#
+	evPerVol <- getEventsPerVolume(gs) # was evml
+	#
 	return(cyTags)
 	
 	gsdf <- gs@gateStrat
@@ -654,7 +644,6 @@ makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict="."
 		} # end if
 	} # end for i
 	#
-	evml <- getEvml(gs, apc, coV)
 	#
 	mat <- new("fdmat", outMat, metadata=outMd, pData=flowWorkspace::pData(gs), evml=evml, cyTags=cyTags, gateStrat=gs@gateStrat, note="original")
 	#

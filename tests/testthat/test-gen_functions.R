@@ -12,7 +12,7 @@ library(testthat)
 
 # the path to the function for this project to calculate code coverage
 myCodeCovPath <- "/Users/bernhard/Documents/RPS/flowdex_R/misc/func_codecov.R"
-assign(myCodeCovPath, "myCodeCovPath", pos=.GlobalEnv)
+assign("myCodeCovPath", myCodeCovPath, pos=.GlobalEnv)
 
 ptp <- path.package("flowdex")
 # set up the stn object
@@ -371,7 +371,25 @@ test_that("makeCyTags", {
     expect_equal(nrow(makeCyTags(gsDouble, dicGood, stn)), 12)
 }) # EOT
 
-# cyt <- makeCyTags(gsDouble, dictionary, stn)
+test_that("assignHereStnValues", {
+    expect_true(assignHereStnValues(stn))
+}) # EOT
+
+
+
+getEventsPerVolume_single(gsA, gateName="DNA+", chName="FITC.A", volUnit="ml", apc=TRUE, coV=125)
+getEventsPerVolume_single(gsA, gateName="DNA+", chName="FITC.A", volUnit="ml", apc=F, coV=125)
+
+
+
+fls <- flowWorkspace::gs_pop_get_data(gsA, "DNA+")
+colnames(fls)
+
+
+
+
+
+
 
 
 

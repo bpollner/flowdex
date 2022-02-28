@@ -92,3 +92,66 @@ makeCyTags <- function(gs, dictionary, stn) {
 	out <- out[ind,]
 	return(out)
 } # EOF
+
+################
+
+getEventsPerVolume_single <- function(gs, gateName="DNA+", chName="FITC.A", volUnit="ml", apc=TRUE, coV=125) {
+	volUnitTxt <- paste0("events_", volUnit)
+	#
+	vols <- as.numeric(as.character(flowWorkspace::pData(gs)[,"volume"])) # read the acquired volumes from the pheno data of the gating set
+	fls <- flowWorkspace::gs_pop_get_data(gs, gateName) # function was "getData"
+	cnsFls <- names(flowCore::markernames(fls)) # strangely, simply using 'colnames' does not work any more. Hmm.
+	#
+	if (! chName %in% cnsFls) {
+		stop(paste0("Sorry, the channel '", chName, "' seems not to exist in the provided data."), call.=FALSE)
+	}
+	fluorList <- flowCore::fsApply(fls, function(x) x[,chName], use.exprs = TRUE, simplify = FALSE) # extract a single channel
+	nrEvRaw <- as.numeric(unlist(lapply(fluorList, length)))
+	means <- round(as.numeric(unlist(lapply(fluorList, mean))),0)
+	evml <- evmlCorr <- round((nrEvRaw / vols) * 1000 * 1000, 0) ##### here calculation ######
+	filtVec <- rep("FALSE", length(evml))
+	gateNameVec <- rep(gateName, length(evml))
+	out <- data.frame(gateNameVec, evml, means)
+	primCns <- c("gate", volUnitTxt, "mean")
+	colnames(out) <- primCns
+	rownames(out) <- paste0(flowWorkspace::sampleNames(gs), "|", gateName)
+	if (apc) {
+		aa <- which(evml <= coV)
+		evmlCorr[aa] <- 0
+		filtVec[aa] <- "TRUE"
+		out <- cbind(out, data.frame(evmlCorr), data.frame(filtVec))
+		colnames(out) <- c(primCns, "events_ml.filt", "is_filtered")
+	} # end if
+	return(out)
+} # EOF
+
+
+#' @title Get Events per Volume Unit
+#' @description From the data contained in the provided gating set, produce a 
+#' data frame containing the events per volume unit for every gate in every 
+#' single flowframe (.e. sample tube).
+#' @param gs A gating set as produced by \code{\link{makeAddGatingSet}}.
+#' @return A data frame.
+#' @family Statistic functions
+#' @export
+getEventsPerVolume <- function(gs) {
+	stn <- autoUpS()
+	#
+	volUnit <- stn$dV_volumeUnit
+	apc <- stn$dV_cutoff_apply
+	coV <- stn$dV_cutoff_Vol
+	#
+	out <- NULL
+	gsdf <- gs@gateStrat
+	for (i in 1: nrow(gsdf)) {
+		gateName <- gsdf[i,"GateName"]
+		chName <- gsdf[i,"extractOn"]
+		if (gsdf[i, "keepData"]) {
+			siEvml <- getEventsPerVolume_single(gs, gateName, chName, volUnit, apc, coV)
+			out <- rbind(out, siEvml)
+		} # end if
+	} # end for i
+	return(out)
+} # EFO
+
+#################

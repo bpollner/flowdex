@@ -224,3 +224,39 @@ getLocMat_TS <- function(locN) {
 		return(try(graphics::locator(type="l", n=locN), silent=FALSE))
 	}
 } # EOF
+
+assignHereStnValues <- function(stn) {
+	res <- stn$dV_resolution
+	apc <- stn$dV_cutoff_apply
+	coR <- stn$dV_cutoff_raw
+	coV <- stn$dV_cutoff_Vol
+	rcv <- stn$dV_doRecalcToVolume
+	igp <- stn$dV_ignoreEdgePercent
+	smo <- stn$dV_doSmooth
+	smN <- stn$dV_smooth_n
+	smP <- stn$dV_smooth_p
+	chPrevWl <- stn$dV_charBeforeFlscNr
+	volFac <- stn$dV_volumeFactor
+	useDic <- stn$dD_useDictionary
+	dictType <- stn$dD_dict_type
+	#
+	doAssign <- function(name, value, npf=2) {
+		assign(name, value, pos=parent.frame(n=npf))
+	} # EOIF
+	doAssign("res", res)
+	doAssign("apc", apc)
+	doAssign("coR", coR)
+	doAssign("coV", coV)
+	doAssign("rcv", rcv)
+	doAssign("igp", igp)
+	doAssign("smo", smo)
+	doAssign("smN", smN)
+	doAssign("smP", smP)
+	doAssign("chPrevWl", chPrevWl)
+	doAssign("volFac", volFac)
+	doAssign("useDic", useDic)
+	doAssign("dictType", dictType)
+	doAssign("dictType", dictType)
+	#
+	return(TRUE)
+} # EOF

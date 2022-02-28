@@ -6,6 +6,8 @@ library(testthat)
 # rm(list=ls(all.names = TRUE))
 
 
+
+
 ###### Prepare #####
 
 # the path to the function for this project to calculate code coverage
@@ -25,7 +27,7 @@ stn <- source(paste0(ptpInst, "/flowdex_settings.R"))$value
 test_that("checkOnTest", {
     expect_false(checkOnTest())
 }) # EOT
-assign("onFdT", TRUE, pos=.GlobalEnv) ## !!!! here assigning the onFdT variable !!! ##
+assign("onFdT_bbp", TRUE, pos=.GlobalEnv) ## !!!! here assigning the onFdT_bbp variable !!! ##
 test_that("checkOnTest", {
     expect_true(checkOnTest())
 }) # EOT
@@ -38,6 +40,11 @@ if (!dir.exists(pathToHome)) {
 	dir.create(pathToHome) # simulating the users experiment home directory
 }
 #
+
+
+
+
+
 
 ##### simple helpers #######
 test_that("checkCharX", {
@@ -82,12 +89,26 @@ test_that("checkNumX", {
     expect_error(checkNumX(a,b))
 }) # EOT
 
+mat <- matrix(rnorm(20), ncol=2)
+colnames(mat) <- c("a", "b")
+mat[1,2] <- Inf
+matC <- mat[-1,]
+test_that("cleanUpInfinites", {
+    expect_identical(cleanUpInfinites(mat), matC)
+}) # EOT
+
+al <- list(a=1, b=2)
+colnames(matC) <- c("b", "c")
+test_that("checkShowGateChannels", {
+    expect_true(checkShowGateChannels(al, mat))
+    expect_error(checkShowGateChannels(al, matC), "does not contain the required channels")
+}) # EOT
+
 test_that("haveDefDot", {
     expect_true(haveDefDot("."))
     expect_false(haveDefDot(123))
     expect_false(haveDefDot(NULL))
 }) # EOT
-
 
 test_that("getDefValFromStn", {
     expect_match(getDefValFromStn(".", "foN_fcsFiles", stn, defValue="."), "fcsFiles")
@@ -95,6 +116,8 @@ test_that("getDefValFromStn", {
     expect_error(getDefValFromStn(".", "aaa", stn, "blabla", defValue=NULL), "no default value defined")
     expect_identical(getDefValFromStn(NULL, "aaa", stn, "blabla", defValue=NULL), NULL)
     expect_identical(getDefValFromStn(1, "aaa", stn, "blabla", defValue=NULL), 1)
+    #
+    expect_identical(getDefValFromStn(NULL, "aaa", stn, "blabla", defValue="."), NULL)
 }) # EOT
 
 fnf <- "foN_fcsFiles"
@@ -108,11 +131,21 @@ test_that("checkDefToSetVal", {
     expect_identical(checkDefToSetVal("blabla", "..x..", "argN", stn,  "charNull", defValue=NULL), "blabla")
     expect_error(checkDefToSetVal(1, "..x..", "argN", stn,  "charNull", defValue=NULL), NULL)
     expect_error(checkDefToSetVal(".", "..x..", "argN", stn,  "charNull", defValue=NULL), "no default value defined")
+    #
+    expect_identical(checkDefToSetVal(NULL, "dV_channelBoundaries", "bnd", stn, checkFor="numNull", len=4), NULL)
+    expect_length(checkDefToSetVal(".", "dV_channelBoundaries", "bnd", stn, checkFor="numNull", len=4), 4)
+    expect_identical(checkDefToSetVal(c(1,2,3,4), "dV_channelBoundaries", "bnd", stn, checkFor="numNull", len=4), c(1,2,3,4))
+    expect_error(checkDefToSetVal(c(1,2,3,4,5), "dV_channelBoundaries", "bnd", stn, checkFor="numNull", len=4), "provide a numeric length 4")
 }) # EOT
 
 test_that("devGetLocalStn", {
     expect_type(devGetLocalStn(), "list")
 }) # EOT
+
+
+
+
+
 
 
 ###### Setting up the folder structure ########
@@ -143,6 +176,11 @@ dir.create(pathToHome)
 test_that("genfs", {
     expect_null(genfs(pathToHome))
 }) # EOT
+
+
+
+
+
 
 
 ###### Read in FCS Files; Repair Volume and SID ############
@@ -203,6 +241,13 @@ test_that("repairSID", {
 }) # EOT
 file.copy(from, to, overwrite = TRUE) # get back original fcs files
 # fs <- readInFlowSet(pa)
+
+
+
+
+
+
+
 
 ##### Gating Set & add & draw gates etc. #########
 test_that("makeGatingSet", {
@@ -265,20 +310,24 @@ test_that("makeAddGatingSet", {
     expect_s4_class(makeAddGatingSet(fn=pa, foN.gateStrat=foN_gating, verbose=FALSE), "GatingSet_fd")
 }) # EOT
 
-gs <- makeAddGatingSet(fn=pa, foN.gateStrat=foN_gating, verbose=FALSE)
+gsA <- makeAddGatingSet(fn=pa, foN.gateStrat=foN_gating, verbose=FALSE)
 
-#### draw gates ####
+test_that("checkObjClass", {
+    expect_true(checkObjClass(gs, "GatingSet", "argA"))
+    expect_error(checkObjClass(gs, "GatingSet_fd", "argA"), "Please provide")
+}) # EOT
 
+## now draw gates
+pathToPgg <- paste0(foN_gating, "/polyGate")
+assign("pathToPgg", pathToPgg, pos=.GlobalEnv)
+test_that("getLocMat_TS", {
+    expect_type(getLocMat_TS(locN=512), "list")
+}) # EOT
 
-
-# dm <- datMat <- drawGate(gs, 1)
-
-
-
-
-
-
-
+test_that("drawGate", {
+    expect_null(drawGate(gs, 1, bnd=".", foN.gateStrat = foN_gating, showGate = "polyGate", useLoc = FALSE))
+    expect_type(drawGate(gs, 1, pggId="pggTest", bnd=".", foN.gateStrat = foN_gating, showGate = "polyGate", useLoc = TRUE), "list")
+}) # EOT
 
 
 

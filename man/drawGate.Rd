@@ -13,13 +13,13 @@ drawGate(
   foN.gateStrat = ".",
   useLoc = TRUE,
   locN = 512,
-  bnd = NULL,
+  bnd = ".",
   showGate = NULL
 )
 }
 \arguments{
 \item{gs}{A gating set as produced by \code{\link{makeGatingSet}} or 
-\code{\link{makeAddGatingSet}}}
+\code{\link{makeAddGatingSet}}.}
 
 \item{flf}{Character or numeric length one. The identifier of the flowframe 
 within the gating set where the gate should be drawn on. Optimally, this is 
@@ -62,13 +62,14 @@ specified at 'ppfId'. Thus, the old gate will be replaced with the new one.}
 }
 \value{
 A list with the locator coordinates resp. this data saved as an 
-R-object in the standard data-export folder.
+R-object in the folder specified at 'foN.gateStrat'.
 }
 \description{
 Produce a simple x~y dotplot on the specified channels that is 
 used with \code{locator} to define the gate boundaries, similar to defining 
 a polygon gate in standard FCM GUIs. The resulting data are saved as an 
-R-object under the name specified in \code{pggId}.
+R-object under the name specified in \code{pggId}. Press 'esc' when done 
+drawing the gate.
 }
 \details{
 The generated R-object is saved automatically and can be used as a 
@@ -87,6 +88,8 @@ overwritten without asking!
 \dontrun{
 gs <- makeGatingSet()
 gs # same as show(gs)
+pgg <- drawGate(gs, 1)
+drawGate(gs, 1, showGate="polyGate") # do show a previously defined gate
 }
 }
 \concept{Plotting functions}

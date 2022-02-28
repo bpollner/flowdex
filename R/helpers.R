@@ -1,6 +1,6 @@
 checkOnTest <- function() {
-	if (exists("onFdT", where=.GlobalEnv)) {
-		if (get("onFdT", pos=.GlobalEnv)) {
+	if (exists("onFdT_bbp", where=.GlobalEnv)) {
+		if (get("onFdT_bbp", pos=.GlobalEnv)) {
 			return(TRUE)
 		}
 	} else {
@@ -72,6 +72,18 @@ checkNumX <- function(val, argName, len=1) {
 	} # end if
 } # EOF
 
+checkNumXNull <- function(val, argName, len=1) {
+	if (!haveDefDot(val)) {
+		if (is.null(val)) {
+			return(invisible(NULL))
+		} # end if
+		if (!all(is.numeric(val)) | length(val) != len) {
+			stop(paste0("Please provide a numeric length ", len, " to the argument '", argName, "'."), call.=FALSE)
+		}
+		return(invisible(NULL))
+	} # end if
+} # EOF
+
 getDefValFromStn <- function(val, keyName, stn, argName=NULL, defValue=".") {
 	if (is.null(defValue)) {
 		if (haveDefDot(val)) {
@@ -80,7 +92,11 @@ getDefValFromStn <- function(val, keyName, stn, argName=NULL, defValue=".") {
 		return(val)
 	} # end if is null defValue
 	#
-	if (val == defValue) {
+	if (all(is.null(val))) {
+		return(NULL)
+	}
+	#
+	if (all(val == defValue)) {
 		ind <- which(names(stn) == keyName)
 		out <- unlist(stn[ind])
 		return(out)
@@ -107,6 +123,11 @@ checkDefToSetVal <- function(val, keyName, argName, stn, checkFor, len=1, defVal
 	#
 	if (checkFor == "num") {
 		checkNumX(val, argName, len)
+		return(getDefValFromStn(val, keyName, stn, argName, defValue))
+	} # end if checkFor == "logi"
+	#
+	if (checkFor == "numNull") {
+		checkNumXNull(val, argName, len)
 		return(getDefValFromStn(val, keyName, stn, argName, defValue))
 	} # end if checkFor == "logi"
 	#
@@ -162,13 +183,44 @@ checkPggExistence <- function(gsdf,foN_gating, fiN_gateStrat=NULL) {
 	return(TRUE) # if all is good
 } # EOF
 
+checkObjClass <- function(object, classChar, argName) {
+	cl <- class(object)
+	if  (cl != classChar) {
+		stop(paste0("Please provide an abject of class '", classChar, "' to the argument '", argName, "'."), call.=FALSE)
+	}
+	return(TRUE)
+} # EOF
 
+cleanUpInfinites <- function(datMat) {
+	#
+	cleanCol <- function(mat, colNr) {
+		vals <- mat[, colNr]
+		indFin <- is.finite(vals)
+		return(mat[indFin,])
+	} # EOIF
+	#
+	datMat <- cleanCol(datMat, 1)
+	datMat <- cleanCol(datMat, 2)
+	return(datMat)
+} # EOF
 
+checkShowGateChannels <- function(pggShow, datMat) {
+	namesShow <- sort(names(pggShow))
+	namesHave <- sort(colnames(datMat))
+	if (!identical(namesShow, namesHave)) {
+		stop(paste0("Sorry, it seems that the gate specified at the argument 'showGate' does not contain the required channels \n'", paste(colnames(datMat), collapse="', '"), "'."), call.=FALSE)
+	}
+	return(TRUE)
+} # EOF
 
-
-
-
-
-
-
-
+getLocMat_TS <- function(locN) {
+	#
+#	return(try(graphics::locator(type="l", n=locN), silent=FALSE))
+	#
+	if (checkOnTest()) {
+		pathToPgg <- get("pathToPgg", pos=.GlobalEnv)
+		return(eval(parse(text=load(pathToPgg)))) # because in a test, we can not use the locator
+	} else {
+		return(try(graphics::locator(type="l", n=locN), silent=FALSE))
+	}
+} # EOF

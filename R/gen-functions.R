@@ -11,10 +11,22 @@
 #' \dontrun{
 #' setupSettings(path="~/foo/bar")
 #' }
+#' @seealso \code{\link{fd_updateSettings}}
 #' @export
 setupSettings <- function(path=NULL) {
 	uniset::uniset_setup(where=path, get("uniset_env_name"))
 	return(invisible(NULL))
+} # EOF
+
+#' @title Manually Update the Settings 
+#' @description Source the settings-list as defined in the settings.R file and 
+#' create the object 'stn' in its environment. The settings-file system is 
+#' based on functionality from package \code{\link[uniset]{uniset}}.
+#' @param silent Logical 
+#' @seealso \code{\link{setupSettings}}
+#' @export
+fd_updateSettings <- function(silent=FALSE) {
+	return(updateSettings(silent))
 } # EOF
 
 checkPath <- function(path) {

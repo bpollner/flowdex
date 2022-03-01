@@ -2,6 +2,7 @@
 
 export(addGates)
 export(drawGate)
+export(fd_updateSettings)
 export(flowdexit)
 export(genfs)
 export(getEventsPerVolume)

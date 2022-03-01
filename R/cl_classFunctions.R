@@ -18,10 +18,6 @@ show_GatingSet_flowWorkspace <- function(object) {
 	cat(txtB)
 } # EOF
 
-
-
-
-
 show_GatingSet_fd <- function(object) {
 	saNames <- flowWorkspace::sampleNames(object)
 	nr <- 1: length(saNames)
@@ -42,3 +38,31 @@ show_GatingSet_fd <- function(object) {
 	cat(txtC)
 	print(object@gateStrat)
 } # EOF
+
+show_fdmat <- function(object) {
+	nr <- nrow(object@.Data)
+	nc <- ncol(object@.Data)
+	txt1 <- paste0("An object of class 'fdmat' containing data from ", nr, " samples over ", nc, " fluorescence intensities.\n\n")
+	txt2 <- "(showing only the first and last columns and rows)\n"
+	#
+	cat(txt1)
+	matShow <- object@.Data[c(1,2,nr-1, nr), c(1:3, nc-2, nc-1, nc)]
+	print(matShow)
+	cat(txt2)
+	#
+	cat("\n\nSlot 'metadata':\n")
+	print(object@metadata)
+
+	cat("\n\nSlot 'pData':\n")
+	print(object@pData)
+
+	cat("\n\nSlot 'eventsPerVol':\n")
+	print(object@eventsPerVol)
+
+	cat("\n\nSlot 'cyTags':\n")
+	print(object@cyTags)
+	
+	cat("\n\nSlot 'gateStrat':\n")
+	print(object@gateStrat)
+} # EOF
+

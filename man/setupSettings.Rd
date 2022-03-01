@@ -27,3 +27,6 @@ Has to be done only once.
 setupSettings(path="~/foo/bar")
 }
 }
+\seealso{
+\code{\link{fd_updateSettings}}
+}

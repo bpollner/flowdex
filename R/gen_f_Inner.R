@@ -112,14 +112,13 @@ checkForVolumeData <- function(gs) {
 
 getEventsPerVolume_single <- function(gs, gateName="DNA+", chName="FITC.A", volFac=1e6,  volUnit="ml", apc=TRUE, coV=125) {
 	volUnitTxt <- paste0("events_", volUnit)
+	cnsTotalGs <- flowWorkspace::colnames(gs) # colnames(fls) not working any more; #	cnsFls <- names(flowCore::markernames(fls)) is excluding the FSC and SSC channels
 	#
 	vols <- as.numeric(as.character(flowWorkspace::pData(gs)[,"volume"])) # read the acquired volumes from the pheno data of the gating set
 	fls <- flowWorkspace::gs_pop_get_data(gs, gateName) # function was "getData"
-	cnsFls <- names(flowCore::markernames(fls)) # strangely, simply using 'colnames' does not work any more. Hmm.
-#	print(colnames(fls))
 	#
-#	print(chName); print(cnsFls); print(gateName)
-	if (! chName %in% cnsFls) {
+#	print(cnsTotalGs); print(chName); print(gateName)
+	if (! chName %in% cnsTotalGs) {
 		stop(paste0("Sorry, the channel '", chName, "' seems not to exist in the provided data."), call.=FALSE)
 	}
 	fluorList <- flowCore::fsApply(fls, function(x) x[,chName], use.exprs = TRUE, simplify = FALSE) # extract a single channel
@@ -285,9 +284,9 @@ checkCutFluorList <- function(fluorList, gs, apc=TRUE, coR=10, coV=125, volFac=1
 getHistoData <- function(gs, gateName="DNA+", chName="FITC.A", res=220, flRange=c(1250, 4000), apc=TRUE, coR=10, coV=125, igp=FALSE, smN=11, smP=5, rcv=TRUE, dev=FALSE, volFac=1e6) {
 #	fls <- getData(gs, gateName)
 	fls <- flowWorkspace::gs_pop_get_data(gs, gateName) # function was "getData"
-	cnsFls <- names(flowCore::markernames(fls)) # strangely, simply using 'colnames' does not work any more. Hmm.
+	cnsTotalGs <- flowWorkspace::colnames(gs) # colnames(fls) not working any more; #	cnsFls <- names(flowCore::markernames(fls)) is excluding the FSC and SSC channels
 	#
-	if (! chName %in% cnsFls) {
+	if (! chName %in% cnsTotalGs) {
 		stop(paste0("\nSorry, the channel '", chName, "' seems not to exist in the provided data."), call.=FALSE)
 	}
 	fluorList <- flowCore::fsApply(fls, function(x) x[,chName], use.exprs = TRUE, simplify = FALSE) # extract a single channel

@@ -17,3 +17,4 @@ setClass("fdmat", slots=c(metadata="data.frame", pData="data.frame", eventsPerVo
 #### methods ####
 setMethod("show", signature(object = "GatingSet"), definition = show_GatingSet_flowWorkspace)
 setMethod("show", signature(object = "GatingSet_fd"), definition = show_GatingSet_fd )
+setMethod("show", signature(object = "fdmat"), definition = show_fdmat )

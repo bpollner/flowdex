@@ -392,6 +392,6 @@ test_that("checkForVolumeData", {
     expect_true(checkForVolumeData(gsA))
 }) # EOT
 
+# fdm <- makefdmat(gsA, foN.dict = foN_dict) # does not work with the little data
 # hmm. It looks like we need a fatter set of example files
-
 

@@ -18,3 +18,13 @@ setClass("fdmat", slots=c(metadata="data.frame", pData="data.frame", eventsPerVo
 setMethod("show", signature(object = "GatingSet"), definition = show_GatingSet_flowWorkspace)
 setMethod("show", signature(object = "GatingSet_fd"), definition = show_GatingSet_fd )
 setMethod("show", signature(object = "fdmat"), definition = show_fdmat )
+
+
+#setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
+
+
+#setMethod("plot", signature(x = "GatingSet_fd", y = "missing"), definition = plot_gateStructure )
+
+	##' @rdname plot_counts
+	##' @export
+	#setMethod("plot", signature(x="fdmat", y="missing"), definition = plot_CountsFdMat_M)

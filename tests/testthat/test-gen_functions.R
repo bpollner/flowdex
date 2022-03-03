@@ -394,4 +394,33 @@ test_that("checkForVolumeData", {
 
 # fdm <- makefdmat(gsA, foN.dict = foN_dict) # does not work with the little data
 # hmm. It looks like we need a fatter set of example files
+remPathZip <- "https://github.com/bpollner/data/raw/main/fcsFiles/fcs_orb4.zip"
+targZip <- paste0(pathToHome, "/fcs_orb4.zip")
+download.file(remPathZip, targZip, mode="wb") ## DOWNLOAD ##  ## DOWNLOAD ##
+aa <- unzip(targZip, exdir = pathToHome)
+#
+ptOrb4_fcs <- paste0(pathToHome, "/fcs_orb4")
+ptOrb4 <- paste0(pathToHome, "/orb4")
+foNPlots <- paste0(pathToHome, "/plots")
+# now copy all the peripheral files for Orb4
+ptOrb4_pa <- paste0(ptpInst, "/testHelpers/orb4")
+aaa <- list.files(ptOrb4_pa)
+orbFrom <- paste0(ptOrb4_pa, "/", aaa)
+orbTo <- paste(pathToHome, "orb4", aaa, sep="/")
+dir.create(paste0(pathToHome, "/orb4"), showWarnings = FALSE)
+file.copy(orbFrom, orbTo, overwrite = TRUE)
+
+# now make nice fat gating set
+gsF <- makeAddGatingSet(fn=ptOrb4_fcs, foN.gateStrat = ptOrb4, type.gateStrat = "xlsx") # but have the right dictionary, gateStrat and gateDefinitions
+fdm <- makefdmat(gsF, type.dict="xlsx", foN.dict = ptOrb4)
+
+test_that("plotgates", {
+    expect_output(plotgates(gsF, foN.plots = foNPlots))
+    expect_null(plotgates(gsF, foN.plots = foNPlots))
+    expect_null(plotgates(gsF, spl="C_treatment", foN.plots = foNPlots, foN.dict = ptOrb4, type.dict="xlsx"))
+    expect_error(plotgates(1, foN.plots = foNPlots), "Please provide a gating set")
+}) # EOT
+
+# plotgates(gsF, foN.plots = foNPlots) # gives the coordinate system error -- but it works.
+
 

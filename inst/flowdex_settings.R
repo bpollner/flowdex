@@ -26,6 +26,7 @@ settings <- list(
 	foN_rawData = "rawdata",				## the name of the folder where data should be exported to
 	foN_templates = "templates", 			## the name of the folder containing relevant templates
 	foN_dictionary = "dictionary", 			## the name of the folder where the dictionary resides
+	foN_plots = "plots", 					## the name of the folder where plots resp. pdfs should be saved
 	fiN_gate = "polyGate",					## the default name for the polygon gate 
 	fiN_gateStrat = "gateStrat", 			## the default name for the file holding the gating strategy
 	
@@ -42,7 +43,8 @@ settings <- list(
 	dV_channel = "A$", 						## which channels to import when making the gating set
 	dV_comp = FALSE, 						## if compensation should be applied
 	dV_gateStratInputType = "csv", 			## can be "csv" or "xlsx. If the file holding the gating strategy is a csv or an xlsx file.
-	dV_rawDataOutputType = "csv", 			## the format of the rawdata output. Can be "csv" or "xlsx".
+	dV_rawDataOutputType = "csv", 			## the format of the rawdata output. Can be 'csv' or 'xlsx'.
+	dV_dictionaryType = "csv", 				## the type of the dictionary file. Can be 'csv' or 'xlsx'.
 	dV_channelsForPGG = c("FITC.A", "PerCP.A"), 	## the default channels used for manually drawing a polygon gate
 	dV_channelBoundaries = c(1250, 4000, 0, 4000), 	## XXX
 	
@@ -79,8 +81,10 @@ settings <- list(
 	dG_locatorLine = "darkgreen", 			## the color used to re-draw the polygon gate after having pressed 'esc'
 	dG_locatorLineWidth = 1.4, 				## the line width used to re-draw the polygon gate
 	dG_gateShowColor = "violet", 			## the color used for drawing a gate possibly specified at 'showGate'
-	
-	
+	dG_pdf_height = 10,						## The height of the pdf when gates are plotted
+	dg_pdf_width = 14,						## The width of the pdf when gates are plotted
+	dg_nrBins = 128, 						## The number of bins applied for generating the heatmap when plotting gates
+
 	
 	######
 	last = 0 # do not add anything below that

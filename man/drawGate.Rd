@@ -92,4 +92,8 @@ pgg <- drawGate(gs, 1)
 drawGate(gs, 1, showGate="polyGate") # do show a previously defined gate
 }
 }
+\seealso{
+Other Plotting functions: 
+\code{\link{plotgates}()}
+}
 \concept{Plotting functions}

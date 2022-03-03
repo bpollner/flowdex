@@ -326,7 +326,10 @@ makefdmat_single <- function(gs, gateName="DNA+", chName="FITC.A", res=220, flRa
 	for (i in 1: length(histList)) {
 		vals <- histList[[i]]$countsOrig # take the original values (possibly re-calculated to volume)
 		if (smo) {
-			vals <- signal::sgolayfilt(vals, n=smN, p=smP) # smoothing
+			vals <- try(signal::sgolayfilt(vals, n=smN, p=smP), silent=FALSE) # smoothing
+			if (class(vals) == "try-errpr") {
+				message("Smoothing was skipped as it producecd an error.") ## XXX improve here. Try to catch no-data scenarios earlier.
+			}
 			vals[which(vals < 0)] <- 0 # because with smoothing values below zero can appear
 		} # end if smo
 		mat[i,] <- vals

@@ -53,14 +53,16 @@ createFolders <- function(where, stn) {
 	foN_rawData <- stn$foN_rawData
 	foN_templ <- stn$foN_templates
 	foN_dict <- stn$foN_dictionary
+	foN_plots <- stn$foN_plots
 	#
 	aa <- createSingleFolder(where, foN_gating)
 	bb <- createSingleFolder(where, foN_fcsFiles)
 	cc <- createSingleFolder(where, foN_rawData)
 	dd <- createSingleFolder(where, foN_templ)
 	ee <- createSingleFolder(where, foN_dict)
+	ff <- createSingleFolder(where, foN_plots)
 	#
-	return(aa & bb & cc & dd & ee)
+	return(aa & bb & cc & dd & ee & ff)
 } # EOF
 
 copyAllTemplates <- function(home, stn) {
@@ -616,11 +618,11 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateS
 #' @seealso \code{\link{makeAddGatingSet}}, \code{\link{flowdexit}}
 #' @family Extraction functions
 #' @export
-makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict=".", foN.dict=".", verbose=".", dev=FALSE) {
+makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict=".", foN.dict=".", type.dict=".", verbose=".", dev=FALSE) {
 	#
 	stn <- autoUpS()
 	#
-	outMat <- outMd <- res <- apc <- coR <- coV <- rcv <- igp <- smo <- smN <- smP <- chPrevWl <- volFac <- dictionary <- useDic <-  dictType <- cyTags <- NULL # some get assigned below
+	outMat <- outMd <- res <- apc <- coR <- coV <- rcv <- igp <- smo <- smN <- smP <- chPrevWl <- volFac <- dictionary <- useDic <- cyTags <- NULL # some get assigned below
 	assignHereStnValues(stn)
 	#
 	expoType <- checkDefToSetVal(expo.type, "dE_exportType", "expo.type", stn, checkFor="char")
@@ -628,6 +630,7 @@ makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict="."
 	nameDict <- checkDefToSetVal(name.dict, "dD_dict_name", "name.dict", stn, checkFor="char")
 	foN_dict <- checkDefToSetVal(foN.dict, "foN_dictionary", "foN.dict", stn, checkFor="char")
 	verbose <- checkDefToSetVal(verbose, "dV_verbose", "verbose", stn, checkFor="logi")
+	dictType <- checkDefToSetVal(type.dict, "dV_dictionaryType", "type.dict", stn, checkFor="char")
 	dictTypeE <- paste0(".", dictType)
 	#
 	checkObjClass(object=gs, "GatingSet_fd", argName="gs") 
@@ -665,6 +668,147 @@ makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict="."
 	return(mat)
 } # EOF
 
+#' @title Plot Gates on all flowframes in a gating set
+#' @description Plot all available gates on all flowframes in a gating set and 
+#' add layers for the number of events. (In raw format, i.e. *not* 
+#' re-calculated to volume!)
+#' @details Plotting is performed by the function \code{\link[ggcyto]{ggcyto}}. 
+#' If a gating set without applied gates is provided to the first argument, 
+#' parameters \code{plotAll}, \code{spl} and \code{toPdf} do not apply.
+#' @param gs A gating set.
+#' @param ti Character length one, a possible character added to the title of 			
+#' the gate-plot.
+#' @param plotAll Logical. If left at the default \code{FALSE}, only the gates 
+#' where the parameter \code{keepData} in the gating strategy is set to 
+#' \code{TRUE} are plotted. If set to \code{TRUE}, all gates within the gating 
+#' strategy file will be plotted.
+#' @param spl Character length one. The name of the column in the cyTags that 
+#' should be used to split by before plotting. If left at the default 
+#' \code{NULL}, no splitting is performed. Possible values for 'spl' are the 
+#' column names of the cyTags saved in the object of class 'fdmat' as produced 
+#' by \code{\link{makefdmat}}.
+#' @param toPdf Logical. If the plots should be saved in a pdf. Defaults to 
+#' TRUE
+#' @param fns Character length one. The filename suffix of the possible pdf.
+#' @param x Character length one. The name of channel where data was acquired to 
+#' be displayed on the x-axis. Only applies if a gating set without applied gate 
+#' is provided to the argument \code{gs}.
+#' @param y Character length one. The name of channel where data was acquired to 
+#' be displayed on the y-axis. Only applies if a gating set without applied gate 
+#' is provided to the argument \code{gs}.
+#' @param foN.plots Character length one. The name of the folder where possible 
+#' PDFs should be saved in. If left at the default '.', the value as defined in 
+#' the settings file (key 'foN_plots') will be used. 
+#' @inheritParams flowdexit
+#' @examples
+#' \dontrun{
+#' gs <- makeAddGatingSet()
+#' plotgates(gs)
+#' #
+#' fdm <- makefdmat(gs)
+#' fdm@cyTags # look at column names for splitting
+#' plotgates(gs, spl="fooBar") # to split the plot by values contained in column 
+#' # 'fooBar'.
+#' }
+#' @family Plotting functions
+#' @export
+plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, x=NULL, y=NULL, name.dict=".", foN.dict=".", type.dict=".", foN.plots=".") {
+	stn <- autoUpS()
+	#
+	foN_plots <- ""
+	bins <- stn$dg_nrBins
+	pdfHeight <- stn$dG_pdf_height
+	pdfWidth <- stn$pdfWidth
+	#
+	if (! class(gs) %in% c("GatingSet_fd", "GatingSet")) {
+		stop("Please provide a gating set to the argument 'gs'.", call.=FALSE)
+	}
+	if (toPdf) {
+		foN_plots <- checkDefToSetVal(foN.plots, "foN_plots", "foN.plots", stn, checkFor="char")
+	} # end if
+	##
+	if (class(gs) == "GatingSet") {
+		if (is.null(x) | is.null(y)) {
+			stop("Please provide valid channel names to be displayed on the x- and y-axis.", call.=FALSE)
+		}
+		tiUse <- paste0(ti, "   root (no gates added)")
+		plot(ggcyto::ggcyto(gs, subset="root", ggplot2::aes_(x=x, y=y)) + ggplot2::ggtitle(tiUse) + ggplot2::geom_hex(bins=bins) + ggcyto::ggcyto_par_set(limits="instrument"))
+		return(invisible(NULL))
+	} # end if class(gs) == "GatingSet"
+	##
+	gsdf <- gs@gateStrat
+	gateStrat <- gs@gateStrat@filename
+	tiAdd <- "  |  "
+	txtAdd <- suffixAdd <- ""
+	#
+	# prepare for possible splitting: make cyTags
+	if (!is.null(spl)) { # so we want to split. Therefore we need to have cyTags, something only made for the fdmat.
+		# first check. We do not check earlier, because if we do not want to split, it is irrelevant
+		nameDict <- checkDefToSetVal(name.dict, "dD_dict_name", "name.dict", stn, checkFor="char")
+		foN_dict <- checkDefToSetVal(foN.dict, "foN_dictionary", "foN.dict", stn, checkFor="char")
+		dictType <- checkDefToSetVal(type.dict, "dV_dictionaryType", "type.dict", stn, checkFor="char")
+		dictTypeE <- paste0(".", dictType)
+		#
+		checkFileExistence(foN_dict, nameDict, dictTypeE, addTxt="dictionary file ")
+		dictionary <- loadGaXFile(foN_dict, nameDict, dictType)
+		cyTags <- makeCyTags(gs, dictionary, stn) # extract from the sampleId column in the pheno Data; returns FALSE if either the dictionary or the sampleId column from the single tubes 
+		#
+		if (! spl %in% colnames(cyTags)) {
+			stop(paste0("Sorry, the provided split column `", spl, "` is not present in the provided gating set resp. its cyTags."), call.=FALSE)
+		}
+		txtAdd <- paste(" split by", spl)
+		suffixAdd <- paste0("_by",spl)
+	} # end if
+	#
+	if (toPdf) {cat(paste0("Plotting gates", txtAdd, "... \n"))}
+	height <- pdfHeight
+	width <- pdfWidth
+	suffix <- paste0("Gates_", gateStrat, suffixAdd)
+#	filename <- paste(expName, suffix, sep="_")
+	filename <- suffix
+	filename <- paste(foN_plots, "/", filename, fns, ".pdf", sep="")
+	if (toPdf) { pdf(file=filename, width, height, onefile=TRUE, family='Helvetica', pointsize=12) }
+#	if (where != "pdf" & Sys.getenv("RSTUDIO") != 1) {dev.new(height=height, width=width)}	
+	for (i in 1: nrow(gsdf)) {
+		xax <- gsdf[i,"GateOnX"]
+		yax <- gsdf[i,"GateOnY"]
+		gateName <- gsdf[i,"GateName"]
+		subs <- flowWorkspace::gs_pop_get_parent(gs, gateName) # get the name of the parent node
+		tiUse <- paste0(ti, tiAdd, subs, ", gate: ", gateName, ", using `", gsdf[i,"GateDefinition"], "`")
+		# !! use "aes_" !!
+		if (plotAll | gsdf[i,"keepData"]) {
+			if (!is.null(spl)) {
+		#		cyTagsUse <- cyTags[which(cyTags[,1] == gateName),]
+				cyTagsUse <- cyTags[1:length(gs),] # we just take the first gate, as all the indices are the same in all of the gates in the cyTags
+				splVals <- sort(unique(cyTagsUse[,spl]))
+				for (k in 1: length(splVals)) {
+					indsUse <- which(cyTagsUse[,spl] == splVals[k])
+					tiUse <- paste0(ti, " ", splVals[k], tiAdd, subs, ", gate: ", gateName, ", using `", gsdf[i,"GateDefinition"], "`")
+					options(warn=-1)
+					plot(ggcyto::ggcyto(gs[indsUse], subset=subs, ggplot2::aes_(x=xax, y=yax)) + ggplot2::ggtitle(tiUse) + ggplot2::geom_hex(bins=bins) +  ggcyto::geom_gate(gateName) + ggcyto::geom_stats(gateName, type="count") + ggcyto::ggcyto_par_set(limits="instrument"))
+					options(warn=0)
+					cat(".")
+				} # end for k
+			} else { # so spl is null and we do not split
+				options(warn=-1)
+				plot(ggcyto::ggcyto(gs, subset=subs, ggplot2::aes_(x=xax, y=yax)) + ggplot2::ggtitle(tiUse) + ggplot2::geom_hex(bins=bins) +  ggcyto::geom_gate(gateName) + ggcyto::geom_stats(gateName, type="count") + ggcyto::ggcyto_par_set(limits="instrument"))
+				options(warn=0)				
+			} # end else
+		} # end if (plotAll | gsdf[i,"keepData"])
+		#
+		cat(".")
+	} # end for i (nrow(gsdf))
+	#
+	if (toPdf) {
+		dev.off()
+		cat("ok.\n")
+	} # end if
+	return(invisible(NULL))
+} # EOF
+
+
+#### explain calculation 
+# evml <- evmlOrig <- round((nrEvRaw / vols) * volFac , 0)
 
 #' @title Read in FCS Files and Extract Data
 #' @description XXX
@@ -712,15 +856,27 @@ makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict="."
 #' well be necessary to modify the source code of this package in order to 
 #' achieve correct compensation results (compensation is applied in the 
 #' function \code{\link{makeGatingSet}}).
-#' @param expo.gate Which gate to export XXX.
+#' @param expo.gate Which gate to export. NULL or character length one. Set to 
+#' NULL to export data from all those gates defined in the gating strategy where 
+#' 'keeoData' is set to TRUE. Provide a character length one with a gate name as 
+#' defined in the gating strategy to export data from this gate only. If left 
+#' at the default '.', the value as defined in the settings file (key 
+#' 'dE_exportGate') will be used.
 #' @param expo Logical, if extracted data should exported at all.
 #' @param expo.type Character length one. The filetype of the data export. 
-#' Possible values are 'csv' and 'xlsx'.
-#' @param name.dict Character length one. The name of the dictionary.
+#' Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value 
+#' as defined in the settings file (key 'dE_exportType') will be used.
+#' @param name.dict Character length one. The name of the dictionary. If left 
+#' at the default '.', the value as defined in the settings file (key 
+#' 'dD_dict_name') will be used.
 #' @param foN.dict Character length one. The name of the folder where the 
-#' dictionary resides.
+#' dictionary resides. If left at the default '.', the value as defined in the 
+#' settings file (key 'foN_dictionary') will be used.
+#' @param type.dict Character length one. The filetype of the dictionary. Can 
+#' be one of 'csv' or 'xlsx'. If left at the default '.', the value as defined 
+#' in the settings file (key 'dD_dict_type') will be used.
 #' @export
-flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", expo.gate=".", expo=TRUE, expo.type=".", name.dict=".", foN.dict=".", ignore.text.offset=FALSE, verbose=".") {
+flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", expo.gate=".", expo=TRUE, expo.type=".", name.dict=".", foN.dict=".", type.dict=".", ignore.text.offset=FALSE, verbose=".") {
 	return(NULL)
 } # EOF
 

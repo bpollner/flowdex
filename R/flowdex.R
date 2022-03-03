@@ -45,6 +45,7 @@
 #' @importClassesFrom flowWorkspace GatingSet
 #' 
 #' @importFrom graphics abline lines
+#' @importFrom grDevices dev.off pdf
 #'
 #' @docType package
 #' @name flowdex

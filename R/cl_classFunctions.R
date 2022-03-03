@@ -66,3 +66,6 @@ show_fdmat <- function(object) {
 	print(object@gateStrat)
 } # EOF
 
+plot_gateStructure <- function(x, y, ...) {
+	flowWorkspace::plot(x)
+} # EOF

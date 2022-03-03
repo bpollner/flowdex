@@ -11,6 +11,7 @@ makefdmat(
   expo.type = ".",
   name.dict = ".",
   foN.dict = ".",
+  type.dict = ".",
   verbose = ".",
   dev = FALSE
 )
@@ -18,17 +19,30 @@ makefdmat(
 \arguments{
 \item{gs}{A gating set as produced by \code{\link{makeAddGatingSet}}.}
 
-\item{expo.gate}{Which gate to export XXX.}
+\item{expo.gate}{Which gate to export. NULL or character length one. Set to 
+NULL to export data from all those gates defined in the gating strategy where 
+'keeoData' is set to TRUE. Provide a character length one with a gate name as 
+defined in the gating strategy to export data from this gate only. If left 
+at the default '.', the value as defined in the settings file (key 
+'dE_exportGate') will be used.}
 
 \item{expo}{Logical, if extracted data should exported at all.}
 
 \item{expo.type}{Character length one. The filetype of the data export. 
-Possible values are 'csv' and 'xlsx'.}
+Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value 
+as defined in the settings file (key 'dE_exportType') will be used.}
 
-\item{name.dict}{Character length one. The name of the dictionary.}
+\item{name.dict}{Character length one. The name of the dictionary. If left 
+at the default '.', the value as defined in the settings file (key 
+'dD_dict_name') will be used.}
 
 \item{foN.dict}{Character length one. The name of the folder where the 
-dictionary resides.}
+dictionary resides. If left at the default '.', the value as defined in the 
+settings file (key 'foN_dictionary') will be used.}
+
+\item{type.dict}{Character length one. The filetype of the dictionary. Can 
+be one of 'csv' or 'xlsx'. If left at the default '.', the value as defined 
+in the settings file (key 'dD_dict_type') will be used.}
 
 \item{verbose}{Logical. If status messages should be displayed. If left at 
 the default '.', the value as defined in the settings file (key 'dV_verbose') 

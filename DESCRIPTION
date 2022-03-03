@@ -20,7 +20,9 @@ Imports:
 	flowCore,
 	flowWorkspace,
 	openxlsx,
-	signal
+	signal, 
+	ggcyto, 
+	ggplot2
 Suggests: 
     covr,
     testthat (>= 3.0.0)

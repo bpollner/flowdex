@@ -16,6 +16,8 @@ show_GatingSet_flowWorkspace <- function(object) {
 	print(isnDF)
 	cat("\n\n")
 	cat(txtB)
+	#
+	return(invisible(NULL))
 } # EOF
 
 show_GatingSet_fd <- function(object) {
@@ -37,6 +39,8 @@ show_GatingSet_fd <- function(object) {
 	cat("\n\n")
 	cat(txtC)
 	print(object@gateStrat)
+	#
+	return(invisible(NULL))
 } # EOF
 
 show_fdmat <- function(object) {
@@ -64,8 +68,10 @@ show_fdmat <- function(object) {
 	
 	cat("\n\nSlot 'gateStrat':\n")
 	print(object@gateStrat)
+	#
+	return(invisible(NULL))
 } # EOF
 
-plot_gateStructure <- function(x, y, ...) {
-	flowWorkspace::plot(x)
-} # EOF
+#	plot_gateStructure <- function(x, y, ...) {  
+#		flowWorkspace::plot(x)
+#	} # EOF

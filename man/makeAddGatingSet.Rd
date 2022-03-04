@@ -72,7 +72,7 @@ Read in FCS files, put them together in a gating set and apply
 the gating strategy as previously defined.
 }
 \details{
-This is convenience wrapper for the two functions 
+This is a convenience wrapper for the two functions 
 \code{\link{makeGatingSet}} and \code{\link{addGates}}.
 }
 \examples{

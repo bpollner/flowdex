@@ -436,7 +436,7 @@ addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", v
 #' @title Make Gating Set and Add Gates
 #' @description Read in FCS files, put them together in a gating set and apply 
 #' the gating strategy as previously defined.
-#' @details This is convenience wrapper for the two functions 
+#' @details This is a convenience wrapper for the two functions 
 #' \code{\link{makeGatingSet}} and \code{\link{addGates}}.
 #' @inheritParams flowdexit
 #' @return A gating set with added and recomputed gates.
@@ -812,6 +812,11 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 
 #' @title Read in FCS Files and Extract Data
 #' @description XXX
+#' @details While function 'flowdexit' returns fluorescence distributions 
+#' re-calculated to events per volume unit, the gating set that was produced 
+#' in the way of obtaining the fluorescence distribution data getas assigned 
+#' to the environment 'gsenv' under the name 'gatingSet'. Hence, it can be 
+#' accessed via 'gsenv$gatingSet'.
 #' @param fn Character length one. The name of the folder where FCS files should 
 #' be read from. If left at the default '.', the folder name as defined in the 
 #' settings file (key: 'foN_fcsFiles') will be used.
@@ -849,13 +854,6 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 #' HEADER and TEXT segment and, if those inconsistency is present, the 
 #' afflicted fcs-file will be re-written to disc, with the values in TEXT 
 #' being ignored. The file will be \strong{overwritten without further warning.}
-#' @section Regarding Compensation: Due to the circumstances when developing 
-#' this code, it was never required to apply any kind of compensation. The 
-#' functionality to apply compensation was therefore never tested or verified. 
-#' It is strongly advised to use caution when applying compensation. It might 
-#' well be necessary to modify the source code of this package in order to 
-#' achieve correct compensation results (compensation is applied in the 
-#' function \code{\link{makeGatingSet}}).
 #' @param expo.gate Which gate to export. NULL or character length one. Set to 
 #' NULL to export data from all those gates defined in the gating strategy where 
 #' 'keeoData' is set to TRUE. Provide a character length one with a gate name as 
@@ -875,9 +873,20 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 #' @param type.dict Character length one. The filetype of the dictionary. Can 
 #' be one of 'csv' or 'xlsx'. If left at the default '.', the value as defined 
 #' in the settings file (key 'dD_dict_type') will be used.
+#' @section Regarding Compensation: Due to the circumstances when developing 
+#' this code, it was never required to apply any kind of compensation. The 
+#' functionality to apply compensation was therefore never tested or verified. 
+#' It is strongly advised to use caution when applying compensation. It might 
+#' well be necessary to modify the source code of this package in order to 
+#' achieve correct compensation results (compensation is applied in the 
+#' function \code{\link{makeGatingSet}}).
+#' @return An object of class 'fdmat' containing fluorescence distributions 
+#' possibly re-calculated to events per volume unit.
 #' @export
 flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", expo.gate=".", expo=TRUE, expo.type=".", name.dict=".", foN.dict=".", type.dict=".", ignore.text.offset=FALSE, verbose=".") {
-	return(NULL)
+	
+#	assignGatingSetToEnv(gs)
+#	return(invisible(fdm))
 } # EOF
 
 

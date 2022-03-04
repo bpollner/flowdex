@@ -312,6 +312,12 @@ test_that("makeAddGatingSet", {
 
 gsA <- makeAddGatingSet(fn=pa, foN.gateStrat=foN_gating, verbose=FALSE)
 
+test_that("assignGatingSetToEnv", {
+  #  gsenv$gatingSet <- NULL
+    expect_null(assignGatingSetToEnv(gsA))
+    expect_s4_class(gsenv$gatingSet, "GatingSet_fd")
+}) # EOT
+
 test_that("checkObjClass", {
     expect_true(checkObjClass(gs, "GatingSet", "argA"))
     expect_error(checkObjClass(gs, "GatingSet_fd", "argA"), "Please provide")
@@ -419,8 +425,26 @@ test_that("plotgates", {
     expect_null(plotgates(gsF, foN.plots = foNPlots))
     expect_null(plotgates(gsF, spl="C_treatment", foN.plots = foNPlots, foN.dict = ptOrb4, type.dict="xlsx"))
     expect_error(plotgates(1, foN.plots = foNPlots), "Please provide a gating set")
+    expect_error(plotgates(gs, foN.plots = foNPlots), "Please provide valid channel names")
 }) # EOT
 
-# plotgates(gsF, foN.plots = foNPlots) # gives the coordinate system error -- but it works.
+gsP <- makeGatingSet(fn=ptOrb4_fcs, verbose = FALSE)
+
+test_that("plotgates#2", {
+    expect_null(plotgates(gsP, foN.plots = foNPlots, x="FSC.A", y="SSC.A"))
+}) # EOT
+
+#   plotgates(gsF, foN.plots = foNPlots) # gives the coordinate system error -- but it works.
+#   plotgates(gsP, foN.plots = foNPlots, x="FSC.A", y="SSC.A")
+
+# now also test the "show" methods
+test_that("show methods", {
+    expect_output(show(gs))
+    expect_output(show(gsA))
+    expect_output(show(fdm))
+}) # EOT
+
+
+
 
 

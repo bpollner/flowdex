@@ -260,3 +260,10 @@ assignHereStnValues <- function(stn) {
 	#
 	return(TRUE)
 } # EOF
+
+assignGatingSetToEnv <- function(gs) {
+	nsp <- "pkg_flowdex_envs"				
+	assign("gsenv", new.env(), pos=nsp)
+	assign("gatingSet", gs, envir=get("gsenv"))
+	return(invisible(NULL))
+} # EOF

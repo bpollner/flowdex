@@ -95,8 +95,19 @@ being ignored. The file will be \strong{overwritten without further warning.}}
 the default '.', the value as defined in the settings file (key 'dV_verbose') 
 will be used.}
 }
+\value{
+An object of class 'fdmat' containing fluorescence distributions 
+possibly re-calculated to events per volume unit.
+}
 \description{
 XXX
+}
+\details{
+While function 'flowdexit' returns fluorescence distributions 
+re-calculated to events per volume unit, the gating set that was produced 
+in the way of obtaining the fluorescence distribution data getas assigned 
+to the environment 'gsenv' under the name 'gatingSet'. Hence, it can be 
+accessed via 'gsenv$gatingSet'.
 }
 \section{Regarding Compensation}{
  Due to the circumstances when developing 

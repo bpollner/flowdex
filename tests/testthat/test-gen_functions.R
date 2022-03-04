@@ -517,3 +517,15 @@ test_that("flowdexit", {
 # flowdexit(fn=ptOrb4_fcs, foN.gateStrat = ptOrb4, type.gateStrat = "xlsx", type.dict="xlsx", foN.dict = ptOrb4, expo.folder=ptRaw)
 
 
+# plot counts
+
+
+
+#### Accessory Functions ####
+
+
+
+
+
+
+

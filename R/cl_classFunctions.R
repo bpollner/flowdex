@@ -46,7 +46,7 @@ show_GatingSet_fd <- function(object) {
 show_fdmat <- function(object) {
 	nr <- nrow(object@.Data)
 	nc <- ncol(object@.Data)
-	txt1 <- paste0("An object of class 'fdmat' containing data from ", nr, " samples over ", nc, " fluorescence intensities.\n\n")
+	txt1 <- paste0("An object of class 'fdmat' containing data from ", nr, " samples over ", nc, " fluorescence intensities.\n\n") # XXX nr of samples not correct !!!
 	txt2 <- "(showing only the first and last columns and rows)\n"
 	#
 	cat(txt1)

@@ -50,7 +50,7 @@ settings <- list(
 	
 	
 	
-	## calc
+	## calculation of fluorescence distribution
 	dV_doRecalcToVolume = TRUE, 			## Logical. If counts should be re-calculated to volume.
 	dV_volumeFactor = 1e6, 					## the volume factor as given from the manual / help of the FCS machine
 	dV_volumeUnit = "ml", 					## The volume unit the re-calculation of events will lead to (i.e. on graphics etc. it will read e.g. 'events/ml')

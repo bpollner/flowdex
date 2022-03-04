@@ -6,31 +6,20 @@
 \usage{
 makefdmat(
   gs,
-  expo.gate = ".",
-  expo = TRUE,
-  expo.type = ".",
   name.dict = ".",
   foN.dict = ".",
   type.dict = ".",
+  expo = TRUE,
+  expo.gate = ".",
+  expo.name = ".",
+  expo.type = ".",
+  expo.folder = ".",
   verbose = ".",
   dev = FALSE
 )
 }
 \arguments{
 \item{gs}{A gating set as produced by \code{\link{makeAddGatingSet}}.}
-
-\item{expo.gate}{Which gate to export. NULL or character length one. Set to 
-NULL to export data from all those gates defined in the gating strategy where 
-'keeoData' is set to TRUE. Provide a character length one with a gate name as 
-defined in the gating strategy to export data from this gate only. If left 
-at the default '.', the value as defined in the settings file (key 
-'dE_exportGate') will be used.}
-
-\item{expo}{Logical, if extracted data should exported at all.}
-
-\item{expo.type}{Character length one. The filetype of the data export. 
-Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value 
-as defined in the settings file (key 'dE_exportType') will be used.}
 
 \item{name.dict}{Character length one. The name of the dictionary. If left 
 at the default '.', the value as defined in the settings file (key 
@@ -43,6 +32,27 @@ settings file (key 'foN_dictionary') will be used.}
 \item{type.dict}{Character length one. The filetype of the dictionary. Can 
 be one of 'csv' or 'xlsx'. If left at the default '.', the value as defined 
 in the settings file (key 'dD_dict_type') will be used.}
+
+\item{expo}{Logical, if extracted data should exported at all.}
+
+\item{expo.gate}{Which gate to export. NULL or numeric or character length 
+one. Set to NULL to export data from all those gates defined in the gating 
+strategy where 'keeoData' is set to TRUE. Provide a character length one 
+with a gate name or the number of that gate as defined in the gating strategy 
+to export data from this gate only. If left at the default '.', the value as 
+defined in the settings file (key 'dE_exportGate') will be used.}
+
+\item{expo.name}{Character length one. The name of the file holding the 
+exported fluorescence distribution(s). If left at the default '.', the value 
+as defined in the settings file (key 'fiN_dataExport') will be used.}
+
+\item{expo.type}{Character length one. The filetype of the data export. 
+Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value 
+as defined in the settings file (key 'dE_exportType') will be used.}
+
+\item{expo.folder}{Character length one. The name of the folder where exported 
+should reside. If left at the default '.', the value as defined in the 
+settings file (key 'foN_rawData') will be used.}
 
 \item{verbose}{Logical. If status messages should be displayed. If left at 
 the default '.', the value as defined in the settings file (key 'dV_verbose') 
@@ -63,7 +73,8 @@ data to events per volume.
 }
 \examples{
 \dontrun{
-XXX
+gs <- makeAddGatingSet()
+fdm <- makefdmat(gs)
 }
 }
 \seealso{

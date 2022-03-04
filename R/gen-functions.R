@@ -29,14 +29,6 @@ fd_updateSettings <- function(silent=FALSE) {
 	return(updateSettings(silent))
 } # EOF
 
-checkPath <- function(path) {
-	if (!dir.exists(path)) {
-		stop(paste0("Sorry, the folder '", path, "' does not seem to exist."), call.=FALSE)
-	} else {
-		return(TRUE)
-	}
-} # EOF
-
 createSingleFolder <- function(where, fn) {
 	path <- paste0(where, "/", fn)
 	if (!dir.exists(path)) {
@@ -368,7 +360,7 @@ importCheckGatingStrategy <- function(fiN_gateStrat, stn, gsType=".", foName="."
 	}
 	if (is.null(typE)) {
 		stop("Please provide either 'csv' or 'xlsx' as preferred input type for the gating-strategy file (settings.R file key name 'dV_gateStratInputType')", call.=FALSE)
-	}
+	} # end is null
 	checkFileExistence(foN_gating, fiN_gateStrat, typE, addTxt="gating strategy file ")
 	gateStrat <- loadGaXFile(foN_gating, fiN_gateStrat, gsType)
 	cns <- sort(colnames(gateStrat))
@@ -600,6 +592,120 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateS
 	return(invisible(locMat))
 } # EOF
 
+#' @title Cut fdmat to Gate
+#' @description Cut an object of class `fdmat` down to only a single gate
+#' @param gate Numeric or Character length one. The designator for the gate to 
+#' keep, as defined in the gating strategy (from those gates where 'keepData' is 
+#' set to TRUE.
+#' @inheritParams exportFdmatData
+#' @return An object of class `fdmat` containing only the data for the gate as
+#' specified in \code{gate}.
+#' @examples
+#' \dontrun{
+#' gs <- makeAddGatingSet()
+#' fdm <- makefdmat(gs)
+#' fdmCut <- cutFdmatToGate(fdm, 1)
+#' fdmCut <- cutFdmatToGate(fdm, "fooBar")
+#' }
+#' @family Helper functions
+#' @export
+cutFdmatToGate <- function(fdmat, gate=NULL) {
+	if (nrow(fdmat@metadata) == 1 | is.null(fdmat@cyTags) ) {
+		return(fdmat)
+	}
+	if (is.null(gate)) {
+		stop("Please provide a gate name or a number (as defined in the metadata) to the argument 'gate'.", call.=FALSE)
+	} # end if
+	#
+	gateNr <- gate
+	if (is.character(gate)) {
+		gateNr <- which(as.character(fdmat@metadata$gateName) == gate)
+		if (length(gateNr) == 0) {
+			stop(paste0("Sorry, the gate '", gate, "' does not seem to exist."), call.=FALSE)
+		} # end if
+	} # end if
+	if (gateNr > nrow(fdmat@metadata)) {
+		stop(paste0("Sorry, the gate nr ", gateNr, " does not exist."), call.=FALSE)
+	} # end if
+	cutTo <- as.character(fdmat@metadata[gateNr,"gateName"])
+	ind <- which(as.character(fdmat@cyTags[,1]) == cutTo)
+	fdmat@.Data <- fdmat@.Data[ind,,drop=FALSE]
+	fdmat@metadata <- fdmat@metadata[gateNr,,drop=FALSE]
+	fdmat@eventsPerVol <- fdmat@eventsPerVol[ind,,drop=FALSE]
+	fdmat@cyTags <- fdmat@cyTags[ind,,drop=FALSE]
+	fdmat@note <- paste0("cut down to gate: ", cutTo)
+	return(fdmat)
+} # EOF
+
+#' @title Export Fluorescence Distributions
+#' @description Export fluorescence distributions contained in the 'fdmat' 
+#' object to file.
+#' @details If data are exported to xlsx, additional data like the metadata 
+#' describing the parameters that lead to the calculation of the fluorescence 
+#' distribution, the cyTags and the gating strategy are saved in an extra sheet 
+#' as well. If exporting to csv, only the fluorescence data are exported.
+#' @param fdmat An object of class 'fdmat' as produced by \code{\link{makefdmat}}. 
+#' @inheritParams flowdexit
+#' @return Invisible NULL; used for its side effects, i.e. to export the data contained in 
+#' 'fdmat' to file.
+#' @examples
+#' \dontrun{
+#' gs <- makeAddGatingSet()
+#' fdm <- makefdmat(gs, expo=FALSE) # export is included here already
+#' exportFdmatData(fdm)
+#' }
+#' @export
+exportFdmatData <- function(fdmat, expo.gate=".", expo.name=".", expo.type=".", expo.folder=".", verbose=".") {
+	stn <- autoUpS()
+	#
+	expoType <- checkDefToSetVal(expo.type, "dE_exportType", "expo.type", stn, checkFor="char")
+	expoGate <- checkDefToSetVal(expo.gate, "dE_exportGate", "expo.gate", stn, checkFor="charNullNum")
+	expoName <- checkDefToSetVal(expo.name, "fiN_dataExport", "expo.name", stn, checkFor="char")
+	expoFolder <- checkDefToSetVal(expo.folder, "foN_rawData", "expo.folder", stn, checkFor="char")
+	verbose <- checkDefToSetVal(verbose, "dV_verbose", "verbose", stn, checkFor="logi")
+	#
+	checkPath(expoFolder)
+	#
+	typE <- NULL
+	if (expoType == "csv") {
+		typE <- ".csv"
+	}
+	if (expoType == "xlsx") {
+		typE <- ".xlsx"
+	}
+	if (is.null(typE)) {
+		stop("Please provide either 'csv' or 'xlsx' as preferred output type for the file holding the exported data (settings.R file key name 'dE_exportType')", call.=FALSE)
+	} # end is null
+	#
+	if (!is.null(expoGate)) {
+		fdmat <- cutFdmatToGate(fdmat, expoGate)
+	} # end if
+	
+	#
+	nrG <- nrow(fdmat@metadata)
+	if (nrG > 1) {
+		gaChar <- "s"
+	} else {
+		gaChar <- ""
+	} # end else
+	#
+	if (verbose) {cat(paste0("Exporting data (", nrG, " gate", gaChar, ") to ", expoType, "..."))}
+	gsn <- fdmat@gateStrat@filename
+	fiName <- paste0(expoFolder, "/", expoName, "_", gsn, typE)
+	if (expoType == "xlsx") {
+		out <- list(fdmat@.Data, fdmat@cyTags, fdmat@metadata, fdmat@gateStrat@.Data) # if not writing "mat@.Data", the excel file contains no data. Thats how it is.
+		names(out) <- c(expoName, "cyTags", "metadata", fdmat@gateStrat@filename) # XXX cyTags can be NULL
+		openxlsx::write.xlsx(out, fiName, rowNames=TRUE, overwrite=TRUE)
+		if (verbose) {cat("ok. \n")}
+	} else {
+		out <- fdmat
+		write.csv(fdmat, file=fiName)
+		if (verbose) {cat("ok. \n")}
+	} # end else
+	#
+	return(invisible(NULL))
+} # EOF
+
 #' @title Extract Fluorescence Distribution Matrix
 #' @description Extract fluorescence distribution along a specified channel 
 #' from the gating set as defined in the gating strategy file and re-calculate 
@@ -613,12 +719,13 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateS
 #' gating set.
 #' @examples
 #' \dontrun{
-#' XXX
+#' gs <- makeAddGatingSet()
+#' fdm <- makefdmat(gs)
 #' }
 #' @seealso \code{\link{makeAddGatingSet}}, \code{\link{flowdexit}}
 #' @family Extraction functions
 #' @export
-makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict=".", foN.dict=".", type.dict=".", verbose=".", dev=FALSE) {
+makefdmat <- function(gs, name.dict=".", foN.dict=".", type.dict=".", expo=TRUE, expo.gate=".", expo.name=".", expo.type=".", expo.folder=".", verbose=".", dev=FALSE) {
 	#
 	stn <- autoUpS()
 	#
@@ -626,7 +733,9 @@ makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict="."
 	assignHereStnValues(stn)
 	#
 	expoType <- checkDefToSetVal(expo.type, "dE_exportType", "expo.type", stn, checkFor="char")
-	expoGate <- checkDefToSetVal(expo.gate, "dE_exportGate", "expo.gate", stn, checkFor="charNull")
+	expoGate <- checkDefToSetVal(expo.gate, "dE_exportGate", "expo.gate", stn, checkFor="charNullNum")
+	expoName <- checkDefToSetVal(expo.name, "fiN_dataExport", "expo.name", stn, checkFor="char")
+	expoFolder <- checkDefToSetVal(expo.folder, "foN_rawData", "expo.folder", stn, checkFor="char")
 	nameDict <- checkDefToSetVal(name.dict, "dD_dict_name", "name.dict", stn, checkFor="char")
 	foN_dict <- checkDefToSetVal(foN.dict, "foN_dictionary", "foN.dict", stn, checkFor="char")
 	verbose <- checkDefToSetVal(verbose, "dV_verbose", "verbose", stn, checkFor="logi")
@@ -658,14 +767,15 @@ makefdmat <- function(gs, expo.gate=".", expo=TRUE, expo.type=".", name.dict="."
 		} # end if
 	} # end for i
 	#
-	mat <- new("fdmat", outMat, metadata=outMd, pData=flowWorkspace::pData(gs), eventsPerVol=eventsPerVol, cyTags=cyTags, gateStrat=gs@gateStrat, note="original")
+	fdmat <- new("fdmat", outMat, metadata=outMd, cyTags=cyTags, eventsPerVol=eventsPerVol, gateStrat=gs@gateStrat, pData=flowWorkspace::pData(gs), note="original")
 	#
-#	if (expo) {
-		# XLSgate <- expo.gate 	### weg
-		# toXls <- expo			### weg
-#		exportMatrixToXls(cutfdmatToGate(mat, XLSgate), rcv)
-#	}
-	return(mat)
+	if (expo) {
+		aaa <- try(exportFdmatData(fdmat, expoGate, expoName, expoType, expoFolder), silent=FALSE)
+		if (class(aaa) == "try-error") {
+			message(paste0("Sorry, exporting data to ", expoType, " was not successful."), call.=FALSE)
+		} # end if
+	} # end if
+	return(invisible(fdmat))
 } # EOF
 
 #' @title Plot Gates on all flowframes in a gating set
@@ -807,8 +917,87 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 } # EOF
 
 
-#### explain calculation 
-# evml <- evmlOrig <- round((nrEvRaw / vols) * volFac , 0)
+#' @title Save Fluorescence Distribution 'fdmat' Object
+#' @description Saves the R-object containing the fluorescence distributions 
+#' (the 'fdmat' object) in the standard data export / rawdata folder.
+#' @param fns Character length one or NULL. Possible character to be added to 
+#' the filename.
+#' @inheritParams exportFdmatData
+#' @inheritParams flowdexit
+#' @return Invisible NULL; is called for its side effect, i.e. to save the fdmat 
+#' object to file. 
+#' @examples
+#' \dontrun{
+#' fd_save(fdmat)
+#' }
+#' @family Helper functions
+#' @export
+fd_save <- function(fdmat, fns=NULL, expo.folder=".", verbose=".") {
+	#
+	stn <- autoUpS()
+	#
+	fiN_dataExport <- stn$fiN_dataExport
+	fns <- checkDefToSetVal(fns, "..x..", "fns", stn, checkFor="charNull", defValue=NULL)
+	expoFolder <- checkDefToSetVal(expo.folder, "foN_rawData", "expo.folder", stn, checkFor="char")
+	verbose <- checkDefToSetVal(verbose, "dV_verbose", "verbose", stn, checkFor="logi")
+	#
+	checkObjClass(fdmat, "fdmat", "fdmat")
+	gateStrat <- fdmat@gateStrat@filename
+	if (is.null(fns)) {
+		fnsAdChar <- ""
+	} else {
+		fnsAdChar <- "_"
+	} # end else
+	#
+	rdsName <- paste0(stn$fiN_dataExport, "_", gateStrat, "_fdmat", fnsAdChar, fns)
+	path <- paste0(expoFolder, "/", rdsName)
+	saveRDS(fdmat, file=path)
+	if (verbose) {
+		cat(paste0("fdmat-object saved in \n'", expoFolder, "' \nunder the name '", rdsName, "'.\n"))
+	} # end if
+	#
+	return(invisible(NULL))
+} # EOF
+
+#' @title Load Fluorescence Distribution 'fdmat' Object
+#' @description Load the R-object containing the fluorescence distributions 
+#' (the 'fdmat' object) from the standard data export / rawdata folder.
+#' @details If 'fn' is left at NULL, the file containing the default name 
+#' for exported data and gating strategy is being attempted to load.
+#' @param fn Character length one, the name of the file.
+#' @param expo.folder The name of the folder where the file should be looked for.
+#' If left at the default '.', the value as defined in the settings file (key 
+#' 'foN_rawData') will be used.
+#' @inheritParams flowdexit
+#' @return An object of class 'fdmat' as produced by \code{\link{makefdmat}} 
+#' or \code{\link{flowdexit}}.
+#' @family Helper functions
+#' @export
+fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
+	#
+	stn <- autoUpS()
+	#
+	expoFolder <- checkDefToSetVal(expo.folder, "foN_rawData", "expo.folder", stn, checkFor="char")
+	verbose <- checkDefToSetVal(verbose, "dV_verbose", "verbose", stn, checkFor="logi")
+	defName <- stn$fiN_dataExport
+	defGateStrat <- stn$fiN_gateStrat
+	defType <- stn$dV_gateStratInputType
+	#
+	if (is.null(fn)) {
+		defFileName <- paste0(defName, "_", defGateStrat, ".", defType, "_fdmat")
+	} else {
+		defFileName <- fn
+	} # end else
+	pathName <- paste0(expoFolder, "/", defFileName)
+	#
+	if (!file.exists(pathName)) {
+		stop(paste0("Sorry, the requested fdmat-object '", defFileName, "' does not seem to exist in \n'", expoFolder, "'."), call.=FALSE)
+	}
+	fdmat <- readRDS(file=pathName)
+	if (verbose) {cat(paste0("The fdmat-object with the name `", defFileName, "` was loaded.\n"))}
+	#
+	return(fdmat)
+} # EOF
 
 #' @title Read in FCS Files and Extract Data
 #' @description XXX
@@ -854,16 +1043,22 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 #' HEADER and TEXT segment and, if those inconsistency is present, the 
 #' afflicted fcs-file will be re-written to disc, with the values in TEXT 
 #' being ignored. The file will be \strong{overwritten without further warning.}
-#' @param expo.gate Which gate to export. NULL or character length one. Set to 
-#' NULL to export data from all those gates defined in the gating strategy where 
-#' 'keeoData' is set to TRUE. Provide a character length one with a gate name as 
-#' defined in the gating strategy to export data from this gate only. If left 
-#' at the default '.', the value as defined in the settings file (key 
-#' 'dE_exportGate') will be used.
+#' @param expo.gate Which gate to export. NULL or numeric or character length 
+#' one. Set to NULL to export data from all those gates defined in the gating 
+#' strategy where 'keeoData' is set to TRUE. Provide a character length one 
+#' with a gate name or the number of that gate as defined in the gating strategy 
+#' to export data from this gate only. If left at the default '.', the value as 
+#' defined in the settings file (key 'dE_exportGate') will be used.
+#' @param expo.name Character length one. The name of the file holding the 
+#' exported fluorescence distribution(s). If left at the default '.', the value 
+#' as defined in the settings file (key 'fiN_dataExport') will be used.
 #' @param expo Logical, if extracted data should exported at all.
 #' @param expo.type Character length one. The filetype of the data export. 
 #' Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value 
 #' as defined in the settings file (key 'dE_exportType') will be used.
+#' @param expo.folder Character length one. The name of the folder where exported 
+#' should reside. If left at the default '.', the value as defined in the 
+#' settings file (key 'foN_rawData') will be used.
 #' @param name.dict Character length one. The name of the dictionary. If left 
 #' at the default '.', the value as defined in the settings file (key 
 #' 'dD_dict_name') will be used.
@@ -873,6 +1068,14 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 #' @param type.dict Character length one. The filetype of the dictionary. Can 
 #' be one of 'csv' or 'xlsx'. If left at the default '.', the value as defined 
 #' in the settings file (key 'dD_dict_type') will be used.
+#' @param stf Logical. If the resulting object of class 'fdmat' should be saved 
+#' to file in the data export folder. Defaults to TRUE.  If saved, the name 
+#' of the gating strategy used to generate the data will be appended to the 
+#' filename. 
+#' @section Calculating Events per Volume Unit: 
+#' XXX explain this please. 
+#'  evml <- round((nrEvRaw / vols) * volFac , 0)
+#'
 #' @section Regarding Compensation: Due to the circumstances when developing 
 #' this code, it was never required to apply any kind of compensation. The 
 #' functionality to apply compensation was therefore never tested or verified. 
@@ -880,13 +1083,34 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 #' well be necessary to modify the source code of this package in order to 
 #' achieve correct compensation results (compensation is applied in the 
 #' function \code{\link{makeGatingSet}}).
+#' @section Exporting Data: If data are exported to xlsx, additional data like 
+#' the metadata describing the parameters that lead to the calculation of 
+#' the fluorescence distribution, the cyTags and the gating strategy are 
+#' saved in an extra sheet as well. If exporting to csv, only the fluorescence 
+#' data are exported.
 #' @return An object of class 'fdmat' containing fluorescence distributions 
 #' possibly re-calculated to events per volume unit.
 #' @export
-flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", expo.gate=".", expo=TRUE, expo.type=".", name.dict=".", foN.dict=".", type.dict=".", ignore.text.offset=FALSE, verbose=".") {
-	
-#	assignGatingSetToEnv(gs)
-#	return(invisible(fdm))
+flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", name.dict=".", foN.dict=".", type.dict=".", expo=TRUE, expo.gate=".", expo.name=".", expo.type=".", expo.folder=".", ignore.text.offset=FALSE, stf=TRUE, verbose=".") {
+	#
+	stn <- autoUpS()
+	#
+	checkAssignInput(stn, fn, gateStrat, foN.gateStrat, type.gateStrat, comp, tx, channel, name.dict, foN.dict, type.dict, expo.gate, expo.name, expo.type, expo.folder, verbose)	# is possibly re-assigning the values here
+	#
+	gsdf <- importCheckGatingStrategy(gateStrat, stn, type.gateStrat, foN.gateStrat)
+	checkPggExistence(gsdf, foN.gateStrat, gateStrat)
+	#
+	gs <- makeGatingSet(patt, comp, fn, tx, channel, ignore.text.offset, verbose)
+	gs <- addGates(gs, gateStrat, foN.gateStrat, type.gateStrat, verbose)
+	assignGatingSetToEnv(gs)
+	#
+	fdmat <- makefdmat(gs, name.dict, foN.dict, type.dict, expo, expo.gate, expo.name, expo.type, expo.folder, verbose)
+	#
+	if (stf) {
+		fd_save(fdmat, fns=NULL, expo.folder, verbose)
+	} # end if
+	#
+	return(invisible(fdmat))	
 } # EOF
 
 

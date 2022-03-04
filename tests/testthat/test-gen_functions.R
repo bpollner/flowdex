@@ -2,7 +2,7 @@ library(testthat)
 
 # for manual line by line only
 # devtools::load_all("~/Documents/RPS/flowdex_R/flowdex")
-# delete all in tempdir !!
+#  delete all in tempdir !!
 # rm(list=ls(all.names = TRUE))
 
 
@@ -71,6 +71,19 @@ test_that("checkCharX_null", {
     expect_null(checkCharX_null(a,b, len=2))
 }) # EOT
 
+test_that("checkCharX_null_Num", {
+    a <- "bla"; b= "argA"
+    expect_null(checkCharX_null_Num(a, b))
+    a <- 1 ; b= "argA"
+    expect_null(checkCharX_null_Num(a, b))
+    a <- NULL; b= "argA"
+    expect_null(checkCharX_null_Num(a, b))
+    a <- c(1,2,3); b= "argA"
+    expect_error(checkCharX_null_Num(a, b), "Please provide a numeric or character length 1")
+    a <- c("a", "b", "c"); b= "argA"
+    expect_error(checkCharX_null_Num(a, b), "Please provide a numeric or character length 1")
+}) # EOT
+
 test_that("checkLogi", {
     a <- TRUE; b <- "a"
     expect_null(checkLogi(a,b))
@@ -136,12 +149,23 @@ test_that("checkDefToSetVal", {
     expect_length(checkDefToSetVal(".", "dV_channelBoundaries", "bnd", stn, checkFor="numNull", len=4), 4)
     expect_identical(checkDefToSetVal(c(1,2,3,4), "dV_channelBoundaries", "bnd", stn, checkFor="numNull", len=4), c(1,2,3,4))
     expect_error(checkDefToSetVal(c(1,2,3,4,5), "dV_channelBoundaries", "bnd", stn, checkFor="numNull", len=4), "provide a numeric length 4")
+    #
+    expect_identical(checkDefToSetVal("aaa", "dE_exportGate", "argN", stn,  checkFor="charNullNum"), "aaa")
+    expect_identical(checkDefToSetVal(1, "dE_exportGate", "argN", stn,  checkFor="charNullNum"), 1)
+    expect_identical(checkDefToSetVal(NULL, "dE_exportGate", "argN", stn,  checkFor="charNullNum"), NULL)
+    expect_identical(checkDefToSetVal(".", "dE_exportGate", "argN", stn,  checkFor="charNullNum"), NULL)
+    expect_error(checkDefToSetVal(c(1,2,3), "dE_exportGate", "argN", stn,  checkFor="charNullNum"))
 }) # EOT
 
 test_that("devGetLocalStn", {
     expect_type(devGetLocalStn(), "list")
 }) # EOT
 
+test_that("ignoreEdge", {
+    expect_equal(length(ignoreEdge(1:100, perc=0)), 100)
+    expect_equal(length(ignoreEdge(1:100, perc=5)), 90)
+    expect_equal(length(ignoreEdge(1:100, perc=5, minLe=200)), 100)
+}) # EOT
 
 
 
@@ -342,7 +366,7 @@ test_that("drawGate", {
 
 
 
-#### make fdmat ####
+#### make fdmat and plot gates ####
 #
 # first copy material from the dictionary folder in testHelpers
 stn <- source(paste0(ptpInst, "/flowdex_settings.R"))$value # conveniently here again
@@ -402,7 +426,7 @@ test_that("checkForVolumeData", {
 # hmm. It looks like we need a fatter set of example files
 remPathZip <- "https://github.com/bpollner/data/raw/main/fcsFiles/fcs_orb4.zip"
 targZip <- paste0(pathToHome, "/fcs_orb4.zip")
-download.file(remPathZip, targZip, mode="wb") ## DOWNLOAD ##  ## DOWNLOAD ##
+download.file(remPathZip, targZip, mode="wb") ## DOWNLOAD ##  ## DOWNLOAD ##  ## DOWNLOAD ##  ## DOWNLOAD ##
 aa <- unzip(targZip, exdir = pathToHome)
 #
 ptOrb4_fcs <- paste0(pathToHome, "/fcs_orb4")
@@ -416,9 +440,12 @@ orbTo <- paste(pathToHome, "orb4", aaa, sep="/")
 dir.create(paste0(pathToHome, "/orb4"), showWarnings = FALSE)
 file.copy(orbFrom, orbTo, overwrite = TRUE)
 
+
+
+
 # now make nice fat gating set
 gsF <- makeAddGatingSet(fn=ptOrb4_fcs, foN.gateStrat = ptOrb4, type.gateStrat = "xlsx") # but have the right dictionary, gateStrat and gateDefinitions
-fdm <- makefdmat(gsF, type.dict="xlsx", foN.dict = ptOrb4)
+fdm <- makefdmat(gsF, type.dict="xlsx", foN.dict = ptOrb4, expo=FALSE)
 
 test_that("plotgates", {
     expect_output(plotgates(gsF, foN.plots = foNPlots))
@@ -429,7 +456,6 @@ test_that("plotgates", {
 }) # EOT
 
 gsP <- makeGatingSet(fn=ptOrb4_fcs, verbose = FALSE)
-
 test_that("plotgates#2", {
     expect_null(plotgates(gsP, foN.plots = foNPlots, x="FSC.A", y="SSC.A"))
 }) # EOT
@@ -445,6 +471,49 @@ test_that("show methods", {
 }) # EOT
 
 
+ptRaw <- paste0(pathToHome, "/rawdata")
 
+test_that("cutFdmatToGate", {
+    expect_error(cutFdmatToGate(fdm, gate=NULL), "Please provide a gate name or a number")
+    aaa <- cutFdmatToGate(fdm, 1)
+    expect_equal(nrow(cutFdmatToGate(aaa)), 6) # gets back without cutting down
+    expect_error(cutFdmatToGate(fdm, gate="bla"), "Sorry, the gate 'bla' does not seem to exist")
+    expect_error(cutFdmatToGate(fdm, gate=3), "gate nr 3 does not exist")
+    expect_s4_class(cutFdmatToGate(fdm, gate=1), "fdmat")
+}) # EOT
+
+test_that("exportFdmatData", {
+    expect_null(exportFdmatData(fdm, expo.gate=NULL, expo.name=".", expo.type="xlsx", expo.folder=ptRaw))
+    expect_null(exportFdmatData(fdm, expo.gate=NULL, expo.name=".", expo.type="csv", expo.folder=ptRaw))
+    expect_error(exportFdmatData(fdm, expo.gate=NULL, expo.name=".", expo.type="blabla", expo.folder=ptRaw), "provide either 'csv' or 'xlsx'")
+    expect_null(exportFdmatData(fdm, expo.gate=1, expo.name=".", expo.type="xlsx", expo.folder=ptRaw))
+}) # EOT
+
+
+test_that("makefdmat", {
+    expect_s4_class(makefdmat(gsF, type.dict="xlsx", foN.dict = ptOrb4, expo=FALSE), "fdmat")
+    expect_s4_class(makefdmat(gsF, type.dict="xlsx", foN.dict = ptOrb4, expo=FALSE, dev=TRUE), "fdmat")
+    expect_s4_class(makefdmat(gsF, type.dict="xlsx", foN.dict = ptOrb4, expo.folder=ptRaw), "fdmat")
+}) # EOT
+
+test_that("fd_save", {
+    expect_null(fd_save(fdm, fns=NULL, expo.folder=ptRaw))
+    expect_null(fd_save(fdm, fns="yea", expo.folder=ptRaw))
+}) # EOT
+
+test_that("fd_load", {
+    expect_s4_class(fd_load(fn=NULL, expo.folder=ptRaw), "fdmat")
+    cnfn <- "flscData_gateStrat.xlsx_fdmat_yea"
+    expect_s4_class(fd_load(fn=cnfn, expo.folder=ptRaw), "fdmat")
+    expect_error(fd_load(fn="blabla", expo.folder=ptRaw), "fdmat-object 'blabla' does not seem to exist")
+}) # EOT
+
+
+
+#### now flowdexit. Yea. ####
+test_that("flowdexit", {
+    expect_s4_class(flowdexit(fn=ptOrb4_fcs, foN.gateStrat = ptOrb4, type.gateStrat = "xlsx", type.dict="xlsx", foN.dict = ptOrb4, expo.folder=ptRaw), "fdmat")
+}) # EOT
+# flowdexit(fn=ptOrb4_fcs, foN.gateStrat = ptOrb4, type.gateStrat = "xlsx", type.dict="xlsx", foN.dict = ptOrb4, expo.folder=ptRaw)
 
 

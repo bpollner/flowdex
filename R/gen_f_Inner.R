@@ -203,10 +203,6 @@ getSomeXmin <- function(fluorList) {
     return(someMin)
 } # EOF
 
-calcHistBreaks <- function(x, nr) { # the nr is how many elements should be in each cell
-	x <- sort(x)
-} # EOF
-
 extractHistoData <- function(x, sm, flscRan, res=220, igp=FALSE, smN=11, smP=5, dev=FALSE) {
    	mainAdd <- ""; xRange <- NULL; mainTxt <- ""; plotHist <- FALSE; devPlot <- dev # used in DEV for plotting
    	if (devPlot) {xOrig <- x; plotHist <- TRUE; mainTxt <- paste0("resolution: ", res, mainAdd)}

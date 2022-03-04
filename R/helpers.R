@@ -54,6 +54,20 @@ checkCharX_null <- function(val, argName, len=1) {
     } # end if
 } # EOF
 
+checkCharX_null_Num <- function(val, argName, len=1) {
+	if (!haveDefDot(val)) {
+		if (is.null(val)) {
+			return(invisible(NULL))
+		} # end if
+		if ( !all(is.character(val)) | length(val) != len) {
+			if ( !all(is.numeric(val)) | length(val) != len) {
+				stop(paste0("Please provide a numeric or character length ", len, " to the argument '", argName, "'."), call.=FALSE)
+			} # end if num
+		} # end if char
+    	return(invisible(NULL))
+    } # end if
+} # EOF
+
 checkLogi <- function(val, argName) {
 	if (!haveDefDot(val)) {
 		if (!all(is.logical(val)) | length(val) != 1) {
@@ -113,6 +127,11 @@ checkDefToSetVal <- function(val, keyName, argName, stn, checkFor, len=1, defVal
 	#
 	if (checkFor == "charNull") {
 		checkCharX_null(val, argName, len)
+		return(getDefValFromStn(val, keyName, stn, argName, defValue))
+	} # end if checkFor == "char"
+	#	
+	if (checkFor == "charNullNum") {
+		checkCharX_null_Num(val, argName, len)
 		return(getDefValFromStn(val, keyName, stn, argName, defValue))
 	} # end if checkFor == "char"
 	#	
@@ -181,6 +200,14 @@ checkPggExistence <- function(gsdf,foN_gating, fiN_gateStrat=NULL) {
 		stop(paste0("Sorry, the requested ", addG,  "'", paste(missChar, collapse= "', '"), "'", addV, "not to exist in the folder \n`", foN_gating, "`."), call.=FALSE)
 	} # end if
 	return(TRUE) # if all is good
+} # EOF
+
+checkPath <- function(path) {
+	if (!dir.exists(path)) {
+		stop(paste0("Sorry, the folder '", path, "' does not seem to exist."), call.=FALSE)
+	} else {
+		return(TRUE)
+	}
 } # EOF
 
 checkObjClass <- function(object, classChar, argName) {
@@ -259,6 +286,48 @@ assignHereStnValues <- function(stn) {
 	doAssign("dictType", dictType)
 	#
 	return(TRUE)
+} # EOF
+
+checkAssignInput <- function(stn, fn, gateStrat, foN.gateStrat, type.gateStrat, comp, tx, channel, name.dict, foN.dict, type.dict, expo.gate, expo.name, expo.type, expo.folder, verbose) {
+	#
+	doAssign <- function(name, value, npf=2) {
+		assign(name, value, pos=parent.frame(n=npf))
+	} # EOIF
+	#
+	fn <- checkDefToSetVal(fn, "foN_fcsFiles", "fn", stn, checkFor="char")
+	gateStrat <- checkDefToSetVal(gateStrat, "fiN_gateStrat", "gateStrat", stn, checkFor="char")
+	foN.gateStrat <- checkDefToSetVal(foN.gateStrat, "foN_gating", "foN.gateStrat", stn, checkFor="char")
+	type.gateStrat <- checkDefToSetVal(type.gateStrat, "dV_gateStratInputType", "type.gateStrat", stn, checkFor="char")
+	comp <- checkDefToSetVal(comp, "dV_comp", "comp", stn, checkFor="logi")
+	tx <- checkDefToSetVal(tx, "dV_tx", "tx", stn, checkFor="char")
+	channel <- checkDefToSetVal(channel, "dV_channel", "channel", stn, checkFor="char")
+	name.dict <- checkDefToSetVal(name.dict, "dD_dict_name", "name.dict", stn, checkFor="char")
+	foN.dict <- checkDefToSetVal(foN.dict, "foN_dictionary", "foN.dict", stn, checkFor="char")
+	type.dict <- checkDefToSetVal(type.dict, "dV_dictionaryType", "type.dict", stn, checkFor="char")
+	expo.gate <- checkDefToSetVal(expo.gate, "dE_exportGate", "expo.gate", stn, checkFor="charNullNum")
+	expo.name <- checkDefToSetVal(expo.name, "fiN_dataExport", "expo.name", stn, checkFor="char")
+	expo.type <- checkDefToSetVal(expo.type, "dE_exportType", "expo.type", stn, checkFor="char")
+	expo.folder <- checkDefToSetVal(expo.folder, "foN_rawData", "expo.folder", stn, checkFor="char")
+	verbose <- checkDefToSetVal(verbose, "dV_verbose", "verbose", stn, checkFor="logi")
+	##
+	##
+	doAssign("fn", fn)
+	doAssign("gateStrat", gateStrat)
+	doAssign("foN.gateStrat", foN.gateStrat)
+	doAssign("type.gateStrat", type.gateStrat)
+	doAssign("comp", comp)
+	doAssign("tx", tx)
+	doAssign("channel", channel)
+	doAssign("name.dict", name.dict)
+	doAssign("foN.dict", foN.dict)
+	doAssign("type.dict", type.dict)
+	doAssign("expo.gate", expo.gate)
+	doAssign("expo.name", expo.name)
+	doAssign("expo.type", expo.type)
+	doAssign("expo.folder", expo.folder)
+	doAssign("verbose", verbose)
+	#
+	return(TRUE)	
 } # EOF
 
 assignGatingSetToEnv <- function(gs) {

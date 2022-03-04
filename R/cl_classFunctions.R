@@ -57,17 +57,20 @@ show_fdmat <- function(object) {
 	cat("\n\nSlot 'metadata':\n")
 	print(object@metadata)
 
-	cat("\n\nSlot 'pData':\n")
-	print(object@pData)
+	cat("\n\nSlot 'cyTags':\n")
+	print(object@cyTags)
 
 	cat("\n\nSlot 'eventsPerVol':\n")
 	print(object@eventsPerVol)
-
-	cat("\n\nSlot 'cyTags':\n")
-	print(object@cyTags)
 	
 	cat("\n\nSlot 'gateStrat':\n")
 	print(object@gateStrat)
+	
+	cat("\n\nSlot 'pData':\n")
+	print(object@pData)
+	
+	cat("\n\nSlot 'note':\n")
+	print(object@note)
 	#
 	return(invisible(NULL))
 } # EOF

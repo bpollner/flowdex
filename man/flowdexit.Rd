@@ -13,13 +13,16 @@ flowdexit(
   comp = ".",
   tx = ".",
   channel = ".",
-  expo.gate = ".",
-  expo = TRUE,
-  expo.type = ".",
   name.dict = ".",
   foN.dict = ".",
   type.dict = ".",
+  expo = TRUE,
+  expo.gate = ".",
+  expo.name = ".",
+  expo.type = ".",
+  expo.folder = ".",
   ignore.text.offset = FALSE,
+  stf = TRUE,
   verbose = "."
 )
 }
@@ -60,19 +63,6 @@ columns to keep from the original flowframes; is passed down to argument
 to read data from all channels. If left at the default '.', the value as 
 defined in the settings file (key 'dV_channel') will be used.}
 
-\item{expo.gate}{Which gate to export. NULL or character length one. Set to 
-NULL to export data from all those gates defined in the gating strategy where 
-'keeoData' is set to TRUE. Provide a character length one with a gate name as 
-defined in the gating strategy to export data from this gate only. If left 
-at the default '.', the value as defined in the settings file (key 
-'dE_exportGate') will be used.}
-
-\item{expo}{Logical, if extracted data should exported at all.}
-
-\item{expo.type}{Character length one. The filetype of the data export. 
-Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value 
-as defined in the settings file (key 'dE_exportType') will be used.}
-
 \item{name.dict}{Character length one. The name of the dictionary. If left 
 at the default '.', the value as defined in the settings file (key 
 'dD_dict_name') will be used.}
@@ -85,11 +75,37 @@ settings file (key 'foN_dictionary') will be used.}
 be one of 'csv' or 'xlsx'. If left at the default '.', the value as defined 
 in the settings file (key 'dD_dict_type') will be used.}
 
+\item{expo}{Logical, if extracted data should exported at all.}
+
+\item{expo.gate}{Which gate to export. NULL or numeric or character length 
+one. Set to NULL to export data from all those gates defined in the gating 
+strategy where 'keeoData' is set to TRUE. Provide a character length one 
+with a gate name or the number of that gate as defined in the gating strategy 
+to export data from this gate only. If left at the default '.', the value as 
+defined in the settings file (key 'dE_exportGate') will be used.}
+
+\item{expo.name}{Character length one. The name of the file holding the 
+exported fluorescence distribution(s). If left at the default '.', the value 
+as defined in the settings file (key 'fiN_dataExport') will be used.}
+
+\item{expo.type}{Character length one. The filetype of the data export. 
+Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value 
+as defined in the settings file (key 'dE_exportType') will be used.}
+
+\item{expo.folder}{Character length one. The name of the folder where exported 
+should reside. If left at the default '.', the value as defined in the 
+settings file (key 'foN_rawData') will be used.}
+
 \item{ignore.text.offset}{Logical. If set to true, fcs-files in the folder 
 specified at argument 'fn' will be checked for inconsistencies in the 
 HEADER and TEXT segment and, if those inconsistency is present, the 
 afflicted fcs-file will be re-written to disc, with the values in TEXT 
 being ignored. The file will be \strong{overwritten without further warning.}}
+
+\item{stf}{Logical. If the resulting object of class 'fdmat' should be saved 
+to file in the data export folder. Defaults to TRUE.  If saved, the name 
+of the gating strategy used to generate the data will be appended to the 
+filename.}
 
 \item{verbose}{Logical. If status messages should be displayed. If left at 
 the default '.', the value as defined in the settings file (key 'dV_verbose') 
@@ -109,6 +125,12 @@ in the way of obtaining the fluorescence distribution data getas assigned
 to the environment 'gsenv' under the name 'gatingSet'. Hence, it can be 
 accessed via 'gsenv$gatingSet'.
 }
+\section{Calculating Events per Volume Unit}{
+ 
+XXX explain this please. 
+ evml <- round((nrEvRaw / vols) * volFac , 0)
+}
+
 \section{Regarding Compensation}{
  Due to the circumstances when developing 
 this code, it was never required to apply any kind of compensation. The 
@@ -117,5 +139,13 @@ It is strongly advised to use caution when applying compensation. It might
 well be necessary to modify the source code of this package in order to 
 achieve correct compensation results (compensation is applied in the 
 function \code{\link{makeGatingSet}}).
+}
+
+\section{Exporting Data}{
+ If data are exported to xlsx, additional data like 
+the metadata describing the parameters that lead to the calculation of 
+the fluorescence distribution, the cyTags and the gating strategy are 
+saved in an extra sheet as well. If exporting to csv, only the fluorescence 
+data are exported.
 }
 

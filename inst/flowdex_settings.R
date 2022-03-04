@@ -33,18 +33,18 @@ settings <- list(
 	
 	
 	## exporting Data
-	dE_exportType = "csv", 					## The filetype of the exported data. Possible values are 'csv' and 'xlsx'.
-	dE_exportGate = NULL, 					## The name of the gate that should be exported. Set to NULL to export data from ALL gates in the gating set
-	
+	dE_exportType = "xlsx", 				## The filetype of the exported data. Possible values are 'csv' and 'xlsx'.
+	dE_exportGate = NULL, 					## The name of the gate that should be exported. Set to NULL to export data from ALL gates in the gating set where 'keepData' is set to TRUE in the gating strategy
+	fiN_dataExport = "flscData", 			## the default name of the file holding the exported fluorescence distributions
+
 	
 		
 	## default values in functions
 	dV_tx = "fjbiexp", 						## which transformation to apply. Currently, only "fjbiexp" is implemented
 	dV_channel = "A$", 						## which channels to import when making the gating set
 	dV_comp = FALSE, 						## if compensation should be applied
-	dV_gateStratInputType = "csv", 			## can be "csv" or "xlsx. If the file holding the gating strategy is a csv or an xlsx file.
-	dV_rawDataOutputType = "csv", 			## the format of the rawdata output. Can be 'csv' or 'xlsx'.
-	dV_dictionaryType = "csv", 				## the type of the dictionary file. Can be 'csv' or 'xlsx'.
+	dV_gateStratInputType = "xlsx", 		## can be "csv" or "xlsx. If the file holding the gating strategy is a csv or an xlsx file.
+	dV_dictionaryType = "xlsx", 			## the type of the dictionary file. Can be 'csv' or 'xlsx'.
 	dV_channelsForPGG = c("FITC.A", "PerCP.A"), 	## the default channels used for manually drawing a polygon gate
 	dV_channelBoundaries = c(1250, 4000, 0, 4000), 	## XXX
 	

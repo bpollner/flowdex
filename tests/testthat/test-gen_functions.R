@@ -1,9 +1,9 @@
 library(testthat)
 
 # for manual line by line only
-# devtools::load_all("~/Documents/RPS/flowdex_R/flowdex")
-#  delete all in tempdir !!
-# rm(list=ls(all.names = TRUE))
+#devtools::load_all("~/Documents/RPS/flowdex_R/flowdex")
+# delete all im tempdir !!
+#rm(list=ls(all.names = TRUE))
 
 
 
@@ -310,7 +310,10 @@ test_that("importCheckGatingStrategy", {
     expect_s4_class(importCheckGatingStrategy(fiN_gateStrat, stn, gsType="csv", foN_gating), "gatingStrategy_fd")
     expect_s4_class(importCheckGatingStrategy(fiN_gateStrat, stn, gsType="xlsx", foN_gating), "gatingStrategy_fd")
     expect_error(importCheckGatingStrategy("gateStrat_wrongColnames", stn, gsType="csv", foN_gating), "does not contain the required column names")
+    expect_error(importCheckGatingStrategy("gateStrat_all_FALSE", stn, gsType="csv", foN_gating), "need to keep data from at least one gate")
 }) # EOT
+# importCheckGatingStrategy("gateStrat_all_FALSE", stn, gsType="csv", foN_gating)
+
 
 gsdf <- importCheckGatingStrategy(fiN_gateStrat, stn, gsType="csv", foN_gating)
 
@@ -364,8 +367,6 @@ test_that("drawGate", {
 
 
 
-
-
 #### make fdmat and plot gates ####
 #
 # first copy material from the dictionary folder in testHelpers
@@ -396,9 +397,9 @@ gsA <- makeAddGatingSet(fn=pa, foN.gateStrat=foN_gating, verbose=FALSE) # and re
 gsDouble <- makeAddGatingSet(fn=pa, foN.gateStrat=foN_gating, gateStrat="gateStrat_keep", verbose=FALSE)
 
 test_that("makeCyTags", {
-    expect_s3_class(makeCyTags(gsA, dicGood, stn), "data.frame")
+    expect_s4_class(makeCyTags(gsA, dicGood, stn), "cyTags")
     expect_equal(nrow(makeCyTags(gsA, dicGood, stn)), 6)
-    expect_equal(nrow(makeCyTags(gsDouble, dicGood, stn)), 12)
+    expect_equal(nrow(makeCyTags(gsDouble, dicGood, stn)), 6)
 }) # EOT
 
 test_that("assignHereStnValues", {
@@ -406,20 +407,33 @@ test_that("assignHereStnValues", {
 }) # EOT
 
 test_that("getEventsPerVolume_single", {
-    expect_equal(ncol(getEventsPerVolume_single(gsA, gateName="DNA+", chName="FITC.A", volUnit="ml", apc=TRUE, coV=125)), 5)
+    expect_s4_class(getEventsPerVolume_single(gsA, gateName="DNA+", chName="FITC.A", volUnit="ml", apc=TRUE, coV=125), "eventsPV")
+    expect_equal(ncol(getEventsPerVolume_single(gsA, gateName="DNA+", chName="FITC.A", volUnit="ml", apc=TRUE, coV=125)), 4)
     expect_equal(ncol(getEventsPerVolume_single(gsA, gateName="DNA+", chName="FITC.A", volUnit="ml", apc=FALSE, coV=125)), 3)
     expect_error(getEventsPerVolume_single(gsA, gateName="DNA+", chName="blabla", volUnit="ml", apc=FALSE, coV=125), "seems not to exist")
 }) # EOT
 
-test_that("getEventsPerVolume", {
-    expect_equal(nrow(getEventsPerVolume(gsA)), 6)
-    expect_equal(nrow(getEventsPerVolume(gsDouble)), 12)
+test_that("makeEmptyEvPVDataFrame", {
+    expect_type(makeEmptyEvPVDataFrame(10), "list")
+    expect_equal(length(makeEmptyEvPVDataFrame(10)), 10)
+    expect_s4_class(makeEmptyEvPVDataFrame(10)[[7]], "eventsPV")
 }) # EOT
+
+test_that("getEventsPerVolume", {
+    expect_equal(length(getEventsPerVolume(gsA)), 1)
+    expect_equal(length(getEventsPerVolume(gsDouble)), 2)
+    expect_s4_class(getEventsPerVolume(gsDouble)[[2]], "eventsPV")
+}) # EOT
+# getEventsPerVolume(gsDouble)
+
 
 flowWorkspace::pData(gs)[,"volume"][1] <- NA
 test_that("checkForVolumeData", {
-    expect_error(checkForVolumeData(gs), "no volume-data available")
-    expect_true(checkForVolumeData(gsA))
+    expect_error(checkForVolumeData(gs, stn), "no volume-data available")
+    expect_true(checkForVolumeData(gsA, stn))
+    s2 <- stn
+    s2$dV_use_volumeData <- FALSE
+    expect_false(checkForVolumeData(gsA, s2))
 }) # EOT
 
 # fdm <- makefdmat(gsA, foN.dict = foN_dict) # does not work with the little data
@@ -441,11 +455,14 @@ dir.create(paste0(pathToHome, "/orb4"), showWarnings = FALSE)
 file.copy(orbFrom, orbTo, overwrite = TRUE)
 
 
-
-
 # now make nice fat gating set
 gsF <- makeAddGatingSet(fn=ptOrb4_fcs, foN.gateStrat = ptOrb4, type.gateStrat = "xlsx") # but have the right dictionary, gateStrat and gateDefinitions
+
 fdm <- makefdmat(gsF, type.dict="xlsx", foN.dict = ptOrb4, expo=FALSE)
+
+
+
+
 
 test_that("plotgates", {
     expect_output(plotgates(gsF, foN.plots = foNPlots))
@@ -467,7 +484,8 @@ test_that("plotgates#2", {
 test_that("show methods", {
     expect_output(show(gs))
     expect_output(show(gsA))
-    expect_output(show(fdm))
+    expect_output(show(fdm)) # showing fdmat
+    expect_output(show(fdm[[1]])) # showing fdmat_single
 }) # EOT
 
 
@@ -476,18 +494,21 @@ ptRaw <- paste0(pathToHome, "/rawdata")
 test_that("cutFdmatToGate", {
     expect_error(cutFdmatToGate(fdm, gate=NULL), "Please provide a gate name or a number")
     aaa <- cutFdmatToGate(fdm, 1)
-    expect_equal(nrow(cutFdmatToGate(aaa)), 6) # gets back without cutting down
+    expect_equal(length(cutFdmatToGate(aaa)), 1) # gets back without cutting down
     expect_error(cutFdmatToGate(fdm, gate="bla"), "Sorry, the gate 'bla' does not seem to exist")
     expect_error(cutFdmatToGate(fdm, gate=3), "gate nr 3 does not exist")
     expect_s4_class(cutFdmatToGate(fdm, gate=1), "fdmat")
 }) # EOT
 
 test_that("exportFdmatData", {
+    aaa <- cutFdmatToGate(fdm, 1)
     expect_null(exportFdmatData(fdm, expo.gate=NULL, expo.name=".", expo.type="xlsx", expo.folder=ptRaw))
-    expect_null(exportFdmatData(fdm, expo.gate=NULL, expo.name=".", expo.type="csv", expo.folder=ptRaw))
+    expect_null(exportFdmatData(aaa, expo.gate=NULL, expo.name=".", expo.type="csv", expo.folder=ptRaw))
     expect_error(exportFdmatData(fdm, expo.gate=NULL, expo.name=".", expo.type="blabla", expo.folder=ptRaw), "provide either 'csv' or 'xlsx'")
     expect_null(exportFdmatData(fdm, expo.gate=1, expo.name=".", expo.type="xlsx", expo.folder=ptRaw))
+    expect_message(exportFdmatData(fdm, expo.gate=NULL, expo.name=".", expo.type="csv", expo.folder=ptRaw), "input object has been cut down")
 }) # EOT
+# exportFdmatData(fdm, expo.gate=NULL, expo.name=".", expo.type="csv", expo.folder=ptRaw)
 
 
 test_that("makefdmat", {
@@ -495,6 +516,7 @@ test_that("makefdmat", {
     expect_s4_class(makefdmat(gsF, type.dict="xlsx", foN.dict = ptOrb4, expo=FALSE, dev=TRUE), "fdmat")
     expect_s4_class(makefdmat(gsF, type.dict="xlsx", foN.dict = ptOrb4, expo.folder=ptRaw), "fdmat")
 }) # EOT
+# makefdmat(gsF, type.dict="xlsx", foN.dict = ptOrb4, expo.folder=ptRaw)
 
 test_that("fd_save", {
     expect_null(fd_save(fdm, fns=NULL, expo.folder=ptRaw))
@@ -503,10 +525,11 @@ test_that("fd_save", {
 
 test_that("fd_load", {
     expect_s4_class(fd_load(fn=NULL, expo.folder=ptRaw), "fdmat")
-    cnfn <- "flscData_gateStrat.xlsx_fdmat_yea"
+    cnfn <- "flscData_gateStrat.xlsx_fdmatObj_yea"
     expect_s4_class(fd_load(fn=cnfn, expo.folder=ptRaw), "fdmat")
     expect_error(fd_load(fn="blabla", expo.folder=ptRaw), "fdmat-object 'blabla' does not seem to exist")
 }) # EOT
+# fd_load(fn=NULL, expo.folder=ptRaw)
 
 
 

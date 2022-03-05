@@ -10,11 +10,11 @@ getEventsPerVolume(gs)
 \item{gs}{A gating set as produced by \code{\link{makeAddGatingSet}}.}
 }
 \value{
-A data frame.
+A list with the same length as there are 'keepData == TRUE' in the 
+gating strategy file.
 }
 \description{
-From the data contained in the provided gating set, produce a 
-data frame containing the events per volume unit for every gate in every 
-single flowframe (.e. sample tube).
+From the data contained in the provided gating set, obtain a 
+list containing the events per volume unit in an object of class 'eventsPV' 
+for every gate in every single flowframe (.e. sample tube) in a list element.
 }
-\concept{Statistic functions}

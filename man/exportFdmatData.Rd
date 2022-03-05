@@ -51,7 +51,8 @@ object to file.
 If data are exported to xlsx, additional data like the metadata 
 describing the parameters that lead to the calculation of the fluorescence 
 distribution, the cyTags and the gating strategy are saved in an extra sheet 
-as well. If exporting to csv, only the fluorescence data are exported.
+as well. If exporting to csv, only the fluorescence data from one single gate 
+can be exported.
 }
 \examples{
 \dontrun{

@@ -44,15 +44,32 @@ show_GatingSet_fd <- function(object) {
 } # EOF
 
 show_fdmat <- function(object) {
-	nr <- nrow(object@.Data)
-	nc <- ncol(object@.Data)
-	txt1 <- paste0("An object of class 'fdmat' containing data from ", nr, " samples over ", nc, " fluorescence intensities.\n\n") # XXX nr of samples not correct !!!
-	txt2 <- "(showing only the first and last columns and rows)\n"
 	#
+	txtGaAdd <- ""
+	#
+	reToVol <- all(unlist(lapply(object, function(x) nrow(x@eventsPerVol)))) > 0
+	if (reToVol) {
+		volUnit <- object[[1]]@eventsPerVol@volumeUnit
+		volTxt <- paste0("Fluorescence distribution has been re-calculated to events per ", volUnit, ".\n")
+	} else {
+		volTxt <- "Fluorescence distribution has *NOT* been re-calculated to events per volume unit.\n"
+	} # end else
+	
+	
+	nrSamples <- nrow(object@pData)
+	nrGates <- nrow(object@metadata)
+	if (nrGates > 1) {txtGaAdd <- "s"}
+	txt0 <- "An object of class 'fdmat' [package 'flowdex'] with 6 slots\n"
+	txt1 <- paste0("containing data from ", nrSamples, " samples in ", nrGates, " gate", txtGaAdd, ".\n") 
+	txt2 <- paste0("(use 'object[[1]]' to inspect the first list element containing the first fluorescence distribution)\n")
+	#
+	cat(txt0)
 	cat(txt1)
-	matShow <- object@.Data[c(1,2,nr-1, nr), c(1:3, nc-2, nc-1, nc)]
-	print(matShow)
+	cat(volTxt)
 	cat(txt2)
+#	matShow <- object@.Data[c(1,2,nr-1, nr), c(1:3, nc-2, nc-1, nc)]
+#	print(matShow)
+#	cat(txt2)
 	#
 	cat("\n\nSlot 'metadata':\n")
 	print(object@metadata)
@@ -60,8 +77,8 @@ show_fdmat <- function(object) {
 	cat("\n\nSlot 'cyTags':\n")
 	print(object@cyTags)
 
-	cat("\n\nSlot 'eventsPerVol':\n")
-	print(object@eventsPerVol)
+#	cat("\n\nSlot 'eventsPerVol':\n")
+#	print(object@eventsPerVol)
 	
 	cat("\n\nSlot 'gateStrat':\n")
 	print(object@gateStrat)
@@ -78,3 +95,35 @@ show_fdmat <- function(object) {
 #	plot_gateStructure <- function(x, y, ...) {  
 #		flowWorkspace::plot(x)
 #	} # EOF
+
+
+show_fdmat_single <- function(object) {
+
+	nC <- ncol(object)
+	nSa <- nrow(object)
+	cns <- colnames(object)
+	from <- cns[1]
+	to <- cns[length(cns)]
+	#
+	txt0 <- "An object of class 'fdmat_single'\n"
+	txt1 <- paste0("containing data from ", nSa, " samples in ", nC, " fluorescence intensities from ", from, " to ", to, "\n")
+	txt11 <- paste0("derived from gate '", object@gateName, "'.\n")
+	txt2 <- "(showing only the first and last columns and rows)\n"
+	txt3 <- "Overall data for events per volume unit:\n"
+	if (nrow(object) < 5) {
+		matShow <- object[, c(1,2,3, nC-2, nC-1,nC)] 
+	} else {
+		matShow <- object[c(1,2, nSa-1, nSa), c(1,2,3, nC-2, nC-1,nC)]
+	}
+	cat(txt0)
+	cat(txt1)
+	cat(txt11)
+	print(matShow)
+	cat(txt2)
+	cat("\n")
+	cat(txt3)
+	print(object@eventsPerVol)	
+	return(invisible(NULL))
+} # EOF
+
+

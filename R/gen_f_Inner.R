@@ -70,31 +70,49 @@ makeCyTags_inner <- function(gs,  dictionary, stn) { # returns FALSE if the dict
 } # EOF
 
 makeCyTags <- function(gs, dictionary, stn) {
-	clVarPref <- "C_"
+	# useCyTags <- stn$dD_useDictionary
+# 	#
+# 	if (!useCyTags) {
+# 		return(new("cyTags", data.frame()))
+# 	} # end if
+# 	##
+	clVarPref <- stn$dD_classVarPrefix
 	gateNameChar <- "gate"
 	#
 	cyt <- makeCyTags_inner(gs, dictionary, stn)
-	gsdf <- gs@gateStrat # the data frame with the gating strategy
-	gateNames <- gsdf[,"GateName"]
-	gateNameDF <- data.frame(rep(gateNames, each=nrow(cyt)))
-	colnames(gateNameDF) <- paste0(clVarPref, gateNameChar)
-	cytMult <- NULL
-	origRowNames <- rownames(cyt)
-	for (i in 1: nrow(gsdf)) {
-		gateName <- gsdf[i, "GateName"]
-		rNames <- paste0(origRowNames, "|", gateName)
-		rownames(cyt) <- rNames
-		cytMult <- rbind(cytMult, cyt) # is multiplying the cy-tags as often as we have rows in the gating strategy dataframe
-	}
-	out <- cbind(gateNameDF, cytMult)
-	keepGates <- gsdf[,"GateName"][gsdf[,"keepData"]] # returns a character vector with all the GateNames we want to keep
-	ind <- which(out[,1] %in% keepGates)
-	out <- out[ind,]
-	return(out)
+	return(new("cyTags", cyt))
+	
+	
+	# with the re-structuring of the fdmat we do not need the rest any more.
+	#
+#	 gsdf <- gs@gateStrat # the data frame with the gating strategy
+# 	gateNames <- gsdf[,"GateName"]
+# 	gateNameDF <- data.frame(rep(gateNames, each=nrow(cyt)))
+# 	colnames(gateNameDF) <- paste0(clVarPref, gateNameChar)
+# 	cytMult <- NULL
+# 	origRowNames <- rownames(cyt)
+# 	for (i in 1: nrow(gsdf)) {
+# 		gateName <- gsdf[i, "GateName"]
+# 		rNames <- paste0(origRowNames, "|", gateName)
+# 		rownames(cyt) <- rNames
+# 		cytMult <- rbind(cytMult, cyt) # is multiplying the cy-tags as often as we have rows in the gating strategy dataframe
+# 	}
+# 	out <- cbind(gateNameDF, cytMult)
+# 	keepGates <- gsdf[,"GateName"][gsdf[,"keepData"]] # returns a character vector with all the GateNames we want to keep
+# 	ind <- which(out[,1] %in% keepGates)
+# 	out <- out[ind,]
+# 	return(out)
+
 } # EOF
 
 ################
-checkForVolumeData <- function(gs) {
+checkForVolumeData <- function(gs, stn) {
+	useVolume <- stn$dV_use_volumeData
+	#
+	if (!useVolume) {
+		return(FALSE)
+	} # end if	
+	#
 	options(warn=-1)
 	naInd <- which(is.na(as.numeric(as.character(flowWorkspace::pData(gs)[,"volume"]))))
 	options(warn=0)
@@ -111,6 +129,9 @@ checkForVolumeData <- function(gs) {
 } # EOF
 
 getEventsPerVolume_single <- function(gs, gateName="DNA+", chName="FITC.A", volFac=1e6,  volUnit="ml", apc=TRUE, coV=125) {
+	colNameFilt <- "is_filtered"
+	colNameMean <- "mean"
+	#
 	volUnitTxt <- paste0("events_", volUnit)
 	cnsTotalGs <- flowWorkspace::colnames(gs) # colnames(fls) not working any more; #	cnsFls <- names(flowCore::markernames(fls)) is excluding the FSC and SSC channels
 	#
@@ -126,50 +147,64 @@ getEventsPerVolume_single <- function(gs, gateName="DNA+", chName="FITC.A", volF
 	means <- round(as.numeric(unlist(lapply(fluorList, mean))),0)
 	evml <- evmlOrig <- round((nrEvRaw / vols) * volFac , 0) ##### here calculation ######
 	filtVec <- rep("FALSE", length(evml))
-	gateNameVec <- rep(gateName, length(evml))
-	out <- data.frame(gateNameVec, evml, means)
-	primCns <- c("gate", volUnitTxt, "mean")
+	out <- data.frame(evml, means, filtVec)
+	primCns <- c(volUnitTxt, colNameMean, colNameFilt)
 	colnames(out) <- primCns
-	rownames(out) <- paste0(flowWorkspace::sampleNames(gs), "|", gateName)
+	rownames(out) <- paste0(flowWorkspace::sampleNames(gs))
 	if (apc) { # change in the first and add the original
+		out <- out[,-3] # remove the old is_filtered column
 		aa <- which(evml <= coV)
 		out[aa, volUnitTxt] <- 0
 		filtVec[aa] <- "TRUE"
 		out <- cbind(out, data.frame(filtVec), data.frame(evmlOrig))
-		colnames(out) <- c(primCns, "is_filtered", paste0(volUnitTxt, "_orig"))
+		colnames(out) <- c(primCns[-3], colNameFilt, paste0(volUnitTxt, "_orig"))
 	} # end if
-	return(out)
+	outClass <- new("eventsPV", out, gateName=gateName, volumeUnit=volUnit)
+	return(outClass)
+} # EOF
+
+makeEmptyEvPVDataFrame <- function(nr) {
+	outList <- vector("list", length=nr)
+	eF <- new("eventsPV", data.frame(NULL))
+	outList <- lapply(outList, function(x) x <- eF)
+	return(outList)
 } # EOF
 
 #' @title Get Events per Volume Unit
-#' @description From the data contained in the provided gating set, produce a 
-#' data frame containing the events per volume unit for every gate in every 
-#' single flowframe (.e. sample tube).
+#' @description From the data contained in the provided gating set, obtain a 
+#' list containing the events per volume unit in an object of class 'eventsPV' 
+#' for every gate in every single flowframe (.e. sample tube) in a list element.
 #' @param gs A gating set as produced by \code{\link{makeAddGatingSet}}.
-#' @return A data frame.
-#' @family Statistic functions
+#' @return A list with the same length as there are 'keepData == TRUE' in the 
+#' gating strategy file.
 #' @export
 getEventsPerVolume <- function(gs) {
 	stn <- autoUpS()
 	#
 	checkObjClass(object=gs, "GatingSet_fd", argName="gs") 
+	useVolume <- checkForVolumeData(gs, stn) # gets back FALSE when dV_use_volumeData in settings is FALSE
 	#
 	volFac <- stn$dV_volumeFactor
 	volUnit <- stn$dV_volumeUnit
 	apc <- stn$dV_cutoff_apply
 	coV <- stn$dV_cutoff_Vol
 	#
-	out <- NULL
 	gsdf <- gs@gateStrat
-	for (i in 1: nrow(gsdf)) {
-		gateName <- gsdf[i,"GateName"]
-		chName <- gsdf[i,"extractOn"]
-		if (gsdf[i, "keepData"]) {
-			siEvml <- getEventsPerVolume_single(gs, gateName, chName, volFac, volUnit, apc, coV)
-			out <- rbind(out, siEvml)
-		} # end if
+	gsdfUse <- gsdf[gsdf[,"keepData"],]
+	nrKeep <- nrow(gsdfUse)
+	if (!useVolume) {
+		return(makeEmptyEvPVDataFrame(nrKeep))
+	} # end if
+
+	outList <- vector("list", length=nrKeep)
+	#
+	for (i in 1: nrow(gsdfUse)) {
+		gateName <- gsdfUse[i,"GateName"]
+		chName <- gsdfUse[i,"extractOn"]
+		siEvml <- getEventsPerVolume_single(gs, gateName, chName, volFac, volUnit, apc, coV)
+		outList[[i]] <- siEvml
 	} # end for i
-	return(out)
+	return(outList)
 } # EFO
 
 #################
@@ -335,6 +370,9 @@ makefdmat_single <- function(gs, gateName="DNA+", chName="FITC.A", res=220, flRa
 #	zeroInd <- as.numeric(which(apply(mat,1, function(x) all(x==0)))) # the indices of all the rows that contain all zero
 	md <- data.frame(gateName=gateName, gateDef=gateDef, extractOn=chName, res=res, flRange=paste(flRange, collapse=","), apc=apc, coR=coR, coV=coV, rcv=rcv, igp=igp, smo=smo, smN=smN, smP=smP, ncpwl=nchar(chPrevWl))
 	if (verbose) {cat("ok. \n")}
-	return(list(mat=mat, md=md))
+	#
+	eev <- new("eventsPV", data.frame(NULL))
+	out <- new("fdmat_single", mat, eventsPerVol=eev, gateName=gateName, metadata=md, note="")
+	return(out)
 } # EOF
 

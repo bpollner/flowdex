@@ -63,8 +63,10 @@ smoothed mid-points is plotted. (Only intended for development.) Defaults to
 FALSE.}
 }
 \value{
-A matrix of class "fdmat" with one row for every FCS file in the 
-gating set.
+An object of class "fdmat" containing a list holding an object of 
+class 'fdmat_single' in each list element, which in turn contains a matrix 
+holding the fluorescence distribution of a single gate, and the overall data 
+for events per volume unit in the slot 'eventsPerVol'.
 }
 \description{
 Extract fluorescence distribution along a specified channel 

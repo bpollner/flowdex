@@ -28,6 +28,12 @@ object to file.
 Saves the R-object containing the fluorescence distributions 
 (the 'fdmat' object) in the standard data export / rawdata folder.
 }
+\details{
+The name of the saved file is put together using the default name 
+for data exports (settings.R file key 'fiN_dataExport'), the name and type 
+of the gating strategy, the character 'fdmatObj' and a possible filename 
+suffix as defined in 'fns'.
+}
 \examples{
 \dontrun{
 fd_save(fdmat)

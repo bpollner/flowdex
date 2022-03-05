@@ -458,10 +458,9 @@ file.copy(orbFrom, orbTo, overwrite = TRUE)
 # now make nice fat gating set
 gsF <- makeAddGatingSet(fn=ptOrb4_fcs, foN.gateStrat = ptOrb4, type.gateStrat = "xlsx") # but have the right dictionary, gateStrat and gateDefinitions
 
+
+
 fdm <- makefdmat(gsF, type.dict="xlsx", foN.dict = ptOrb4, expo=FALSE)
-
-
-
 
 
 test_that("plotgates", {
@@ -490,6 +489,14 @@ test_that("show methods", {
 
 
 ptRaw <- paste0(pathToHome, "/rawdata")
+
+test_that("checkForGateNr", {
+    expect_equal(checkForGateNr(fdm, 2), 2)
+    expect_equal(checkForGateNr(fdm, "DNA+"), 1)
+    expect_error(checkForGateNr(fdm, "blabla+"), "does not seem to exist")
+    expect_error(checkForGateNr(fdm, 4), "does not exist")
+}) # EOT
+# checkForGateNr(fdm, 1)
 
 test_that("cutFdmatToGate", {
     expect_error(cutFdmatToGate(fdm, gate=NULL), "Please provide a gate name or a number")
@@ -543,10 +550,25 @@ test_that("flowdexit", {
 # plot counts
 
 
-
 #### Accessory Functions ####
 
+test_that("getFlscX", {
+    expect_type(getFlscX(fdm[[1]]), "double")
+    expect_equal(length(getFlscX(fdm[[1]])), 219)
+}) # EOT
 
+test_that("checkBandpass", {
+    expect_null(checkBandpass(c(300, 600)))
+    expect_error(checkBandpass(c(900, 600)), "has to be smaller")
+    expect_error(checkBandpass(c(900, 600, 120)), "numeric length two")
+}) # EOT
+
+bapa <- c(1600, 2400)
+test_that("applyBandpass", {
+    expect_s4_class(applyBandpass(fdm, bapa, 1), "fdmat")
+    expect_s4_class(applyBandpass(fdm, bapa, 2)[[2]], "fdmat_single")
+}) # EOT
+# applyBandpass(fdm, bapa, 1)
 
 
 

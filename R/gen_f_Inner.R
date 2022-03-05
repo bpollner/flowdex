@@ -372,7 +372,7 @@ makefdmat_single <- function(gs, gateName="DNA+", chName="FITC.A", res=220, flRa
 	if (verbose) {cat("ok. \n")}
 	#
 	eev <- new("eventsPV", data.frame(NULL))
-	out <- new("fdmat_single", mat, eventsPerVol=eev, gateName=gateName, metadata=md, note="")
+	out <- new("fdmat_single", mat, eventsPerVol=eev, gateName=gateName, metadata=md, ncpwl=nchar(chPrevWl), note="original")
 	return(out)
 } # EOF
 

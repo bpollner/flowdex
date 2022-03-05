@@ -41,6 +41,7 @@ fd_save(fdmat)
 }
 \seealso{
 Other Helper functions: 
+\code{\link{applyBandpass}()},
 \code{\link{cutFdmatToGate}()},
 \code{\link{fd_load}()}
 }

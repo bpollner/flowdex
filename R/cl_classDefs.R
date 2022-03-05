@@ -14,7 +14,7 @@ setClass("gatingStrategy_fd", slots=c(filename="character"), contains="data.fram
 setClass("GatingSet_fd", slots=c(gateStrat="gatingStrategy_fd"), contains="GatingSet") # extends the class "GatingSet" from package flowWorkspace
 #
 # setClassUnion(name="evpvNull", members = c("eventsPV", "NULL")) ## Why not work ??
-setClass("fdmat_single", slots=c(eventsPerVol="eventsPV", gateName="character", metadata="data.frame", note="character"), contains="matrix")
+setClass("fdmat_single", slots=c(eventsPerVol="eventsPV", gateName="character", metadata="data.frame", ncpwl="numeric", note="character"), contains="matrix")
 
 setClassUnion(name="cytNull", members = c("cyTags", "NULL"))
 setClass("fdmat", slots=c(metadata="data.frame", cyTags="cytNull", gateStrat="gatingStrategy_fd",  pData="data.frame", note="character"), contains="list")

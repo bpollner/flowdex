@@ -31,6 +31,7 @@ for exported data and gating strategy is being attempted to load.
 }
 \seealso{
 Other Helper functions: 
+\code{\link{applyBandpass}()},
 \code{\link{cutFdmatToGate}()},
 \code{\link{fd_save}()}
 }

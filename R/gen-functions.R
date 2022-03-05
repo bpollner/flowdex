@@ -622,16 +622,7 @@ cutFdmatToGate <- function(fdmat, gate=NULL) {
 		stop("Please provide a gate name or a number (as defined in the metadata) to the argument 'gate'.", call.=FALSE)
 	} # end if
 	#
-	gateNr <- gate
-	if (is.character(gate)) {
-		gateNr <- which(as.character(fdmat@metadata$gateName) == gate)
-		if (length(gateNr) == 0) {
-			stop(paste0("Sorry, the gate '", gate, "' does not seem to exist."), call.=FALSE)
-		} # end if
-	} # end if
-	if (gateNr > nrow(fdmat@metadata)) {
-		stop(paste0("Sorry, the gate nr ", gateNr, " does not exist."), call.=FALSE)
-	} # end if
+	gateNr <- checkForGateNr(fdmat, gate)
 	#
 	fdmat@.Data <- list(fdmat[[gateNr]]) # make a new list length one, holding the object of class 'fdmat_single' (obtained by fdmat[[gateNr]])
 	fdmat@metadata <- fdmat[[1]]@metadata #
@@ -1124,8 +1115,11 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 #' the fluorescence distribution, the cyTags and the gating strategy are 
 #' saved in an extra sheet as well. If exporting to csv, only the fluorescence 
 #' data are exported.
-#' @return An object of class 'fdmat' containing fluorescence distributions 
-#' possibly re-calculated to events per volume unit.
+#' @return An object of class "fdmat" containing a list holding an object of 
+#' class 'fdmat_single' in each list element, which in turn contains a matrix 
+#' holding the fluorescence distribution of a single gate, possibly 
+#' re-calculated to events per volume unit, and the overall data 
+#' for events per volume unit in the slot 'eventsPerVol'. 
 #' @export
 flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", name.dict=".", foN.dict=".", type.dict=".", expo=TRUE, expo.gate=".", expo.name=".", expo.type=".", expo.folder=".", ignore.text.offset=FALSE, stf=TRUE, verbose=".") {
 	#

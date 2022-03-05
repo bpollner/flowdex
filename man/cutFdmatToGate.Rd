@@ -30,6 +30,7 @@ fdmCut <- cutFdmatToGate(fdm, "fooBar")
 }
 \seealso{
 Other Helper functions: 
+\code{\link{applyBandpass}()},
 \code{\link{fd_load}()},
 \code{\link{fd_save}()}
 }

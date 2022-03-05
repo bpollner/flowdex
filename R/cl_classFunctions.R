@@ -109,7 +109,8 @@ show_fdmat_single <- function(object) {
 	txt1 <- paste0("containing data from ", nSa, " samples in ", nC, " fluorescence intensities from ", from, " to ", to, "\n")
 	txt11 <- paste0("derived from gate '", object@gateName, "'.\n")
 	txt2 <- "(showing only the first and last columns and rows)\n"
-	txt3 <- "Overall data for events per volume unit:\n"
+	txtOveralEVPV <- "Overall data for events per volume unit:\n"
+	txtNote <- paste0(object@note, " \n")
 	if (nrow(object) < 5) {
 		matShow <- object[, c(1,2,3, nC-2, nC-1,nC)] 
 	} else {
@@ -118,10 +119,11 @@ show_fdmat_single <- function(object) {
 	cat(txt0)
 	cat(txt1)
 	cat(txt11)
+	cat(txtNote)	
 	print(matShow)
 	cat(txt2)
 	cat("\n")
-	cat(txt3)
+	cat(txtOveralEVPV)
 	print(object@eventsPerVol)	
 	return(invisible(NULL))
 } # EOF

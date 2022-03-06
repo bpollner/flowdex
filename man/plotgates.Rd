@@ -88,6 +88,7 @@ plotgates(gs, spl="fooBar") # to split the plot by values contained in column
 }
 \seealso{
 Other Plotting functions: 
-\code{\link{drawGate}()}
+\code{\link{drawGate}()},
+\code{\link{plotFlscDist}()}
 }
 \concept{Plotting functions}

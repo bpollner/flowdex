@@ -547,11 +547,14 @@ test_that("flowdexit", {
 # flowdexit(fn=ptOrb4_fcs, foN.gateStrat = ptOrb4, type.gateStrat = "xlsx", type.dict="xlsx", foN.dict = ptOrb4, expo.folder=ptRaw)
 
 
-# plot counts
 
+
+
+stn <- source(paste0(ptpInst, "/flowdex_settings.R"))$value # conveniently here again
 
 #### Accessory Functions ####
 
+## apply bandpass
 test_that("getFlscX", {
     expect_type(getFlscX(fdm[[1]]), "double")
     expect_equal(length(getFlscX(fdm[[1]])), 219)
@@ -571,6 +574,25 @@ test_that("applyBandpass", {
 # applyBandpass(fdm, bapa, 1)
 
 
+## plotFlscDist
+test_that("makeColors", {
+    expect_type(makeColors(8, stn), "character")
+    expect_equal(length(makeColors(8, stn)), 8)
+}) # EOT
+
+test_that("plotFlscDist", {
+    expect_null(plotFlscDist(fdm, foN.plots=foNPlots))
+    expect_null(plotFlscDist(fdm, gate=NULL, toPdf=FALSE, foN.plots=foNPlots))
+    expect_null(plotFlscDist(fdm, gate=1, toPdf=FALSE, foN.plots=foNPlots))
+    expect_null(plotFlscDist(fdm, gate=2, toPdf=FALSE, foN.plots=foNPlots))
+    expect_null(plotFlscDist(fdm, gate=1, spl="C_treatment", toPdf=FALSE, foN.plots=foNPlots))
+    expect_null(plotFlscDist(fdm, gate=1, toPdf=FALSE, foN.plots=foNPlots, clt=c(1,1,1,2,2,2), ccol=c(1,2,3)))
+    expect_error(plotFlscDist(fdm, gate=1, spl="C_treatmentXX", toPdf=FALSE, foN.plots=foNPlots), "is not present")
+    expect_null(plotFlscDist(fdm, gate=1, spl=NULL, toPdf=FALSE, ylog=TRUE, foN.plots=foNPlots))
+    expect_null(plotFlscDist(fdm, gate=1, toPdf=TRUE, foN.plots=foNPlots))
+    expect_null(plotFlscDist(fdm, gate=1, toPdf=TRUE, spl="C_treatment", foN.plots=foNPlots))
+}) # EOT
+# plotFlscDist(fdm, gate=1, toPdf=TRUE, spl="C_treatment", foN.plots=foNPlots)
 
 
 

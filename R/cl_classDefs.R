@@ -16,8 +16,8 @@ setClass("GatingSet_fd", slots=c(gateStrat="gatingStrategy_fd"), contains="Gatin
 # setClassUnion(name="evpvNull", members = c("eventsPV", "NULL")) ## Why not work ??
 setClass("fdmat_single", slots=c(eventsPerVol="eventsPV", gateName="character", metadata="data.frame", ncpwl="numeric", note="character"), contains="matrix")
 
-setClassUnion(name="cytNull", members = c("cyTags", "NULL"))
-setClass("fdmat", slots=c(metadata="data.frame", cyTags="cytNull", gateStrat="gatingStrategy_fd",  pData="data.frame", note="character"), contains="list")
+# setClassUnion(name="cytNull", members = c("cyTags", "NULL")) ## Why not work ?? sometimes getting the recache error "definitions not updated" message.
+setClass("fdmat", slots=c(metadata="data.frame", cyTags="cyTags", gateStrat="gatingStrategy_fd",  pData="data.frame", note="character"), contains="list")
 
 
 #### methods ####
@@ -29,18 +29,5 @@ setMethod("show", signature(object = "fdmat"), definition = show_fdmat )
 
 
 
-
-#setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
-
-
-#setMethod("plot", signature(x = "GatingSet_fd", y = "missing"), definition = plot_gateStructure )
-
-	##' @rdname plot_counts
-	##' @export
-	#setMethod("plot", signature(x="fdmat", y="missing"), definition = plot_CountsFdMat_M)
-
-
-
-
-
-#	setClass("fdmat", slots=c(metadata="data.frame", cyTags="dfNull", eventsPerVol="dfNull", gateStrat="gatingStrategy_fd",  pData="data.frame", note="character"), contains="matrix")
+setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
+# setMethod("plot", signature(x = "GatingSet_fd", y = "missing"), definition = plot_gateStructure )

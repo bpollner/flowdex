@@ -1,5 +1,5 @@
 
-makeCyTags_inner <- function(gs,  dictionary, stn) { # returns FALSE if the dictionary or the sampleId column in the phenoData does not exist
+makeCyTags_inner <- function(gs,  dictionary, stn) { #
 	# sampleIDs can be present in the tube in any order, can have different lengths; in the dictionary there can be any number of translations, but only no duplicates in the first column
 	#
 	# foN_dict, nameDict, dictType,
@@ -70,39 +70,12 @@ makeCyTags_inner <- function(gs,  dictionary, stn) { # returns FALSE if the dict
 } # EOF
 
 makeCyTags <- function(gs, dictionary, stn) {
-	# useCyTags <- stn$dD_useDictionary
-# 	#
-# 	if (!useCyTags) {
-# 		return(new("cyTags", data.frame()))
-# 	} # end if
-# 	##
+	#
 	clVarPref <- stn$dD_classVarPrefix
 	gateNameChar <- "gate"
 	#
 	cyt <- makeCyTags_inner(gs, dictionary, stn)
 	return(new("cyTags", cyt))
-	
-	
-	# with the re-structuring of the fdmat we do not need the rest any more.
-	#
-#	 gsdf <- gs@gateStrat # the data frame with the gating strategy
-# 	gateNames <- gsdf[,"GateName"]
-# 	gateNameDF <- data.frame(rep(gateNames, each=nrow(cyt)))
-# 	colnames(gateNameDF) <- paste0(clVarPref, gateNameChar)
-# 	cytMult <- NULL
-# 	origRowNames <- rownames(cyt)
-# 	for (i in 1: nrow(gsdf)) {
-# 		gateName <- gsdf[i, "GateName"]
-# 		rNames <- paste0(origRowNames, "|", gateName)
-# 		rownames(cyt) <- rNames
-# 		cytMult <- rbind(cytMult, cyt) # is multiplying the cy-tags as often as we have rows in the gating strategy dataframe
-# 	}
-# 	out <- cbind(gateNameDF, cytMult)
-# 	keepGates <- gsdf[,"GateName"][gsdf[,"keepData"]] # returns a character vector with all the GateNames we want to keep
-# 	ind <- which(out[,1] %in% keepGates)
-# 	out <- out[ind,]
-# 	return(out)
-
 } # EOF
 
 ################

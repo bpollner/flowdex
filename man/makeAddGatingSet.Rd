@@ -74,6 +74,8 @@ the gating strategy as previously defined.
 \details{
 This is a convenience wrapper for the two functions 
 \code{\link{makeGatingSet}} and \code{\link{addGates}}.
+ In order to see a schematic representation of 'parent' and 'child' gates, 
+simply use 'plot'.
 }
 \examples{
 \dontrun{

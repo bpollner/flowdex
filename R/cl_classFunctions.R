@@ -92,11 +92,6 @@ show_fdmat <- function(object) {
 	return(invisible(NULL))
 } # EOF
 
-#	plot_gateStructure <- function(x, y, ...) {  
-#		flowWorkspace::plot(x)
-#	} # EOF
-
-
 show_fdmat_single <- function(object) {
 
 	nC <- ncol(object)
@@ -128,4 +123,6 @@ show_fdmat_single <- function(object) {
 	return(invisible(NULL))
 } # EOF
 
-
+# 	plot_gateStructure <- function(x, ...) {  
+#		flowWorkspace::plot(x=x)
+#	} # EOF

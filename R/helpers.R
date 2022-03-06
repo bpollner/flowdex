@@ -342,11 +342,11 @@ checkForGateNr <- function(fdmat, gate) { # gets the number from the range of th
 	if (is.character(gate)) {
 		gateNr <- which(as.character(fdmat@metadata$gateName) == gate)
 		if (length(gateNr) == 0) {
-			stop(paste0("Sorry, the gate '", gate, "' does not seem to exist."), call.=FALSE)
+			stop(paste0("Sorry, the gate '", gate, "' does not seem to exist (Scope: Metadata)."), call.=FALSE)
 		} # end if
 	} # end if
 	if (gateNr > nrow(fdmat@metadata)) {
-		stop(paste0("Sorry, the gate nr ", gateNr, " does not exist."), call.=FALSE)
+		stop(paste0("Sorry, the gate nr ", gateNr, " does not exist (Scope: Metadata)."), call.=FALSE)
 	} # end if
 	#
 	return(gateNr)

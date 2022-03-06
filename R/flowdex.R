@@ -44,8 +44,8 @@
 #' 
 #' @importClassesFrom flowWorkspace GatingSet
 #' 
-#' @importFrom graphics abline lines
-#' @importFrom grDevices dev.off pdf
+#' @importFrom graphics abline lines axis legend matplot
+#' @importFrom grDevices dev.off pdf colorRampPalette rgb
 #'
 #' @docType package
 #' @name flowdex

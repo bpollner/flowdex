@@ -13,10 +13,12 @@
 settings <- list(
 	# tag = value, # with a comma !!
 		
+		
 	## general behavior
 	gen_autoUpdateSettings = TRUE, 			## Do not delete this variable (but of course you can change its value)
 	dV_verbose = TRUE,						## default value for 'verbose'; if status messages should be displayed
 	dV_use_volumeData = TRUE, 				## Set to FALSE if no volume data are present at all in your fcs files. Re-calculation to events per volume unit will of course be not possible then.
+	
 	
 		
 	## default names for folders (foN) and files (fiN)
@@ -36,6 +38,7 @@ settings <- list(
 	dE_exportGate = NULL, 					## The name of the gate that should be exported. Set to NULL to export data from ALL gates in the gating set where 'keepData' is set to TRUE in the gating strategy
 	fiN_dataExport = "flscData", 			## the default name of the file holding the exported fluorescence distributions
 	dV_charEventsPerVolume = "evpv", 		## The string, when exporting data to excel, used to name sheets holding data from events per volume unit.
+	
 	
 		
 	## default values in functions
@@ -83,7 +86,10 @@ settings <- list(
 	dG_pdf_height = 10,						## The height of the pdf when gates are plotted
 	dg_pdf_width = 14,						## The width of the pdf when gates are plotted
 	dg_nrBins = 128, 						## The number of bins applied for generating the heatmap when plotting gates
-
+	dG_nonFluorescenceChar = c("FSC.A", "SSC.A"), ## Characters defining non-fluorescence axes when plotting. Is affecting the label on the axes.
+	dG_alphaForLegends = 200, 				## When plotting fluorescence distributions, the alpha (transparence) for the legend
+	dG_RcolorBrewerPal = "Dark2", 			## the default palette from RColorBrewer to generate colors when plotting fluorescence distributions
+	
 	
 	######
 	last = 0 # do not add anything below that

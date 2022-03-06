@@ -22,7 +22,9 @@ Imports:
 	openxlsx,
 	signal, 
 	ggcyto, 
-	ggplot2
+	ggplot2,
+	RColorBrewer,
+	scales
 Suggests: 
     covr,
     testthat (>= 3.0.0)

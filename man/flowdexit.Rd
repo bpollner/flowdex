@@ -112,8 +112,11 @@ the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
-An object of class 'fdmat' containing fluorescence distributions 
-possibly re-calculated to events per volume unit.
+An object of class "fdmat" containing a list holding an object of 
+class 'fdmat_single' in each list element, which in turn contains a matrix 
+holding the fluorescence distribution of a single gate, possibly 
+re-calculated to events per volume unit, and the overall data 
+for events per volume unit in the slot 'eventsPerVol'.
 }
 \description{
 XXX

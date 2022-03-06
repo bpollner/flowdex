@@ -435,6 +435,8 @@ addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", v
 #' the gating strategy as previously defined.
 #' @details This is a convenience wrapper for the two functions 
 #' \code{\link{makeGatingSet}} and \code{\link{addGates}}.
+#'  In order to see a schematic representation of 'parent' and 'child' gates, 
+#' simply use 'plot'.
 #' @inheritParams flowdexit
 #' @return A gating set with added and recomputed gates.
 #' @examples
@@ -764,8 +766,10 @@ makefdmat <- function(gs, name.dict=".", foN.dict=".", type.dict=".", expo=TRUE,
 	if (useDic) {
 		checkFileExistence(foN_dict, nameDict, dictTypeE, addTxt="dictionary file ")
 		dictionary <- loadGaXFile(foN_dict, nameDict, dictType)
-		cyTags <- makeCyTags(gs, dictionary, stn) # extract from the sampleId column in the pheno Data; returns FALSE if either the dictionary or the sampleId column from the single tubes is not present
-	} # end if useDic
+		cyTags <- makeCyTags(gs, dictionary, stn) # extract from the sampleId column in the pheno Data
+	} else { # so we do not want to use the dic :-) 
+		cyTags <- new("cyTags", data.frame(NULL)) # due to the strange behavior when making class-unions (??)
+	}# end if useDic
 	#	
 	gsdf <- gs@gateStrat
 	gsdfUse <- gsdf[gsdf[,"keepData"],]
@@ -935,7 +939,6 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 	} # end if
 	return(invisible(NULL))
 } # EOF
-
 
 #' @title Save Fluorescence Distribution 'fdmat' Object
 #' @description Saves the R-object containing the fluorescence distributions 

@@ -389,7 +389,9 @@ test_that("makeCyTags_inner", {
     expect_s3_class(makeCyTags_inner(gsA, dicGood, stn), "data.frame")
     expect_error(makeCyTags_inner(gsA, dicMiss, stn), "is not present")
     expect_error(makeCyTags_inner(gsA, dicDouble, stn), "more than one translation")
-    colnames(flowWorkspace::pData(gsA))[1] <- "blabla"
+    cns <- colnames(flowWorkspace::pData(gsA))
+    ind <- which(cns == "sampleId")
+    colnames(flowWorkspace::pData(gsA))[ind] <- "blabla"
     expect_error(makeCyTags_inner(gsA, dicGood, stn), "the required column 'sampleId' is not available")
 }) # EOT
 

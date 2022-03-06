@@ -227,9 +227,14 @@ repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm
 		txt <- paste0(flowFile, "@description$VOL <- ", vol)
 		eval(parse(text=txt)) # here write the provided volume into the description of a single flowFrame
 #		ffn <- paste0(folderName,"/",namesUse[i], ".fcs") # the name of folder and file
-		ffn <- paste0(folderName,"/",namesUse[i], "") # the name of folder and file
+		ffn <- normalizePath(paste0(folderName,"/",namesUse[i])) # the name of folder and file   ## also file.path()
 		options(warn=-1)
-		txt <- paste0("flowCore::write.FCS(", flowFile, ", \"", ffn, "\")")
+		txt <- paste0("flowCore::write.FCS(", flowFile, ", \"", ffn, "\")") # good on UNIX
+		if (.Platform$OS.type == "windows") {
+			pat <- "\\\\"
+			repl <- "/"
+			txt <- gsub(pat, repl, txt) # because we come in as the windows path, but then execute that from within R, so it needs to be forward slashes. Ha.
+		} # end if windows
 		eval(parse(text=txt)) # write the single flowFrame with corrected Volume back to file
 		options(warn=0)
 		cat(".")
@@ -290,9 +295,14 @@ repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".", confir
 	flowFile <- paste0("fs@frames$", name)
 	txt <- paste0(flowFile, "@description$`$SMNO` <- \"", newSID, "\"")
 	eval(parse(text=txt)) # write the new sample ID into the single flowFrame.
-	ffn <- paste0(fn,"/", name, "") # the name of folder and file
+	ffn <- normalizePath(paste0(fn,"/", name, "")) # the name of folder and file
 	options(warn=-1)
 	txt <- paste0("flowCore::write.FCS(", flowFile, ", \"", ffn, "\")")
+	if (.Platform$OS.type == "windows") {
+			pat <- "\\\\"
+			repl <- "/"
+			txt <- gsub(pat, repl, txt) # because we come in as the windows path, but then execute that from within R, so it needs to be forward slashes. Ha.
+		} # end if windows
 	eval(parse(text=txt)) # write the single flowFrame with corrected sample ID back to file
 	options(warn=0)
 	if (TRUE) {cat(paste0("`", name, "` has been rewritten with the modified sample ID.\n"))}

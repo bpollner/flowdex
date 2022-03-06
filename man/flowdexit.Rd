@@ -119,7 +119,11 @@ re-calculated to events per volume unit, and the overall data
 for events per volume unit in the slot 'eventsPerVol'.
 }
 \description{
-XXX
+Read in all fcs files from a specified folder, produce a 
+gating set, add gates as defined in the gating strategy file, extract 
+fluorescence distribution data from each gate, possibly re-calculate the 
+fluorescence distribution to events per volume unit, export all data to file 
+and save the R-object holding all the data to file as well.
 }
 \details{
 While function 'flowdexit' returns fluorescence distributions 

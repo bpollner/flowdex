@@ -36,6 +36,14 @@ advised to work on a copy of the original fcs files, just to be sure.
  XXX
 }
 
+\section{Acknowledgements}{
+ This work was made possible by support from IPF 
+Austria - Georg Huber. \cr
+Flow cytometry data were acquired at the Institute 
+for Hygiene and Medical Microbiology, Medical University of Innsbruck, 
+Austria.
+}
+
 \examples{
 \dontrun{
 # all in one

@@ -479,7 +479,8 @@ test_that("plotgates#2", {
 }) # EOT
 
 #   plotgates(gsF, foN.plots = foNPlots) # gives the coordinate system error -- but it works.
-#   plotgates(gsP, foN.plots = foNPlots, x="FSC.A", y="SSC.A")
+#   plotgates(gsP, foN.plots = foNPlots, x="FSC.A", y="SSC.A", toPdf = F)
+#   plotgates(gsP, foN.plots = foNPlots, x="FITC.A", y="PerCP.A", toPdf = F)
 
 # now also test the "show" methods
 test_that("show methods", {

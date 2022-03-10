@@ -605,7 +605,7 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateS
 		names(locMat) <- channels
 		lines(locMat[[1]], locMat[[2]], col=pggColor, lwd=pggLwd)
 		save(locMat, file=paste0(foN_gating, "/", pggId))
-	}
+	} # end if useLoc
 	return(invisible(locMat))
 } # EOF
 

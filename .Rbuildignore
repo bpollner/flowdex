@@ -3,3 +3,4 @@
 ^.*\.Rproj$
 ^codecov\.yml$
 ^\.github$
+_config.yml

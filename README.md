@@ -53,7 +53,8 @@ unzip(targetZip, exdir = destination)
 (All the code below is also available in the file 'tutorialScript.R' in the uncompressed folder.)  
 
 #### Note: Description of Tutorial Dataset
-* All samples are tap water samples stained with cybergreen following the method as described in: Prest, E. I., Hammes, F., Kotzsch, S., van Loosdrecht, M. C., & Vrouwenvelder, J. S. (2013). Monitoring microbiological changes in drinking water systems using a fast and reproducible flow cytometric method. Water Research, 47(19), 7131-7142 https://doi.org/10.1016/j.watres.2013.07.051
+* All samples are tap water samples stained with cybergreen following the method as described in:   
+Prest, E. I., Hammes, F., Kotzsch, S., van Loosdrecht, M. C., & Vrouwenvelder, J. S. (2013). Monitoring microbiological changes in drinking water systems using a fast and reproducible flow cytometric method. Water Research, 47(19), 7131-7142 https://doi.org/10.1016/j.watres.2013.07.051
 * It was the purpose of the experiment to monitor the number of autochthonous bacteria in the water samples and their fluorescence distribution (LNA vs. HNA bacteria) over time.
 * A sample-ID string has been provided at the time of data acquisition, providing class and numerical variables describing each sample as described below.
 * There are two groups, experiment and control. The experiment group is denoted as 'GPos', the control group is denoted as 'GNeg'.
@@ -147,11 +148,12 @@ Here, the focus is on establishing the gating strategy and manually drawing the 
 Here, the focus is on using the previously established gating strategy to extract fluorescence distributions, visualise them and export them to file.    
 All this (except visualisation) is conveniently done via `flowdexit`. Look at [Quickstart](#quickstart) for an immediate example. 
 
+***
 
 ### Workflow A: Define Gating Strategy and Polygon Gates
 The next step after data acquisition is to visualize the raw-counts, to decide which sample to use for drawing the gate, and then to manually draw the polygon gate(s) and safe them for later use. Each row in the gating strategy file defines a single gate along with its polygon gate definition. Gates can be nested or 'standalone'.    
 
-#### Read FCS Files and Make Gating Set
+#### Read in FCS Files and Make Gating Set
 Before drawing a polygon gate on a single sample, we have to read in some FCS files and produce the gating set.
 ```
 gsAll <- makeGatingSet()
@@ -159,39 +161,154 @@ gsAll <- makeGatingSet()
 If everything was left at the default, this will read in all 144 fcs-files contained in the folder 'fcsFiles'.   
 For the purpose of this demonstration we will restrict the fcs files to be read in to a lower number by defining a filename pattern: Only fcs files with matching pattern will be read in. 
 ```
-gsRed <- makeGatingSet(patt="GPos_T4_th1")
+gsRed <- makeGatingSet(patt="GPos_T6_th2")
 gsRed
 ```
-Thus, only fcs files from the experiment group from day 4 (first third, i.e. 8 beakers) will be read in.
-We can now use this reduced gating set to visualise raw counts:
+Note the printout of the samples contained in the gating set and of the available channels.   
+Only fcs files from the experiment group from day 6 (second third, i.e. 8 beakers) were read in.
+We can now use this reduced gating set to visualise the raw fcs data by specifying the channel we want for the x and for the y axis:
+```
+plotgates(gsRed, toPdf = FALSE, x="FITC.A", y="PerCP.A")
 ```
 
-XXX
+
+#### Manually Draw Polygon Gate
+All 8 samples seem to have a good representation of our desired population, the stained bacteria. Lets assume we choose beaker 'GPos_T6_th2_b7', which is the 7th sample in this gating set, as sample to manually draw the polygon gate on:
+```
+drawGate(gsRed, flf=7, gn="root", pggId="BactStainV1", channels=".")
+# point and click to draw a polygon gate around the population of interest
+```
+
+`gn`is the name of the gate we want to use to display data. As no gates are yet defined let alone added to the gating set, we leave that at the default 'root'.    
+`pggId` specifies the name the new polygon gate should be saved under. If left at the default, 'polyGate' will be used.   
+`channels` is specifying which channels we want to be displayed on the x and y axis. Defaults to 'c("FITC.A", "PerCP.A")'.   
+The lines displayed in the graphic have their origin in the `bnd` argument, defining the boundaries to be displayed.   
+(All default values can be easily changed in the 'flowdex_settings.R' file located at '~/desktop/flowdex_SH'.)    
+   
+If you are not satisfied with the polygon gate definition, you can draw it again while simultaneously displaying an other (the old) gate:
+```
+drawGate(gsRed, flf=7, gn="root", pggId="BactStainV1", show="BactStainV1") 
+# point and click to draw an improved polygon gate around the population of interest
+```
+Polygon gate definitions get automatically saved under the specified name in the folder 'gating'.   
+
+   
+You can leave the gate definition of 'BactStainV1' as you were drawing it, or you can copy the gate definition that was originally drawn for this project:
+```
+from <- paste0(destination, "/flowdexTutorial/gating/BactStainV1")
+to <- paste0(destination, "/tapWater@home/gating")
+file.copy(from, to, overwrite = TRUE)
 ```
 
 
+#### Write Gating Strategy
+
+For each gate that you want to apply to your gating set, there has to be one row in the gating strategy file.
+Now copy the template for the gating strategy file into the experiment home folder:
+```
+from <- paste0(destination, "/tapWater@home/templates/gateStrat.xlsx")
+to <- paste0(destination, "/tapWater@home/gating")
+file.copy(from, to)
+```
+Open the copied file. For every gate, i.e. every row, all 8 fields have to filled in.
+* The 'GateName' is, obviously, the name of the gate. Short names recommended.
+* 'Parent' is the name of the parent-gate, i.e. the gate where the data are coming from. In the first row, this has to be 'root'.
+* 'GateOnX' and GateOnY' define the channels to be used for that gate in the x and y axis.
+* 'GateDefinition' is the name of the polygon gate manually drawn in the previous step. 
+* 'extractOn' defines on which channel, i.e. along which axis the fluorescence data should be extracted. Must be either the channel used for the x axis or the channel used for the y axis.
+* 'minRange' and 'maxRange' define the lower and upper limit of the channel where data are extracted.
+* 'keepData' is denoting whether the data from this gate are to be kept or not. Set this field to FALSE when the data of this gate are not of interest and it is merely used to prepare the data for an other, a nested gate. There has to be at least one field in 'keepData' set to TRUE.
+* The column names must not be changed.
 
 
-* The gating strategy file is defining the gating strategy. Every row contains one gate with one polygon gate definition. 
-* Gates can be nested
-In the gating strategy file (can be an xlsx or csv file) the gating strategy is defined: 
+For the example at hand, fill in the gating strategy file as follows:
+```
+GateName	Parent		GateOnX		GateOnY		GateDefinition		extractOn	minRange	maxRange	keepData
+DNA+		root		FITC.A		PerCP.A		BactStainV1			FITC.A		1250		4000		TRUE
+```
+Or copy the already filled out gating strategy file defining the gate 'DNA+' with its polygon gate definition 'BactStainV1' from the tutorial folder:
+```
+from <- paste0(destination, "/flowdexTutorial/gating/gateStrat.xlsx")
+to <- paste0(destination, "/tapWater@home/gating")
+file.copy(from, to, overwrite=TRUE)
+```
+   
+Now everything should be ready to apply the gating strategy to the gating set:
+```
+gsRed_ga <- addGates(gsRed)
+flowWorkspace::plot(gsRed_ga) # to view the gate hierarchy 
+plotgates(gsRed_ga, toPdf = FALSE) # to view the gated data
+```
 
+#### Draw Gate, Add to Gating Strategy, Add Gate to Gating Set
+When more than one gate should be defined in the gating strategy, the circle of 
+* drawing the gate on a single sample,
+* adding that gate to the gating strategy, and
+* adding that gate to the gating set
+is repeated for every gate that should be  applied to the fcs data.
 
-If more than one gate is required, 
+In the next iteration, i.e. when for example a second gate within the data from the first gate should be defined, one would call:
 
+```
+drawGate(gsRed_ga, flf=7, gn="DNA+", pggId="pg2", channels = c("FITC.A", "SSC.A"))
+# point and click to draw a polygon gate around the population of interest
 
-explain workflow how to create complex gating strategy; create nested gates
-Step by Step gating hin und her Gating Strategy; define gate, draw Gate.. build it up
+# add the gate in the gating strategy:
+#GateName	Parent		GateOnX		GateOnY		GateDefinition		extractOn	minRange	maxRange	keepData
+#FooGate		DNA+		FITC.A		SSC.A		pg2					SSC.A		0			4000		TRUE
 
+gsRed_ga <- addGates(gsRed_ga) # add the gate to the gating set 
+```
 
+Repeat these three steps to define any set of possibly nested gates.
+You can always view the gating hierarchy and the gated data via:
 
+```
+flowWorkspace::plot(gsRed_ga) # to view the gating hierarchy
+plotgates(gsRed_ga, toPdf = F) # to view the gated data
+```
+
+Now copy a ready made example for a gating strategy holding more than one gate from the tutorial folder in the experiment home folder
+```
+from <- list.files(paste0(destination, "/flowdexTutorial/gating"), full.names = TRUE)
+to <- paste0(destination, "/tapWater@home/gating")
+file.copy(from, to, overwrite=TRUE) # this might overwrite the polygon gate definition you created above
+```
+and apply it to a gating set. For ease of demonstration, we will again use the subset of the fcs files as above.   
+Reading in the fcs files and adding the gates can be conveniently done using `makeAddGatingSet`:
+```
+gsRed2 <- makeAddGatingSet(patt="GPos_T6_th2", gateStrat = "gateStrat_2")
+# we are not using the default name for gating strategy any more
+flowWorkspace::plot(gsRed2) # to view the gating hierarchy
+plotgates(gsRed2, toPdf = F) # to view the gated data
+```
+Note that only those gated data get displayed in 'plotgates' where the field 'keepData' in the gating strategy file is set to 'TRUE'.   
+(Admittedly, the practical value of this gating hierarchy is rather non-existent, but it is merely for demonstrating the setup of nested gates...)
+
+***
 
 ### Workflow B: Extract Fluorescence Distributions
 
 
-## Flowdexit
+#### Flowdexit
 XXX
 XXX
+
+
+
+
+#### Visualize Gates
+XXX
+XXX
+explain the split
+
+
+
+#### Visualize Fluorescence Distribution
+XXX
+XXX
+explain the split
+
 
 
 
@@ -200,18 +317,8 @@ In case it happened that the volumetric measurement of a single sample did not s
 XXX
 
 
-
-## Visualize Gates
+## Apply Bandpass Filter
 XXX
-XXX
-
-
-
-## Visualize Fluorescence Distribution
-XXX
-XXX
-
-
 
 
 ***

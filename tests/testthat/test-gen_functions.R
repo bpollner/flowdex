@@ -3,7 +3,7 @@ library(testthat)
 # for manual line by line only
 #devtools::load_all("~/Documents/RPS/flowdex_R/flowdex")
 # delete all im tempdir !!
-#rm(list=ls(all.names = TRUE))
+# rm(list=ls(all.names = TRUE))
 
 
 

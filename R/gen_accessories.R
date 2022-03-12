@@ -229,7 +229,7 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 #' @examples
 #' \dontrun{
 #' plotFlscDist(fdmat)
-#' plotFlscDist(fdmat, ti="fooBar", spl="C_Foo", ccol=c(1,1,4,4,1,1,4,4)
+#' plotFlscDist(fdmat, ti="fooBar", spl="C_Foo", ccol=c(1,1,4,4,1,1,4,4))
 #' }
 #' @family Plotting functions
 #' @export

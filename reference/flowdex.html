@@ -34,7 +34,13 @@ measurement data denoting the acquired sample volume."><!-- mathjax --><script s
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/bpollner/flowdex/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -43,7 +49,7 @@ measurement data denoting the acquired sample volume."><!-- mathjax --><script s
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Extract Fluorescence Distribution Data from FCM Files and Recalculate 
 to Events per Volume</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/bpollner/flowdex/blob/HEAD/R/flowdex.R" class="external-link"><code>R/flowdex.R</code></a></small>
       <div class="d-none name"><code>flowdex.Rd</code></div>
     </div>
 
@@ -98,14 +104,14 @@ Austria.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="co"># all in one</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">flowdex</span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://bpollner.github.io/flowdex/">flowdex</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="flowdexit.html">flowdexit</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mat</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">plotgate</span><span class="op">(</span><span class="va">gs</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">getEvml</span><span class="op">(</span><span class="va">gs</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># step by step</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">flowdex</span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://bpollner.github.io/flowdex/">flowdex</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="va">gs</span> <span class="op">&lt;-</span> <span class="fu"><a href="makeGatingSet.html">makeGatingSet</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">gs</span> <span class="op">&lt;-</span> <span class="fu"><a href="addGates.html">addGates</a></span><span class="op">(</span><span class="va">gs</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="makefdmat.html">makefdmat</a></span><span class="op">(</span><span class="va">gs</span><span class="op">)</span></span>

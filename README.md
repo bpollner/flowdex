@@ -50,7 +50,7 @@ targetZip <- paste0(destination, "/flowdexTutorial.zip")
 download.file(from, targetZip, mode="wb")
 unzip(targetZip, exdir = destination)
 ```
-(All the code below is also available in the file 'tutorialScript.R' in the uncompressed folder.)  
+(All the code below is also available in the file 'flowdexTutorial.R' in the uncompressed folder.)  
 
 #### Note: Description of Tutorial Dataset
 * All samples are tap water samples stained with cybergreen following the method as described in:   
@@ -98,10 +98,10 @@ expHome <- paste0(destination, "/tapWater@home")
 dir.create(expHome)
 setwd(expHome)
 library(flowdex) # as you might have had to restart R above
-genfs()
+genfs() # create the required folder structure
 ```
    
-If you want, you can now go straight to [Workflow B](#workflow-b:-extract-fluorescence-distributions), where you can learn how to extract fluorescence distributions and how to visualize them.
+If you want, you can now go straight to [Workflow B](#workflow-b-extract-fluorescence-distributions), where you can learn how to extract fluorescence distributions and how to visualize them.
 
 ### Acquire Data
 Now would be the time for data acquisition -- go and measure your samples, then come back and put your FCS files into the folder 'fcsFiles'.   
@@ -325,7 +325,7 @@ file.copy(fromGating, toGating, overwrite=TRUE)
 ```
 
 #### Flowdexit
-Using `flowdexit`is the most straight-forward way to extract fluorescence distributions when the gating strategy and all the gate definitions are checked and in place. (Read [Workflow A](#workflow-a:-define-gating-strategy-and-polygon-gates) for learning how to write a gating strategy and how to define polygon gates.)   
+Using `flowdexit`is the most straight-forward way to extract fluorescence distributions when the gating strategy and all the gate definitions are checked and in place. (Read [Workflow A](#workflow-a-define-gating-strategy-and-polygon-gates) for learning how to write a gating strategy and how to define polygon gates.)   
 At this point we assume that we 
 * Provided a structured ID character in the sample ID field of each sample in the GUI of our FCM-machine,
 * completed our data acquisition and have all our fcs files in the folder called 'fcsFiles',
@@ -423,6 +423,7 @@ plotFlscDist(fdmat_s, spl = "C_treatment",  ti="Day 4, first third",  toPdf = FA
 plotFlscDist(fdmat_s, spl = "C_treatment", fns="_d4_th1", ti="Day 4, first third") # export to pdf
 ```
 Please refer to the manual at `?plotFlscDist`to see the arguments for custom colors and custom linetypes.
+   
 ***
 
 ## Accessory Functions
@@ -459,7 +460,7 @@ checkRepairFcsFiles(fn="fcsF_E_rep")
 Please refer to `?checkRepairFcsFiles`for further information on how to view multiplied keywords and how to select which one of each multiple to keep.   
    
 ### Repair Sample ID and Volume Data
-In case it happened that the volumetric measurement of a single sample did not succeed, or that an erroneous sample-ID string was provided in the sample-ID field of a single sample at the time of data acquisition, there are two functions to remedy these issues: `repairVolumes`and `repairSID`.   
+In case it happened that the volumetric measurement of a single sample did not succeed, or that an erroneous sample-ID string was provided in the sample-ID field of a single sample at the time of data acquisition, there are two functions to remedy these issues: `repairVolumes` and `repairSID`.   
 
 #### Repair Volumes
 First, copy some (manipulated) fcs files to a folder in the experiment-home directory:

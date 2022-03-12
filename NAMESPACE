@@ -2,6 +2,7 @@
 
 export(addGates)
 export(applyBandpass)
+export(checkRepairFcsFiles)
 export(cutFdmatToGate)
 export(drawGate)
 export(exportFdmatData)

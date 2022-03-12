@@ -11,7 +11,7 @@ repairSID(
   patt = NULL,
   fn = ".",
   confirm = TRUE,
-  ignore.text.offset = FALSE
+  fcsRepair = FALSE
 )
 }
 \arguments{
@@ -34,11 +34,18 @@ settings file (key: 'foN_fcsFiles') will be used.}
 \item{confirm}{Logical. If the user should be asked for additional confirmation
 before the rewriting of the fcs file is performed. Defaults to TRUE.}
 
-\item{ignore.text.offset}{Logical. If set to true, fcs-files in the folder 
-specified at argument 'fn' will be checked for inconsistencies in the 
-HEADER and TEXT segment and, if those inconsistency is present, the 
-afflicted fcs-file will be re-written to disc, with the values in TEXT 
-being ignored. The file will be \strong{overwritten without further warning.}}
+\item{fcsRepair}{Logical. If set to TRUE, fcs-files in the folder 
+specified at argument 'fn' will be checked for multiplied entries in the 
+keywords, as after some testing the author came to the humble conclusion that 
+these multiplied keywords can be the reason for the error message: \cr
+\code{"The HEADER and the TEXT segment define different starting 
+point ... to read the data"}. \cr
+If 'fcsRepair' is set to TRUE, all except the last of each multiplied 
+keyword will be removed and the fcs file will be saved to disc, 
+overwriting the original fcs file \strong{without further warning}. \cr
+Use the function \code{\link{checkRepairFcsFiles}} which does offer more 
+options to manually check and repair afflicted fcs files. There, it is 
+possible to display multiplied keywords and to select which one to keep.}
 }
 \value{
 Nothing, called for its side effects: the specified single fcs file gets
@@ -72,6 +79,22 @@ repairSID(fs, "sample1", "newSID")
 }
 \seealso{
 Other Repair functions: 
+\code{\link{checkRepairFcsFiles}()},
+\code{\link{repairVolumes}()}
+
+Other Accessory functions: 
+\code{\link{applyBandpass}()},
+\code{\link{checkRepairFcsFiles}()},
+\code{\link{cutFdmatToGate}()},
+\code{\link{exportFdmatData}()},
+\code{\link{fd_load}()},
+\code{\link{fd_save}()},
+\code{\link{genfs}()},
+\code{\link{repairVolumes}()}
+
+Other Repair functions: 
+\code{\link{checkRepairFcsFiles}()},
 \code{\link{repairVolumes}()}
 }
+\concept{Accessory functions}
 \concept{Repair functions}

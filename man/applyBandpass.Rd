@@ -32,9 +32,14 @@ fdmat_bp <- applyBandpass(fdmat_bp, c(400, 1300), "fooBar")
 }
 }
 \seealso{
-Other Helper functions: 
+Other Accessory functions: 
+\code{\link{checkRepairFcsFiles}()},
 \code{\link{cutFdmatToGate}()},
+\code{\link{exportFdmatData}()},
 \code{\link{fd_load}()},
-\code{\link{fd_save}()}
+\code{\link{fd_save}()},
+\code{\link{genfs}()},
+\code{\link{repairSID}()},
+\code{\link{repairVolumes}()}
 }
-\concept{Helper functions}
+\concept{Accessory functions}

@@ -30,9 +30,14 @@ If 'fn' is left at NULL, the file containing the default name
 for exported data and gating strategy is being attempted to load.
 }
 \seealso{
-Other Helper functions: 
+Other Accessory functions: 
 \code{\link{applyBandpass}()},
+\code{\link{checkRepairFcsFiles}()},
 \code{\link{cutFdmatToGate}()},
-\code{\link{fd_save}()}
+\code{\link{exportFdmatData}()},
+\code{\link{fd_save}()},
+\code{\link{genfs}()},
+\code{\link{repairSID}()},
+\code{\link{repairVolumes}()}
 }
-\concept{Helper functions}
+\concept{Accessory functions}

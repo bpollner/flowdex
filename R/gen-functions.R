@@ -91,7 +91,7 @@ copyAllTemplates <- function(home, stn) {
 #' dir.create(home)
 #' genfs(home)
 #' }
-#' @family  Helper Functions
+#' @family Accessory functions
 #' @export
 genfs <- function(where=getwd(), copyTemplates=TRUE) {
 	autoUpS()
@@ -106,42 +106,190 @@ genfs <- function(where=getwd(), copyTemplates=TRUE) {
 	return(invisible(NULL))
 } # EOF
 
-checkConsolidateFcsFiles <- function(folderName, igTeOff=FALSE,  verbose=TRUE) {
-	# Error: 'HEADER and the TEXT segment define different starting point'
-	#  ignore.text.offset and using 'flowWorkspace::load_cytoframe_from_fcs' had to be introduced in FEB 2022.
-	# Before that, when I was developing the code (~2017/2018), everything was good with the simple 'read.FCS' resp. 'flowCore::read.flowSet'
-	# flowCore and flowWorkspace did have some updates since 2017 - so probably something was changed that made it necessary to re-save the fcs-files with the text-offset ignored.
-	####
-	namesOut <- NULL
-	#	
+#' @title Check and Repair FCS Files
+#' @description Check all fcs files in a specified folder for non-unique 
+#' keywords. Multiple entries in the keywords are removed, and the file is 
+#' written back to disc. The original ("corrupt") fcs file will be overwritten. 
+#' @details When reading in resp. working with some fcs files it can happen that 
+#' the following error message is displayed: \cr\code{"The HEADER and the TEXT 
+#' segment define different starting point ... to read the data"} \cr
+#' After some testing, the author came to the conclusion that a solution to this 
+#' error can be to delete multiple entries of the same keyword in the keywords 
+#' of the fcs file. (As fcs files *not* displaying this error seem to have only 
+#' unique keywords.)\cr
+#' It also appeared that always the last of the multiplied entries was the correct 
+#' one, hence the default keeping of the *last* of multiple entries. \cr
+#' Currently, only uniformly multiplied keyword entries get remedied -- if there 
+#' should be a mixture of keyword-multiplication (e.g. some are two-fold, some 
+#' others are three-fold) an error message is displayed. \cr
+#' Other approaches to this problem via e.g. ignoring the text offset as possible 
+#' in \code{\link[flowWorkspace]{load_cytoframe_from_fcs}} resulted in data loss. 
+#' @param fcsRepair Logical. If defect fcs files should be attempted to repair. 
+#' If left at the default FALSE, fcs files with double entries in their keywords 
+#' will only be listed. If set to TRUE, the keyword doublets will be deleted and 
+#' the fcs file will be saved to disc. The original fcs file will be overwritten.
+#' @param confirm Logical. If confirmation is required before overwriting the 
+#' faulty fcs files with their corrected version. Defaults to TRUE. If set to 
+#' FALSE. original fcs files will be overwritten without further warning. 
+#' @param showMultiples Logical, If the multiplied keywords should be displayed. 
+#' Defaults to FALSE.
+#' @param keepLast Logical or Numeric. If the last or the first item of a keyword 
+#' multiplication should be kept. If left at the default TRUE, the last keyword 
+#' of a keyword multiplication will be kept, if set to FALSE the first will be 
+#' kept. Provide a numeric length one to denote the number of the multiplied 
+#' keyword to keep.
+#' @inheritParams flowdexit
+#' @return An (invisible) character vector holding the names of the fcs files 
+#' that were repaired. Mainly used for its side effect, i.e. to repair fcs files 
+#' with doublets in the keywords.
+#' @examples
+#' \dontrun{
+#' XXX
+#' }
+#' @family Accessory functions
+#' @family Repair functions
+#' @export
+checkRepairFcsFiles <- function(fn=".", fcsRepair=FALSE, confirm=TRUE, showMultiples=FALSE, keepLast=TRUE, verbose=TRUE) {
+	#
+	stn <- autoUpS()
+	#
+	folderName <- checkDefToSetVal(fn, "foN_fcsFiles", "fn", stn, checkFor="char")
+	#
 	fcsNames <- list.files(folderName)
+	txtShowMultiples <- "(You can use 'checkRepairFcsFiles' directly and set 'showMultiples' to TRUE to display the multiplied keywords.)\n"
+
+	# now go and check every file in the folder if the text offset problem is there. To save time, we only read in the fcs header.
+	banaDef <- ptfDef <- takeOutInds <-  NULL
+	takeOutInds <- vector("list", length=0)
 	for (i in 1: length(fcsNames)) {
 		ptf <- paste0(folderName, "/", fcsNames[i])
 		bana <- basename(ptf)
-		siCF <- try(flowWorkspace::load_cytoframe_from_fcs(ptf, ignore.text.offset = FALSE), silent=TRUE) # this will fail if the "The HEADER and the TEXT segment define different starting point ... to read the data" is present
-		if (class(siCF) == "try-error") {
-			if (!igTeOff) {
- 				msg1 <- paste0("Trying to read in the fcs-file '", bana, "' gives the error-message: \n", simpleMessage(siCF), "")
- 				msg2 <- paste0("Consider setting the argument 'ignore.text.offset' to TRUE. \nThis will be passed on to the function 'flowWorkspace::load_cytoframe_from_fcs', the fcs-file will then be read in again with \n'The value in TEXT being ignored', \nand and the fcs-file will be re-written to disc.\n\nCAVE: With 'ignore.text.offset' set to TRUE, afflicted files in the folder \n'", folderName,"' \nwill be overwritten without further warning.")
-				stop(paste0(msg1, msg2), call.=FALSE)
-			} # end if !doCons
-			siCF <- try(flowWorkspace::load_cytoframe_from_fcs(ptf, ignore.text.offset = TRUE), silent=TRUE)
-			if (class(siCF) == "try-error") {
-				stop(paste0("Sorry, reading the fcs-file '", bana, "' still did not work."), call.=FALSE)
-			}
-			siFF <- flowWorkspace::cytoframe_to_flowFrame(siCF)
-			flowCore::write.FCS(siFF, ptf)
-			namesOut <- c(namesOut, bana)
-		} # end if
-	} # end for i
-	if (verbose & length(namesOut) != 0) {
-		cat(paste0("\n\nThe following files have been re-written to disc:\n", paste(namesOut, collapse=", \n"), "\n"))
-	} # end verbose
-	return(NULL)
+		siHe <- flowCore::read.FCSheader(bana, folderName)[[1]] # a single header, comes in as a list length one, is now a named character
+		rlNa <- rle(names(siHe))
+		if (all(unique(rlNa$lengths) == 1)) { # all keywords appear one time. All should be good.
+			next
+		} else { # so we do have some non uniques
+			ind <- which(rlNa$lengths != 1) # check for more than once keywords
+			multKeys <- rlNa$values[ind]
+			ind <- which(names(siHe) %in% multKeys) 
+			multNames <- names(siHe)[ind]
+			rlMultNa <- rle(multNames)
+			multFac <- unique(rlMultNa$lengths) # gives the factor of how often a single keyword is repeated
+			#
+			if (length(multFac) != 1) { # so we do have a mixture of multiplications, not all keywords are only two-fold or only three-folde etc.
+				msg <- paste0("Sorry, it seems that I am not able to automatically repair the keywords of file '", bana, "'.\nThere appears to be a mixture of keyword multiplications (", paste0(multFac, collapse=", "), ").\nCurrently, only keywords that are uniformly multiplied (all two-fold, or all three-fold etc.) can be automatically removed.\n")
+				stop(msg, call.=FALSE)
+			} # end mixture of multiplication
+			#
+			if (is.numeric(keepLast)) {
+				if (keepLast < 1 | keepLast > multFac) {
+					stop(paste0("Sorry, please provide a number ranging from 1 to ", multFac, " to the argument 'keepLast'."), call.=FALSE)
+				} # end if
+				remStep <- keepLast
+				remChar <- paste0("All except #", keepLast, " ")
+				if (keepLast == multFac) { # same as keepLast=TRUE
+					keepLast <- TRUE
+				} else {
+					if (keepLast == 1) {
+						keepLast <- FALSE
+					} # end if
+				} # end else
+			} # end if is numeric keekPast
+			#			
+			if (is.logical(keepLast)) { 
+				if (keepLast) {
+					remStep <- multFac
+					remChar <- "All except the last "
+				} else {
+					remStep <- 1
+					remChar <- "All except the first "
+				} # end else 
+			} # end if is logical keepLast
+			#
+			ind <- which(names(siHe) %in% multNames) #### map back to total names ####
+			io <- seq(1, length(ind))
+			ioo <- seq(remStep, length(io), by=multFac) # define the indices to remove from io
+			io <- io[-ioo] # io: define the indices to keep from ind
+			toi <- ind[io] # toi is the index in the scope ot the total keywords that has to go out
+			takeOutInds <- c(takeOutInds, list(toi)) # collect take out indices in a list
+			banaDef <- c(banaDef, bana) # collect file names
+			ptfDef <- c(ptfDef, ptf) # collect paths
+			#
+			if (showMultiples) {
+				txtShowMultiples <- ""
+				print(bana)
+				print((siHe)[ind])
+			#	cat("\n  cleaned up that will be:\n")
+			#	print(siHe[-toi]) # gives a nasty output
+				cat("-------------------\n\n")
+			} # end if showMultiples
+			#
+		} # end else 
+	} # end for i going through the fcsNames in the folder
+	
+	
+	## by now we checked every fcs file in the folder and collected names, paths and take-out indices of the keywords of the defect fcs files
+	if (is.null(banaDef)) { # no defect fcs keywords were found
+		if (verbose) {
+			cat(paste0("All fcs files in the folder '", folderName, "' \nseem to be ok, i.e. do have only single entries in their keywords.\n"))
+		} # end if verbose
+		return(invisible(NULL))
+	} # end is null banaDef
+	
+	
+	## so banaDef is not null, that means we have at least one defect fcs file
+	sAdd <- "s"
+	doAdd <- "do have"
+	itAdd <- "their"
+	if (length(banaDef) == 1) {
+		sAdd <- ""
+		doAdd <- "has"
+		itAdd <- "its"
+	} # end if
+	##
+	txtInfo <- paste0("\nThe following ", length(banaDef), " file", sAdd, " from the folder '", folderName, "' \n", doAdd, " non-unique entries (all ", multFac, " fold) in ", itAdd, " keywords:\n", paste0(banaDef, collapse="\n"), "\n")
+	
+	## in case we do NOT want to repair
+	if (!fcsRepair) {
+		cat(txtInfo)
+		stop("Consider setting 'fcsRepair' to TRUE.\nCAVE: Original fcs files will then be overwritten.", call.=FALSE)
+	} # end if !fcsRepair
+	
+	
+	## so by now we do have at least one defect fcs file, and we DO want to repair
+	txtW <- "will be "
+	if (!confirm) {
+		txtW <- "were "
+		txtShowDoubles <- ""
+	} # end if
+	txtAction <- paste0("\n", remChar, "of each multiplied keyword ", txtW, "removed, and the original fcs file ", txtW, "overwritten.\n")
+	cat(txtInfo)
+	cat(txtAction)
+	cat(txtShowMultiples)
+	#
+	if (confirm) {
+		cat("\nPress enter to continue or escape to abort:\n")
+		scan(file = "", n = 1, quiet = TRUE)
+	} # end if
+	
+	## now actually repair the fcs files
+	# banaDef, ptfDef, takeOutInds
+	for (i in 1: length(banaDef)) {
+		siFF <- flowCore::read.FCS(ptfDef[i], ignore.text.offset=TRUE) # but I think that 'ignore.text.offset' is not really working here.
+		newDes <- siFF@description[-takeOutInds[[i]]]
+		newFF <- new("flowFrame",  exprs=siFF@exprs, parameters=siFF@parameters, description=newDes)
+		flowCore::write.FCS(newFF, ptfDef[i])
+	} # end for i going through the defect names
+	#
+	if (confirm) {
+		cat(paste0(length(banaDef), " fcs files were saved to disc.\n"))
+	} # end if
+	return(invisible(TRUE))
 } # EOF
 
-readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL, volCheck=TRUE, igTeOff=FALSE, verbose=TRUE) {
-	checkConsolidateFcsFiles(folderName, igTeOff, verbose)
+readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL, volCheck=TRUE, fcsRepair=FALSE, verbose=TRUE) {
+	#
+	checkRepairFcsFiles(fn=folderName, fcsRepair, confirm=FALSE, showMultiples=FALSE, keepLast=TRUE, verbose=FALSE)
 	#
 	rawdata <- try(flowCore::read.flowSet(path = folderName, pattern=patt, column.pattern=colPat, alter.names = TRUE, name.keyword="$FIL"), silent=FALSE)
 	if (class(rawdata) == "try-error") {
@@ -182,9 +330,10 @@ readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL, volCheck=TRUE
 #' before the rewriting of the fcs files is performed. Defaults to TRUE.
 #' @return Nothing, resp. the modified fcs files written back into the same folder
 #' and replacing the original ones.
+#' @family Accessory functions
 #' @family Repair functions
 #' @export
-repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm=TRUE, ignore.text.offset=FALSE, verbose=TRUE) {
+repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm=TRUE, fcsRepair=FALSE, verbose=TRUE) {
 	stn <- autoUpS()	
 	#
 	folderName <- checkDefToSetVal(fn, "foN_fcsFiles", "fn", stn, checkFor="char")
@@ -203,7 +352,7 @@ repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm
 		pattAdd <- paste0("fcsFiles in folder `", folderName, "` with pattern matching `", patt, "`...")
 	}
 	if (verbose) {cat(paste0("Reading in ", pattAdd))}
-	fs <- readInFlowSet(folderName=folderName, patt=patt, volCheck=FALSE, igTeOff=ignore.text.offset, verbose=verbose)
+	fs <- readInFlowSet(folderName=folderName, patt=patt, volCheck=FALSE, fcsRepair=fcsRepair, verbose=verbose)
 	if (verbose) {cat(" ok.\n")}
 	pDat <- flowWorkspace::pData(fs)
 	if  (includeAll) {
@@ -273,14 +422,16 @@ repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm
 #' fs@phenoData@data
 #' repairSID(fs, "sample1", "newSID")
 #' }
+#' @family Accessory functions
+#' @family Repair functions
 #' @export
-repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".", confirm=TRUE, ignore.text.offset=FALSE) {
+repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".", confirm=TRUE, fcsRepair=FALSE) {
 	stn <- autoUpS()	
 	#
 	fn <- checkDefToSetVal(fn, "foN_fcsFiles", "fn", stn, checkFor="char")
 	#	
 	if (is.null(fs)) {
-		return(invisible(readInFlowSet(folderName=fn, patt=patt, igTeOff=ignore.text.offset)))
+		return(invisible(readInFlowSet(folderName=fn, patt=patt, fcsRepair=fcsRepair)))
 	}
 	if (is.null(name) | is.null(newSID)) {
 		stop("Please provide a value to `name` and `newSID`.", call.=FALSE)
@@ -324,7 +475,7 @@ repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".", confir
 #' @return A gating set produced by \code{\link[flowWorkspace]{GatingSet}}.
 #' @family Extraction functions
 #' @export
-makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", ignore.text.offset=FALSE, verbose=".") {
+makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", fcsRepair=FALSE, verbose=".") {
 	stn <- autoUpS()		
 	#
 	comp <- checkDefToSetVal(comp, "dV_comp", "comp", stn, checkFor="logi")
@@ -334,7 +485,7 @@ makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", igno
 	verbose <- checkDefToSetVal(verbose, "dV_verbose", "verbose", stn, checkFor="logi")
 	#
 	if (verbose) {cat("Reading in fcs files... ")}
-	rawdata <- readInFlowSet(folderName=fn, patt=patt, colPat=channel, igTeOff=ignore.text.offset, verbose)
+	rawdata <- readInFlowSet(folderName=fn, patt=patt, colPat=channel, fcsRepair=fcsRepair, verbose=verbose)
 	if (verbose) {cat("ok. \n")}
 	if (verbose) {cat("Producing gating set... ")}
 	gs <- flowWorkspace::GatingSet(rawdata) 
@@ -456,7 +607,7 @@ addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", v
 #' }
 #' @family Extraction functions
 #' @export
-makeAddGatingSet <- function(patt=NULL, fn=".", gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", ignore.text.offset=FALSE, verbose=".") {
+makeAddGatingSet <- function(patt=NULL, fn=".", gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", fcsRepair=FALSE, verbose=".") {
 	stn <- autoUpS()
 	#
 	fn <- checkDefToSetVal(fn, "foN_fcsFiles", "fn", stn, checkFor="char")
@@ -470,7 +621,7 @@ makeAddGatingSet <- function(patt=NULL, fn=".", gateStrat=".", foN.gateStrat="."
 	#
 	gsdf <- importCheckGatingStrategy(gateStrat, stn, gsType, foN_gating)
 	checkPggExistence(gsdf, foN_gating, gateStrat)
-	gs <- makeGatingSet(patt, comp, fn, tx, channel, ignore.text.offset, verbose)
+	gs <- makeGatingSet(patt, comp, fn, tx, channel, fcsRepair, verbose)
 	gs <- addGates(gs, gateStrat, foN_gating, gsType, verbose)
 	return(gs)
 } # EOF
@@ -624,7 +775,7 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateS
 #' fdmCut <- cutFdmatToGate(fdm, 1)
 #' fdmCut <- cutFdmatToGate(fdm, "fooBar")
 #' }
-#' @family Helper functions
+#' @family Accessory functions
 #' @export
 cutFdmatToGate <- function(fdmat, gate=NULL) {
 	if (length(fdmat) == 1 ) { # nothing to cut
@@ -661,6 +812,7 @@ cutFdmatToGate <- function(fdmat, gate=NULL) {
 #' fdm <- makefdmat(gs, expo=FALSE) # export is included here already
 #' exportFdmatData(fdm)
 #' }
+#' @family Accessory functions
 #' @export
 exportFdmatData <- function(fdmat, expo.gate=".", expo.name=".", expo.type=".", expo.folder=".", verbose=".") {
 	stn <- autoUpS()
@@ -967,7 +1119,7 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 #' \dontrun{
 #' fd_save(fdmat)
 #' }
-#' @family Helper functions
+#' @family Accessory functions
 #' @export
 fd_save <- function(fdmat, fns=NULL, expo.folder=".", verbose=".") {
 	#
@@ -1010,7 +1162,7 @@ fd_save <- function(fdmat, fns=NULL, expo.folder=".", verbose=".") {
 #' @inheritParams flowdexit
 #' @return An object of class 'fdmat' as produced by \code{\link{makefdmat}} 
 #' or \code{\link{flowdexit}}.
-#' @family Helper functions
+#' @family Accessory functions
 #' @export
 fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 	#
@@ -1082,11 +1234,18 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 #' \code{column.pattern} of \code{\link[flowCore]{read.flowSet}}. Set to NULL
 #' to read data from all channels. If left at the default '.', the value as 
 #' defined in the settings file (key 'dV_channel') will be used.
-#' @param ignore.text.offset Logical. If set to true, fcs-files in the folder 
-#' specified at argument 'fn' will be checked for inconsistencies in the 
-#' HEADER and TEXT segment and, if those inconsistency is present, the 
-#' afflicted fcs-file will be re-written to disc, with the values in TEXT 
-#' being ignored. The file will be \strong{overwritten without further warning.}
+#' @param fcsRepair Logical. If set to TRUE, fcs-files in the folder 
+#' specified at argument 'fn' will be checked for multiplied entries in the 
+#' keywords, as after some testing the author came to the humble conclusion that 
+#' these multiplied keywords can be the reason for the error message: \cr
+#' \code{"The HEADER and the TEXT segment define different starting 
+#' point ... to read the data"}. \cr
+#' If 'fcsRepair' is set to TRUE, all except the last of each multiplied 
+#' keyword will be removed and the fcs file will be saved to disc, 
+#' overwriting the original fcs file \strong{without further warning}. \cr
+#' Use the function \code{\link{checkRepairFcsFiles}} which does offer more 
+#' options to manually check and repair afflicted fcs files. There, it is 
+#' possible to display multiplied keywords and to select which one to keep. 
 #' @param expo.gate Which gate to export. NULL or numeric or character length 
 #' one. Set to NULL to export data from all those gates defined in the gating 
 #' strategy where 'keeoData' is set to TRUE. Provide a character length one 
@@ -1138,7 +1297,7 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 #' re-calculated to events per volume unit, and the overall data 
 #' for events per volume unit in the slot 'eventsPerVol'. 
 #' @export
-flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", name.dict=".", foN.dict=".", type.dict=".", expo=TRUE, expo.gate=".", expo.name=".", expo.type=".", expo.folder=".", ignore.text.offset=FALSE, stf=TRUE, verbose=".") {
+flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", name.dict=".", foN.dict=".", type.dict=".", expo=TRUE, expo.gate=".", expo.name=".", expo.type=".", expo.folder=".", fcsRepair=FALSE, stf=TRUE, verbose=".") {
 	#
 	stn <- autoUpS()
 	#
@@ -1147,7 +1306,7 @@ flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.
 	gsdf <- importCheckGatingStrategy(gateStrat, stn, type.gateStrat, foN.gateStrat)
 	checkPggExistence(gsdf, foN.gateStrat, gateStrat)
 	#
-	gs <- makeGatingSet(patt, comp, fn, tx, channel, ignore.text.offset, verbose)
+	gs <- makeGatingSet(patt, comp, fn, tx, channel, fcsRepair, verbose)
 	gs <- addGates(gs, gateStrat, foN.gateStrat, type.gateStrat, verbose)
 	assignGatingSetToEnv(gs)
 	#

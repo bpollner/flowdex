@@ -33,7 +33,7 @@ checkBandpass <- function(bandpass) {
 #' fdmat_bp <- applyBandpass(fdmat, c(1400, 1600))
 #' fdmat_bp <- applyBandpass(fdmat_bp, c(400, 1300), "fooBar")
 #' }
-#' @family Helper functions
+#' @family Accessory functions
 #' @export
 applyBandpass <- function(fdmat, bandpass, gate=1) {
 	stn <- autoUpS()

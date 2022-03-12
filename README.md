@@ -44,7 +44,7 @@ In order to walk the user over the main-features of package `flowdex`, a small t
 ## Set up Tutorial
 First, download the tutorial data from its Github repository to your desktop (or any place you prefer). 
 ```
-from <- "https://github.com/bpollner/data/raw/main/myLFS/flowdexTutorial.zip"
+from <- "https://github.com/bpollner/data/raw/main/flowdexTutorial/flowdexTutorial.zip"
 destination <- "~/desktop"
 targetZip <- paste0(destination, "/flowdexTutorial.zip")
 download.file(from, targetZip, mode="wb")
@@ -58,8 +58,9 @@ Prest, E. I., Hammes, F., Kotzsch, S., van Loosdrecht, M. C., & Vrouwenvelder, J
 * It was the purpose of the experiment to monitor the number of autochthonous bacteria in the water samples and their fluorescence distribution (LNA vs. HNA bacteria) over time.
 * A sample-ID string has been provided at the time of data acquisition, providing class and numerical variables describing each sample as described below.
 * There are two groups, experiment and control. The experiment group is denoted as 'GPos', the control group is denoted as 'GNeg'.
-* From each group, 24 samples were taken each day. In this dataset, FCS files from day 4, day 5 and day 6 are included (denoted as T4, T5, and T6).
-* The 24 samples per day from each group are further structured in 'thirds' and beaker number: th1, th2 and th3 for the first, second and third third of the 24 samples, b1, b2, … up to b8 for the 8 samples (b for beaker) within each third.
+* From each group, 24 samples were taken each day, from which 18 samples are included In this dataset. 
+* FCS files from day 4, day 5 and day 6 are included (denoted as T4, T5, and T6).
+* The 18 samples per day from each group are further structured in 'thirds' and beaker number: th1, th2 and th3 for the first, second and third third of the 18 samples, b1, b2, … up to b6 for the 6 samples (b for beaker) within each third.
    
 ### Initialise Settings File System
 Package `flowdex` makes use of the dynamic settings file system provided by package `uniset`. This has to be initialised **just once** by calling
@@ -136,7 +137,7 @@ Open the copied xlsx file, look at the column named 'Abbreviation': for each ele
 * The default string for class variables is 'C_', and that for numerical variables is 'Y_'. 
 * Prepending the long names in the dictionary with either class-variable or numerical variable prefix is mandatory.
     
-By now we should have 144 FCS files in 'tapWater@home/fcsFiles' and one file 'dictionary.xlsx' in the folder 'tapWater@home/dictionary'.
+By now we should have 108 FCS files in 'tapWater@home/fcsFiles' and one file 'dictionary.xlsx' in the folder 'tapWater@home/dictionary'.
 
 
 ## Two Workflow Scenarios
@@ -148,7 +149,6 @@ Here, the focus is on establishing the gating strategy and manually drawing the 
 Here, the focus is on using the previously established gating strategy to extract fluorescence distributions, visualise them and export them to file.    
 All this (except visualisation) is conveniently done via `flowdexit`. Look at [Quickstart](#quickstart) for an immediate example. 
 
-***
 
 ### Workflow A: Define Gating Strategy and Polygon Gates
 The next step after data acquisition is to visualize the raw-counts, to decide which sample to use for drawing the gate, and then to manually draw the polygon gate(s) and safe them for later use. Each row in the gating strategy file defines a single gate along with its polygon gate definition. Gates can be nested or 'standalone'.    
@@ -165,7 +165,7 @@ gsRed <- makeGatingSet(patt="GPos_T6_th2")
 gsRed
 ```
 Note the printout of the samples contained in the gating set and of the available channels.   
-Only fcs files from the experiment group from day 6 (second third, i.e. 8 beakers) were read in.
+Only fcs files from the experiment group from day 6 (second third, i.e. 6 beakers) were read in.
 We can now use this reduced gating set to visualise the raw fcs data by specifying the channel we want for the x and for the y axis:
 ```
 plotgates(gsRed, toPdf = FALSE, x="FITC.A", y="PerCP.A")
@@ -173,9 +173,9 @@ plotgates(gsRed, toPdf = FALSE, x="FITC.A", y="PerCP.A")
 
 
 #### Manually Draw Polygon Gate
-All 8 samples seem to have a good representation of our desired population, the stained bacteria. Lets assume we choose beaker 'GPos_T6_th2_b7', which is the 7th sample in this gating set, as sample to manually draw the polygon gate on:
+All 6 samples seem to have a good representation of our desired population, the stained bacteria. Lets assume we choose beaker 'GPos_T6_th2_b5', which is the 5th sample in this gating set, as sample to manually draw the polygon gate on:
 ```
-drawGate(gsRed, flf=7, gn="root", pggId="BactStainV1", channels=".")
+drawGate(gsRed, flf=5 gn="root", pggId="BactStainV1", channels=".")
 # point and click to draw a polygon gate around the population of interest
 ```
 
@@ -187,7 +187,7 @@ The lines displayed in the graphic have their origin in the `bnd` argument, defi
    
 If you are not satisfied with the polygon gate definition, you can draw it again while simultaneously displaying an other (the old) gate:
 ```
-drawGate(gsRed, flf=7, gn="root", pggId="BactStainV1", show="BactStainV1") 
+drawGate(gsRed, flf=5, gn="root", pggId="BactStainV1", show="BactStainV1") 
 # point and click to draw an improved polygon gate around the population of interest
 ```
 Polygon gate definitions get automatically saved under the specified name in the folder 'gating'.   
@@ -223,8 +223,15 @@ Open the copied file. For every gate, i.e. every row, all 8 fields have to fille
 
 For the example at hand, fill in the gating strategy file as follows:
 ```
-GateName	Parent		GateOnX		GateOnY		GateDefinition		extractOn	minRange	maxRange	keepData
-DNA+		root		FITC.A		PerCP.A		BactStainV1			FITC.A		1250		4000		TRUE
+GateName: DNA+
+Parent: foot
+GateOnX: FITC.A
+GateOnY: PerCP.A
+GateDefinition: BactStainV1
+extractOn: FITC.A
+minRange: 1250
+maxRange: 4000
+keepData: TRUE
 ```
 Or copy the already filled out gating strategy file defining the gate 'DNA+' with its polygon gate definition 'BactStainV1' from the tutorial folder:
 ```
@@ -240,11 +247,11 @@ flowWorkspace::plot(gsRed_ga) # to view the gate hierarchy
 plotgates(gsRed_ga, toPdf = FALSE) # to view the gated data
 ```
 
-#### Draw Gate, Add to Gating Strategy, Add Gate to Gating Set
+#### Draw Gate, Add to Gating Strategy, Add Gate to Gating Set – and Repeat
 When more than one gate should be defined in the gating strategy, the circle of 
 * drawing the gate on a single sample,
 * adding that gate to the gating strategy, and
-* adding that gate to the gating set
+* adding that gate to the gating set   
 is repeated for every gate that should be  applied to the fcs data.
 
 In the next iteration, i.e. when for example a second gate within the data from the first gate should be defined, one would call:
@@ -253,9 +260,16 @@ In the next iteration, i.e. when for example a second gate within the data from 
 drawGate(gsRed_ga, flf=7, gn="DNA+", pggId="pg2", channels = c("FITC.A", "SSC.A"))
 # point and click to draw a polygon gate around the population of interest
 
-# add the gate in the gating strategy:
-#GateName	Parent		GateOnX		GateOnY		GateDefinition		extractOn	minRange	maxRange	keepData
-#FooGate		DNA+		FITC.A		SSC.A		pg2					SSC.A		0			4000		TRUE
+# add the gate in the gating strategy file:
+GateName: FooGate
+Parent: DNA+
+GateOnX: FITC.A
+GateOnY: SSC.A
+GateDefinition: pg2
+extractOn: SSC.A
+minRange: 0
+maxRange: 4000
+keepData: TRUE
 
 gsRed_ga <- addGates(gsRed_ga) # add the gate to the gating set 
 ```
@@ -296,7 +310,6 @@ XXX
 
 
 
-
 #### Visualize Gates
 XXX
 XXX
@@ -311,17 +324,26 @@ explain the split
 
 
 
+***
 
-## Repair Sample ID and Volume Data
+
+## Accessory Functions
+
+### Check and Repair FCS Files
+checkRepairFcsFiles
+
+
+
+### Repair Sample ID and Volume Data
 In case it happened that the volumetric measurement of a single sample did not succeed, or that an erroneous sample-ID string was provided in the sample-ID field of a single sample at the time of data acquisition, there are two functions to remedy these issues: `repairVolumes`and `repairSID`.  
 XXX
 
 
-## Apply Bandpass Filter
+### Apply Bandpass Filter
 XXX
-
+apply filter, plot distribution and export to rawdata file.
 
 ***
-### Acknowledgements
+## Acknowledgements
 This work was made possible by support from IPF  Austria - Georg Huber.   
 Flow cytometry data were acquired at the Institute for Hygiene and Medical Microbiology, Medical University of Innsbruck, Austria.

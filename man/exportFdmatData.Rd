@@ -61,3 +61,15 @@ fdm <- makefdmat(gs, expo=FALSE) # export is included here already
 exportFdmatData(fdm)
 }
 }
+\seealso{
+Other Accessory functions: 
+\code{\link{applyBandpass}()},
+\code{\link{checkRepairFcsFiles}()},
+\code{\link{cutFdmatToGate}()},
+\code{\link{fd_load}()},
+\code{\link{fd_save}()},
+\code{\link{genfs}()},
+\code{\link{repairSID}()},
+\code{\link{repairVolumes}()}
+}
+\concept{Accessory functions}

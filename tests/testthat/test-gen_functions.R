@@ -214,20 +214,40 @@ ptTeHe <- paste0(ptpInst, "/testHelpers")
 fcsNames <- list.files(paste0(ptTeHe, "/fcsFiles"))
 from <- paste0(ptTeHe, "/fcsFiles/", fcsNames)
 to <- paste0(pathToHome, "/fcsFiles/", fcsNames)
-file.copy(from, to, overwrite = TRUE)
+restore <- function(){file.copy(from, to, overwrite = TRUE)}
+restore()
 
 pa <- paste0(pathToHome, "/fcsFiles")
-test_that("checkConsolidateFcsFiles", {
-    expect_error(checkConsolidateFcsFiles(folderName=pa, igTeOff = FALSE))
-    expect_output(checkConsolidateFcsFiles(folderName=pa, igTeOff = TRUE), "have been re-written to disc")
-    expect_null(checkConsolidateFcsFiles(folderName=pa, igTeOff = FALSE))
-}) # EOT
 
-file.copy(from, to, overwrite = TRUE)
-test_that("readInFlowSet", {
-    expect_error(readInFlowSet(folderName=pa, igTeOff = FALSE))
-    expect_s4_class(readInFlowSet(folderName=pa, igTeOff = TRUE), "flowSet")
+test_that("checkRepairFcsFiles", {
+    restore()
+    expect_error(checkRepairFcsFiles(fn=pa, fcsRepair=FALSE, confirm=TRUE, showMultiples=TRUE, keepLast=TRUE), "Consider setting 'fcsRepair' to TRUE")
+    expect_error(checkRepairFcsFiles(fn=pa, fcsRepair=FALSE, confirm=TRUE, keepLast=TRUE), "Consider setting 'fcsRepair' to TRUE")
+    expect_output(checkRepairFcsFiles(fn=pa, fcsRepair=TRUE, confirm=FALSE, keepLast=TRUE), "All except the last")
+    restore()
+    expect_output(checkRepairFcsFiles(fn=pa, fcsRepair=TRUE, confirm=FALSE, keepLast=FALSE), "All except the first")
+    restore()
+    expect_error(checkRepairFcsFiles(fn=pa, fcsRepair=TRUE, confirm=FALSE, keepLast=4), "provide a number ranging from 1 to 3 ")
+    restore()
+    expect_output(checkRepairFcsFiles(fn=pa, fcsRepair=TRUE, confirm=FALSE, keepLast=2), "All except #2")
+    restore()
+    expect_output(checkRepairFcsFiles(fn=pa, fcsRepair=TRUE, confirm=FALSE, keepLast=1), "All except the first")
+    restore()
+    expect_output(checkRepairFcsFiles(fn=pa, fcsRepair=TRUE, confirm=FALSE, keepLast=3), "All except the last")
+    expect_output(checkRepairFcsFiles(fn=pa), "seem to be ok")
+    expect_null(checkRepairFcsFiles(fn=pa, verbose = FALSE))
+    restore()
+    expect_true(checkRepairFcsFiles(fn=pa, fcsRepair=TRUE, confirm=FALSE))
+    expect_null(checkRepairFcsFiles(fn=pa, verbose = FALSE))
 }) # EOT
+# checkRepairFcsFiles(fn=pa, fcsRepair=TRUE, confirm=TRUE, showMultiples=FALSE, keepLast=TRUE)
+
+restore()
+test_that("readInFlowSet", {
+    expect_error(readInFlowSet(folderName=pa, fcsRepair = FALSE), "Consider setting 'fcsRepair' to TRUE")
+    expect_s4_class(readInFlowSet(folderName=pa, fcsRepair = TRUE), "flowSet")
+}) # EOT
+# readInFlowSet(folderName=pa, fcsRepair=FALSE)
 
 # now delete two volume data
 repairVolumes(patt="th1", vol=NA, fn=pa, includeAll = TRUE, confirm = FALSE, verbose = FALSE)
@@ -254,8 +274,8 @@ file.copy(from, to, overwrite = TRUE) # get back original fcs files
 # repairVolumes(patt=NULL, 50000, fn=pa, includeAll = TRUE, confirm = FALSE, verbose=FALSE)
 siName <- list.files(pa)[2]
 test_that("repairSID", {
-    expect_error(repairSID(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=pa, confirm=FALSE, ignore.text.offset = FALSE))
-    expect_s4_class(repairSID(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=pa, confirm=FALSE, ignore.text.offset = TRUE), "flowSet")
+    expect_error(repairSID(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=pa, confirm=FALSE, fcsRepair = FALSE))
+    expect_s4_class(repairSID(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=pa, confirm=FALSE, fcsRepair = TRUE), "flowSet")
     fs <- repairSID(fn=pa)
     expect_error(repairSID(fs=fs, name="aaa", newSID=NULL, patt=NULL, fn=pa, confirm=FALSE), "Please provide a value")
     expect_error(repairSID(fs=fs, name="aaa", newSID="newSID_bbb", patt=NULL, fn=pa, confirm=FALSE), "seems not to be present")
@@ -275,8 +295,8 @@ file.copy(from, to, overwrite = TRUE) # get back original fcs files
 
 ##### Gating Set & add & draw gates etc. #########
 test_that("makeGatingSet", {
-    expect_s4_class(makeGatingSet(fn=pa, ignore.text.offset = TRUE), "GatingSet")
-    expect_s4_class(makeGatingSet(fn=pa, comp=TRUE, ignore.text.offset = FALSE), "GatingSet")
+    expect_s4_class(makeGatingSet(fn=pa, fcsRepair = TRUE), "GatingSet")
+    expect_s4_class(makeGatingSet(fn=pa, comp=TRUE, fcsRepair = FALSE), "GatingSet")
 }) # EOT
 
 gs <- makeGatingSet(fn=pa, verbose = FALSE)

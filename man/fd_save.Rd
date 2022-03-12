@@ -40,9 +40,14 @@ fd_save(fdmat)
 }
 }
 \seealso{
-Other Helper functions: 
+Other Accessory functions: 
 \code{\link{applyBandpass}()},
+\code{\link{checkRepairFcsFiles}()},
 \code{\link{cutFdmatToGate}()},
-\code{\link{fd_load}()}
+\code{\link{exportFdmatData}()},
+\code{\link{fd_load}()},
+\code{\link{genfs}()},
+\code{\link{repairSID}()},
+\code{\link{repairVolumes}()}
 }
-\concept{Helper functions}
+\concept{Accessory functions}

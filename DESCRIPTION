@@ -1,7 +1,7 @@
 Package: flowdex
 Type: Package
 Title: Extract Fluorescence Distribution Data from FCM Files and Recalculate to Events per Volume
-Version: 0.4.0
+Version: 0.4.1
 Authors@R:
     person("Bernhard", "Pollner", email = "bernhard.pollner@mac.com", role = c("cre","aut"))
 Maintainer: Bernhard Pollner <bernhard.pollner@mac.com>

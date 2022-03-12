@@ -1,4 +1,4 @@
-#' @title Perform settings setup
+#' @title Perform Settings Setup
 #' @description Perform the setup of the setting-system provided by package 
 #' 'uniset'.
 #' @details Has to be done only once.
@@ -312,7 +312,7 @@ readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL, volCheck=TRUE
 	return(rawdata)
 } # EOF
 
-#' @title Repair Volume Values in FCS files
+#' @title Repair Volume Values in FCS Files
 #' @description Read in all or a subset of FCS files, replace missing volume
 #' values in the description of the single flowFrames with a provided default
 #' value and write the FCS-files back to disc.
@@ -392,7 +392,7 @@ repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm
 	return(invisible(NULL))
 } # EOF
 
-#' @title Repair a single Sample ID.
+#' @title Repair a Single Sample ID
 #' @description Replace a faulty sample ID with a new one and write the single
 #' fcs file back to disc.
 #' @details To first obtain the flowSet, leave the parameter `fs`at its default
@@ -760,7 +760,7 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateS
 	return(invisible(locMat))
 } # EOF
 
-#' @title Cut fdmat to Gate
+#' @title Cut 'fdmat' Object to Gate
 #' @description Cut an object of class `fdmat` down to only a single gate
 #' @param gate Numeric or Character length one. The designator for the gate to 
 #' keep, as defined in the gating strategy (from those gates where 'keepData' is 
@@ -964,7 +964,7 @@ makefdmat <- function(gs, name.dict=".", foN.dict=".", type.dict=".", expo=TRUE,
 	return(invisible(fdmat))
 } # EOF
 
-#' @title Plot Gates on all flowframes in a gating set
+#' @title Plot Gates on All Flowframes in a Gating Set
 #' @description Plot all available gates on all flowframes in a gating set and 
 #' add layers for the number of events. (In raw format, i.e. *not* 
 #' re-calculated to volume!)

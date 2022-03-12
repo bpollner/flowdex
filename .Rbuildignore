@@ -4,3 +4,6 @@
 ^codecov\.yml$
 ^\.github$
 _config.yml
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

@@ -84,8 +84,8 @@ settings <- list(
 	dG_locatorLineWidth = 1.4, 				## the line width used to re-draw the polygon gate
 	dG_gateShowColor = "violet", 			## the color used for drawing a gate possibly specified at 'showGate'
 	dG_pdf_height = 10,						## The height of the pdf when gates are plotted
-	dg_pdf_width = 14,						## The width of the pdf when gates are plotted
-	dg_nrBins = 128, 						## The number of bins applied for generating the heatmap when plotting gates
+	dG_pdf_width = 14,						## The width of the pdf when gates are plotted
+	dG_nrBins = 128, 						## The number of bins applied for generating the heatmap when plotting gates
 	dG_nonFluorescenceChar = c("FSC.A", "SSC.A"), ## Characters defining non-fluorescence axes when plotting. Is affecting the label on the axes.
 	dG_alphaForLegends = 200, 				## When plotting fluorescence distributions, the alpha (transparence) for the legend
 	dG_RcolorBrewerPal = "Dark2", 			## the default palette from RColorBrewer to generate colors when plotting fluorescence distributions

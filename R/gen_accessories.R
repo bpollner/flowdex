@@ -210,9 +210,10 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 #' or \code{\link{flowdexit}} .
 #' @param gate Character or numeric length one. If more than one gate is present 
 #' in the provided fdmatrix, provide either the name of the gate, or a numeric 
-#' specifying the position of the gate in the metadata within the fdmatrix. If 
-#' left at the default \code{NULL} and more than one gate is present in the 
-#' data, you will be asked interactively which gate to plot.
+#' specifying the position of the gate in the metadata within the fdmatrix to 
+#' plot data from only that gate. If left at the default \code{NULL} and more 
+#' than one gate is present in the data, fluorescence distributions from 
+#' all gates will be plotted in individual plots.
 #' @param ti Character length one. Will be used for the title in the plot.
 #' @param ylog Logical. If the y-axis (the counts) should be plotted in log scale.
 #' @param ccol An optional color vector for custom coloring. Must have the same 
@@ -221,7 +222,7 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 #' @param spl The column name in the cyTags of the values used for splitting. 
 #' Defaults to NULL, i.e. no splitting.
 #' @param toPdf Logical. If output should be saved in results as PDF. Defaults to 
-#' FALSE.
+#' TRUE.
 #' @param fns Character length one. The filename suffix, defaults to NULL.
 #' @param ... Additional plotting parameters passed on to 'matplot'
 #' @inheritParams plotgates
@@ -232,12 +233,12 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 #' }
 #' @family Plotting functions
 #' @export
-plotFlscDist <- function(fdmat, gate=NULL, ti="", spl=NULL, ylog=FALSE, ccol=NULL, clt=NULL, toPdf=FALSE, fns=NULL, foN.plots=".", ...) {	
+plotFlscDist <- function(fdmat, gate=NULL, ti="", spl=NULL, ylog=FALSE, ccol=NULL, clt=NULL, toPdf=TRUE, fns=NULL, foN.plots=".", ...) {	
 	#
 	stn <- autoUpS()	
 	#
 	path <- ""
-	pdfWidth <- stn$dg_pdf_width
+	pdfWidth <- stn$dG_pdf_width
 	pdfHeight <- stn$dG_pdf_height
 	#
 	gsdf <- fdmat@gateStrat

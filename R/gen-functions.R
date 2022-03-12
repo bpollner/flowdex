@@ -1012,9 +1012,9 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 	stn <- autoUpS()
 	#
 	foN_plots <- ""
-	bins <- stn$dg_nrBins
+	bins <- stn$dG_nrBins
 	pdfHeight <- stn$dG_pdf_height
-	pdfWidth <- stn$pdfWidth
+	pdfWidth <- stn$dG_pdf_width
 	#
 	if (! class(gs) %in% c("GatingSet_fd", "GatingSet")) {
 		stop("Please provide a gating set to the argument 'gs'.", call.=FALSE)
@@ -1050,7 +1050,7 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 		cyTags <- makeCyTags(gs, dictionary, stn) # extract from the sampleId column in the pheno Data; returns FALSE if either the dictionary or the sampleId column from the single tubes 
 		#
 		if (! spl %in% colnames(cyTags)) {
-			stop(paste0("Sorry, the provided split column `", spl, "` is not present in the provided gating set resp. its cyTags."), call.=FALSE)
+			stop(paste0("Sorry, the provided split column '", spl, "' is not present in the provided gating set resp. its cyTags.\nPossible values are:\n'", paste0(colnames(cyTags), collapse="', '"), "'."), call.=FALSE)
 		}
 		txtAdd <- paste(" split by", spl)
 		suffixAdd <- paste0("_by",spl)
@@ -1201,7 +1201,7 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 #' re-calculated to events per volume unit, the gating set that was produced 
 #' in the way of obtaining the fluorescence distribution data getas assigned 
 #' to the environment 'gsenv' under the name 'gatingSet'. Hence, it can be 
-#' accessed via 'gsenv$gatingSet'.
+#' accessed via \code{gsenv$gatingSet}.
 #' @param fn Character length one. The name of the folder where FCS files should 
 #' be read from. If left at the default '.', the folder name as defined in the 
 #' settings file (key: 'foN_fcsFiles') will be used.

@@ -12,7 +12,7 @@ plotFlscDist(
   ylog = FALSE,
   ccol = NULL,
   clt = NULL,
-  toPdf = FALSE,
+  toPdf = TRUE,
   fns = NULL,
   foN.plots = ".",
   ...
@@ -24,9 +24,10 @@ or \code{\link{flowdexit}} .}
 
 \item{gate}{Character or numeric length one. If more than one gate is present 
 in the provided fdmatrix, provide either the name of the gate, or a numeric 
-specifying the position of the gate in the metadata within the fdmatrix. If 
-left at the default \code{NULL} and more than one gate is present in the 
-data, you will be asked interactively which gate to plot.}
+specifying the position of the gate in the metadata within the fdmatrix to 
+plot data from only that gate. If left at the default \code{NULL} and more 
+than one gate is present in the data, fluorescence distributions from 
+all gates will be plotted in individual plots.}
 
 \item{ti}{Character length one. Will be used for the title in the plot.}
 
@@ -41,7 +42,7 @@ length as number of rows in the matrix.}
 \item{clt}{Numeric vector specifying a sequence of custom line-types.}
 
 \item{toPdf}{Logical. If output should be saved in results as PDF. Defaults to 
-FALSE.}
+TRUE.}
 
 \item{fns}{Character length one. The filename suffix, defaults to NULL.}
 

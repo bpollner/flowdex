@@ -137,7 +137,7 @@ While function 'flowdexit' returns fluorescence distributions
 re-calculated to events per volume unit, the gating set that was produced 
 in the way of obtaining the fluorescence distribution data getas assigned 
 to the environment 'gsenv' under the name 'gatingSet'. Hence, it can be 
-accessed via 'gsenv$gatingSet'.
+accessed via \code{gsenv$gatingSet}.
 }
 \section{Calculating Events per Volume Unit}{
  

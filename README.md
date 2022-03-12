@@ -71,10 +71,10 @@ setupSettings(destination)
 ```
 Follow the on-screen instructions and possibly re-start R.  
 From now on, various global settings and default values used by `flowdex` can conveniently be viewed and changed in the file `flowdex_settings.R` residing at `~/desktop/flowdex_SH` (if you kept it there as in the example).
-
+   
 ***
 ### Quickstart
-If you want a quickstart to immediately see what `flowdex` can do, call:
+After having (only once) set up the [settings file system](#initialise-settings-file-system), you could dive straight in – if you want a quickstart to immediately see what `flowdex` can do, call:
 ```
 destination <- "~/desktop" # again, as R was possibly restarted
 setwd(paste0(destination, "/flowdexTutorial"))
@@ -100,6 +100,8 @@ setwd(expHome)
 library(flowdex) # as you might have had to restart R above
 genfs()
 ```
+   
+If you want, you can now go straight to [Workflow B](#workflow-b:-extract-fluorescence-distributions), where you can learn how to extract fluorescence distributions and how to visualize them.
 
 ### Acquire Data
 Now would be the time for data acquisition -- go and measure your samples, then come back and put your FCS files into the folder 'fcsFiles'.   
@@ -158,7 +160,7 @@ Before drawing a polygon gate on a single sample, we have to read in some FCS fi
 ```
 gsAll <- makeGatingSet()
 ```
-If everything was left at the default, this will read in all 144 fcs-files contained in the folder 'fcsFiles'.   
+If everything was left at the default, this will read in all 108 fcs-files contained in the folder 'fcsFiles'.   
 For the purpose of this demonstration we will restrict the fcs files to be read in to a lower number by defining a filename pattern: Only fcs files with matching pattern will be read in. 
 ```
 gsRed <- makeGatingSet(patt="GPos_T6_th2")
@@ -302,48 +304,241 @@ Note that only those gated data get displayed in 'plotgates' where the field 'ke
 ***
 
 ### Workflow B: Extract Fluorescence Distributions
+Here, the focus is on using a **previously established** gating strategy to extract fluorescence distributions, visualise them and export them to file.    
+All this (except visualisation) is conveniently done via `flowdexit`. Look at [Quickstart](#quickstart) for an immediate example. 
+   
+If not already done, set up the tutorial data as described in [Set up Tutorial](#set-up-tutorial).   
+Now copy (again) the relevant files from the tutorial folder in the experiment-home folder:
+```
+destination <- "~/desktop"
+fromFcs <- list.files(paste0(destination, "/flowdexTutorial/fcsFiles"), full.names=TRUE)
+fromDict <- list.files(paste0(destination, "/flowdexTutorial/dictionary"), full.names=TRUE)
+fromGating <- list.files(paste0(destination, "/flowdexTutorial/gating"), full.names=TRUE)
+toFcs <- paste0(destination, "/tapWater@home/fcsFiles")
+toDict <- paste0(destination, "/tapWater@home/dictionary")
+toGating <- paste0(destination, "/tapWater@home/gating")
+#
+file.copy(fromFcs, toFcs, overwrite=TRUE)
+file.copy(fromDict, toDict, overwrite=TRUE)
+file.copy(fromGating, toGating, overwrite=TRUE)
 
+```
 
 #### Flowdexit
-XXX
-XXX
+Using `flowdexit`is the most straight-forward way to extract fluorescence distributions when the gating strategy and all the gate definitions are checked and in place. (Read [Workflow A](#workflow-a:-define-gating-strategy-and-polygon-gates) for learning how to write a gating strategy and how to define polygon gates.)   
+At this point we assume that we 
+* Provided a structured ID character in the sample ID field of each sample in the GUI of our FCM-machine,
+* completed our data acquisition and have all our fcs files in the folder called 'fcsFiles',
+* have a dictionary file where all the abbreviations in the structured ID character are listed in the folder called 'dictionary', 
+* have a gating strategy file along with its gate definitions in the folder called 'gating'.
+   
+If all that requirements are met, we can call:
+```
+fdmat1 <- flowdexit()
+# and to inspect the result:
+fdmat1 # displaying cyTags and sample IDs (in the slot pDAta)
+fdmat1[[1]] # displaying data from the first (and only) gate
 
+```
+This will use the default gating strategy called 'gateStrat' (where one (1) gate is defined), extract the fluorescence distributions along the 'FITC.A' channel (in that example), re-calculate them to events per ml and save the resulting data in an xlsx file (along with some metadata etc. in additional sheets). The resulting R-object (the same as returned by the function `flowdexit`) is saved to disc as well. (See also `?fd_save`and `?fd_load` for how to manually save and load the resulting 'fdmat' object.)   
+   
+When calling `flowdexit`, the gating set built on the way to extract the fluorescence distributions gets assigned to an extra environment, it can be accessed via:
+```
+gs1 <- gsenv$gatingSet
+# inspect the gating set:
+gs1
+flowWorkspace::plot(gs1)
+```
+   
+Buts lets be a bit more ambitious and try the (slightly non-sensical) gating strategy where multiple nested gates are defined, called 'gateStrat_2':  
 
-
+```
+fdmat2 <- flowdexit(gateStrat = "gateStrat_2")
+# and to inspect the result:
+fdmat2 # displaying cyTags and sample IDs (in the slot pDAta)
+fdmat2[[1]] # displaying data from the first gate
+fdmat2[[2]] # displaying data from the second gate
+```
+Again, the gating set that was produced on the way can be accessed via:
+```
+gs2 <- gsenv$gatingSet
+# inspect the gating set:
+gs2
+flowWorkspace::plot(gs2)
+```
+Please observe that every call to `flowdexit` will assign the object `gatingSet`to the environment `gsenv`. So, only one gating set, the **last one** produced when calling `flowdexit`, can be accessed in that environment.
+   
 #### Visualize Gates
-XXX
-XXX
-explain the split
+Of course it is possible to visualise the gated data. To do this, call
+```
+plotgates(gs1, toPdf = FALSE) # a bit much on one graphic
+```
+This will plot all gated data from all samples in one page, what is a bit much – making the single plot very small.   
+To improve this, it is possible to define a column name from the cyTags (as can be found in the 'fdmat' object) that then will be used to split the data, resulting in only those samples being plotted in the same graphic that share the same value in the specified cyTag-column:
+```
+colnames(fdmat1@cyTags)
+plotgates(gs1, spl="Y_Time.d", toPdf = TRUE)
+```
+(The resulting pdf can be found in the folder 'plots'; 'toPdf' defaults to TRUE).
+This way we have only samples from the same day on one graphic - a more useful output, but still rather small individual plots.   
+   
+A solution could be to read in only fcs files from the same day, then use `plotgates` split by 'C_treatment'. Lets try this using the function `makeAddGatingSet`:
 
-
-
+```
+gs_d4 <- makeAddGatingSet(patt = "T4", gateStrat = "gateStrat_2")
+plotgates(gs_d4, spl="C_treatment", fns="_day4")
+gs_d5 <- makeAddGatingSet(patt = "T5", gateStrat = "gateStrat_2")
+plotgates(gs_d5, spl="C_treatment", fns="_day5")
+gs_d6 <- makeAddGatingSet(patt = "T6", gateStrat = "gateStrat_2")
+plotgates(gs_d6, spl="C_treatment", fns="_day6")
+```
+This should give a nice and not too small graphic of the gated data in each sample.
+Please observe that gated data get plotted for every gate in the gating strategy where 'keepData' is set to TRUE.   
+Set the argument 'plotAll' in the function 'plotgates' to TRUE to override this and to plot gated data from **all** gates defined in the gating strategy:
+```
+plotgates(gs_d6, spl="C_treatment", fns="_day6_allGates", plotAll = TRUE)
+```
+This can be very helpful in the process of checking / verifying the gating strategy. 
+   
 #### Visualize Fluorescence Distribution
-XXX
-XXX
-explain the split
-
-
-
+(Note: The functionality to visualize the fluorescence distribution is merely intended to give a first view of the data. It is not intended for data analysis or presentation.)   
+As the purpose of `flowdex` is to extract fluorescence distributions, it would be borderline obscene not to have a way to visually inspect the result. You can do this by calling
+```
+plotFlscDist(fdmat1)
+```
+(Again, the default behaviour is to export the plot to a pdf located in the folder 'plots'.)
+This displays the fluorescence along the FITC channel (in this example) **re-calculated to events per volume on the y-axis**  of all samples.    
+Again, too much information on one graphic. So, for the purpose of this demonstration, we will look at a _subset_ of the data, that is only samples from day 4 and the first third of beakers. We do this by providing a pattern to read in only those filenames that match this pattern:
+```
+fdmat_s <- flowdexit(patt = "T4_th1")
+fdmat_s # has now only 12 samples
+gs_s <- gsenv$gatingSet # not required, just to keep it
+#
+plotFlscDist(fdmat_s, toPdf = FALSE) # much nicer
+```
+Again, as in `plotgates`, it is possible to split the data by providing a column name of the cyTags to have only these samples in the graphic that have the same value in this cyTag:
+```
+colnames(fdmat_s@cyTags)
+plotFlscDist(fdmat_s, spl = "C_treatment",  ti="Day 4, first third",  toPdf = FALSE)
+plotFlscDist(fdmat_s, spl = "C_treatment", fns="_d4_th1", ti="Day 4, first third") # export to pdf
+```
+Please refer to the manual at `?plotFlscDist`to see the arguments for custom colors and custom linetypes.
 ***
-
 
 ## Accessory Functions
 
 ### Check and Repair FCS Files
-checkRepairFcsFiles
+As it also happened to the author, sometimes the FCM-machine seems to have written a kind of 'faulty' fcs file, resulting in the error message 
+```
+The HEADER and the TEXT segment define different starting point ... to read the data
+```
+when trying to add a gate to the previously read in fcs files. _Reading in_ those fcs files via `flowCore::read.FCS` was not the problem – at least in the authors case.    
+After some testing it was concluded that the reason for that error appears to lie in a multiplication of keywords in the afflicted fcs files. Thus, the function `checkRepairFcsFiles`was written to remove all but one of each of the multiplied keywords.   
+`checkRepairFcsFiles` is automatically executed whenever fcs files are read in. However, the default is to **not** repair the afflicted fcs files, but to merely list the possibly erroneous files and to stop.
+If so desired, `checkRepairFcsFiles` can be called manually in order to have more options: Multiple keywords can be viewed, and it can be selected which one of the multiples of each keyword to keep. See `?checkRepairFcsFiles`for further information.
+For the purpose of this demonstration, some fcs files provoking the error as described above are included in the tutorial dataset.
+First, copy the faulty fcs files to a folder in the experiment-home directory:
+```
+destination <- "~/desktop"
+from <- list.files(paste0(destination, "/flowdexTutorial/fcsF_E_rep"), full.names=TRUE)
+to <- paste0(destination, "/tapWater@home/fcsF_E_rep")
+dir.create(to)
+file.copy(from, to, overwrite=TRUE)
+```
+Now check:
+```
+checkRepairFcsFiles(fn="fcsF_E_rep")
+```
+It says that two files have multiplied keywords. Repair them by calling
+```
+checkRepairFcsFiles(fn="fcsF_E_rep", fcsRepair = TRUE, confirm = FALSE)
+# check again, all should be good now:
+checkRepairFcsFiles(fn="fcsF_E_rep")
 
-
-
+```
+Please refer to `?checkRepairFcsFiles`for further information on how to view multiplied keywords and how to select which one of each multiple to keep.   
+   
 ### Repair Sample ID and Volume Data
-In case it happened that the volumetric measurement of a single sample did not succeed, or that an erroneous sample-ID string was provided in the sample-ID field of a single sample at the time of data acquisition, there are two functions to remedy these issues: `repairVolumes`and `repairSID`.  
-XXX
+In case it happened that the volumetric measurement of a single sample did not succeed, or that an erroneous sample-ID string was provided in the sample-ID field of a single sample at the time of data acquisition, there are two functions to remedy these issues: `repairVolumes`and `repairSID`.   
 
-
+#### Repair Volumes
+First, copy some (manipulated) fcs files to a folder in the experiment-home directory:
+```
+destination <- "~/desktop"
+from <- list.files(paste0(destination, "/flowdexTutorial/fcsF_E_vol_sid"), full.names=TRUE)
+to <- paste0(destination, "/tapWater@home/fcsF_E_vol_sid")
+dir.create(to)
+file.copy(from, to, overwrite=TRUE)
+```
+In order to repair missing volume data, call
+```
+repairVolumes(fn = "fcsF_E_vol_sid", vol=1234567)
+# press enter to confirm
+# and check again:
+repairVolumes(fn = "fcsF_E_vol_sid", vol=1234567) # all should be good
+file.copy(from, to, overwrite=TRUE) # restore the "bad" files
+repairVolumes(fn = "fcsF_E_vol_sid", vol=1234567, confirm=FALSE)
+# to run it without having to confirm
+```
+   
+If you want to force **all fcs files** in a folder to have the **same** volume data, you can set the argument `includeAll` to TRUE:
+```
+repairVolumes(fn = "fcsF_E_vol_sid", vol=1010101, confirm=FALSE, includeAll = TRUE)
+```
+   
+#### Repair Sample ID
+Assuming you repaired the volume data as described [above](#repair-volumes), we can use the fcs files in the folder 'fcsF_E_vol_sid' to demonstrate how to repair a faulty sample ID.    
+It is more than likely that sometimes (e.g. in the long nights of data acquisition because the FCM-machine is so occupied that you are driven to the long hours after dark...) an erroneous sample ID character is provided in the sample ID field of an individual sample at the time of data acquisition (see the [structured ID string](#using-structured-id-string-and-dictionary)).   
+`repairSID` is here to remedy that. In the best case, a faulty sample ID comes to your attention because the translation of element names via the dictionary does not work. In the worst case, the element value is wrong. This only comes to your attention when e.g. cross-referencing the sample names and the cyTags / the sample IDs in the pData slot of the ['fdmat' object](#flowdexit) – **if** you gave descriptive sample names...
+   
+To repair a faulty sample ID in a single fcs file, you first have to read in all (or some; use argument `patt`) fcs files in a folder; they come back as `flowSet` (from package `flowCore`). You then give this 'flowSet' again to the function `repairSID`, but now you can specify a sample name and its new sample ID:
+```
+flowset <- repairSID(fn = "fcsF_E_vol_sid")
+flowset@phenoData@data # very bad sample ID in the fourth sample
+# view the correct sample IDs of the other samples
+# copy one of those correct sample IDs
+# paste and modify it - it should be beaker #3:
+nsid <- "tr: GPos; Td: 5; wt: nativ; ap: no; th: th1; ha: ha1; bk: b3"
+# also copy and paste the sample name
+sana <- "N_na_GPos_T5_th1_b3.fcs" # the  name of the sample having the faulty sample ID
+# now put all together and write fcs file with correct sample ID back to disk
+repairSID(fs=flowset, fn="fcsF_E_vol_sid", name=sana, newSID = nsid)
+# press enter to confirm
+#
+# and check again:
+flowset <- repairSID(fn = "fcsF_E_vol_sid")
+flowset@phenoData@data # all is good 
+```
+   
 ### Apply Bandpass Filter
-XXX
-apply filter, plot distribution and export to rawdata file.
-
+Function `applyBandpass` does exactly what it says – it applies a bandpass-like filter to the fluorescence intensities stemming from a single gate.   
+If not already done [before](#visualize-fluorescence-distribution), create an 'fdmat' object containing only a small subset of the data:
+```
+fdmat_s <- flowdexit(patt = "T4_th1")
+plotFlscDist(fdmat_s, toPdf = FALSE)
+```
+We see not much happening below the fluorescence intensity 1600 and above 2400.    
+Lets apply a bandpass filter to our 'fdmat' object so that only those fluorescence intensities between 1600 and 2400 remain:
+```
+fdmat_s_bp <- applyBandpass(fdmat_s, bandpass = c(1600, 2400))
+fdmat_s[[1]] # compare
+fdmat_s_bp[[1]] # 
+ncol(fdmat_s[[1]])
+ncol(fdmat_s_bp[[1]])
+```
+Also the number of overal events per volume unit are updated - observe and compare the number in the legend in the next plot and the one from before.
+Visualize the difference using `plotFlscDist`:
+```
+plotFlscDist(fdmat_s_bp, toPdf = FALSE)
+```
+   
+The rawdata with applied bandpass filter can be exported via
+```
+exportFdmatData(fdmat_s_bp, expo.name = "flscData_d4_th1")
+```
+   
 ***
+   
 ## Acknowledgements
 This work was made possible by support from IPF  Austria - Georg Huber.   
 Flow cytometry data were acquired at the Institute for Hygiene and Medical Microbiology, Medical University of Innsbruck, Austria.

@@ -259,7 +259,7 @@ is repeated for every gate that should be  applied to the fcs data.
 In the next iteration, i.e. when for example a second gate within the data from the first gate should be defined, one would call:
 
 ```
-drawGate(gsRed_ga, flf=7, gn="DNA+", pggId="pg2", channels = c("FITC.A", "SSC.A"))
+drawGate(gsRed_ga, flf=5, gn="DNA+", pggId="pg2", channels = c("FITC.A", "SSC.A"))
 # point and click to draw a polygon gate around the population of interest
 
 # add the gate in the gating strategy file:

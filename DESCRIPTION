@@ -8,6 +8,9 @@ Maintainer: Bernhard Pollner <bernhard.pollner@mac.com>
 Description: Extract fluorescence distribution data from any bivariate distribution within a previously defined flow cytometry gating set and recalculate the fluorescence distribution data to events per volume. To (meaningfully) use flowdex, the FCM files have to contain volumetric measurement data denoting the acquired sample volume.
 License: GPL (>=3)
 Encoding: UTF-8
+URL: https://bpollner.github.io/flowdex/
+BugReports: https://github.com/bpollner/flowdex/issues
+Language: en-US
 LazyData: true
 RoxygenNote: 7.1.2
 Depends:

@@ -10,15 +10,20 @@
 Extract Fluorescence Distribution Data from FCM Files and Recalculate to Events per Volume
 
 ## Description
-Extract fluorescence distribution data from any bivariate distribution within a previously defined flow cytometry gating strategy and recalculate the fluorescence distribution data to events per volume. To (meaningfully) use flowdex, the FCM files have to contain volumetric measurement data denoting the acquired sample volume. 
-Additionally, it is possible to generate any number of class- and numerical variables describing the dataset by providing a structured character string in the Sample-ID field of each individual sample at the time of data acquisition. At the time of reading in the FCS files, this structured character string is translated into class- und numerical variables, using a dictionary to translate any abbreviations into its long form. 
+Extract fluorescence distribution data from any bivariate distribution within a previously defined flow cytometry gating strategy and recalculate the fluorescence distribution data to events per volume.    
+   
+To (meaningfully) use flowdex, the FCM files have to contain volumetric measurement data denoting the acquired sample volume.    
+   
+Additionally, it is possible to generate any number of class- and numerical variables describing the dataset by providing a structured character string in the Sample-ID field of each individual sample at the time of data acquisition. At the time of reading in the FCS files, this structured character string is translated into class- und numerical variables, using a dictionary to translate any abbreviations into its long form.    
+   
 Finally, the fluorescence-distribution data that were (possibly) re-calculated to events per volume unit can be visualised and exported to file, along with data denoting the overall events per volume unit in each sample in each gate.   
+   
 `flowdex` is leaning heavily on the packages `flowCore`and `flowWorkspace` for data import, generation of gating sets etc. 
 
-To sum it up, package flowdex can:
-* Extract fluorescence distribution data from FCM files and recalculate them to events per volume unit, 
-* Generate variables describing the dataset by using a structured character string in the sample-Id field of the sample at the time of data acquisition, and
-* Visualise fluorescence distributions and export them to file.
+To sum it up, package flowdex can:    
+* Extract fluorescence distribution data from FCM files and recalculate them to events per volume unit,    
+* Generate variables describing the dataset by using a structured character string in the sample-Id field of the sample at the time of data acquisition, and   
+* Visualise fluorescence distributions and export them to file.   
 
 ## Advantage
 To the authors humble knowledge, having ones hand directly on the rawdata of fluorescence distributions is not something the average desktop GUI of FCM-machines is providing easily or willingly. Package `flowdex` was designed to alleviate that problem.   

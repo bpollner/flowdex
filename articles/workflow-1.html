@@ -36,18 +36,22 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
+  <a class="nav-link" href="../articles/flowdex.html">Get started</a>
+</li>
+<li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/accessory.html">Accessory Functions</a>
-    <a class="dropdown-item" href="../articles/acknowledgements.html">Acknowledgements</a>
-    <a class="dropdown-item" href="../articles/acquire-data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/description.html">Description &amp; Installation</a>
-    <a class="dropdown-item" href="../articles/set-up-tutorial.html">Set up Tutorial</a>
+    <a class="dropdown-item" href="../articles/acquire-data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/workflow-1.html">Workflow 1: Define Gating Strategy and Polygon Gates</a>
     <a class="dropdown-item" href="../articles/workflow-2.html">Workflow 2: Extract Fluorescence Distributions</a>
+    <a class="dropdown-item" href="../articles/accessory.html">Accessory Functions</a>
+    <a class="dropdown-item" href="../articles/acknowledgements.html">Acknowledgements</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../articles/index.html">More articles...</a>
   </div>
 </li>
 <li class="nav-item">
@@ -90,10 +94,15 @@
 <li><p>Gating strategy and polygon gates are <strong>not yet defined</strong>.<br>
 Here, the focus is on establishing the gating strategy and manually drawing the polygon gates.</p></li>
 <li><p>Gating strategy and polygon gates are <strong>already defined</strong>.<br>
-Here, the focus is on using the previously established gating strategy to extract fluorescence distributions, visualise them and export them to file. All this (except visualisation) is conveniently done via <code>flowdexit</code>. Look at <a href="#quickstart">Quickstart</a> for an immediate example.</p></li>
+Here, the focus is on using the previously established gating strategy to extract fluorescence distributions, visualise them and export them to file. All this (except visualisation) is conveniently done via <code><a href="../reference/flowdexit.html">flowdexit()</a></code>. Look at <a href="#quickstart">Quickstart</a> for an immediate example.</p></li>
 </ol>
 <hr>
-<p>The next step after data acquisition is to visualize the raw-counts, to decide which sample to use for drawing the gate, and then to manually draw the polygon gate(s) and safe them for later use. Each row in the gating strategy file defines a single gate along with its polygon gate definition. Gates can be nested or ‘standalone’.</p>
+<div class="section level2">
+<h2 id="workflow-1">Workflow 1<a class="anchor" aria-label="anchor" href="#workflow-1"></a>
+</h2>
+<p>The next step after data acquisition is to visualize the raw-counts, to decide which sample to use for drawing the gate, and then to manually draw the polygon gate(s) and safe them for later use.<br>
+Each row in the gating strategy file defines a single gate along with its polygon gate definition. Gates can be nested or ‘standalone’.</p>
+</div>
 <div class="section level2">
 <h2 id="read-in-fcs-files-and-make-gating-set">Read in fcs Files and Make Gating Set<a class="anchor" aria-label="anchor" href="#read-in-fcs-files-and-make-gating-set"></a>
 </h2>
@@ -199,7 +208,7 @@ is repeated for every gate that should be applied to the fcs data.</p>
 <pre><code><span class="va">from</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/gating"</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">to</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/tapWater@home/gating"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="co"># this might overwrite the polygon gate definition you created above</span></code></pre>
-<p>and apply it to a gating set. For ease of demonstration, we will again use the subset of the fcs files as above. Reading in the fcs files and adding the gates can be conveniently done using <code>makeAddGatingSet</code>:</p>
+<p>and apply it to a gating set. For ease of demonstration, we will again use the subset of the fcs files as above. Reading in the fcs files and adding the gates can be conveniently done using <code><a href="../reference/makeAddGatingSet.html">makeAddGatingSet()</a></code>:</p>
 <pre><code><span class="va">gsRed2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeAddGatingSet.html">makeAddGatingSet</a></span><span class="op">(</span>patt<span class="op">=</span><span class="st">"GPos_T6_th2"</span>, gateStrat <span class="op">=</span> <span class="st">"gateStrat_2"</span><span class="op">)</span>
 <span class="co"># we are not using the default name for gating strategy any more</span>
 <span class="fu">flowWorkspace</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/flowWorkspace/man/plot-methods.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">gsRed2</span><span class="op">)</span> <span class="co"># to view the gating hierarchy</span>

@@ -44,7 +44,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/description.html">Description &amp; Installation</a>
+    <a class="dropdown-item" href="../articles/description.html">Description</a>
     <a class="dropdown-item" href="../articles/acquire-data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/workflow-1.html">Workflow 1: Define Gating Strategy and Polygon Gates</a>
     <a class="dropdown-item" href="../articles/workflow-2.html">Workflow 2: Extract Fluorescence Distributions</a>
@@ -94,7 +94,7 @@
 </h2>
 <p>As it also happened to the author, sometimes the FCM-machine seems to have written a kind of ‘faulty’ fcs file, resulting in the error message</p>
 <pre><code>The HEADER and the TEXT segment define different starting point ... to read the data</code></pre>
-<p>when trying to add a gate to the previously read in fcs files. <em>Reading in</em> those fcs files via <code><a href="https://rdrr.io/pkg/flowCore/man/read.FCS.html" class="external-link">flowCore::read.FCS</a></code> was not the problem – at least in the authors case.</p>
+<p>when trying to add a gate to the previously read in fcs files.<br><em>Reading in</em> those fcs files via <code><a href="https://rdrr.io/pkg/flowCore/man/read.FCS.html" class="external-link">flowCore::read.FCS()</a></code> was not the problem – at least in the authors case.</p>
 <p>After some testing it was concluded that the reason for that error appears to lie in a multiplication of keywords in the afflicted fcs files. Thus, the function <code><a href="../reference/checkRepairFcsFiles.html">checkRepairFcsFiles()</a></code> was written to remove all but one of each of the multiplied keywords.</p>
 <p><code><a href="../reference/checkRepairFcsFiles.html">checkRepairFcsFiles()</a></code> is automatically executed whenever fcs files are read in.<br>
 However, the default is to <strong>not</strong> repair the afflicted fcs files, but to merely list the possibly erroneous files and to stop.</p>
@@ -111,7 +111,7 @@ However, the default is to <strong>not</strong> repair the afflicted fcs files, 
 <pre><code><span class="fu"><a href="../reference/checkRepairFcsFiles.html">checkRepairFcsFiles</a></span><span class="op">(</span>fn<span class="op">=</span><span class="st">"fcsF_E_rep"</span>, fcsRepair <span class="op">=</span> <span class="cn">TRUE</span>, confirm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co"># check again, all should be good now:</span>
 <span class="fu"><a href="../reference/checkRepairFcsFiles.html">checkRepairFcsFiles</a></span><span class="op">(</span>fn<span class="op">=</span><span class="st">"fcsF_E_rep"</span><span class="op">)</span></code></pre>
-<p>Please refer to <code><a href="../reference/checkRepairFcsFiles.html">?checkRepairFcsFiles</a></code>for further information on how to view multiplied keywords and how to select which one of each multiple to keep.</p>
+<p>Please refer to <code><a href="../reference/checkRepairFcsFiles.html">checkRepairFcsFiles()</a></code> for further information on how to view multiplied keywords and how to select which one of each multiple to keep.</p>
 </div>
 <div class="section level2">
 <h2 id="repair-sample-id-and-volume-data">Repair Sample ID and Volume Data<a class="anchor" aria-label="anchor" href="#repair-sample-id-and-volume-data"></a>
@@ -141,11 +141,11 @@ However, the default is to <strong>not</strong> repair the afflicted fcs files, 
 <h3 id="repair-sample-id">Repair Sample ID<a class="anchor" aria-label="anchor" href="#repair-sample-id"></a>
 </h3>
 <p>Assuming you repaired the volume data as described <a href="#repair-volumes">above</a>, we can use the fcs files in the folder ‘fcsF_E_vol_sid’ to demonstrate how to repair a faulty sample ID.<br>
-It is more than likely that sometimes (e.g. in the long nights of data acquisition because the FCM-machine is so occupied that you are driven to the long hours after dark…) an erroneous sample ID character is provided in the sample ID field of an individual sample at the time of data acquisition (see the <a href="#using-structured-id-string-and-dictionary">structured ID string</a>).<br><code><a href="../reference/repairSID.html">repairSID()</a></code> can be used to repair these faulty sample IDs.</p>
+It is more than likely that sometimes (e.g. in the long nights of data acquisition because the FCM-machine is so occupied that you are driven to the long hours after dark…) an erroneous sample ID character is provided in the sample ID field of an individual sample at the time of data acquisition (see the <a href="https://bpollner.github.io/flowdex/articles/acquire-data.html#using-structured-id-string-and-dictionary">structured ID string</a>).<br><code><a href="../reference/repairSID.html">repairSID()</a></code> can be used to repair these faulty sample IDs.</p>
 <p>In the best case, a faulty sample ID comes to your attention because the translation of element names via the dictionary does not work.<br>
-In the worst case, the element value is wrong. This only comes to your attention when e.g. cross-referencing the sample names and the cyTags / the sample IDs in the pData slot of the <a href="#flowdexit">‘fdmat’ object</a> – <strong>if</strong> you gave descriptive sample names…</p>
-<p>To repair a faulty sample ID in a single fcs file, you first have to read in all (or some; use argument <code>patt</code>) fcs files in a folder; they come back as <code>flowSet</code> (from package <code>flowCore</code>).<br>
-You then give this ‘flowSet’ again to the function <code><a href="../reference/repairSID.html">repairSID()</a></code>, but now you can specify a sample name and its new sample ID:</p>
+In the worst case, the element value is wrong. This only comes to your attention when e.g. cross-referencing the sample names and the cyTags / the sample IDs in the pData slot of the <a href="https://bpollner.github.io/flowdex/articles/workflow-2.html#flowdexit">‘fdmat’ object</a> (as produced e.g. by <code><a href="../reference/flowdexit.html">flowdexit()</a></code> — <strong>if</strong> there ares descriptive sample names…</p>
+<p>To repair a faulty sample ID in a single fcs file, you first have to read in all (or some; use argument <code>patt</code>) fcs files in a folder; they come back as <code><a href="https://rdrr.io/pkg/flowCore/man/flowSet-class.html" class="external-link">flowCore::flowSet()</a></code>.<br>
+Then this ‘flowSet’ is given again to the function <code><a href="../reference/repairSID.html">repairSID()</a></code>, but now a sample name and its new sample ID can be specified:</p>
 <pre><code><span class="va">flowset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repairSID.html">repairSID</a></span><span class="op">(</span>fn <span class="op">=</span> <span class="st">"fcsF_E_vol_sid"</span><span class="op">)</span>
 <span class="va">flowset</span><span class="op">@</span><span class="va">phenoData</span><span class="op">@</span><span class="va">data</span> <span class="co"># very bad sample ID in the fourth sample</span>
 <span class="co"># view the correct sample IDs of the other samples</span>

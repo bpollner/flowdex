@@ -44,7 +44,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/description.html">Description &amp; Installation</a>
+    <a class="dropdown-item" href="../articles/description.html">Description</a>
     <a class="dropdown-item" href="../articles/acquire-data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/workflow-1.html">Workflow 1: Define Gating Strategy and Polygon Gates</a>
     <a class="dropdown-item" href="../articles/workflow-2.html">Workflow 2: Extract Fluorescence Distributions</a>
@@ -92,15 +92,15 @@
 <p>There are two basic scenarios when using <code>flowdex</code> that further define the appropriate workflow:</p>
 <ol style="list-style-type: decimal">
 <li><p>Gating strategy and polygon gates are <strong>not yet defined</strong>.<br>
-Here, the focus is on establishing the gating strategy and manually drawing the polygon gates.</p></li>
+Here, the focus is on <a href="https://bpollner.github.io/flowdex/articles/workflow-1.html">establishing the gating strategy</a> and manually drawing the polygon gates.</p></li>
 <li><p>Gating strategy and polygon gates are <strong>already defined</strong>.<br>
-Here, the focus is on using the previously established gating strategy to extract fluorescence distributions, visualise them and export them to file. All this (except visualisation) is conveniently done via <code><a href="../reference/flowdexit.html">flowdexit()</a></code>. Look at <a href="#quickstart">Quickstart</a> for an immediate example.</p></li>
+Here, the focus is on using the previously established gating strategy to extract fluorescence distributions, visualise them and export them to file. All this (except visualisation) is conveniently done via <code><a href="../reference/flowdexit.html">flowdexit()</a></code>. Look at <a href="https://bpollner.github.io/flowdex/articles/flowdex.html#quickstart">Quickstart</a> for an immediate example.</p></li>
 </ol>
 <hr>
 <div class="section level2">
 <h2 id="workflow-2">Workflow 2<a class="anchor" aria-label="anchor" href="#workflow-2"></a>
 </h2>
-<p>If not already done, set up the tutorial data as described in <a href="#set-up-tutorial">Set up Tutorial</a>.<br>
+<p>If not already done, set up the tutorial data as described in <a href="https://bpollner.github.io/flowdex/articles/flowdex.html">Get Started</a>.<br>
 Now copy (again) the relevant files from the tutorial folder in the experiment-home folder:</p>
 <pre><code><span class="va">destination</span> <span class="op">&lt;-</span> <span class="st">"~/desktop"</span>
 <span class="va">fromFcs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/fcsFiles"</span><span class="op">)</span>, full.names<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
@@ -117,7 +117,7 @@ Now copy (again) the relevant files from the tutorial folder in the experiment-h
 <div class="section level2">
 <h2 id="flowdexit">Flowdexit<a class="anchor" aria-label="anchor" href="#flowdexit"></a>
 </h2>
-<p>Using <code><a href="../reference/flowdexit.html">flowdexit()</a></code> is the most straight-forward way to extract fluorescence distributions when the gating strategy and all the gate definitions are checked and in place. (Read <a href="#workflow-a-define-gating-strategy-and-polygon-gates">Workflow</a> 1 for learning how to write a gating strategy and how to define polygon gates.)<br>
+<p>Using <code><a href="../reference/flowdexit.html">flowdexit()</a></code> is the most straight-forward way to extract fluorescence distributions when the gating strategy and all the gate definitions are checked and in place. (Read <a href="https://bpollner.github.io/flowdex/articles/workflow-1.html">Workflow 1</a> for learning how to write a gating strategy and how to define polygon gates.)<br>
 At this point we assume that we</p>
 <ul>
 <li><p>Provided a structured ID character in the sample ID field of each sample in the GUI of our FCM-machine,</p></li>
@@ -193,6 +193,7 @@ So, for the purpose of this demonstration, we will look at a <em>subset</em> of 
 <span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat_s</span>, spl <span class="op">=</span> <span class="st">"C_treatment"</span>,  ti<span class="op">=</span><span class="st">"Day 4, first third"</span>,  toPdf <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat_s</span>, spl <span class="op">=</span> <span class="st">"C_treatment"</span>, fns<span class="op">=</span><span class="st">"_d4_th1"</span>, ti<span class="op">=</span><span class="st">"Day 4, first third"</span><span class="op">)</span> <span class="co"># export to pdf</span></code></pre>
 <p>Please refer to the manual at <code><a href="../reference/plotFlscDist.html">plotFlscDist()</a></code> to see the arguments for custom colors and custom linetypes.</p>
+<p>Go on to learn about the <a href="https://bpollner.github.io/flowdex/articles/accessory.html">Accessory Functions</a>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

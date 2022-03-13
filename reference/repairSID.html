@@ -87,32 +87,32 @@ fcs file back to disc.</p>
 <dd><p>The object returned by this function if parameter <code>fs</code> is left
 at its default NULL, what then can be used as input for the parameter <code>fs</code>.</p></dd>
 <dt>name</dt>
-<dd><p>Character length one. The name of the fcs file within the flowset 
+<dd><p>Character length one. The name of the fcs file within the flowSet
 that should get a new sample ID.</p></dd>
 <dt>newSID</dt>
-<dd><p>Character legnth one. The new Sample ID.</p></dd>
+<dd><p>Character length one. The new Sample ID.</p></dd>
 <dt>patt</dt>
 <dd><p>A regular expression defining a possible subset of FCS files
 residing in the directory specified by <code>fn</code> to read in. Only matching
 patterns will be included.</p></dd>
 <dt>fn</dt>
-<dd><p>Character length one. The name of the folder where FCS files should 
-be read from. If left at the default '.', the folder name as defined in the 
+<dd><p>Character length one. The name of the folder where FCS files should
+be read from. If left at the default '.', the folder name as defined in the
 settings file (key: 'foN_fcsFiles') will be used.</p></dd>
 <dt>confirm</dt>
 <dd><p>Logical. If the user should be asked for additional confirmation
 before the rewriting of the fcs file is performed. Defaults to TRUE.</p></dd>
 <dt>fcsRepair</dt>
-<dd><p>Logical. If set to TRUE, fcs-files in the folder 
-specified at argument 'fn' will be checked for multiplied entries in the 
-keywords, as after some testing the author came to the humble conclusion that 
-these multiplied keywords can be the reason for the error message: <br><code>"The HEADER and the TEXT segment define different starting 
+<dd><p>Logical. If set to TRUE, fcs-files in the folder
+specified at argument 'fn' will be checked for multiplied entries in the
+keywords, as after some testing the author came to the humble conclusion that
+these multiplied keywords can be the reason for the error message: <br><code>"The HEADER and the TEXT segment define different starting
 point ... to read the data"</code>. <br>
-If 'fcsRepair' is set to TRUE, all except the last of each multiplied 
-keyword will be removed and the fcs file will be saved to disc, 
+If 'fcsRepair' is set to TRUE, all except the last of each multiplied
+keyword will be removed and the fcs file will be saved to disc,
 overwriting the original fcs file <strong>without further warning</strong>. <br>
-Use the function <code><a href="checkRepairFcsFiles.html">checkRepairFcsFiles</a></code> which does offer more 
-options to manually check and repair afflicted fcs files. There, it is 
+Use the function <code><a href="checkRepairFcsFiles.html">checkRepairFcsFiles</a></code> which does offer more
+options to manually check and repair afflicted fcs files. There, it is
 possible to display multiplied keywords and to select which one to keep.</p></dd>
 </dl></div>
     <div class="section level2">
@@ -126,13 +126,13 @@ written to disc with its new sample ID.</p>
 NULL. By providing a pattern to `patt`, subgroups of fcs files can be read in.
 Provide the so obtained flowSet to the parameter `fs`, and specify the
 name and the new sample ID in order to re-write the specified file with its
-new Sample ID. 'object@phenoData@data' can be used to inspect and verify names 
+new Sample ID. 'object@phenoData@data' can be used to inspect and verify names
 of FCS files and the sample IDs therein -- see examples.</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
-    <p>A correct sample ID is of importance when using the 
-'dictionary' to expand the abbreviations in the sample ID - see 
+    <p>A correct sample ID is of importance when using the
+'dictionary' to expand the abbreviations in the sample ID - see
 <a href="https://bpollner.github.io/flowdex/articles/acquire_data.html">https://bpollner.github.io/flowdex/articles/acquire_data.html</a>.</p>
     </div>
     <div class="section level2">
@@ -157,7 +157,7 @@ of FCS files and the sample IDs therein -- see examples.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">fs</span> <span class="op">&lt;-</span> <span class="fu">repairSID</span><span class="op">(</span><span class="op">)</span> <span class="co"># or </span></span>
+<span class="r-in"><span class="va">fs</span> <span class="op">&lt;-</span> <span class="fu">repairSID</span><span class="op">(</span><span class="op">)</span> <span class="co"># or</span></span>
 <span class="r-in"><span class="va">fs</span> <span class="op">&lt;-</span> <span class="fu">repairSID</span><span class="op">(</span>patt<span class="op">=</span><span class="st">"foo"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">fs</span><span class="op">@</span><span class="va">phenoData</span><span class="op">@</span><span class="va">data</span></span>
 <span class="r-in"><span class="fu">repairSID</span><span class="op">(</span><span class="va">fs</span>, <span class="st">"sample1"</span>, <span class="st">"newSID"</span><span class="op">)</span></span>

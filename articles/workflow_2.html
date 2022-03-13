@@ -163,7 +163,7 @@ The resulting R-object is saved to disc as well. (See also <code><a href="../ref
 <p>To visualize the gated data call</p>
 <pre><code><span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs1</span>, toPdf <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># a bit much on one graphic</span></code></pre>
 <p>This will plot all gated data from all samples in one page, what is a bit much – making the single plot very small.<br>
-To improve this, it is possible to define a column name from the cyTags (as can be found in the ‘fdmat’ object) that then will be used to split the data, resulting in only those samples being plotted in the same graphic that share the same value in the specified cyTag-column:</p>
+To improve this, it is possible to define a column name from the cyTags (as can be found in the ‘fdmat’ object) that then will be used to split the data, resulting in only those samples being plotted in the same graphic that share the same value in the specified cyTags-column:</p>
 <pre><code><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">fdmat1</span><span class="op">@</span><span class="va">cyTags</span><span class="op">)</span>
 <span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs1</span>, spl<span class="op">=</span><span class="st">"Y_Time.d"</span>, toPdf <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre>
 <p>(The resulting pdf can be found in the folder ‘plots’; ‘toPdf’ defaults to TRUE).<br>

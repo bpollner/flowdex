@@ -6,10 +6,10 @@ articles:
   acknowledgements: acknowledgements.html
   acquire-data: acquire-data.html
   description: description.html
-  set-up-tutorial: set-up-tutorial.html
+  flowdex: flowdex.html
   workflow-1: workflow-1.html
   workflow-2: workflow-2.html
-last_built: 2022-03-13T02:37Z
+last_built: 2022-03-13T04:29Z
 urls:
   reference: https://bpollner.github.io/flowdex/reference
   article: https://bpollner.github.io/flowdex/articles

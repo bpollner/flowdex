@@ -20,9 +20,11 @@ There are two basic scenarios when using `flowdex` that further define the appro
     Here, the focus is on establishing the gating strategy and manually drawing the polygon gates.
 
 2.  Gating strategy and polygon gates are **already defined**.\
-    Here, the focus is on using the previously established gating strategy to extract fluorescence distributions, visualise them and export them to file. All this (except visualisation) is conveniently done via `flowdexit`. Look at [Quickstart](#quickstart) for an immediate example.
+    Here, the focus is on using the previously established gating strategy to extract fluorescence distributions, visualise them and export them to file. All this (except visualisation) is conveniently done via `flowdexit()`. Look at [Quickstart](#quickstart) for an immediate example.
 
 ------------------------------------------------------------------------
+
+## Workflow 2
 
 If not already done, set up the tutorial data as described in [Set up Tutorial](#set-up-tutorial).\
 Now copy (again) the relevant files from the tutorial folder in the experiment-home folder:
@@ -41,7 +43,7 @@ Now copy (again) the relevant files from the tutorial folder in the experiment-h
 
 ## Flowdexit
 
-Using `flowdexit`is the most straight-forward way to extract fluorescence distributions when the gating strategy and all the gate definitions are checked and in place. (Read [Workflow](#workflow-a-define-gating-strategy-and-polygon-gates) 1 for learning how to write a gating strategy and how to define polygon gates.)\
+Using `flowdexit()` is the most straight-forward way to extract fluorescence distributions when the gating strategy and all the gate definitions are checked and in place. (Read [Workflow](#workflow-a-define-gating-strategy-and-polygon-gates) 1 for learning how to write a gating strategy and how to define polygon gates.)\
 At this point we assume that we
 
 -   Provided a structured ID character in the sample ID field of each sample in the GUI of our FCM-machine,
@@ -60,9 +62,9 @@ If all that requirements are met, we can call:
     fdmat1[[1]] # displaying data from the first (and only) gate
 
 This will use the default gating strategy called 'gateStrat' (where one (1) gate is defined), extract the fluorescence distributions along the 'FITC.A' channel (in that example), **re-calculate** them to **events per ml** and save the resulting data in an xlsx file (along with some metadata etc. in additional sheets).\
-The resulting R-object is saved to disc as well. (See also `?fd_save`and `?fd_load` for how to manually save and load the resulting 'fdmat' object.)
+The resulting R-object is saved to disc as well. (See also `fd_save()` and `fd_load()` for how to manually save and load the resulting 'fdmat' object.)
 
-When calling `flowdexit`, the gating set built on the way to extract the fluorescence distributions gets assigned to an extra environment. It can be accessed via:
+When calling `flowdexit()`, the gating set built on the way to extract the fluorescence distributions gets assigned to an extra environment. It can be accessed via:
 
     gs1 <- gsenv$gatingSet
     # inspect the gating set:
@@ -84,7 +86,7 @@ Again, the gating set that was produced on the way can be accessed via:
     gs2
     flowWorkspace::plot(gs2)
 
-Please observe that every call to `flowdexit` will assign the object `gatingSet`to the environment `gsenv`. So, only one gating set, the **last one** produced when calling `flowdexit`, can be accessed in that environment.
+Please observe that every call to `flowdexit()` will assign the object `gatingSet`to the environment `gsenv`. So, only one gating set, the **last one** produced when calling `flowdexit()`, can be accessed in that environment.
 
 ## Visualize Gates
 
@@ -98,10 +100,10 @@ To improve this, it is possible to define a column name from the cyTags (as can 
     colnames(fdmat1@cyTags)
     plotgates(gs1, spl="Y_Time.d", toPdf = TRUE)
 
-(The resulting pdf can be found in the folder 'plots'; 'toPdf' defaults to TRUE). \
+(The resulting pdf can be found in the folder 'plots'; 'toPdf' defaults to TRUE).\
 This way we have only samples from the same day on one graphic - a more useful output, but still rather small individual plots.
 
-A solution could be to read in only fcs files from the same day, then use `plotgates` split by 'C_treatment'. Lets try this using the function `makeAddGatingSet`:
+A solution could be to read in only fcs files from the same day, then use `plotgates()` split by 'C_treatment'. Lets try this using the function `makeAddGatingSet()`:
 
     gs_d4 <- makeAddGatingSet(patt = "T4", gateStrat = "gateStrat_2")
     plotgates(gs_d4, spl="C_treatment", fns="_day4")
@@ -120,13 +122,14 @@ Set the argument 'plotAll' in the function 'plotgates' to TRUE to override this 
 ## Visualize Fluorescence Distribution
 
 (Note: The functionality to visualize the fluorescence distribution is merely intended to give a first view of the data. It is not intended for data analysis or presentation.)\
-As the purpose of `flowdex` is to extract fluorescence distributions, it would be borderline obscene not to have a way to visually inspect the result. You can do this by calling
+As the purpose of `flowdex` is to extract fluorescence distributions, it would be borderline obscene not to have at least a basic way to visually inspect the result. You can do this by calling
 
     plotFlscDist(fdmat1)
 
-(Again, the default behaviour is to export the plot to a pdf located in the folder 'plots'.) \
+(Again, the default behavior is to export the plot to a pdf located in the folder 'plots'.)\
 Fluorescence intensities of all samples along the FITC channel (in this example) are displayed **re-calculated to events per volume on the y-axis** .\
-Again, too much information. So, for the purpose of this demonstration, we will look at a *subset* of the data, that is only samples from day 4 and the first third of beakers. We do this by providing a pattern to read in only those filenames that match this pattern:
+Again, too much information.\
+So, for the purpose of this demonstration, we will look at a *subset* of the data, that is only samples from day 4 and the first third of beakers. We do this by providing a pattern to read in only those filenames that match this pattern:
 
     fdmat_s <- flowdexit(patt = "T4_th1")
     fdmat_s # has now only 12 samples
@@ -134,10 +137,10 @@ Again, too much information. So, for the purpose of this demonstration, we will 
     #
     plotFlscDist(fdmat_s, toPdf = FALSE) # much nicer
 
-Again, as in `plotgates`, it is possible to split the data by providing a column name of the cyTags to have only these samples in the graphic that have the same value in this cyTag:
+Again, as in `plotgates()`, it is possible to split the data by providing a column name of the cyTags to have only these samples in the graphic that have the same value in this cyTag:
 
     colnames(fdmat_s@cyTags)
     plotFlscDist(fdmat_s, spl = "C_treatment",  ti="Day 4, first third",  toPdf = FALSE)
     plotFlscDist(fdmat_s, spl = "C_treatment", fns="_d4_th1", ti="Day 4, first third") # export to pdf
 
-Please refer to the manual at `?plotFlscDist`to see the arguments for custom colors and custom linetypes.
+Please refer to the manual at `plotFlscDist()` to see the arguments for custom colors and custom linetypes.

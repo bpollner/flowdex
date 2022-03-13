@@ -22,13 +22,12 @@ As it also happened to the author, sometimes the FCM-machine seems to have writt
 
 when trying to add a gate to the previously read in fcs files. *Reading in* those fcs files via `flowCore::read.FCS` was not the problem -- at least in the authors case.
 
-After some testing it was concluded that the reason for that error appears to lie in a multiplication of keywords in the afflicted fcs files. Thus, the function `checkRepairFcsFiles`was written to remove all but one of each of the multiplied keywords.
+After some testing it was concluded that the reason for that error appears to lie in a multiplication of keywords in the afflicted fcs files. Thus, the function `checkRepairFcsFiles()` was written to remove all but one of each of the multiplied keywords.
 
-`checkRepairFcsFiles` is automatically executed whenever fcs files are read in. \
+`checkRepairFcsFiles()` is automatically executed whenever fcs files are read in.\
 However, the default is to **not** repair the afflicted fcs files, but to merely list the possibly erroneous files and to stop.
 
-If so desired, `checkRepairFcsFiles` can be called manually in order to have more options: Multiple keywords can be viewed, and it can be selected which one of the multiples of each keyword to keep. \
-See `?checkRepairFcsFiles`for further information.
+If so desired, `checkRepairFcsFiles()` can be called manually in order to have more options: Multiple keywords can be viewed, and it can be selected which one of the multiples of each keyword to keep.
 
 For the purpose of this demonstration, some fcs files provoking the error as described above are included in the tutorial dataset. First, copy the faulty fcs files to a folder in the experiment-home directory:
 
@@ -52,7 +51,7 @@ Please refer to `?checkRepairFcsFiles`for further information on how to view mul
 
 ## Repair Sample ID and Volume Data
 
-In case it happened that the volumetric measurement of a single sample did not succeed, or that an erroneous sample-ID string was provided in the sample-ID field of a single sample at the time of data acquisition, there are two functions to remedy these issues: `repairVolumes` and `repairSID`.
+In case it happened that the volumetric measurement of a single sample did not succeed, or that an erroneous sample-ID string was provided in the sample-ID field of a single sample at the time of data acquisition, there are two functions to remedy these issues: `repairVolumes()` and `repairSID()`.
 
 ### Repair Volumes {#repair-volumes}
 
@@ -82,13 +81,13 @@ If you want to force **all fcs files** in a folder to have the **same** volume d
 
 Assuming you repaired the volume data as described [above](#repair-volumes), we can use the fcs files in the folder 'fcsF_E\_vol_sid' to demonstrate how to repair a faulty sample ID.\
 It is more than likely that sometimes (e.g. in the long nights of data acquisition because the FCM-machine is so occupied that you are driven to the long hours after dark...) an erroneous sample ID character is provided in the sample ID field of an individual sample at the time of data acquisition (see the [structured ID string](#using-structured-id-string-and-dictionary)).\
-`repairSID` can be used to repair these faulty sample IDs.
+`repairSID()` can be used to repair these faulty sample IDs.
 
-In the best case, a faulty sample ID comes to your attention because the translation of element names via the dictionary does not work. \
+In the best case, a faulty sample ID comes to your attention because the translation of element names via the dictionary does not work.\
 In the worst case, the element value is wrong. This only comes to your attention when e.g. cross-referencing the sample names and the cyTags / the sample IDs in the pData slot of the ['fdmat' object](#flowdexit) -- **if** you gave descriptive sample names...
 
-To repair a faulty sample ID in a single fcs file, you first have to read in all (or some; use argument `patt`) fcs files in a folder; they come back as `flowSet` (from package `flowCore`). \
-You then give this 'flowSet' again to the function `repairSID`, but now you can specify a sample name and its new sample ID:
+To repair a faulty sample ID in a single fcs file, you first have to read in all (or some; use argument `patt`) fcs files in a folder; they come back as `flowSet` (from package `flowCore`).\
+You then give this 'flowSet' again to the function `repairSID()`, but now you can specify a sample name and its new sample ID:
 
     flowset <- repairSID(fn = "fcsF_E_vol_sid")
     flowset@phenoData@data # very bad sample ID in the fourth sample
@@ -108,7 +107,7 @@ You then give this 'flowSet' again to the function `repairSID`, but now you can 
 
 ## Apply Bandpass Filter
 
-Function `applyBandpass` does exactly what it says -- it applies a bandpass-like filter to the fluorescence intensities stemming from a single gate.\
+Function `applyBandpass()` does exactly what it says -- it applies a bandpass-like filter to the fluorescence intensities stemming from a single gate.\
 If not already done before, create an 'fdmat' object containing only a small subset of the data:
 
     fdmat_s <- flowdexit(patt = "T4_th1")
@@ -123,8 +122,8 @@ Lets apply a bandpass filter to our 'fdmat' object so that only those fluorescen
     ncol(fdmat_s[[1]])
     ncol(fdmat_s_bp[[1]])
 
-Also the number of overall events per volume unit are updated - observe and compare the number in the legend in the next plot and the one from before. \
-Visualize the difference using `plotFlscDist`:
+Also the number of overall events per volume unit are updated - observe and compare the number in the legend in the next plot and the one from before.\
+Visualize the difference using `plotFlscDist()`:
 
     plotFlscDist(fdmat_s_bp, toPdf = FALSE)
 

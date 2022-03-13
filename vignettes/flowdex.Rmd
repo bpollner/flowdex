@@ -1,8 +1,8 @@
 ---
-title: "Set up Tutorial"
+title: "Get Started"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Set up Tutorial}
+  %\VignetteIndexEntry{Get Started}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,10 +14,20 @@ knitr::opts_chunk$set(
 )
 ```
 
-In order to walk the user over the main-features of package `flowdex`, a small tutorial-dataset has been created, along with gating strategy files and the required polygon-gate definitions.\
-Also, the workflow how to create the gating strategy file and the polygon gate definitions will be explained.
+## Installation
+
+Install release version from CRAN via
+
+    install.packages("flowdex")
+
+Or download from github:
+
+    library(devtools) install_github(repo="bpollner/flowdex", ref="main")`
 
 ## Download Tutorial Dataset
+
+In order to walk the user over the main-features of package `flowdex`, a small tutorial-dataset has been created, along with gating strategy files and the required polygon-gate definitions.\
+Also, the workflow how to create the gating strategy file and the polygon gate definitions will be explained.
 
 First, download the tutorial data from its Github repository to your desktop (or any place you prefer).
 
@@ -53,7 +63,7 @@ From now on, various global settings and default values used by `flowdex` can co
 
 ------------------------------------------------------------------------
 
-## Quickstart
+## Quickstart {#quickstart}
 
 After having (only once) set up the [settings file system](#initialise-settings-file-system), you could dive straight in -- for a quickstart to immediately see what `flowdex` can do, call:
 

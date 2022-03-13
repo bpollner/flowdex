@@ -20,11 +20,14 @@ There are two basic scenarios when using `flowdex` that further define the appro
     Here, the focus is on establishing the gating strategy and manually drawing the polygon gates.
 
 2.  Gating strategy and polygon gates are **already defined**.\
-    Here, the focus is on using the previously established gating strategy to extract fluorescence distributions, visualise them and export them to file. All this (except visualisation) is conveniently done via `flowdexit`. Look at [Quickstart](#quickstart) for an immediate example.
+    Here, the focus is on using the previously established gating strategy to extract fluorescence distributions, visualise them and export them to file. All this (except visualisation) is conveniently done via `flowdexit()`. Look at [Quickstart](#quickstart) for an immediate example.
 
 ------------------------------------------------------------------------
 
-The next step after data acquisition is to visualize the raw-counts, to decide which sample to use for drawing the gate, and then to manually draw the polygon gate(s) and safe them for later use. Each row in the gating strategy file defines a single gate along with its polygon gate definition. Gates can be nested or 'standalone'.
+## Workflow 1
+
+The next step after data acquisition is to visualize the raw-counts, to decide which sample to use for drawing the gate, and then to manually draw the polygon gate(s) and safe them for later use.\
+Each row in the gating strategy file defines a single gate along with its polygon gate definition. Gates can be nested or 'standalone'.
 
 ## Read in fcs Files and Make Gating Set
 
@@ -162,7 +165,7 @@ Now copy a ready made example for a gating strategy holding more than one gate f
     to <- paste0(destination, "/tapWater@home/gating")
     file.copy(from, to, overwrite=TRUE) # this might overwrite the polygon gate definition you created above
 
-and apply it to a gating set. For ease of demonstration, we will again use the subset of the fcs files as above. Reading in the fcs files and adding the gates can be conveniently done using `makeAddGatingSet`:
+and apply it to a gating set. For ease of demonstration, we will again use the subset of the fcs files as above. Reading in the fcs files and adding the gates can be conveniently done using `makeAddGatingSet()`:
 
     gsRed2 <- makeAddGatingSet(patt="GPos_T6_th2", gateStrat = "gateStrat_2")
     # we are not using the default name for gating strategy any more

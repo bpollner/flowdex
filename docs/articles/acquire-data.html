@@ -36,18 +36,22 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
+  <a class="nav-link" href="../articles/flowdex.html">Get started</a>
+</li>
+<li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/accessory.html">Accessory Functions</a>
-    <a class="dropdown-item" href="../articles/acknowledgements.html">Acknowledgements</a>
-    <a class="dropdown-item" href="../articles/acquire-data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/description.html">Description &amp; Installation</a>
-    <a class="dropdown-item" href="../articles/set-up-tutorial.html">Set up Tutorial</a>
+    <a class="dropdown-item" href="../articles/acquire-data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/workflow-1.html">Workflow 1: Define Gating Strategy and Polygon Gates</a>
     <a class="dropdown-item" href="../articles/workflow-2.html">Workflow 2: Extract Fluorescence Distributions</a>
+    <a class="dropdown-item" href="../articles/accessory.html">Accessory Functions</a>
+    <a class="dropdown-item" href="../articles/acknowledgements.html">Acknowledgements</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../articles/index.html">More articles...</a>
   </div>
 </li>
 <li class="nav-item">
@@ -148,10 +152,10 @@ the actual value within that column.</li>
 order for different samples (but as this could be confusing during data
 acquisition, this is not recommended). If an erroneous sample ID is
 provided, it can be repaired later using the function
-<code>repairSID</code>.</li>
+<code><a href="../reference/repairSID.html">repairSID()</a></code>.</li>
 <li>The data, i.e. the class- and numerical variables assigned to each
 sample can later be accessed via the slot <code>cyTags</code> in the
-object created by e.g. function <code>flowdexit</code>, and they will
+object created by e.g. function <code><a href="../reference/flowdexit.html">flowdexit()</a></code>, and they will
 also be exported to file (if exporting to xlsx). These data can be very
 helpful and convenient when further analyzing the fluorescence
 distributions.</li>

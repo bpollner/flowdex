@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 # flowdex
 
-Extract Fluorescence Distribution Data from FCM Files and Recalculate to Events per Volume
+Extract Fluorescence Distribution Data from FCS Files and Recalculate to Events per Volume
 
 ## Description
 
@@ -32,7 +32,7 @@ To (meaningfully) use flowdex, the fcs files have to contain volumetric measurem
 
 To sum it up, package flowdex can:
 
--   Extract fluorescence distribution data from FCM files and recalculate them to events per volume unit,
+-   Extract fluorescence distribution data from fcs files and recalculate them to events per volume unit,
 
 -   Generate variables describing the dataset by using a structured character string in the sample-Id field of the sample at the time of data acquisition, and
 

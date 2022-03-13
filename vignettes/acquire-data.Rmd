@@ -45,8 +45,8 @@ There can be as many groups as desired. A single group consists of exactly two e
 Here, we have 7 groups: tr, Td, wt, ap, th, ha and bk, all separated by a `;`. 'tr' e.g. will be expanded to 'C_treatment' as defined in the dictionary. 'GPos' is the value in the first group, meaning that this sample belongs to the experiment group (denoted as 'GPos'). The next group 'Td: 4' means that the treatment time for this sample was 4 days, and so on.
 
 -   The **first part** of an element is always the **short name**, the abbreviation that gets expanded to its long name using the dictionary. The **second part** of the element is its **actual value**. The first part can be thought of as the column name in a spreadsheet, while the second part is the actual value within that column.
--   The order of the groups is not relevant, they can be in different order for different samples (but as this could be confusing during data acquisition, this is not recommended). If an erroneous sample ID is provided, it can be repaired later using the function `repairSID`.
--   The data, i.e. the class- and numerical variables assigned to each sample can later be accessed via the slot `cyTags` in the object created by e.g. function `flowdexit`, and they will also be exported to file (if exporting to xlsx). These data can be very helpful and convenient when further analyzing the fluorescence distributions.
+-   The order of the groups is not relevant, they can be in different order for different samples (but as this could be confusing during data acquisition, this is not recommended). If an erroneous sample ID is provided, it can be repaired later using the function `repairSID()`.
+-   The data, i.e. the class- and numerical variables assigned to each sample can later be accessed via the slot `cyTags` in the object created by e.g. function `flowdexit()`, and they will also be exported to file (if exporting to xlsx). These data can be very helpful and convenient when further analyzing the fluorescence distributions.
 
 ### Using the Dictionary
 

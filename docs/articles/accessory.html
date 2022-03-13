@@ -36,18 +36,22 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
+  <a class="nav-link" href="../articles/flowdex.html">Get started</a>
+</li>
+<li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/accessory.html">Accessory Functions</a>
-    <a class="dropdown-item" href="../articles/acknowledgements.html">Acknowledgements</a>
-    <a class="dropdown-item" href="../articles/acquire-data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/description.html">Description &amp; Installation</a>
-    <a class="dropdown-item" href="../articles/set-up-tutorial.html">Set up Tutorial</a>
+    <a class="dropdown-item" href="../articles/acquire-data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/workflow-1.html">Workflow 1: Define Gating Strategy and Polygon Gates</a>
     <a class="dropdown-item" href="../articles/workflow-2.html">Workflow 2: Extract Fluorescence Distributions</a>
+    <a class="dropdown-item" href="../articles/accessory.html">Accessory Functions</a>
+    <a class="dropdown-item" href="../articles/acknowledgements.html">Acknowledgements</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../articles/index.html">More articles...</a>
   </div>
 </li>
 <li class="nav-item">
@@ -98,17 +102,16 @@ message</p>
 was not the problem – at least in the authors case.</p>
 <p>After some testing it was concluded that the reason for that error
 appears to lie in a multiplication of keywords in the afflicted fcs
-files. Thus, the function <code>checkRepairFcsFiles</code>was written to
-remove all but one of each of the multiplied keywords.</p>
-<p><code>checkRepairFcsFiles</code> is automatically executed whenever
+files. Thus, the function <code><a href="../reference/checkRepairFcsFiles.html">checkRepairFcsFiles()</a></code> was written
+to remove all but one of each of the multiplied keywords.</p>
+<p><code><a href="../reference/checkRepairFcsFiles.html">checkRepairFcsFiles()</a></code> is automatically executed whenever
 fcs files are read in.<br>
 However, the default is to <strong>not</strong> repair the afflicted fcs
 files, but to merely list the possibly erroneous files and to stop.</p>
-<p>If so desired, <code>checkRepairFcsFiles</code> can be called
+<p>If so desired, <code><a href="../reference/checkRepairFcsFiles.html">checkRepairFcsFiles()</a></code> can be called
 manually in order to have more options: Multiple keywords can be viewed,
 and it can be selected which one of the multiples of each keyword to
-keep.<br>
-See <code><a href="../reference/checkRepairFcsFiles.html">?checkRepairFcsFiles</a></code>for further information.</p>
+keep.</p>
 <p>For the purpose of this demonstration, some fcs files provoking the
 error as described above are included in the tutorial dataset. First,
 copy the faulty fcs files to a folder in the experiment-home
@@ -136,7 +139,7 @@ one of each multiple to keep.</p>
 sample did not succeed, or that an erroneous sample-ID string was
 provided in the sample-ID field of a single sample at the time of data
 acquisition, there are two functions to remedy these issues:
-<code>repairVolumes</code> and <code>repairSID</code>.</p>
+<code><a href="../reference/repairVolumes.html">repairVolumes()</a></code> and <code><a href="../reference/repairSID.html">repairSID()</a></code>.</p>
 <div class="section level3">
 <h3 id="repair-volumes">Repair Volumes<a class="anchor" aria-label="anchor" href="#repair-volumes"></a>
 </h3>
@@ -170,7 +173,7 @@ acquisition because the FCM-machine is so occupied that you are driven
 to the long hours after dark…) an erroneous sample ID character is
 provided in the sample ID field of an individual sample at the time of
 data acquisition (see the <a href="#using-structured-id-string-and-dictionary">structured ID
-string</a>).<br><code>repairSID</code> can be used to repair these faulty sample
+string</a>).<br><code><a href="../reference/repairSID.html">repairSID()</a></code> can be used to repair these faulty sample
 IDs.</p>
 <p>In the best case, a faulty sample ID comes to your attention because
 the translation of element names via the dictionary does not work.<br>
@@ -183,7 +186,7 @@ read in all (or some; use argument <code>patt</code>) fcs files in a
 folder; they come back as <code>flowSet</code> (from package
 <code>flowCore</code>).<br>
 You then give this ‘flowSet’ again to the function
-<code>repairSID</code>, but now you can specify a sample name and its
+<code><a href="../reference/repairSID.html">repairSID()</a></code>, but now you can specify a sample name and its
 new sample ID:</p>
 <pre><code><span class="va">flowset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/repairSID.html">repairSID</a></span><span class="op">(</span>fn <span class="op">=</span> <span class="st">"fcsF_E_vol_sid"</span><span class="op">)</span>
 <span class="va">flowset</span><span class="op">@</span><span class="va">phenoData</span><span class="op">@</span><span class="va">data</span> <span class="co"># very bad sample ID in the fourth sample</span>
@@ -205,7 +208,7 @@ new sample ID:</p>
 <div class="section level2">
 <h2 id="apply-bandpass-filter">Apply Bandpass Filter<a class="anchor" aria-label="anchor" href="#apply-bandpass-filter"></a>
 </h2>
-<p>Function <code>applyBandpass</code> does exactly what it says – it
+<p>Function <code><a href="../reference/applyBandpass.html">applyBandpass()</a></code> does exactly what it says – it
 applies a bandpass-like filter to the fluorescence intensities stemming
 from a single gate.<br>
 If not already done before, create an ‘fdmat’ object containing only a
@@ -224,7 +227,7 @@ fluorescence intensities between 1600 and 2400 remain:</p>
 <p>Also the number of overall events per volume unit are updated -
 observe and compare the number in the legend in the next plot and the
 one from before.<br>
-Visualize the difference using <code>plotFlscDist</code>:</p>
+Visualize the difference using <code><a href="../reference/plotFlscDist.html">plotFlscDist()</a></code>:</p>
 <pre><code><span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat_s_bp</span>, toPdf <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre>
 <p>Finally, the rawdata with applied bandpass filter can be exported
 via</p>

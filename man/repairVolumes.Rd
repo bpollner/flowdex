@@ -2,7 +2,7 @@
 % Please edit documentation in R/gen-functions.R
 \name{repairVolumes}
 \alias{repairVolumes}
-\title{Repair Volume Values in FCS files}
+\title{Repair Volume Values in FCS Files}
 \usage{
 repairVolumes(
   patt = NULL,

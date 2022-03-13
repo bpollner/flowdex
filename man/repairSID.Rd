@@ -2,7 +2,7 @@
 % Please edit documentation in R/gen-functions.R
 \name{repairSID}
 \alias{repairSID}
-\title{Repair a single Sample ID.}
+\title{Repair a Single Sample ID}
 \usage{
 repairSID(
   fs = NULL,

@@ -66,7 +66,7 @@ ample and sufficient data visualisation.
 \examples{
 \dontrun{
 plotFlscDist(fdmat)
-plotFlscDist(fdmat, ti="fooBar", spl="C_Foo", ccol=c(1,1,4,4,1,1,4,4)
+plotFlscDist(fdmat, ti="fooBar", spl="C_Foo", ccol=c(1,1,4,4,1,1,4,4))
 }
 }
 \seealso{

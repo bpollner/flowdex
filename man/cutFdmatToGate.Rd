@@ -2,7 +2,7 @@
 % Please edit documentation in R/gen-functions.R
 \name{cutFdmatToGate}
 \alias{cutFdmatToGate}
-\title{Cut fdmat to Gate}
+\title{Cut 'fdmat' Object to Gate}
 \usage{
 cutFdmatToGate(fdmat, gate = NULL)
 }

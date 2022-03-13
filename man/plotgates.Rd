@@ -2,7 +2,7 @@
 % Please edit documentation in R/gen-functions.R
 \name{plotgates}
 \alias{plotgates}
-\title{Plot Gates on all flowframes in a gating set}
+\title{Plot Gates on All Flowframes in a Gating Set}
 \usage{
 plotgates(
   gs,

@@ -1,0 +1,84 @@
+---
+title: "Set up Tutorial"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Set up Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+In order to walk the user over the main-features of package `flowdex`, a small tutorial-dataset has been created, along with gating strategy files and the required polygon-gate definitions.\
+Also, the workflow how to create the gating strategy file and the polygon gate definitions will be explained.
+
+## Download Tutorial Dataset
+
+First, download the tutorial data from its Github repository to your desktop (or any place you prefer).
+
+    from <- "https://github.com/bpollner/data/raw/main/flowdexTutorial/flowdexTutorial.zip"
+    destination <- "~/desktop"
+    targetZip <- paste0(destination, "/flowdexTutorial.zip")
+    download.file(from, targetZip, mode="wb")
+    unzip(targetZip, exdir = destination)
+
+(The code of this tutorial is also available in the file 'flowdexTutorial.R' in the uncompressed folder.)
+
+#### Note: Description of Tutorial Dataset
+
+-   All samples are tap water samples stained with cybergreen following the method as described in:\
+    Prest, E. I., Hammes, F., Kotzsch, S., van Loosdrecht, M. C., & Vrouwenvelder, J. S. (2013). Monitoring microbiological changes in drinking water systems using a fast and reproducible flow cytometric method. Water Research, 47(19), 7131-7142 <https://doi.org/10.1016/j.watres.2013.07.051>
+-   It was the purpose of the experiment to monitor the number of autochthonous bacteria in the water samples and their fluorescence distribution (LNA vs. HNA bacteria) over time.
+-   A sample-ID string has been provided at the time of data acquisition, providing class and numerical variables describing each sample as described below.
+-   There are two groups, experiment and control. The experiment group is denoted as 'GPos', the control group is denoted as 'GNeg'.
+-   From each group, 24 samples were taken each day, from which 18 samples are included In this dataset.
+-   fcs files from day 4, day 5 and day 6 are included (denoted as T4, T5, and T6).
+-   The 18 samples per day from each group are further structured in 'thirds' and beaker number: th1, th2 and th3 for the first, second and third third of the 18 samples, b1, b2, ... up to b6 for the 6 samples (b for beaker) within each third.
+
+## Initialise Settings File System {#initialise-settings-file-system}
+
+Package `flowdex` makes use of the dynamic settings file system provided by package `uniset`. This has to be initialised **just once** by calling
+
+    library(flowdex)
+    destination <- "~/desktop"
+    setupSettings(destination)
+
+Follow the on-screen instructions and possibly re-start R.\
+From now on, various global settings and default values used by `flowdex` can conveniently be viewed and changed in the file `flowdex_settings.R` residing at `~/desktop/flowdex_SH` (if you kept it there as in the example).
+
+------------------------------------------------------------------------
+
+## Quickstart
+
+After having (only once) set up the [settings file system](#initialise-settings-file-system), you could dive straight in -- for a quickstart to immediately see what `flowdex` can do, call:
+
+    destination <- "~/desktop" # again, as R was possibly restarted
+    setwd(paste0(destination, "/flowdexTutorial"))
+    library(flowdex)
+    fdmat <- flowdexit() # this might take a few seconds
+    fdmat@pData # to inspect volume and sample ID data
+    fdmat@cyTags # to inspect class- and numerical variables assigned to each sample
+    fdmat[[1]] # to inspect fluorescence distribution
+
+Look at 'flowdexTutorial/rawdata/flscData_gateStrat.xlsx.xlsx' to see the fluorescence distribution exported to file, observe the various sheets there.
+
+------------------------------------------------------------------------
+
+## Prepare Folder Structure
+
+Take it step by step, not interested in the quickstart above: We assume that data from a single experiment will be residing in a single folder -- the 'home' folder for this experiment.\
+Within this home-folder, `flowdex` requires a simple folder structure to properly work. Create that folder structure now within a newly created experiment home-folder called 'tapWater\@home':
+
+    destination <- "~/desktop" # again, as R was possibly restarted
+    expHome <- paste0(destination, "/tapWater@home") 
+    dir.create(expHome)
+    setwd(expHome)
+    library(flowdex) # as you might have had to restart R above
+    genfs() # create the required folder structure
+
+If you want, you can now go straight to [Workflow B](#workflow-b-extract-fluorescence-distributions), where you can learn how to extract fluorescence distributions and how to visualize them.

@@ -30,6 +30,8 @@ Imports:
 	scales
 Suggests: 
     covr,
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Collate: 
@@ -43,3 +45,4 @@ Collate:
     'helpers.R'
     'uniset_functions.R'
     'zzz.R'
+VignetteBuilder: knitr

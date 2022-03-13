@@ -2,7 +2,7 @@
 % Please edit documentation in R/gen-functions.R
 \name{setupSettings}
 \alias{setupSettings}
-\title{Perform settings setup}
+\title{Perform Settings Setup}
 \usage{
 setupSettings(path = NULL)
 }

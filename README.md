@@ -6,7 +6,7 @@
 
 # flowdex
 
-Extract Fluorescence Distribution Data from FCM Files and Recalculate to Events per Volume
+Extract Fluorescence Distribution Data from FCS Files and Recalculate to Events per Volume
 
 ## Description
 

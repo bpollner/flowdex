@@ -53,7 +53,7 @@ We can now use this reduced gating set to visualise the raw fcs data by specifyi
 All 6 samples seem to have a good representation of our desired population, the stained bacteria.\
 Lets assume we choose beaker 'GPos_T6_th2_b5', which is the 5th sample in this gating set, as sample to manually draw the polygon gate on:
 
-    drawGate(gsRed, flf=5 gn="root", pggId="BactStainV1", channels=".")
+    drawGate(gsRed, flf=5, gn="root", pggId="BactStainV1", channels=".")
     # point and click to draw a polygon gate around the population of interest
 
 -   `gn`is the name of the gate we want to use to display data. As no gates are yet defined let alone added to the gating set, we leave that at the default 'root'.

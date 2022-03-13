@@ -66,16 +66,6 @@ applyBandpass <- function(fdmat, bandpass, gate=1) {
 	#
 	return(fdmat)
 	#	
-# 	now correct the evml data
-# 	  newEvml <- rowSums(fdmat@.Data) # basically area under curve for each sample (in the rows)
-#     fdmat@eventsPerVol$events_ml <- newEvml 
-#     fdmat@eventsPerVol$events_ml.filt <- newEvml 
-#     isF <- fdmat@eventsPerVol$is_filtered
-#     if (any(isF == TRUE)) {
-#         ind <- which(isF == TRUE)
-#         fdmat@eventsPerVol$events_ml.filt[ind] <- 0 # XXX not correct any more
-#     } # end if
-#
 } # EOF
 
 ##################

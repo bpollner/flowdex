@@ -48,7 +48,7 @@ settings <- list(
 	dV_gateStratInputType = "xlsx", 		## can be "csv" or "xlsx. If the file holding the gating strategy is a csv or an xlsx file.
 	dV_dictionaryType = "xlsx", 			## the type of the dictionary file. Can be 'csv' or 'xlsx'.
 	dV_channelsForPGG = c("FITC.A", "PerCP.A"), 	## the default channels used for manually drawing a polygon gate
-	dV_channelBoundaries = c(1250, 4000, 0, 4000), 	## XXX
+	dV_channelBoundaries = c(1250, 4000, 0, 4000), 	## the boundaries in the format (x1, x2, y1, y2) to displayed as horizontal and vertical lines. 
 	
 	
 	

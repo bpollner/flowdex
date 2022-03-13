@@ -12,12 +12,59 @@ articles:
   navbar: ~
   contents:
   - description
-  - acquire-data
-  - workflow-1
-  - workflow-2
+  - acquire_data
+  - workflow_1
+  - workflow_2
   - accessory
 
 - title: Acknowledgements
   navbar: ~
   contents:
   - acknowledgements
+
+
+reference:
+- title: "Package flowdex"
+  desc: ""
+  contents:
+  - flowdex
+
+- title: "Setup Functions"
+  desc: ""
+  contents:
+  - setupSettings
+  - genfs
+  - fd_updateSettings
+
+- title: "Repair Functions"
+  desc: ""
+  contents:
+  - checkRepairFcsFiles
+  - repairVolumes
+  - repairSID
+
+- title: "Gating & Data Extraction"
+  desc: ""
+  contents:
+  - flowdexit
+  - makefdmat
+  - makeGatingSet
+  - makeAddGatingSet
+  - addGates
+  - getEventsPerVolume
+  - cutFdmatToGate
+  - exportFdmatData
+
+- title: "Plot Functions"
+  desc: ""
+  contents:
+  - drawGate
+  - plotgates
+  - plotFlscDist
+
+- title: "Accessory Functions"
+  desc: ""
+  contents:
+  - fd_save
+  - fd_load
+  - applyBandpass

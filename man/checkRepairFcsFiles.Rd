@@ -68,7 +68,7 @@ in \code{\link[flowWorkspace]{load_cytoframe_from_fcs}} resulted in data loss.
 }
 \examples{
 \dontrun{
-XXX
+checkRepairFcsFiles()
 }
 }
 \seealso{

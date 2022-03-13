@@ -14,13 +14,15 @@ knitr::opts_chunk$set(
 )
 ```
 
+If not already done, set up the tutorial data as described in [Get Started](https://bpollner.github.io/flowdex/articles/flowdex.html).
+
 ## Check and Repair fcs Files
 
 As it also happened to the author, sometimes the FCM-machine seems to have written a kind of 'faulty' fcs file, resulting in the error message
 
     The HEADER and the TEXT segment define different starting point ... to read the data
 
-when trying to add a gate to the previously read in fcs files. \
+when trying to add a gate to the previously read in fcs files.\
 *Reading in* those fcs files via `flowCore::read.FCS()` was not the problem -- at least in the authors case.
 
 After some testing it was concluded that the reason for that error appears to lie in a multiplication of keywords in the afflicted fcs files. Thus, the function `checkRepairFcsFiles()` was written to remove all but one of each of the multiplied keywords.
@@ -81,11 +83,11 @@ If you want to force **all fcs files** in a folder to have the **same** volume d
 ### Repair Sample ID
 
 Assuming you repaired the volume data as described [above](#repair-volumes), we can use the fcs files in the folder 'fcsF_E\_vol_sid' to demonstrate how to repair a faulty sample ID.\
-It is more than likely that sometimes (e.g. in the long nights of data acquisition because the FCM-machine is so occupied that you are driven to the long hours after dark...) an erroneous sample ID character is provided in the sample ID field of an individual sample at the time of data acquisition (see the [structured ID string](https://bpollner.github.io/flowdex/articles/acquire-data.html#using-structured-id-string-and-dictionary)).\
+It is more than likely that sometimes (e.g. in the long nights of data acquisition because the FCM-machine is so occupied that you are driven to the long hours after dark...) an erroneous sample ID character is provided in the sample ID field of an individual sample at the time of data acquisition (see the [structured ID string](https://bpollner.github.io/flowdex/articles/acquire_data.html#using-structured-id-string-and-dictionary)).\
 `repairSID()` can be used to repair these faulty sample IDs.
 
 In the best case, a faulty sample ID comes to your attention because the translation of element names via the dictionary does not work.\
-In the worst case, the element value is wrong. This only comes to your attention when e.g. cross-referencing the sample names and the cyTags / the sample IDs in the pData slot of the ['fdmat' object](https://bpollner.github.io/flowdex/articles/workflow-2.html#flowdexit) (as produced e.g. by `flowdexit()` --- **if** there ares descriptive sample names...
+In the worst case, the element value is wrong. This only comes to your attention when e.g. cross-referencing the sample names and the cyTags / the sample IDs in the pData slot of the ['fdmat' object](https://bpollner.github.io/flowdex/articles/workflow_2.html#flowdexit) (as produced e.g. by `flowdexit()` --- **if** there ares descriptive sample names...
 
 To repair a faulty sample ID in a single fcs file, you first have to read in all (or some; use argument `patt`) fcs files in a folder; they come back as `flowCore::flowSet()`.\
 Then this 'flowSet' is given again to the function `repairSID()`, but now a sample name and its new sample ID can be specified:

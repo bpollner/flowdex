@@ -1,54 +1,37 @@
-#' @title Extract Fluorescence Distribution Data from FCM Files and Recalculate 
+#' @title Extract Fluorescence Distribution Data from FCS Files and Recalculate
 #' to Events per Volume
-#' @description Extract fluorescence distribution data from any bivariate 
-#' distribution within a previously defined flow cytometry gating set and 
-#' recalculate the fluorescence distribution data to events per volume. 
-#' To (meaningfully) use flowdex, the FCM files have to contain volumetric 
+#' @description Extract fluorescence distribution data from any bivariate
+#' distribution within a previously defined flow cytometry gating set and
+#' recalculate the fluorescence distribution data to events per volume.
+#' To (meaningfully) use flowdex, the FCM files have to contain volumetric
 #' measurement data denoting the acquired sample volume.
 #' @details When calling \code{\link{flowdexit}}, the gating set "gs" is assigned
-#' to the parent envelope. This gating set "gs" can then be used to directly
-#' extract the events/ml via the function XXX.
-#' @section CAVE: Some functions like e.g. \code{\link{repairVolumes}} or 
-#' \code{\link{repairSID}} can possibly re-write fcs files to disc, and then
-#' original files get overwritten without further warning. It is therefore 
-#' advised to work on a copy of the original fcs files, just to be sure. 
+#' to the parent envelope.
+#' @section Important: In order to be able to correctly re-calculate raw events 
+#' to events per volume unit, it is paramount to obtain the correct volume factor 
+#' from the manual of the FCM-machine / the volumetric measurement module. Please
+#' see the section 'Calculating Events per Volume Unit' at 
+#' \code{\link{flowdexit}} for further details.
+#' @section CAVE: Some functions like e.g. \code{\link{repairVolumes}},
+#' \code{\link{repairSID}} or \code{\link{checkRepairFcsFiles}} can re-write
+#' fcs files to disc, thereby overwriting original fcs files. It is therefor
+#' eadvised to work on a copy of the original fcs files.
 #' @author Bernhard Pollner
 #' @section Maintainer: Bernhard Pollner <bernhard.pollner@@mac.com>
-#' @section Workflow: XXX
-#' @section Important Functions: XXX
-#' @section Acknowledgements: This work was made possible by support from IPF 
+#' @section Links: Please see \url{https://bpollner.github.io/flowdex/} for
+#' practical examples and a small tutorial; bug reports can be made at
+#' \url{https://github.com/bpollner/flowdex/issues}.
+#' @section Important functions: \code{\link{flowdexit}}
+#' @section Acknowledgements: This work was made possible by support from IPF
 #' Austria - Georg Huber. \cr
-#' Flow cytometry data were acquired at the Institute 
-#' for Hygiene and Medical Microbiology, Medical University of Innsbruck, 
+#' Flow cytometry data were acquired at the Institute
+#' for Hygiene and Medical Microbiology, Medical University of Innsbruck,
 #' Austria.
-#' @examples
-#' \dontrun{
-#' # all in one
-#' require(flowdex)
-#' mat <- flowdexit()
-#' plot(mat)
-#' plotgate(gs)
-#' getEvml(gs)
-#'
-#' # step by step
-#' require(flowdex)
-#' gs <- makeGatingSet()
-#' gs <- addGates(gs)
-#' mat <- makefdmat(gs)
-#' plot(mat)
-#' plotgate(gs)
-#' getEvml(gs)
-#'
-#' # for drawing the gate
-#' locMat <- drawGate(gs, "foo") # draw the gate on the flowframe named "foo".
-#' locMat <- drawGate(gs, 3) # to draw on the third flowframe
-#' }
-#'
 #' @import methods
 #' @import utils
-#' 
+#'
 #' @importClassesFrom flowWorkspace GatingSet
-#' 
+#'
 #' @importFrom graphics abline lines axis legend matplot
 #' @importFrom grDevices dev.off pdf colorRampPalette rgb
 #'

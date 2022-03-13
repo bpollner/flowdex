@@ -20,13 +20,15 @@ There are two basic scenarios when using `flowdex` that further define the appro
     Here, the focus is on establishing the gating strategy and manually drawing the polygon gates.
 
 2.  Gating strategy and polygon gates are **already defined**.\
-    Here, the focus is on using the previously established gating strategy to [extract fluorescence distributions](https://bpollner.github.io/flowdex/articles/workflow-2.html), visualise them and export them to file. All this (except visualisation) is conveniently done via `flowdexit()`. Look at [Quickstart](https://bpollner.github.io/flowdex/articles/flowdex.html#quickstart) for an immediate example.
+    Here, the focus is on using the previously established gating strategy to [extract fluorescence distributions](https://bpollner.github.io/flowdex/articles/workflow_2.html), visualise them and export them to file. All this (except visualisation) is conveniently done via `flowdexit()`. Look at [Quickstart](https://bpollner.github.io/flowdex/articles/flowdex.html#quickstart) for an immediate example.
 
 ------------------------------------------------------------------------
 
 ## Workflow 1
 
-The next step after [data acquisition](https://bpollner.github.io/flowdex/articles/acquire-data.html) is to visualize the raw-counts, to decide which sample to use for drawing the gate, and then to manually draw the polygon gate(s) and safe them for later use.\
+If not already done, set up the tutorial data as described in [Get Started](https://bpollner.github.io/flowdex/articles/flowdex.html).
+
+The next step after [data acquisition](https://bpollner.github.io/flowdex/articles/acquire_data.html) is to visualize the raw-counts, to decide which sample to use for drawing the gate, and then to manually draw the polygon gate(s) and safe them for later use.\
 Each row in the gating strategy file defines a single gate along with its polygon gate definition. Gates can be nested or 'standalone'.
 
 ## Read in fcs Files and Make Gating Set
@@ -175,4 +177,4 @@ and apply it to a gating set. For ease of demonstration, we will again use the s
 Note that only those gated data get displayed in 'plotgates' where the field 'keepData' in the gating strategy file is set to 'TRUE'.\
 (Admittedly, the practical value of this gating hierarchy is rather non-existent, but it is merely for demonstrating the setup of nested gates...)
 
-Continue to [Workflow 2](https://bpollner.github.io/flowdex/articles/workflow-2.html).
+Continue to [Workflow 2](https://bpollner.github.io/flowdex/articles/workflow_2.html).

@@ -4,12 +4,12 @@ pkgdown_sha: ~
 articles:
   accessory: accessory.html
   acknowledgements: acknowledgements.html
-  acquire-data: acquire-data.html
+  acquire_data: acquire_data.html
   description: description.html
   flowdex: flowdex.html
-  workflow-1: workflow-1.html
-  workflow-2: workflow-2.html
-last_built: 2022-03-13T05:52Z
+  workflow_1: workflow_1.html
+  workflow_2: workflow_2.html
+last_built: 2022-03-13T12:11Z
 urls:
   reference: https://bpollner.github.io/flowdex/reference
   article: https://bpollner.github.io/flowdex/articles

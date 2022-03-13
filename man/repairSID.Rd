@@ -64,9 +64,9 @@ new Sample ID. 'object@phenoData@data' can be used to inspect and verify names
 of FCS files and the sample IDs therein -- see examples.
 }
 \section{Note}{
- The sample ID, esp. the correct sample ID is of importance 
-when using the 'dictionary' to expand the abbreviations in the sample ID - 
-see XXX.
+ A correct sample ID is of importance when using the 
+'dictionary' to expand the abbreviations in the sample ID - see 
+\url{https://bpollner.github.io/flowdex/articles/acquire_data.html}.
 }
 
 \examples{

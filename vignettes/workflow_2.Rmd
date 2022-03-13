@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 There are two basic scenarios when using `flowdex` that further define the appropriate workflow:
 
 1.  Gating strategy and polygon gates are **not yet defined**.\
-    Here, the focus is on [establishing the gating strategy](https://bpollner.github.io/flowdex/articles/workflow-1.html) and manually drawing the polygon gates.
+    Here, the focus is on [establishing the gating strategy](https://bpollner.github.io/flowdex/articles/workflow_1.html) and manually drawing the polygon gates.
 
 2.  Gating strategy and polygon gates are **already defined**.\
     Here, the focus is on using the previously established gating strategy to extract fluorescence distributions, visualise them and export them to file. All this (except visualisation) is conveniently done via `flowdexit()`. Look at [Quickstart](https://bpollner.github.io/flowdex/articles/flowdex.html#quickstart) for an immediate example.
@@ -43,7 +43,7 @@ Now copy (again) the relevant files from the tutorial folder in the experiment-h
 
 ## Flowdexit
 
-Using `flowdexit()` is the most straight-forward way to extract fluorescence distributions when the gating strategy and all the gate definitions are checked and in place. (Read [Workflow 1](https://bpollner.github.io/flowdex/articles/workflow-1.html) for learning how to write a gating strategy and how to define polygon gates.)\
+Using `flowdexit()` is the most straight-forward way to extract fluorescence distributions when the gating strategy and all the gate definitions are checked and in place. (Read [Workflow 1](https://bpollner.github.io/flowdex/articles/workflow_1.html) for learning how to write a gating strategy and how to define polygon gates.)\
 At this point we assume that we
 
 -   Provided a structured ID character in the sample ID field of each sample in the GUI of our FCM-machine,

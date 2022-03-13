@@ -144,7 +144,7 @@ genfs <- function(where=getwd(), copyTemplates=TRUE) {
 #' with doublets in the keywords.
 #' @examples
 #' \dontrun{
-#' XXX
+#' checkRepairFcsFiles()
 #' }
 #' @family Accessory functions
 #' @family Repair functions
@@ -401,9 +401,9 @@ repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm
 #' name and the new sample ID in order to re-write the specified file with its
 #' new Sample ID. 'object@phenoData@data' can be used to inspect and verify names 
 #' of FCS files and the sample IDs therein -- see examples.
-#' @section Note: The sample ID, esp. the correct sample ID is of importance 
-#' when using the 'dictionary' to expand the abbreviations in the sample ID - 
-#' see XXX.
+#' @section Note: A correct sample ID is of importance when using the 
+#' 'dictionary' to expand the abbreviations in the sample ID - see 
+#' \url{https://bpollner.github.io/flowdex/articles/acquire_data.html}.
 #' @param fs The object returned by this function if parameter \code{fs} is left
 #' at its default NULL, what then can be used as input for the parameter \code{fs}.
 #' @param name Character length one. The name of the fcs file within the flowset 
@@ -1201,7 +1201,10 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 #' re-calculated to events per volume unit, the gating set that was produced 
 #' in the way of obtaining the fluorescence distribution data getas assigned 
 #' to the environment 'gsenv' under the name 'gatingSet'. Hence, it can be 
-#' accessed via \code{gsenv$gatingSet}.
+#' accessed via \code{gsenv$gatingSet}. \cr \cr
+#' It is paramount to obtain the correct volume factor from the help / the 
+#' manual of the FCM-machine that did produce the fcs files. Please see section
+#' 'Calculating Events per Volume Unit' for more details.
 #' @param fn Character length one. The name of the folder where FCS files should 
 #' be read from. If left at the default '.', the folder name as defined in the 
 #' settings file (key: 'foN_fcsFiles') will be used.
@@ -1276,9 +1279,17 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 #' of the gating strategy used to generate the data will be appended to the 
 #' filename. 
 #' @section Calculating Events per Volume Unit: 
-#' XXX explain this please. 
-#'  evml <- round((nrEvRaw / vols) * volFac , 0)
-#'
+#' The calculation of events per volume unit is performed via the following 
+#' code: \code{round((nrEvRaw / vols) * volFac , 0)}, with \code{nrEvRaw} being 
+#' the number of (raw) events in a specific channel as saved in the fcs file, 
+#' \code{vols} being the acquired volume of a sample, and \code{volFac} being 
+#' a factor obtained from the manual of the FCM-machine. The 'volFac' is a 
+#' number provided by the manufacturer of the FCM-machine / of the volumetric 
+#' measurement module. It is the number required to convert raw events back 
+#' to events per volume. It must be obtained from the manual of the FCM-machine 
+#' resp. the volumetric measurement module. 
+#' The \code{volFac} is stored in the flowdex_settings.R file 
+#' (key: 'dV_volumeFactor').
 #' @section Regarding Compensation: Due to the circumstances when developing 
 #' this code, it was never required to apply any kind of compensation. The 
 #' functionality to apply compensation was therefore never tested or verified. 

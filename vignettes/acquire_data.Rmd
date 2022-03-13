@@ -68,4 +68,4 @@ Open the copied xlsx file, look at the column named 'Abbreviation': For each ele
 
 By now we should have 108 fcs files in 'tapWater\@home/fcsFiles' and one file 'dictionary.xlsx' in the folder 'tapWater\@home/dictionary'.
 
-Continue to [Workflow 1](https://bpollner.github.io/flowdex/articles/workflow-1.html).
+Continue to [Workflow 1](https://bpollner.github.io/flowdex/articles/workflow_1.html).

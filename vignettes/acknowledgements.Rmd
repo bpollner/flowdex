@@ -14,6 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-This work was made possible by support from IPF Austria - **Georg Huber**.
+This work was made possible by support from IPF Austria - **Georg Huber**, to whom the author wishes to extend his gratitude.
 
 Flow cytometry data were acquired with **Prof. Cornelia Lass-Flörl** at the Institute for Hygiene and Medical Microbiology, Medical University of Innsbruck, Austria.

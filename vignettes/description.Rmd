@@ -1,8 +1,8 @@
 ---
-title: "Description & Installation"
+title: "Description"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Description & Installation}
+  %\VignetteIndexEntry{Description}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -28,7 +28,7 @@ Finally, the fluorescence-distribution data that were (possibly) re-calculated t
 
 To (meaningfully) use flowdex, the fcs files have to contain volumetric measurement data denoting the acquired sample volume.
 
-`flowdex` is leaning heavily on the packages `flowCore`and `flowWorkspace` for data import, generation of gating sets etc.
+`flowdex` is leaning heavily on the packages `{flowCore}`and `{flowWorkspace}` for data import, generation of gating sets etc.
 
 To sum it up, package flowdex can:
 
@@ -46,13 +46,12 @@ If the FCM-machine used for data acquisition does have a volumetric measurement 
 
 In other words, the y-axis of any fluorescence distribution can be displayed in a fixed scale, i.e. events per volume unit. This enables the **comparison of numbers on a fixed scale** across samples, groups or experiments, **instead** of being confined to **compare percentages** of sub-groups of an overal population.
 
-## Installation
+## Two Workflow Scenarios
 
-Install release version from CRAN via
+There are two basic scenarios when using `flowdex` that further define the appropriate workflow:
 
-    install.packages("flowdex") 
+1.  Gating strategy and polygon gates are **not yet defined**.\
+    Here, the focus is on [establishing the gating strategy](https://bpollner.github.io/flowdex/articles/workflow-1.html#) and manually drawing the polygon gates.
 
-Or download from github:
-
-    library(devtools)
-    install_github(repo="bpollner/flowdex", ref="main")
+2.  Gating strategy and polygon gates are **already defined**.\
+    Here, the focus is on using the previously established gating strategy to [extract fluorescence distributions](https://bpollner.github.io/flowdex/articles/workflow-2.html), visualise them and export them to file. All this (except visualisation) is conveniently done via `flowdexit()`. Look at [Quickstart](https://bpollner.github.io/flowdex/articles/flowdex.html#quickstart) for an immediate example.

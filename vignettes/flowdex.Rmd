@@ -91,4 +91,4 @@ Within this home-folder, `flowdex` requires a simple folder structure to properl
     library(flowdex) # as you might have had to restart R above
     genfs() # create the required folder structure
 
-If you want, you can now go straight to [Workflow B](#workflow-b-extract-fluorescence-distributions), where you can learn how to extract fluorescence distributions and how to visualize them.
+Continue to [data acquisition](https://bpollner.github.io/flowdex/articles/acquire-data.html), or straight to [Workflow 2](https://bpollner.github.io/flowdex/articles/workflow-2.html), where you can learn how to extract fluorescence distributions and how to visualize them.

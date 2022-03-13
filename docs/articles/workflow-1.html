@@ -44,7 +44,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/description.html">Description &amp; Installation</a>
+    <a class="dropdown-item" href="../articles/description.html">Description</a>
     <a class="dropdown-item" href="../articles/acquire-data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/workflow-1.html">Workflow 1: Define Gating Strategy and Polygon Gates</a>
     <a class="dropdown-item" href="../articles/workflow-2.html">Workflow 2: Extract Fluorescence Distributions</a>
@@ -100,18 +100,20 @@ drawing the polygon gates.</p></li>
 <li><p>Gating strategy and polygon gates are <strong>already
 defined</strong>.<br>
 Here, the focus is on using the previously established gating strategy
-to extract fluorescence distributions, visualise them and export them to
-file. All this (except visualisation) is conveniently done via
-<code><a href="../reference/flowdexit.html">flowdexit()</a></code>. Look at <a href="#quickstart">Quickstart</a>
+to <a href="https://bpollner.github.io/flowdex/articles/workflow-2.html">extract
+fluorescence distributions</a>, visualise them and export them to file.
+All this (except visualisation) is conveniently done via
+<code><a href="../reference/flowdexit.html">flowdexit()</a></code>. Look at <a href="https://bpollner.github.io/flowdex/articles/flowdex.html#quickstart">Quickstart</a>
 for an immediate example.</p></li>
 </ol>
 <hr>
 <div class="section level2">
 <h2 id="workflow-1">Workflow 1<a class="anchor" aria-label="anchor" href="#workflow-1"></a>
 </h2>
-<p>The next step after data acquisition is to visualize the raw-counts,
-to decide which sample to use for drawing the gate, and then to manually
-draw the polygon gate(s) and safe them for later use.<br>
+<p>The next step after <a href="https://bpollner.github.io/flowdex/articles/acquire-data.html">data
+acquisition</a> is to visualize the raw-counts, to decide which sample
+to use for drawing the gate, and then to manually draw the polygon
+gate(s) and safe them for later use.<br>
 Each row in the gating strategy file defines a single gate along with
 its polygon gate definition. Gates can be nested or ‘standalone’.</p>
 </div>
@@ -280,6 +282,8 @@ the field ‘keepData’ in the gating strategy file is set to ‘TRUE’.<br>
 (Admittedly, the practical value of this gating hierarchy is rather
 non-existent, but it is merely for demonstrating the setup of nested
 gates…)</p>
+<p>Continue to <a href="https://bpollner.github.io/flowdex/articles/workflow-2.html">Workflow
+2</a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

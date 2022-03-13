@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-Now would be the time for data acquisition -- go and measure your samples, then come back and put your fcs files into the folder 'fcsFiles'.
+After running the setup as described in [Get Started](https://bpollner.github.io/flowdex/articles/flowdex.html), it is time for data acquisition -- go and measure your samples, then come back and put your fcs files into the folder 'fcsFiles'.
 
 ## Simulate Data Acquisition
 
@@ -67,3 +67,5 @@ Open the copied xlsx file, look at the column named 'Abbreviation': For each ele
 -   Prepending the long names in the dictionary with either class-variable or numerical variable prefix is **mandatory**.
 
 By now we should have 108 fcs files in 'tapWater\@home/fcsFiles' and one file 'dictionary.xlsx' in the folder 'tapWater\@home/dictionary'.
+
+Continue to [Workflow 1](https://bpollner.github.io/flowdex/articles/workflow-1.html).

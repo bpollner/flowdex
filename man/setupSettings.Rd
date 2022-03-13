@@ -7,16 +7,16 @@
 setupSettings(path = NULL)
 }
 \arguments{
-\item{path}{Character length one, holding the path to the location where the 
-folder containing the settings.R file should be located. Defaults to 'NULL'. 
+\item{path}{Character length one, holding the path to the location where the
+folder containing the settings.R file should be located. Defaults to 'NULL'.
 If left at the default 'NULL', the location should be selectable interactively.}
 }
 \value{
-No return value, is called for its side effects, i.e. to set up 
+No return value, is called for its side effects, i.e. to set up
 the settings-file system as provided by package 'uniset'.
 }
 \description{
-Perform the setup of the setting-system provided by package 
+Perform the setup of the setting-system provided by package
 'uniset'.
 }
 \details{

@@ -21,41 +21,41 @@ makefdmat(
 \arguments{
 \item{gs}{A gating set as produced by \code{\link{makeAddGatingSet}}.}
 
-\item{name.dict}{Character length one. The name of the dictionary. If left 
-at the default '.', the value as defined in the settings file (key 
+\item{name.dict}{Character length one. The name of the dictionary. If left
+at the default '.', the value as defined in the settings file (key
 'dD_dict_name') will be used.}
 
-\item{foN.dict}{Character length one. The name of the folder where the 
-dictionary resides. If left at the default '.', the value as defined in the 
+\item{foN.dict}{Character length one. The name of the folder where the
+dictionary resides. If left at the default '.', the value as defined in the
 settings file (key 'foN_dictionary') will be used.}
 
-\item{type.dict}{Character length one. The filetype of the dictionary. Can 
-be one of 'csv' or 'xlsx'. If left at the default '.', the value as defined 
+\item{type.dict}{Character length one. The filetype of the dictionary. Can
+be one of 'csv' or 'xlsx'. If left at the default '.', the value as defined
 in the settings file (key 'dD_dict_type') will be used.}
 
 \item{expo}{Logical, if extracted data should exported at all.}
 
-\item{expo.gate}{Which gate to export. NULL or numeric or character length 
-one. Set to NULL to export data from all those gates defined in the gating 
-strategy where 'keeoData' is set to TRUE. Provide a character length one 
-with a gate name or the number of that gate as defined in the gating strategy 
-to export data from this gate only. If left at the default '.', the value as 
+\item{expo.gate}{Which gate to export. NULL or numeric or character length
+one. Set to NULL to export data from all those gates defined in the gating
+strategy where 'keepData' is set to TRUE. Provide a character length one
+with a gate name or the number of that gate as defined in the gating strategy
+to export data from this gate only. If left at the default '.', the value as
 defined in the settings file (key 'dE_exportGate') will be used.}
 
-\item{expo.name}{Character length one. The name of the file holding the 
-exported fluorescence distribution(s). If left at the default '.', the value 
+\item{expo.name}{Character length one. The name of the file holding the
+exported fluorescence distribution(s). If left at the default '.', the value
 as defined in the settings file (key 'fiN_dataExport') will be used.}
 
-\item{expo.type}{Character length one. The filetype of the data export. 
-Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value 
+\item{expo.type}{Character length one. The filetype of the data export.
+Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value
 as defined in the settings file (key 'dE_exportType') will be used.}
 
-\item{expo.folder}{Character length one. The name of the folder where exported 
-should reside. If left at the default '.', the value as defined in the 
+\item{expo.folder}{Character length one. The name of the folder where exported
+should reside. If left at the default '.', the value as defined in the
 settings file (key 'foN_rawData') will be used.}
 
-\item{verbose}{Logical. If status messages should be displayed. If left at 
-the default '.', the value as defined in the settings file (key 'dV_verbose') 
+\item{verbose}{Logical. If status messages should be displayed. If left at
+the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 
 \item{dev}{Logical. If set to true, a histogram showing the bins and the
@@ -63,14 +63,14 @@ smoothed mid-points is plotted. (Only intended for development.) Defaults to
 FALSE.}
 }
 \value{
-An object of class "fdmat" containing a list holding an object of 
-class 'fdmat_single' in each list element, which in turn contains a matrix 
-holding the fluorescence distribution of a single gate, and the overall data 
+An object of class "fdmat" containing a list holding an object of
+class 'fdmat_single' in each list element, which in turn contains a matrix
+holding the fluorescence distribution of a single gate, and the overall data
 for events per volume unit in the slot 'eventsPerVol'.
 }
 \description{
-Extract fluorescence distribution along a specified channel 
-from the gating set as defined in the gating strategy file and re-calculate 
+Extract fluorescence distribution along a specified channel
+from the gating set as defined in the gating strategy file and re-calculate
 data to events per volume.
 }
 \examples{

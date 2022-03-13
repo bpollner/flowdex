@@ -22,66 +22,66 @@ makeAddGatingSet(
 residing in the directory specified by \code{fn} to read in. Only matching
 patterns will be included.}
 
-\item{fn}{Character length one. The name of the folder where FCS files should 
-be read from. If left at the default '.', the folder name as defined in the 
+\item{fn}{Character length one. The name of the folder where FCS files should
+be read from. If left at the default '.', the folder name as defined in the
 settings file (key: 'foN_fcsFiles') will be used.}
 
-\item{gateStrat}{Character length one. The name of the file defining the 
-gating strategy. If left at the default '.', the name as defined in the 
+\item{gateStrat}{Character length one. The name of the file defining the
+gating strategy. If left at the default '.', the name as defined in the
 settings file (key: 'fiN_gateStrat') will be used.}
 
-\item{foN.gateStrat}{Character length one. The name of the folder where the 
-file defining the gating strategy and the gate definitions reside. If left 
-at the default '.', the name as defined in the settings file 
+\item{foN.gateStrat}{Character length one. The name of the folder where the
+file defining the gating strategy and the gate definitions reside. If left
+at the default '.', the name as defined in the settings file
 (key: 'foN_gating') will be used.}
 
-\item{type.gateStrat}{Character length one, can be either 'csv' or 'xlsx'. 
-files are supported. If left at the default '.', the filetype as defined in 
+\item{type.gateStrat}{Character length one, can be either 'csv' or 'xlsx'.
+files are supported. If left at the default '.', the filetype as defined in
 the settings (key: 'dV_gateStratInputType') file will be used.}
 
-\item{comp}{Logical. If compensation should be applied or not. If left at 
-the default '.', the value as defined in the settings file (key 'dV_comp') 
+\item{comp}{Logical. If compensation should be applied or not. If left at
+the default '.', the value as defined in the settings file (key 'dV_comp')
 will be used.}
 
-\item{tx}{Character length one. The transformation applied to *all* channels 
-within the individual flow sets. If left at the default '.', the value as 
-defined in the settings file (key 'dV_tx') will be used. (Currently only 
+\item{tx}{Character length one. The transformation applied to *all* channels
+within the individual flow sets. If left at the default '.', the value as
+defined in the settings file (key 'dV_tx') will be used. (Currently only
 'fjbiex' is implemented.)}
 
 \item{channel}{A regular expression indicating which channels, i.e. which
 columns to keep from the original flowframes; is passed down to argument
 \code{column.pattern} of \code{\link[flowCore]{read.flowSet}}. Set to NULL
-to read data from all channels. If left at the default '.', the value as 
+to read data from all channels. If left at the default '.', the value as
 defined in the settings file (key 'dV_channel') will be used.}
 
-\item{fcsRepair}{Logical. If set to TRUE, fcs-files in the folder 
-specified at argument 'fn' will be checked for multiplied entries in the 
-keywords, as after some testing the author came to the humble conclusion that 
+\item{fcsRepair}{Logical. If set to TRUE, fcs-files in the folder
+specified at argument 'fn' will be checked for multiplied entries in the
+keywords, as after some testing the author came to the humble conclusion that
 these multiplied keywords can be the reason for the error message: \cr
-\code{"The HEADER and the TEXT segment define different starting 
+\code{"The HEADER and the TEXT segment define different starting
 point ... to read the data"}. \cr
-If 'fcsRepair' is set to TRUE, all except the last of each multiplied 
-keyword will be removed and the fcs file will be saved to disc, 
+If 'fcsRepair' is set to TRUE, all except the last of each multiplied
+keyword will be removed and the fcs file will be saved to disc,
 overwriting the original fcs file \strong{without further warning}. \cr
-Use the function \code{\link{checkRepairFcsFiles}} which does offer more 
-options to manually check and repair afflicted fcs files. There, it is 
+Use the function \code{\link{checkRepairFcsFiles}} which does offer more
+options to manually check and repair afflicted fcs files. There, it is
 possible to display multiplied keywords and to select which one to keep.}
 
-\item{verbose}{Logical. If status messages should be displayed. If left at 
-the default '.', the value as defined in the settings file (key 'dV_verbose') 
+\item{verbose}{Logical. If status messages should be displayed. If left at
+the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
 A gating set with added and recomputed gates.
 }
 \description{
-Read in FCS files, put them together in a gating set and apply 
+Read in FCS files, put them together in a gating set and apply
 the gating strategy as previously defined.
 }
 \details{
-This is a convenience wrapper for the two functions 
+This is a convenience wrapper for the two functions
 \code{\link{makeGatingSet}} and \code{\link{addGates}}.
- In order to see a schematic representation of 'parent' and 'child' gates, 
+ In order to see a schematic representation of 'parent' and 'child' gates,
 simply use 'plot'.
 }
 \examples{

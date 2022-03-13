@@ -10,23 +10,23 @@ fd_load(fn = NULL, expo.folder = ".", verbose = ".")
 \item{fn}{Character length one, the name of the file.}
 
 \item{expo.folder}{The name of the folder where the file should be looked for.
-If left at the default '.', the value as defined in the settings file (key 
+If left at the default '.', the value as defined in the settings file (key
 'foN_rawData') will be used.}
 
-\item{verbose}{Logical. If status messages should be displayed. If left at 
-the default '.', the value as defined in the settings file (key 'dV_verbose') 
+\item{verbose}{Logical. If status messages should be displayed. If left at
+the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
-An object of class 'fdmat' as produced by \code{\link{makefdmat}} 
+An object of class 'fdmat' as produced by \code{\link{makefdmat}}
 or \code{\link{flowdexit}}.
 }
 \description{
-Load the R-object containing the fluorescence distributions 
+Load the R-object containing the fluorescence distributions
 (the 'fdmat' object) from the standard data export / rawdata folder.
 }
 \details{
-If 'fn' is left at NULL, the file containing the default name 
+If 'fn' is left at NULL, the file containing the default name
 for exported data and gating strategy is being attempted to load.
 }
 \seealso{

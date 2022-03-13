@@ -9,20 +9,20 @@ applyBandpass(fdmat, bandpass, gate = 1)
 \arguments{
 \item{fdmat}{An object of class 'fdmat' as produced by \code{\link{makefdmat}}.}
 
-\item{bandpass}{Numeric vector length two, holding the lower and upper 
+\item{bandpass}{Numeric vector length two, holding the lower and upper
 boundaries of the bandpass filter.}
 
-\item{gate}{Numeric or character length one, defining the gate on which the 
-bandpass should be applied. Defaults to 1. (See 'fdmat@metadata' for possible 
+\item{gate}{Numeric or character length one, defining the gate on which the
+bandpass should be applied. Defaults to 1. (See 'fdmat@metadata' for possible
 values for gate name resp. number.)}
 }
 \value{
-The same object of class 'fdmat' as was provided to the argument 
-'fdmat', but with modified range of fluorescence intensities in the gate 
+The same object of class 'fdmat' as was provided to the argument
+'fdmat', but with modified range of fluorescence intensities in the gate
 specified under 'gate'.
 }
 \description{
-Apply a bandpass like filter to the fluorescence intensities 
+Apply a bandpass like filter to the fluorescence intensities
 within a single gate.
 }
 \examples{

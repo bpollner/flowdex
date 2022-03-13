@@ -18,69 +18,69 @@ drawGate(
 )
 }
 \arguments{
-\item{gs}{A gating set as produced by \code{\link{makeGatingSet}} or 
+\item{gs}{A gating set as produced by \code{\link{makeGatingSet}} or
 \code{\link{makeAddGatingSet}}.}
 
-\item{flf}{Character or numeric length one. The identifier of the flowframe 
-within the gating set where the gate should be drawn on. Optimally, this is 
-a flowframe, i.e. sample, with a very good representation of the desired 
+\item{flf}{Character or numeric length one. The identifier of the flowframe
+within the gating set where the gate should be drawn on. Optimally, this is
+a flowframe, i.e. sample, with a very good representation of the desired
 population. Possible input values can be determined via 'show'.}
 
-\item{gn}{Character length one. The name of a gate further specifying the 
+\item{gn}{Character length one. The name of a gate further specifying the
 desired subset of data; defaults to "root".}
 
-\item{pggId}{Character length one. The name of the resulting file containing 
-the boundaries of the gate. If left at the default '.', the name as defined 
+\item{pggId}{Character length one. The name of the resulting file containing
+the boundaries of the gate. If left at the default '.', the name as defined
 in the settings file (key: 'fiN_gate') will be used.}
 
-\item{channels}{Character length two. The channels the gate should be defined 
-in. If left at the default '.', the two channels as defined in the settings 
-file (key: 'dV_channelsForPGG') will be used. Available channels can be 
+\item{channels}{Character length two. The channels the gate should be defined
+in. If left at the default '.', the two channels as defined in the settings
+file (key: 'dV_channelsForPGG') will be used. Available channels can be
 viewed via 'show' - see examples.}
 
-\item{foN.gateStrat}{Character length one. The name of the folder where the 
-file defining the gating strategy and the gate definitions reside. If left 
-at the default '.', the name as defined in the settings file 
+\item{foN.gateStrat}{Character length one. The name of the folder where the
+file defining the gating strategy and the gate definitions reside. If left
+at the default '.', the name as defined in the settings file
 (key: 'foN_gating') will be used.}
 
-\item{useLoc}{Logical. If, after plotting, the locator should be used. 
+\item{useLoc}{Logical. If, after plotting, the locator should be used.
 Defaults to TRUE.}
 
-\item{locN}{Numeric length one. How many points to acquire in the locator. 
+\item{locN}{Numeric length one. How many points to acquire in the locator.
 Defaults to 512; use "ESC" to abort the locator action.}
 
-\item{bnd}{NULL or numeric length four. The boundaries to be marked on the 
-plot, format: (x1, x2, y1, y2). If values are provided, two straight lines 
+\item{bnd}{NULL or numeric length four. The boundaries to be marked on the
+plot, format: (x1, x2, y1, y2). If values are provided, two straight lines
 on the x-axis and two on the y-axis will be drawn.}
 
-\item{showGate}{Character length one. The name of an already existing gate 
-residing in the folder specified by 'foN.gateDefs'. If provided, this gate 
-will be additionally drawn on the dotplot. This can be helpful when e.g. 
-on old, sub-optimal gate should be replaced with a new one: In this case the 
-name of the 'old' would be provided at 'showGate' with the same name 
-specified at 'ppfId'. Thus, the old gate will be replaced with the new one.}
+\item{showGate}{Character length one. The name of an already existing gate
+residing in the folder specified by 'foN.gateDefs'. If provided, this gate
+will be additionally drawn on the dotplot. This can be helpful when e.g.
+on old, sub-optimal gate should be replaced with a new one: In this case the
+name of the 'old' would be provided at 'showGate' with the same name
+specified at 'ppgId'. Thus, the old gate will be replaced with the new one.}
 }
 \value{
-A list with the locator coordinates resp. this data saved as an 
+A list with the locator coordinates resp. this data saved as an
 R-object in the folder specified at 'foN.gateStrat'.
 }
 \description{
-Produce a simple x~y dotplot on the specified channels that is 
-used with \code{locator} to define the gate boundaries, similar to defining 
-a polygon gate in standard FCM GUIs. The resulting data are saved as an 
-R-object under the name specified in \code{pggId}. Press 'esc' when done 
+Produce a simple x~y dotplot on the specified channels that is
+used with \code{locator} to define the gate boundaries, similar to defining
+a polygon gate in standard FCM GUIs. The resulting data are saved as an
+R-object under the name specified in \code{pggId}. Press 'esc' when done
 drawing the gate.
 }
 \details{
-The generated R-object is saved automatically and can be used as a 
-gate-definition in the gating strategy. 
-For the lines to be drawn while the locator points 
-are clicked, it is recommended to use this function NOT within R-Studio. 
-The sample names within the gating set can be obtained via 'show' - see 
+The generated R-object is saved automatically and can be used as a
+gate-definition in the gating strategy.
+For the lines to be drawn while the locator points
+are clicked, it is recommended to use this function NOT within R-Studio.
+The sample names within the gating set can be obtained via 'show' - see
 examples.
 }
 \section{Warning}{
- Existing locator matrix files with the same name will be 
+ Existing locator matrix files with the same name will be
 overwritten without asking!
 }
 

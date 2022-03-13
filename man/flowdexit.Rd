@@ -27,151 +27,151 @@ flowdexit(
 )
 }
 \arguments{
-\item{fn}{Character length one. The name of the folder where FCS files should 
-be read from. If left at the default '.', the folder name as defined in the 
+\item{fn}{Character length one. The name of the folder where FCS files should
+be read from. If left at the default '.', the folder name as defined in the
 settings file (key: 'foN_fcsFiles') will be used.}
 
 \item{patt}{A regular expression defining a possible subset of FCS files
 residing in the directory specified by \code{fn} to read in. Only matching
 patterns will be included.}
 
-\item{gateStrat}{Character length one. The name of the file defining the 
-gating strategy. If left at the default '.', the name as defined in the 
+\item{gateStrat}{Character length one. The name of the file defining the
+gating strategy. If left at the default '.', the name as defined in the
 settings file (key: 'fiN_gateStrat') will be used.}
 
-\item{foN.gateStrat}{Character length one. The name of the folder where the 
-file defining the gating strategy and the gate definitions reside. If left 
-at the default '.', the name as defined in the settings file 
+\item{foN.gateStrat}{Character length one. The name of the folder where the
+file defining the gating strategy and the gate definitions reside. If left
+at the default '.', the name as defined in the settings file
 (key: 'foN_gating') will be used.}
 
-\item{type.gateStrat}{Character length one, can be either 'csv' or 'xlsx'. 
-files are supported. If left at the default '.', the filetype as defined in 
+\item{type.gateStrat}{Character length one, can be either 'csv' or 'xlsx'.
+files are supported. If left at the default '.', the filetype as defined in
 the settings (key: 'dV_gateStratInputType') file will be used.}
 
-\item{comp}{Logical. If compensation should be applied or not. If left at 
-the default '.', the value as defined in the settings file (key 'dV_comp') 
+\item{comp}{Logical. If compensation should be applied or not. If left at
+the default '.', the value as defined in the settings file (key 'dV_comp')
 will be used.}
 
-\item{tx}{Character length one. The transformation applied to *all* channels 
-within the individual flow sets. If left at the default '.', the value as 
-defined in the settings file (key 'dV_tx') will be used. (Currently only 
+\item{tx}{Character length one. The transformation applied to *all* channels
+within the individual flow sets. If left at the default '.', the value as
+defined in the settings file (key 'dV_tx') will be used. (Currently only
 'fjbiex' is implemented.)}
 
 \item{channel}{A regular expression indicating which channels, i.e. which
 columns to keep from the original flowframes; is passed down to argument
 \code{column.pattern} of \code{\link[flowCore]{read.flowSet}}. Set to NULL
-to read data from all channels. If left at the default '.', the value as 
+to read data from all channels. If left at the default '.', the value as
 defined in the settings file (key 'dV_channel') will be used.}
 
-\item{name.dict}{Character length one. The name of the dictionary. If left 
-at the default '.', the value as defined in the settings file (key 
+\item{name.dict}{Character length one. The name of the dictionary. If left
+at the default '.', the value as defined in the settings file (key
 'dD_dict_name') will be used.}
 
-\item{foN.dict}{Character length one. The name of the folder where the 
-dictionary resides. If left at the default '.', the value as defined in the 
+\item{foN.dict}{Character length one. The name of the folder where the
+dictionary resides. If left at the default '.', the value as defined in the
 settings file (key 'foN_dictionary') will be used.}
 
-\item{type.dict}{Character length one. The filetype of the dictionary. Can 
-be one of 'csv' or 'xlsx'. If left at the default '.', the value as defined 
+\item{type.dict}{Character length one. The filetype of the dictionary. Can
+be one of 'csv' or 'xlsx'. If left at the default '.', the value as defined
 in the settings file (key 'dD_dict_type') will be used.}
 
 \item{expo}{Logical, if extracted data should exported at all.}
 
-\item{expo.gate}{Which gate to export. NULL or numeric or character length 
-one. Set to NULL to export data from all those gates defined in the gating 
-strategy where 'keeoData' is set to TRUE. Provide a character length one 
-with a gate name or the number of that gate as defined in the gating strategy 
-to export data from this gate only. If left at the default '.', the value as 
+\item{expo.gate}{Which gate to export. NULL or numeric or character length
+one. Set to NULL to export data from all those gates defined in the gating
+strategy where 'keepData' is set to TRUE. Provide a character length one
+with a gate name or the number of that gate as defined in the gating strategy
+to export data from this gate only. If left at the default '.', the value as
 defined in the settings file (key 'dE_exportGate') will be used.}
 
-\item{expo.name}{Character length one. The name of the file holding the 
-exported fluorescence distribution(s). If left at the default '.', the value 
+\item{expo.name}{Character length one. The name of the file holding the
+exported fluorescence distribution(s). If left at the default '.', the value
 as defined in the settings file (key 'fiN_dataExport') will be used.}
 
-\item{expo.type}{Character length one. The filetype of the data export. 
-Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value 
+\item{expo.type}{Character length one. The filetype of the data export.
+Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value
 as defined in the settings file (key 'dE_exportType') will be used.}
 
-\item{expo.folder}{Character length one. The name of the folder where exported 
-should reside. If left at the default '.', the value as defined in the 
+\item{expo.folder}{Character length one. The name of the folder where exported
+should reside. If left at the default '.', the value as defined in the
 settings file (key 'foN_rawData') will be used.}
 
-\item{fcsRepair}{Logical. If set to TRUE, fcs-files in the folder 
-specified at argument 'fn' will be checked for multiplied entries in the 
-keywords, as after some testing the author came to the humble conclusion that 
+\item{fcsRepair}{Logical. If set to TRUE, fcs-files in the folder
+specified at argument 'fn' will be checked for multiplied entries in the
+keywords, as after some testing the author came to the humble conclusion that
 these multiplied keywords can be the reason for the error message: \cr
-\code{"The HEADER and the TEXT segment define different starting 
+\code{"The HEADER and the TEXT segment define different starting
 point ... to read the data"}. \cr
-If 'fcsRepair' is set to TRUE, all except the last of each multiplied 
-keyword will be removed and the fcs file will be saved to disc, 
+If 'fcsRepair' is set to TRUE, all except the last of each multiplied
+keyword will be removed and the fcs file will be saved to disc,
 overwriting the original fcs file \strong{without further warning}. \cr
-Use the function \code{\link{checkRepairFcsFiles}} which does offer more 
-options to manually check and repair afflicted fcs files. There, it is 
+Use the function \code{\link{checkRepairFcsFiles}} which does offer more
+options to manually check and repair afflicted fcs files. There, it is
 possible to display multiplied keywords and to select which one to keep.}
 
-\item{stf}{Logical. If the resulting object of class 'fdmat' should be saved 
-to file in the data export folder. Defaults to TRUE.  If saved, the name 
-of the gating strategy used to generate the data will be appended to the 
+\item{stf}{Logical. If the resulting object of class 'fdmat' should be saved
+to file in the data export folder. Defaults to TRUE.  If saved, the name
+of the gating strategy used to generate the data will be appended to the
 filename.}
 
-\item{verbose}{Logical. If status messages should be displayed. If left at 
-the default '.', the value as defined in the settings file (key 'dV_verbose') 
+\item{verbose}{Logical. If status messages should be displayed. If left at
+the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
-An object of class "fdmat" containing a list holding an object of 
-class 'fdmat_single' in each list element, which in turn contains a matrix 
-holding the fluorescence distribution of a single gate, possibly 
-re-calculated to events per volume unit, and the overall data 
+An object of class "fdmat" containing a list holding an object of
+class 'fdmat_single' in each list element, which in turn contains a matrix
+holding the fluorescence distribution of a single gate, possibly
+re-calculated to events per volume unit, and the overall data
 for events per volume unit in the slot 'eventsPerVol'.
 }
 \description{
-Read in all fcs files from a specified folder, produce a 
-gating set, add gates as defined in the gating strategy file, extract 
-fluorescence distribution data from each gate, possibly re-calculate the 
-fluorescence distribution to events per volume unit, export all data to file 
+Read in all fcs files from a specified folder, produce a
+gating set, add gates as defined in the gating strategy file, extract
+fluorescence distribution data from each gate, possibly re-calculate the
+fluorescence distribution to events per volume unit, export all data to file
 and save the R-object holding all the data to file as well.
 }
 \details{
-While function 'flowdexit' returns fluorescence distributions 
-re-calculated to events per volume unit, the gating set that was produced 
-in the way of obtaining the fluorescence distribution data getas assigned 
-to the environment 'gsenv' under the name 'gatingSet'. Hence, it can be 
+While function 'flowdexit' returns fluorescence distributions
+re-calculated to events per volume unit, the gating set that was produced
+in the way of obtaining the fluorescence distribution data gets assigned
+to the environment 'gsenv' under the name 'gatingSet'. Hence, it can be
 accessed via \code{gsenv$gatingSet}. \cr \cr
-It is paramount to obtain the correct volume factor from the help / the 
+It is paramount to obtain the correct volume factor from the help / the
 manual of the FCM-machine that did produce the fcs files. Please see section
 'Calculating Events per Volume Unit' for more details.
 }
 \section{Calculating Events per Volume Unit}{
- 
-The calculation of events per volume unit is performed via the following 
-code: \code{round((nrEvRaw / vols) * volFac , 0)}, with \code{nrEvRaw} being 
-the number of (raw) events in a specific channel as saved in the fcs file, 
-\code{vols} being the acquired volume of a sample, and \code{volFac} being 
-a factor obtained from the manual of the FCM-machine. The 'volFac' is a 
-number provided by the manufacturer of the FCM-machine / of the volumetric 
-measurement module. It is the number required to convert raw events back 
-to events per volume. It must be obtained from the manual of the FCM-machine 
-resp. the volumetric measurement module. 
-The \code{volFac} is stored in the flowdex_settings.R file 
+
+The calculation of events per volume unit is performed via the following
+code: \code{round((nrEvRaw / vols) * volFac , 0)}, with \code{nrEvRaw} being
+the number of (raw) events in a specific channel as saved in the fcs file,
+\code{vols} being the acquired volume of a sample, and \code{volFac} being
+a factor obtained from the manual of the FCM-machine. The 'volFac' is a
+number provided by the manufacturer of the FCM-machine / of the volumetric
+measurement module. It is the number required to convert raw events back
+to events per volume. It must be obtained from the manual of the FCM-machine
+resp. the volumetric measurement module.
+The \code{volFac} is stored in the flowdex_settings.R file
 (key: 'dV_volumeFactor').
 }
 
 \section{Regarding Compensation}{
- Due to the circumstances when developing 
-this code, it was never required to apply any kind of compensation. The 
-functionality to apply compensation was therefore never tested or verified. 
-It is strongly advised to use caution when applying compensation. It might 
-well be necessary to modify the source code of this package in order to 
-achieve correct compensation results (compensation is applied in the 
+ Due to the circumstances when developing
+this code, it was never required to apply any kind of compensation. The
+functionality to apply compensation was therefore never tested or verified.
+It is strongly advised to use caution when applying compensation. It might
+well be necessary to modify the source code of this package in order to
+achieve correct compensation results (compensation is applied in the
 function \code{\link{makeGatingSet}}).
 }
 
 \section{Exporting Data}{
- If data are exported to xlsx, additional data like 
-the metadata describing the parameters that lead to the calculation of 
-the fluorescence distribution, the cyTags and the gating strategy are 
-saved in an extra sheet as well. If exporting to csv, only the fluorescence 
+ If data are exported to xlsx, additional data like
+the metadata describing the parameters that lead to the calculation of
+the fluorescence distribution, the cyTags and the gating strategy are
+saved in an extra sheet as well. If exporting to csv, only the fluorescence
 data are exported.
 }
 

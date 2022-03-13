@@ -10,8 +10,8 @@ fd_updateSettings(silent = FALSE)
 \item{silent}{Logical}
 }
 \description{
-Source the settings-list as defined in the settings.R file and 
-create the object 'stn' in its environment. The settings-file system is 
+Source the settings-list as defined in the settings.R file and
+create the object 'stn' in its environment. The settings-file system is
 based on functionality from package \code{\link[uniset]{uniset}}.
 }
 \seealso{

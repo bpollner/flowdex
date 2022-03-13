@@ -19,40 +19,40 @@ makeGatingSet(
 residing in the directory specified by \code{fn} to read in. Only matching
 patterns will be included.}
 
-\item{comp}{Logical. If compensation should be applied or not. If left at 
-the default '.', the value as defined in the settings file (key 'dV_comp') 
+\item{comp}{Logical. If compensation should be applied or not. If left at
+the default '.', the value as defined in the settings file (key 'dV_comp')
 will be used.}
 
-\item{fn}{Character length one. The name of the folder where FCS files should 
-be read from. If left at the default '.', the folder name as defined in the 
+\item{fn}{Character length one. The name of the folder where FCS files should
+be read from. If left at the default '.', the folder name as defined in the
 settings file (key: 'foN_fcsFiles') will be used.}
 
-\item{tx}{Character length one. The transformation applied to *all* channels 
-within the individual flow sets. If left at the default '.', the value as 
-defined in the settings file (key 'dV_tx') will be used. (Currently only 
+\item{tx}{Character length one. The transformation applied to *all* channels
+within the individual flow sets. If left at the default '.', the value as
+defined in the settings file (key 'dV_tx') will be used. (Currently only
 'fjbiex' is implemented.)}
 
 \item{channel}{A regular expression indicating which channels, i.e. which
 columns to keep from the original flowframes; is passed down to argument
 \code{column.pattern} of \code{\link[flowCore]{read.flowSet}}. Set to NULL
-to read data from all channels. If left at the default '.', the value as 
+to read data from all channels. If left at the default '.', the value as
 defined in the settings file (key 'dV_channel') will be used.}
 
-\item{fcsRepair}{Logical. If set to TRUE, fcs-files in the folder 
-specified at argument 'fn' will be checked for multiplied entries in the 
-keywords, as after some testing the author came to the humble conclusion that 
+\item{fcsRepair}{Logical. If set to TRUE, fcs-files in the folder
+specified at argument 'fn' will be checked for multiplied entries in the
+keywords, as after some testing the author came to the humble conclusion that
 these multiplied keywords can be the reason for the error message: \cr
-\code{"The HEADER and the TEXT segment define different starting 
+\code{"The HEADER and the TEXT segment define different starting
 point ... to read the data"}. \cr
-If 'fcsRepair' is set to TRUE, all except the last of each multiplied 
-keyword will be removed and the fcs file will be saved to disc, 
+If 'fcsRepair' is set to TRUE, all except the last of each multiplied
+keyword will be removed and the fcs file will be saved to disc,
 overwriting the original fcs file \strong{without further warning}. \cr
-Use the function \code{\link{checkRepairFcsFiles}} which does offer more 
-options to manually check and repair afflicted fcs files. There, it is 
+Use the function \code{\link{checkRepairFcsFiles}} which does offer more
+options to manually check and repair afflicted fcs files. There, it is
 possible to display multiplied keywords and to select which one to keep.}
 
-\item{verbose}{Logical. If status messages should be displayed. If left at 
-the default '.', the value as defined in the settings file (key 'dV_verbose') 
+\item{verbose}{Logical. If status messages should be displayed. If left at
+the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
@@ -62,16 +62,16 @@ A gating set produced by \code{\link[flowWorkspace]{GatingSet}}.
 Read in FCS files and put them together in a gating set.
 }
 \details{
-If no folder name is specified, FCS files are being read in from the 
+If no folder name is specified, FCS files are being read in from the
 default FCS-files folder.
 }
 \section{Regarding Compensation}{
- Due to the circumstances when developing 
-this code, it was never required to apply any kind of compensation. The 
-functionality to apply compensation was therefore never tested or verified. 
-It is strongly advised to use caution when applying compensation. It might 
-well be necessary to modify the source code of this function 
-(fork from \url{https://github.com/bpollner/flowdex}) in order to achieve 
+ Due to the circumstances when developing
+this code, it was never required to apply any kind of compensation. The
+functionality to apply compensation was therefore never tested or verified.
+It is strongly advised to use caution when applying compensation. It might
+well be necessary to modify the source code of this function
+(fork from \url{https://github.com/bpollner/flowdex}) in order to achieve
 correct compensation results.
 }
 

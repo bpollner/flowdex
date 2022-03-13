@@ -25,54 +25,54 @@ plotgates(
 \item{ti}{Character length one, a possible character added to the title of
 the gate-plot.}
 
-\item{spl}{Character length one. The name of the column in the cyTags that 
-should be used to split by before plotting. If left at the default 
-\code{NULL}, no splitting is performed. Possible values for 'spl' are the 
-column names of the cyTags saved in the object of class 'fdmat' as produced 
+\item{spl}{Character length one. The name of the column in the cyTags that
+should be used to split by before plotting. If left at the default
+\code{NULL}, no splitting is performed. Possible values for 'spl' are the
+column names of the cyTags saved in the object of class 'fdmat' as produced
 by \code{\link{makefdmat}}.}
 
 \item{fns}{Character length one. The filename suffix of the possible pdf.}
 
-\item{plotAll}{Logical. If left at the default \code{FALSE}, only the gates 
-where the parameter \code{keepData} in the gating strategy is set to 
-\code{TRUE} are plotted. If set to \code{TRUE}, all gates within the gating 
+\item{plotAll}{Logical. If left at the default \code{FALSE}, only the gates
+where the parameter \code{keepData} in the gating strategy is set to
+\code{TRUE} are plotted. If set to \code{TRUE}, all gates within the gating
 strategy file will be plotted.}
 
-\item{toPdf}{Logical. If the plots should be saved in a pdf. Defaults to 
+\item{toPdf}{Logical. If the plots should be saved in a pdf. Defaults to
 TRUE}
 
-\item{x}{Character length one. The name of channel where data was acquired to 
-be displayed on the x-axis. Only applies if a gating set without applied gate 
+\item{x}{Character length one. The name of channel where data was acquired to
+be displayed on the x-axis. Only applies if a gating set without applied gate
 is provided to the argument \code{gs}.}
 
-\item{y}{Character length one. The name of channel where data was acquired to 
-be displayed on the y-axis. Only applies if a gating set without applied gate 
+\item{y}{Character length one. The name of channel where data was acquired to
+be displayed on the y-axis. Only applies if a gating set without applied gate
 is provided to the argument \code{gs}.}
 
-\item{name.dict}{Character length one. The name of the dictionary. If left 
-at the default '.', the value as defined in the settings file (key 
+\item{name.dict}{Character length one. The name of the dictionary. If left
+at the default '.', the value as defined in the settings file (key
 'dD_dict_name') will be used.}
 
-\item{foN.dict}{Character length one. The name of the folder where the 
-dictionary resides. If left at the default '.', the value as defined in the 
+\item{foN.dict}{Character length one. The name of the folder where the
+dictionary resides. If left at the default '.', the value as defined in the
 settings file (key 'foN_dictionary') will be used.}
 
-\item{type.dict}{Character length one. The filetype of the dictionary. Can 
-be one of 'csv' or 'xlsx'. If left at the default '.', the value as defined 
+\item{type.dict}{Character length one. The filetype of the dictionary. Can
+be one of 'csv' or 'xlsx'. If left at the default '.', the value as defined
 in the settings file (key 'dD_dict_type') will be used.}
 
-\item{foN.plots}{Character length one. The name of the folder where possible 
-PDFs should be saved in. If left at the default '.', the value as defined in 
+\item{foN.plots}{Character length one. The name of the folder where possible
+PDFs should be saved in. If left at the default '.', the value as defined in
 the settings file (key 'foN_plots') will be used.}
 }
 \description{
-Plot all available gates on all flowframes in a gating set and 
-add layers for the number of events. (In raw format, i.e. *not* 
+Plot all available gates on all flowframes in a gating set and
+add layers for the number of events. (In raw format, i.e. *not*
 re-calculated to volume!)
 }
 \details{
-Plotting is performed by the function \code{\link[ggcyto]{ggcyto}}. 
-If a gating set without applied gates is provided to the first argument, 
+Plotting is performed by the function \code{\link[ggcyto]{ggcyto}}.
+If a gating set without applied gates is provided to the first argument,
 parameters \code{plotAll}, \code{spl} and \code{toPdf} do not apply.
 }
 \examples{
@@ -82,7 +82,7 @@ plotgates(gs)
 #
 fdm <- makefdmat(gs)
 fdm@cyTags # look at column names for splitting
-plotgates(gs, spl="fooBar") # to split the plot by values contained in column 
+plotgates(gs, spl="fooBar") # to split the plot by values contained in column
 # 'fooBar'.
 }
 }

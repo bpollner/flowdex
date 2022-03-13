@@ -7,18 +7,18 @@
 genfs(where = getwd(), copyTemplates = TRUE)
 }
 \arguments{
-\item{where}{Character length one, holding a valid path. Defaults to the 
+\item{where}{Character length one, holding a valid path. Defaults to the
 current working directory.}
 
-\item{copyTemplates}{Logical, if available templates should be copied into 
+\item{copyTemplates}{Logical, if available templates should be copied into
 the folder 'templates'.}
 }
 \value{
-No return value, called for its side effects, i.e. the creation of 
+No return value, called for its side effects, i.e. the creation of
 the required folder structure.
 }
 \description{
-Generate the required folder structure, and possibly copy the 
+Generate the required folder structure, and possibly copy the
 available templates (gate definitions, gating strategy, dictionary).
 }
 \examples{

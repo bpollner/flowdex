@@ -19,47 +19,47 @@ plotFlscDist(
 )
 }
 \arguments{
-\item{fdmat}{An object of class "fdmat" as produced by \code{\link{makefdmat}} 
+\item{fdmat}{An object of class "fdmat" as produced by \code{\link{makefdmat}}
 or \code{\link{flowdexit}} .}
 
-\item{gate}{Character or numeric length one. If more than one gate is present 
-in the provided fdmatrix, provide either the name of the gate, or a numeric 
-specifying the position of the gate in the metadata within the fdmatrix to 
-plot data from only that gate. If left at the default \code{NULL} and more 
-than one gate is present in the data, fluorescence distributions from 
+\item{gate}{Character or numeric length one. If more than one gate is present
+in the provided fdmatrix, provide either the name of the gate, or a numeric
+specifying the position of the gate in the metadata within the fdmatrix to
+plot data from only that gate. If left at the default \code{NULL} and more
+than one gate is present in the data, fluorescence distributions from
 all gates will be plotted in individual plots.}
 
 \item{ti}{Character length one. Will be used for the title in the plot.}
 
-\item{spl}{The column name in the cyTags of the values used for splitting. 
+\item{spl}{The column name in the cyTags of the values used for splitting.
 Defaults to NULL, i.e. no splitting.}
 
 \item{ylog}{Logical. If the y-axis (the counts) should be plotted in log scale.}
 
-\item{ccol}{An optional color vector for custom coloring. Must have the same 
+\item{ccol}{An optional color vector for custom coloring. Must have the same
 length as number of rows in the matrix.}
 
 \item{clt}{Numeric vector specifying a sequence of custom line-types.}
 
-\item{toPdf}{Logical. If output should be saved in results as PDF. Defaults to 
+\item{toPdf}{Logical. If output should be saved in results as PDF. Defaults to
 TRUE.}
 
 \item{fns}{Character length one. The filename suffix, defaults to NULL.}
 
-\item{foN.plots}{Character length one. The name of the folder where possible 
-PDFs should be saved in. If left at the default '.', the value as defined in 
+\item{foN.plots}{Character length one. The name of the folder where possible
+PDFs should be saved in. If left at the default '.', the value as defined in
 the settings file (key 'foN_plots') will be used.}
 
 \item{...}{Additional plotting parameters passed on to 'matplot'}
 }
 \description{
-Plot the fluorescence distribution contained in the object of 
-class 'fdmat'. For each gate contained in 'fdmat', a graphic will be 
+Plot the fluorescence distribution contained in the object of
+class 'fdmat'. For each gate contained in 'fdmat', a graphic will be
 produced.
 }
 \section{Note}{
- This function is merely intended to give a first overview of 
-the data resp. the fluorescence distribution. Its purpose is not to provide 
+ This function is merely intended to give a first overview of
+the data resp. the fluorescence distribution. Its purpose is not to provide
 ample and sufficient data visualisation.
 }
 

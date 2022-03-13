@@ -9,29 +9,29 @@ fd_save(fdmat, fns = NULL, expo.folder = ".", verbose = ".")
 \arguments{
 \item{fdmat}{An object of class 'fdmat' as produced by \code{\link{makefdmat}}.}
 
-\item{fns}{Character length one or NULL. Possible character to be added to 
+\item{fns}{Character length one or NULL. Possible character to be added to
 the filename.}
 
-\item{expo.folder}{Character length one. The name of the folder where exported 
-should reside. If left at the default '.', the value as defined in the 
+\item{expo.folder}{Character length one. The name of the folder where exported
+should reside. If left at the default '.', the value as defined in the
 settings file (key 'foN_rawData') will be used.}
 
-\item{verbose}{Logical. If status messages should be displayed. If left at 
-the default '.', the value as defined in the settings file (key 'dV_verbose') 
+\item{verbose}{Logical. If status messages should be displayed. If left at
+the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
-Invisible NULL; is called for its side effect, i.e. to save the fdmat 
+Invisible NULL; is called for its side effect, i.e. to save the fdmat
 object to file.
 }
 \description{
-Saves the R-object containing the fluorescence distributions 
+Saves the R-object containing the fluorescence distributions
 (the 'fdmat' object) in the standard data export / rawdata folder.
 }
 \details{
-The name of the saved file is put together using the default name 
-for data exports (settings.R file key 'fiN_dataExport'), the name and type 
-of the gating strategy, the character 'fdmatObj' and a possible filename 
+The name of the saved file is put together using the default name
+for data exports (settings.R file key 'fiN_dataExport'), the name and type
+of the gating strategy, the character 'fdmatObj' and a possible filename
 suffix as defined in 'fns'.
 }
 \examples{

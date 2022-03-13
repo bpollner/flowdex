@@ -22,8 +22,8 @@ patterns will be included.}
 \item{vol}{Numeric length one. The value that should be written into the
 \code{$VOL} slot in the description of the single flowFrame.}
 
-\item{fn}{Character length one. The name of the folder where FCS files should 
-be read from. If left at the default '.', the folder name as defined in the 
+\item{fn}{Character length one. The name of the folder where FCS files should
+be read from. If left at the default '.', the folder name as defined in the
 settings file (key: 'foN_fcsFiles') will be used.}
 
 \item{includeAll}{Logical. If left at the default \code{FALSE}, only those
@@ -35,21 +35,21 @@ in \code{vol} will be assigned to them.}
 \item{confirm}{Logical. If the user should be asked for additional confirmation
 before the rewriting of the fcs files is performed. Defaults to TRUE.}
 
-\item{fcsRepair}{Logical. If set to TRUE, fcs-files in the folder 
-specified at argument 'fn' will be checked for multiplied entries in the 
-keywords, as after some testing the author came to the humble conclusion that 
+\item{fcsRepair}{Logical. If set to TRUE, fcs-files in the folder
+specified at argument 'fn' will be checked for multiplied entries in the
+keywords, as after some testing the author came to the humble conclusion that
 these multiplied keywords can be the reason for the error message: \cr
-\code{"The HEADER and the TEXT segment define different starting 
+\code{"The HEADER and the TEXT segment define different starting
 point ... to read the data"}. \cr
-If 'fcsRepair' is set to TRUE, all except the last of each multiplied 
-keyword will be removed and the fcs file will be saved to disc, 
+If 'fcsRepair' is set to TRUE, all except the last of each multiplied
+keyword will be removed and the fcs file will be saved to disc,
 overwriting the original fcs file \strong{without further warning}. \cr
-Use the function \code{\link{checkRepairFcsFiles}} which does offer more 
-options to manually check and repair afflicted fcs files. There, it is 
+Use the function \code{\link{checkRepairFcsFiles}} which does offer more
+options to manually check and repair afflicted fcs files. There, it is
 possible to display multiplied keywords and to select which one to keep.}
 
-\item{verbose}{Logical. If status messages should be displayed. If left at 
-the default '.', the value as defined in the settings file (key 'dV_verbose') 
+\item{verbose}{Logical. If status messages should be displayed. If left at
+the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{

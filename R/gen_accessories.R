@@ -17,16 +17,16 @@ checkBandpass <- function(bandpass) {
 } # EOF
 
 #' @title Apply Bandpass Filter to Fluorescence Intensities
-#' @description Apply a bandpass like filter to the fluorescence intensities 
+#' @description Apply a bandpass like filter to the fluorescence intensities
 #' within a single gate.
 #' @inheritParams exportFdmatData
-#' @param gate Numeric or character length one, defining the gate on which the 
-#' bandpass should be applied. Defaults to 1. (See 'fdmat@metadata' for possible 
+#' @param gate Numeric or character length one, defining the gate on which the
+#' bandpass should be applied. Defaults to 1. (See 'fdmat@metadata' for possible
 #' values for gate name resp. number.)
-#' @param bandpass Numeric vector length two, holding the lower and upper 
+#' @param bandpass Numeric vector length two, holding the lower and upper
 #' boundaries of the bandpass filter.
-#' @return The same object of class 'fdmat' as was provided to the argument 
-#' 'fdmat', but with modified range of fluorescence intensities in the gate 
+#' @return The same object of class 'fdmat' as was provided to the argument
+#' 'fdmat', but with modified range of fluorescence intensities in the gate
 #' specified under 'gate'.
 #' @examples
 #' \dontrun{
@@ -65,7 +65,7 @@ applyBandpass <- function(fdmat, bandpass, gate=1) {
     fdmat[[gateNr]] <- matSingle # put back the modified fdmat_single into the list within 'fdmat'
 	#
 	return(fdmat)
-	#	
+	#
 } # EOF
 
 ##################
@@ -74,7 +74,7 @@ makeColors <- function(nrCols, stn) {
 	#
 	paletteName <- stn$dG_RcolorBrewerPal
 	aaa <- nrCols
-	whatColors = c("black", "red", "green", "blue", "cyan", "magenta", "yellow2", "gray")
+	whatColors <- c("black", "red", "green", "blue", "cyan", "magenta", "yellow2", "gray")
 	#
 	if (nrCols > 8) {
 		colRamp <- colorRampPalette(whatColors)
@@ -89,7 +89,7 @@ makeColors <- function(nrCols, stn) {
 plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, ...) {
 	lty <- 1
 	plLog <- ""
-	yaxt="n"
+	yaxt <-"n"
 	yLabelAdd <- ""
 	yLabelVolAdd <- ""
 	cexLeg <- 0.85
@@ -114,14 +114,14 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 		}
 	} # end if ylog
 	if (!is.null(clt)) {
-		lty=clt
+		lty <- clt
 	}
 	#
 	totNr <- nrow(mat) # just need that for the subtext
 	zeroInd <- as.numeric(which(apply(mat,1, function(x) all(x==ZeV)))) # the indices of all the rows that contain all zero
 	zeroChar <- rownames(mat)[zeroInd]
 	if (length(zeroInd) > 0) {
-		dataInd <- seq(1:nrow(mat))[-zeroInd]	
+		dataInd <- seq(1:nrow(mat))[-zeroInd]
 	} else {
 		dataInd <- seq(1:nrow(mat))
 	}
@@ -154,12 +154,12 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 #	subTxt <- paste0("Gate: ", md$gateName, "; res=", md$res, coAdd, "; (S:", totNr, "/d", length(dataInd), ",z", length(zeroInd), ")")
 	subTxt <- paste0("Gate: ", paste(md$gateName, collapse=", "), "; ", gateDef, "; res=", md$res[1], coAdd, "; (S:", totNr, "/", length(dataInd), ",", length(zeroInd), ")")
 	extrOn <- as.character(md$extractOn)
-	if (length(unique(extrOn)==1)) { # that comes from the time when we were plotting more than one gate on one graphic. Long gone now.... 
+	if (length(unique(extrOn)==1)) { # that comes from the time when we were plotting more than one gate on one graphic. Long gone now....
 		extrOnAdd <- unique(extrOn)
 	} else {
 		extrOnAdd <- paste(extrOn, collapse=", ")
 	}
-	
+
 	xlT <- paste0(labXaxChar, "(", extrOnAdd,")")
 	ylT <- paste0("Events ", yLabelAdd)
 	if (any(md$rcv)) {
@@ -190,28 +190,28 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 } # EOF
 
 #' @title Plot Fluorescence Distribution
-#' @description Plot the fluorescence distribution contained in the object of 
-#' class 'fdmat'. For each gate contained in 'fdmat', a graphic will be 
+#' @description Plot the fluorescence distribution contained in the object of
+#' class 'fdmat'. For each gate contained in 'fdmat', a graphic will be
 #' produced.
-#' @section Note: This function is merely intended to give a first overview of 
-#' the data resp. the fluorescence distribution. Its purpose is not to provide 
+#' @section Note: This function is merely intended to give a first overview of
+#' the data resp. the fluorescence distribution. Its purpose is not to provide
 #' ample and sufficient data visualisation.
-#' @param fdmat An object of class "fdmat" as produced by \code{\link{makefdmat}} 
+#' @param fdmat An object of class "fdmat" as produced by \code{\link{makefdmat}}
 #' or \code{\link{flowdexit}} .
-#' @param gate Character or numeric length one. If more than one gate is present 
-#' in the provided fdmatrix, provide either the name of the gate, or a numeric 
-#' specifying the position of the gate in the metadata within the fdmatrix to 
-#' plot data from only that gate. If left at the default \code{NULL} and more 
-#' than one gate is present in the data, fluorescence distributions from 
+#' @param gate Character or numeric length one. If more than one gate is present
+#' in the provided fdmatrix, provide either the name of the gate, or a numeric
+#' specifying the position of the gate in the metadata within the fdmatrix to
+#' plot data from only that gate. If left at the default \code{NULL} and more
+#' than one gate is present in the data, fluorescence distributions from
 #' all gates will be plotted in individual plots.
 #' @param ti Character length one. Will be used for the title in the plot.
 #' @param ylog Logical. If the y-axis (the counts) should be plotted in log scale.
-#' @param ccol An optional color vector for custom coloring. Must have the same 
+#' @param ccol An optional color vector for custom coloring. Must have the same
 #' length as number of rows in the matrix.
 #' @param clt Numeric vector specifying a sequence of custom line-types.
-#' @param spl The column name in the cyTags of the values used for splitting. 
+#' @param spl The column name in the cyTags of the values used for splitting.
 #' Defaults to NULL, i.e. no splitting.
-#' @param toPdf Logical. If output should be saved in results as PDF. Defaults to 
+#' @param toPdf Logical. If output should be saved in results as PDF. Defaults to
 #' TRUE.
 #' @param fns Character length one. The filename suffix, defaults to NULL.
 #' @param ... Additional plotting parameters passed on to 'matplot'
@@ -223,9 +223,9 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 #' }
 #' @family Plotting functions
 #' @export
-plotFlscDist <- function(fdmat, gate=NULL, ti="", spl=NULL, ylog=FALSE, ccol=NULL, clt=NULL, toPdf=TRUE, fns=NULL, foN.plots=".", ...) {	
+plotFlscDist <- function(fdmat, gate=NULL, ti="", spl=NULL, ylog=FALSE, ccol=NULL, clt=NULL, toPdf=TRUE, fns=NULL, foN.plots=".", ...) {
 	#
-	stn <- autoUpS()	
+	stn <- autoUpS()
 	#
 	path <- ""
 	pdfWidth <- stn$dG_pdf_width
@@ -277,7 +277,7 @@ plotFlscDist <- function(fdmat, gate=NULL, ti="", spl=NULL, ylog=FALSE, ccol=NUL
 			#
 		} else { # so spl is null, we do not want to split
 			plotCounts_inner(matSingle, stn, ti, ylog, ccol, clt, ...)
-		} # end else 		
+		} # end else
 	} # end for k going through the fdmat
 	####
 	if (toPdf) {
@@ -285,4 +285,4 @@ plotFlscDist <- function(fdmat, gate=NULL, ti="", spl=NULL, ylog=FALSE, ccol=NUL
 		cat("ok\n")
 	} # end if
 	return(invisible(NULL))
-} # EOF 
+} # EOF

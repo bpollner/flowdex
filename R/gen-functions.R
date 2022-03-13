@@ -1,11 +1,11 @@
 #' @title Perform Settings Setup
-#' @description Perform the setup of the setting-system provided by package 
+#' @description Perform the setup of the setting-system provided by package
 #' 'uniset'.
 #' @details Has to be done only once.
-#' @param path Character length one, holding the path to the location where the 
-#' folder containing the settings.R file should be located. Defaults to 'NULL'. 
+#' @param path Character length one, holding the path to the location where the
+#' folder containing the settings.R file should be located. Defaults to 'NULL'.
 #' If left at the default 'NULL', the location should be selectable interactively.
-#' @return No return value, is called for its side effects, i.e. to set up 
+#' @return No return value, is called for its side effects, i.e. to set up
 #' the settings-file system as provided by package 'uniset'.
 #' @examples
 #' \dontrun{
@@ -18,11 +18,11 @@ setupSettings <- function(path=NULL) {
 	return(invisible(NULL))
 } # EOF
 
-#' @title Manually Update the Settings 
-#' @description Source the settings-list as defined in the settings.R file and 
-#' create the object 'stn' in its environment. The settings-file system is 
+#' @title Manually Update the Settings
+#' @description Source the settings-list as defined in the settings.R file and
+#' create the object 'stn' in its environment. The settings-file system is
 #' based on functionality from package \code{\link[uniset]{uniset}}.
-#' @param silent Logical 
+#' @param silent Logical
 #' @seealso \code{\link{setupSettings}}
 #' @export
 fd_updateSettings <- function(silent=FALSE) {
@@ -73,17 +73,17 @@ copyAllTemplates <- function(home, stn) {
 	aa <- file.copy(dicFile, to, overwrite=TRUE)
 	bb <- file.copy(gaStraF, to, overwrite=TRUE)
 	#
-	return(aa & bb)	
+	return(aa & bb)
 } # EOF
 
 #' @title Generate Folder Structure
-#' @description Generate the required folder structure, and possibly copy the 
+#' @description Generate the required folder structure, and possibly copy the
 #' available templates (gate definitions, gating strategy, dictionary).
-#' @param copyTemplates Logical, if available templates should be copied into 
+#' @param copyTemplates Logical, if available templates should be copied into
 #' the folder 'templates'.
-#' @param where Character length one, holding a valid path. Defaults to the 
+#' @param where Character length one, holding a valid path. Defaults to the
 #' current working directory.
-#' @return No return value, called for its side effects, i.e. the creation of 
+#' @return No return value, called for its side effects, i.e. the creation of
 #' the required folder structure.
 #' @examples
 #' \dontrun{
@@ -107,40 +107,40 @@ genfs <- function(where=getwd(), copyTemplates=TRUE) {
 } # EOF
 
 #' @title Check and Repair FCS Files
-#' @description Check all fcs files in a specified folder for non-unique 
-#' keywords. Multiple entries in the keywords are removed, and the file is 
-#' written back to disc. The original ("corrupt") fcs file will be overwritten. 
-#' @details When reading in resp. working with some fcs files it can happen that 
-#' the following error message is displayed: \cr\code{"The HEADER and the TEXT 
+#' @description Check all fcs files in a specified folder for non-unique
+#' keywords. Multiple entries in the keywords are removed, and the file is
+#' written back to disc. The original ("corrupt") fcs file will be overwritten.
+#' @details When reading in resp. working with some fcs files it can happen that
+#' the following error message is displayed: \cr\code{"The HEADER and the TEXT
 #' segment define different starting point ... to read the data"} \cr
-#' After some testing, the author came to the conclusion that a solution to this 
-#' error can be to delete multiple entries of the same keyword in the keywords 
-#' of the fcs file. (As fcs files *not* displaying this error seem to have only 
+#' After some testing, the author came to the conclusion that a solution to this
+#' error can be to delete multiple entries of the same keyword in the keywords
+#' of the fcs file. (As fcs files *not* displaying this error seem to have only
 #' unique keywords.)\cr
-#' It also appeared that always the last of the multiplied entries was the correct 
+#' It also appeared that always the last of the multiplied entries was the correct
 #' one, hence the default keeping of the *last* of multiple entries. \cr
-#' Currently, only uniformly multiplied keyword entries get remedied -- if there 
-#' should be a mixture of keyword-multiplication (e.g. some are two-fold, some 
+#' Currently, only uniformly multiplied keyword entries get remedied -- if there
+#' should be a mixture of keyword-multiplication (e.g. some are two-fold, some
 #' others are three-fold) an error message is displayed. \cr
-#' Other approaches to this problem via e.g. ignoring the text offset as possible 
-#' in \code{\link[flowWorkspace]{load_cytoframe_from_fcs}} resulted in data loss. 
-#' @param fcsRepair Logical. If defect fcs files should be attempted to repair. 
-#' If left at the default FALSE, fcs files with double entries in their keywords 
-#' will only be listed. If set to TRUE, the keyword doublets will be deleted and 
+#' Other approaches to this problem via e.g. ignoring the text offset as possible
+#' in \code{\link[flowWorkspace]{load_cytoframe_from_fcs}} resulted in data loss.
+#' @param fcsRepair Logical. If defect fcs files should be attempted to repair.
+#' If left at the default FALSE, fcs files with double entries in their keywords
+#' will only be listed. If set to TRUE, the keyword doublets will be deleted and
 #' the fcs file will be saved to disc. The original fcs file will be overwritten.
-#' @param confirm Logical. If confirmation is required before overwriting the 
-#' faulty fcs files with their corrected version. Defaults to TRUE. If set to 
-#' FALSE. original fcs files will be overwritten without further warning. 
-#' @param showMultiples Logical, If the multiplied keywords should be displayed. 
+#' @param confirm Logical. If confirmation is required before overwriting the
+#' faulty fcs files with their corrected version. Defaults to TRUE. If set to
+#' FALSE. original fcs files will be overwritten without further warning.
+#' @param showMultiples Logical, If the multiplied keywords should be displayed.
 #' Defaults to FALSE.
-#' @param keepLast Logical or Numeric. If the last or the first item of a keyword 
-#' multiplication should be kept. If left at the default TRUE, the last keyword 
-#' of a keyword multiplication will be kept, if set to FALSE the first will be 
-#' kept. Provide a numeric length one to denote the number of the multiplied 
+#' @param keepLast Logical or Numeric. If the last or the first item of a keyword
+#' multiplication should be kept. If left at the default TRUE, the last keyword
+#' of a keyword multiplication will be kept, if set to FALSE the first will be
+#' kept. Provide a numeric length one to denote the number of the multiplied
 #' keyword to keep.
 #' @inheritParams flowdexit
-#' @return An (invisible) character vector holding the names of the fcs files 
-#' that were repaired. Mainly used for its side effect, i.e. to repair fcs files 
+#' @return An (invisible) character vector holding the names of the fcs files
+#' that were repaired. Mainly used for its side effect, i.e. to repair fcs files
 #' with doublets in the keywords.
 #' @examples
 #' \dontrun{
@@ -171,7 +171,7 @@ checkRepairFcsFiles <- function(fn=".", fcsRepair=FALSE, confirm=TRUE, showMulti
 		} else { # so we do have some non uniques
 			ind <- which(rlNa$lengths != 1) # check for more than once keywords
 			multKeys <- rlNa$values[ind]
-			ind <- which(names(siHe) %in% multKeys) 
+			ind <- which(names(siHe) %in% multKeys)
 			multNames <- names(siHe)[ind]
 			rlMultNa <- rle(multNames)
 			multFac <- unique(rlMultNa$lengths) # gives the factor of how often a single keyword is repeated
@@ -195,15 +195,15 @@ checkRepairFcsFiles <- function(fn=".", fcsRepair=FALSE, confirm=TRUE, showMulti
 					} # end if
 				} # end else
 			} # end if is numeric keekPast
-			#			
-			if (is.logical(keepLast)) { 
+			#
+			if (is.logical(keepLast)) {
 				if (keepLast) {
 					remStep <- multFac
 					remChar <- "All except the last "
 				} else {
 					remStep <- 1
 					remChar <- "All except the first "
-				} # end else 
+				} # end else
 			} # end if is logical keepLast
 			#
 			ind <- which(names(siHe) %in% multNames) #### map back to total names ####
@@ -224,10 +224,10 @@ checkRepairFcsFiles <- function(fn=".", fcsRepair=FALSE, confirm=TRUE, showMulti
 				cat("-------------------\n\n")
 			} # end if showMultiples
 			#
-		} # end else 
+		} # end else
 	} # end for i going through the fcsNames in the folder
-	
-	
+
+
 	## by now we checked every fcs file in the folder and collected names, paths and take-out indices of the keywords of the defect fcs files
 	if (is.null(banaDef)) { # no defect fcs keywords were found
 		if (verbose) {
@@ -235,8 +235,8 @@ checkRepairFcsFiles <- function(fn=".", fcsRepair=FALSE, confirm=TRUE, showMulti
 		} # end if verbose
 		return(invisible(NULL))
 	} # end is null banaDef
-	
-	
+
+
 	## so banaDef is not null, that means we have at least one defect fcs file
 	sAdd <- "s"
 	doAdd <- "do have"
@@ -248,14 +248,14 @@ checkRepairFcsFiles <- function(fn=".", fcsRepair=FALSE, confirm=TRUE, showMulti
 	} # end if
 	##
 	txtInfo <- paste0("\nThe following ", length(banaDef), " file", sAdd, " from the folder '", folderName, "' \n", doAdd, " non-unique entries (all ", multFac, " fold) in ", itAdd, " keywords:\n", paste0(banaDef, collapse="\n"), "\n")
-	
+
 	## in case we do NOT want to repair
 	if (!fcsRepair) {
 		cat(txtInfo)
 		stop("Consider setting 'fcsRepair' to TRUE.\nCAVE: Original fcs files will then be overwritten.", call.=FALSE)
 	} # end if !fcsRepair
-	
-	
+
+
 	## so by now we do have at least one defect fcs file, and we DO want to repair
 	txtW <- "will be "
 	if (!confirm) {
@@ -271,7 +271,7 @@ checkRepairFcsFiles <- function(fn=".", fcsRepair=FALSE, confirm=TRUE, showMulti
 		cat("\nPress enter to continue or escape to abort:\n")
 		scan(file = "", n = 1, quiet = TRUE)
 	} # end if
-	
+
 	## now actually repair the fcs files
 	# banaDef, ptfDef, takeOutInds
 	for (i in 1: length(banaDef)) {
@@ -299,14 +299,14 @@ readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL, volCheck=TRUE
 	# now transform into flowCore "space" so that repairing volume and sample ID still work
 	rawdata <- flowWorkspace::cytoset_to_flowSet(rawdata) # now we are back in the flowSet as produced by package "flowCore"
 	#
-	pdkw=list(volume="VOL", btim="$BTIM", sampleId="$SMNO") # define what to use in the pheno-data
+	pdkw <- list(volume="VOL", btim="$BTIM", sampleId="$SMNO") # define what to use in the pheno-data
 	kw <- flowCore::keyword(rawdata, pdkw)  # "keyword" is a function in package "flowCore"; as seen on 21.04.2021 on https://support.bioconductor.org/p/p132747/#p132763
 	flowWorkspace::pData(rawdata) <- as.data.frame(kw) # pData is a function in package "flowWorkspace"
 	# now check for missing volume values and, if a value for val is provided, replace with that
 	pDat <- flowWorkspace::pData(rawdata)
 	indNA <- which(as.character(pDat[,"volume"]) == "NA")
 	if (length(indNA) > 0 & volCheck) {
-			if (length(indNA) == 1) {add=""} else {add="s"}
+			if (length(indNA) == 1) {add <- ""} else {add <-"s"}
 			stop(paste0("Sorry, there appear to be missing volume values in the sample", add, "\n", paste(pDat[indNA,"name"], collapse=", "), ".\nPlease use the function `repairVolumes` to repair the affected FCS files."), call.=FALSE)
 	} # end length(indNA)
 	return(rawdata)
@@ -334,7 +334,7 @@ readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL, volCheck=TRUE
 #' @family Repair functions
 #' @export
 repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm=TRUE, fcsRepair=FALSE, verbose=TRUE) {
-	stn <- autoUpS()	
+	stn <- autoUpS()
 	#
 	folderName <- checkDefToSetVal(fn, "foN_fcsFiles", "fn", stn, checkFor="char")
 	#
@@ -399,16 +399,16 @@ repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm
 #' NULL. By providing a pattern to `patt`, subgroups of fcs files can be read in.
 #' Provide the so obtained flowSet to the parameter `fs`, and specify the
 #' name and the new sample ID in order to re-write the specified file with its
-#' new Sample ID. 'object@phenoData@data' can be used to inspect and verify names 
+#' new Sample ID. 'object@phenoData@data' can be used to inspect and verify names
 #' of FCS files and the sample IDs therein -- see examples.
-#' @section Note: A correct sample ID is of importance when using the 
-#' 'dictionary' to expand the abbreviations in the sample ID - see 
+#' @section Note: A correct sample ID is of importance when using the
+#' 'dictionary' to expand the abbreviations in the sample ID - see
 #' \url{https://bpollner.github.io/flowdex/articles/acquire_data.html}.
 #' @param fs The object returned by this function if parameter \code{fs} is left
 #' at its default NULL, what then can be used as input for the parameter \code{fs}.
-#' @param name Character length one. The name of the fcs file within the flowset 
+#' @param name Character length one. The name of the fcs file within the flowSet
 #' that should get a new sample ID.
-#' @param newSID Character legnth one. The new Sample ID.
+#' @param newSID Character length one. The new Sample ID.
 #' @inheritParams flowdexit
 #' @param confirm Logical. If the user should be asked for additional confirmation
 #' before the rewriting of the fcs file is performed. Defaults to TRUE.
@@ -417,7 +417,7 @@ repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm
 #' @family Repair functions
 #' @examples
 #' \dontrun{
-#' fs <- repairSID() # or 
+#' fs <- repairSID() # or
 #' fs <- repairSID(patt="foo")
 #' fs@phenoData@data
 #' repairSID(fs, "sample1", "newSID")
@@ -426,10 +426,10 @@ repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm
 #' @family Repair functions
 #' @export
 repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".", confirm=TRUE, fcsRepair=FALSE) {
-	stn <- autoUpS()	
+	stn <- autoUpS()
 	#
 	fn <- checkDefToSetVal(fn, "foN_fcsFiles", "fn", stn, checkFor="char")
-	#	
+	#
 	if (is.null(fs)) {
 		return(invisible(readInFlowSet(folderName=fn, patt=patt, fcsRepair=fcsRepair)))
 	}
@@ -462,21 +462,21 @@ repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".", confir
 
 #' @title Make Gating Set
 #' @description Read in FCS files and put them together in a gating set.
-#' @details If no folder name is specified, FCS files are being read in from the 
-#' default FCS-files folder. 
+#' @details If no folder name is specified, FCS files are being read in from the
+#' default FCS-files folder.
 #' @inheritParams flowdexit
-#' @section Regarding Compensation: Due to the circumstances when developing 
-#' this code, it was never required to apply any kind of compensation. The 
-#' functionality to apply compensation was therefore never tested or verified. 
-#' It is strongly advised to use caution when applying compensation. It might 
-#' well be necessary to modify the source code of this function 
-#'(fork from \url{https://github.com/bpollner/flowdex}) in order to achieve 
+#' @section Regarding Compensation: Due to the circumstances when developing
+#' this code, it was never required to apply any kind of compensation. The
+#' functionality to apply compensation was therefore never tested or verified.
+#' It is strongly advised to use caution when applying compensation. It might
+#' well be necessary to modify the source code of this function
+#'(fork from \url{https://github.com/bpollner/flowdex}) in order to achieve
 #' correct compensation results.
 #' @return A gating set produced by \code{\link[flowWorkspace]{GatingSet}}.
 #' @family Extraction functions
 #' @export
 makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", fcsRepair=FALSE, verbose=".") {
-	stn <- autoUpS()		
+	stn <- autoUpS()
 	#
 	comp <- checkDefToSetVal(comp, "dV_comp", "comp", stn, checkFor="logi")
 	fn <- checkDefToSetVal(fn, "foN_fcsFiles", "fn", stn, checkFor="char")
@@ -488,7 +488,7 @@ makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", fcsR
 	rawdata <- readInFlowSet(folderName=fn, patt=patt, colPat=channel, fcsRepair=fcsRepair, verbose=verbose)
 	if (verbose) {cat("ok. \n")}
 	if (verbose) {cat("Producing gating set... ")}
-	gs <- flowWorkspace::GatingSet(rawdata) 
+	gs <- flowWorkspace::GatingSet(rawdata)
 	if (comp) {  # first compensate, then flowJoBiexpTrans
 		if (verbose) {cat("Applying compensation matrix... ")}
 		compMat <- flowCore::compensation(flowCore::spillover(rawdata[[1]]))
@@ -498,7 +498,7 @@ makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", fcsR
 	if (verbose) {cat(paste0("Applying ", tx, " transformation... "))}
 	fiNa <- ls(rawdata@frames)[1] # take the first frame in the rawdata. It has to contain at least one.
 	txt <- paste0("colnames(rawdata@frames$", fiNa, "@exprs)") # extract the colnames. Because for the gating set, that does not work here within the function (?)
-	cns <- eval(parse(text=txt))  
+	cns <- eval(parse(text=txt))
 #	biexpTFL <- flowWorkspace::transformerList(colnames(gs), flowWorkspace::flowjo_biexp_trans()) ## that did work before? now not any more ???
 	biexpTFL <- flowWorkspace::transformerList(cns, flowWorkspace::flowjo_biexp_trans())
 	gs <- flowWorkspace::transform(gs, biexpTFL)
@@ -533,14 +533,14 @@ importCheckGatingStrategy <- function(fiN_gateStrat, stn, gsType=".", foName="."
 		stop(paste0("All values in the column 'keepData' in the gating strategy file '", paste0(fiN_gateStrat, typE), "' are set to FALSE. \nYou need to keep data from at least one gate."), call.=FALSE)
 	} # end if
 	#
-	return(new("gatingStrategy_fd", gateStrat, filename=paste0(fiN_gateStrat, typE)))	
+	return(new("gatingStrategy_fd", gateStrat, filename=paste0(fiN_gateStrat, typE)))
 } # EOF
 
 #' @title Add Polygon Gates
-#' @description Load the predefined gating strategy (as .csv or .xlsx file) and 
+#' @description Load the predefined gating strategy (as .csv or .xlsx file) and
 #' apply the gates as defined in the file.
-#' @details The gating strategy file can hold one or more gates. One row in the 
-#' files represents one gate. In order to see a schematic representation of 
+#' @details The gating strategy file can hold one or more gates. One row in the
+#' files represents one gate. In order to see a schematic representation of
 #' 'parent' and 'child' gates, simply use 'plot'.
 #' @param gs A gating set as produced by \code{\link{makeGatingSet}}.
 #' @inheritParams flowdexit
@@ -549,14 +549,14 @@ importCheckGatingStrategy <- function(fiN_gateStrat, stn, gsType=".", foName="."
 #' \dontrun{
 #' gs <- addGates(gs)
 #' plot(gs)
-#' gs <- addGates(gs, gateStrat="fooBar.csv") # the use a different then the 
+#' gs <- addGates(gs, gateStrat="fooBar.csv") # the use a different then the
 #' # default gating strategy
 #' plot(gs)
 #' }
 #' @family Extraction functions
 #' @export
 addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", verbose=".") {
-	stn <- autoUpS()		
+	stn <- autoUpS()
 	#
 	gateStrat <- checkDefToSetVal(gateStrat, "fiN_gateStrat", "gateStrat", stn, checkFor="char")
 	foN_gating <- checkDefToSetVal(foN.gateStrat, "foN_gating", "foN_gating (settings.R)", stn, checkFor="char")
@@ -577,7 +577,7 @@ addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", v
 	for (i in 1: nrow(gsdf)) {
 		gateOn <- c(gsdf[i,"GateOnX"], gsdf[i,"GateOnY"]) # extract the x and y channels from the i-th row
 		pggName <- gsdf[i,"GateDefinition"]
-		gateMat <- loadGaXFile(foN_gating, pggName, type="pgg")		
+		gateMat <- loadGaXFile(foN_gating, pggName, type="pgg")
 		names(gateMat) <- gateOn
 		pgg <- flowCore::polygonGate(.gate=gateMat, filterId=pggName)
 		erm <- try(flowWorkspace::gs_pop_add(gs, pgg, parent=gsdf[i,"Parent"], name=gsdf[i, "GateName"]), silent=TRUE) # gs_pop_add is in flowWorkspace
@@ -592,11 +592,11 @@ addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", v
 } # EOF
 
 #' @title Make Gating Set and Add Gates
-#' @description Read in FCS files, put them together in a gating set and apply 
+#' @description Read in FCS files, put them together in a gating set and apply
 #' the gating strategy as previously defined.
-#' @details This is a convenience wrapper for the two functions 
+#' @details This is a convenience wrapper for the two functions
 #' \code{\link{makeGatingSet}} and \code{\link{addGates}}.
-#'  In order to see a schematic representation of 'parent' and 'child' gates, 
+#'  In order to see a schematic representation of 'parent' and 'child' gates,
 #' simply use 'plot'.
 #' @inheritParams flowdexit
 #' @return A gating set with added and recomputed gates.
@@ -627,49 +627,49 @@ makeAddGatingSet <- function(patt=NULL, fn=".", gateStrat=".", foN.gateStrat="."
 } # EOF
 
 #' @title Manually Draw Polygon Gate
-#' @description Produce a simple x~y dotplot on the specified channels that is 
-#' used with \code{locator} to define the gate boundaries, similar to defining 
-#' a polygon gate in standard FCM GUIs. The resulting data are saved as an 
-#' R-object under the name specified in \code{pggId}. Press 'esc' when done 
+#' @description Produce a simple x~y dotplot on the specified channels that is
+#' used with \code{locator} to define the gate boundaries, similar to defining
+#' a polygon gate in standard FCM GUIs. The resulting data are saved as an
+#' R-object under the name specified in \code{pggId}. Press 'esc' when done
 #' drawing the gate.
-#' @details The generated R-object is saved automatically and can be used as a 
-#' gate-definition in the gating strategy. 
-#' For the lines to be drawn while the locator points 
-#' are clicked, it is recommended to use this function NOT within R-Studio. 
-#' The sample names within the gating set can be obtained via 'show' - see 
+#' @details The generated R-object is saved automatically and can be used as a
+#' gate-definition in the gating strategy.
+#' For the lines to be drawn while the locator points
+#' are clicked, it is recommended to use this function NOT within R-Studio.
+#' The sample names within the gating set can be obtained via 'show' - see
 #' examples.
 #' @inheritParams flowdexit
-#' @param gs A gating set as produced by \code{\link{makeGatingSet}} or 
+#' @param gs A gating set as produced by \code{\link{makeGatingSet}} or
 #' \code{\link{makeAddGatingSet}}.
-#' @param flf Character or numeric length one. The identifier of the flowframe 
-#' within the gating set where the gate should be drawn on. Optimally, this is 
-#' a flowframe, i.e. sample, with a very good representation of the desired 
+#' @param flf Character or numeric length one. The identifier of the flowframe
+#' within the gating set where the gate should be drawn on. Optimally, this is
+#' a flowframe, i.e. sample, with a very good representation of the desired
 #' population. Possible input values can be determined via 'show'.
-#' @param gn Character length one. The name of a gate further specifying the 
+#' @param gn Character length one. The name of a gate further specifying the
 #' desired subset of data; defaults to "root".
-#' @param pggId Character length one. The name of the resulting file containing 
-#' the boundaries of the gate. If left at the default '.', the name as defined 
-#' in the settings file (key: 'fiN_gate') will be used. 
-#' @param channels Character length two. The channels the gate should be defined 
-#' in. If left at the default '.', the two channels as defined in the settings 
-#' file (key: 'dV_channelsForPGG') will be used. Available channels can be 
-#' viewed via 'show' - see examples. 
-#' @param useLoc Logical. If, after plotting, the locator should be used. 
-#' Defaults to TRUE. 
-#' @param locN Numeric length one. How many points to acquire in the locator. 
+#' @param pggId Character length one. The name of the resulting file containing
+#' the boundaries of the gate. If left at the default '.', the name as defined
+#' in the settings file (key: 'fiN_gate') will be used.
+#' @param channels Character length two. The channels the gate should be defined
+#' in. If left at the default '.', the two channels as defined in the settings
+#' file (key: 'dV_channelsForPGG') will be used. Available channels can be
+#' viewed via 'show' - see examples.
+#' @param useLoc Logical. If, after plotting, the locator should be used.
+#' Defaults to TRUE.
+#' @param locN Numeric length one. How many points to acquire in the locator.
 #' Defaults to 512; use "ESC" to abort the locator action.
-#' @param bnd NULL or numeric length four. The boundaries to be marked on the 
-#' plot, format: (x1, x2, y1, y2). If values are provided, two straight lines 
+#' @param bnd NULL or numeric length four. The boundaries to be marked on the
+#' plot, format: (x1, x2, y1, y2). If values are provided, two straight lines
 #' on the x-axis and two on the y-axis will be drawn.
-#' @param showGate Character length one. The name of an already existing gate 
-#' residing in the folder specified by 'foN.gateDefs'. If provided, this gate 
-#' will be additionally drawn on the dotplot. This can be helpful when e.g. 
-#' on old, sub-optimal gate should be replaced with a new one: In this case the 
-#' name of the 'old' would be provided at 'showGate' with the same name 
-#' specified at 'ppfId'. Thus, the old gate will be replaced with the new one.
-#' @section Warning: Existing locator matrix files with the same name will be 
+#' @param showGate Character length one. The name of an already existing gate
+#' residing in the folder specified by 'foN.gateDefs'. If provided, this gate
+#' will be additionally drawn on the dotplot. This can be helpful when e.g.
+#' on old, sub-optimal gate should be replaced with a new one: In this case the
+#' name of the 'old' would be provided at 'showGate' with the same name
+#' specified at 'ppgId'. Thus, the old gate will be replaced with the new one.
+#' @section Warning: Existing locator matrix files with the same name will be
 #' overwritten without asking!
-#' @return A list with the locator coordinates resp. this data saved as an 
+#' @return A list with the locator coordinates resp. this data saved as an
 #' R-object in the folder specified at 'foN.gateStrat'.
 #' @examples
 #' \dontrun{
@@ -684,10 +684,10 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateS
 	stn <- autoUpS()
 	#
 	pggColor <- stn$dG_locatorLine
-	pggLwd <- stn$dG_locatorLineWidth	
+	pggLwd <- stn$dG_locatorLineWidth
 	pggShowColor <- stn$dG_gateShowColor
 	#
-#	checkObjClass(object=gs, "GatingSet", argName="gs") 
+#	checkObjClass(object=gs, "GatingSet", argName="gs")
 	foN_gating <- checkDefToSetVal(foN.gateStrat, "foN_gating", "foN.gateDefs", stn, checkFor="char")
 	pggId <- checkDefToSetVal(pggId, "fiN_gate", "pggId", stn, checkFor="char")
 	showGate <- checkDefToSetVal(showGate, "..x..", "showGate", stn, checkFor="charNull", defValue=NULL)
@@ -732,7 +732,7 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateS
 	} # end if
 	#
 	if (!is.null(showGate)) {
-		checkPggExistence(showGate, foN_gating) 
+		checkPggExistence(showGate, foN_gating)
 		fipa <- paste0(foN_gating, "/", showGate)
 		pggShow <- eval(parse(text=load(fipa)))
 		checkShowGateChannels(pggShow, datMat)
@@ -762,8 +762,8 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateS
 
 #' @title Cut 'fdmat' Object to Gate
 #' @description Cut an object of class `fdmat` down to only a single gate
-#' @param gate Numeric or Character length one. The designator for the gate to 
-#' keep, as defined in the gating strategy (from those gates where 'keepData' is 
+#' @param gate Numeric or Character length one. The designator for the gate to
+#' keep, as defined in the gating strategy (from those gates where 'keepData' is
 #' set to TRUE.
 #' @inheritParams exportFdmatData
 #' @return An object of class `fdmat` containing only the data for the gate as
@@ -795,16 +795,16 @@ cutFdmatToGate <- function(fdmat, gate=NULL) {
 } # EOF
 
 #' @title Export Fluorescence Distributions
-#' @description Export fluorescence distributions contained in the 'fdmat' 
+#' @description Export fluorescence distributions contained in the 'fdmat'
 #' object to file.
-#' @details If data are exported to xlsx, additional data like the metadata 
-#' describing the parameters that lead to the calculation of the fluorescence 
-#' distribution, the cyTags and the gating strategy are saved in an extra sheet 
-#' as well. If exporting to csv, only the fluorescence data from one single gate 
+#' @details If data are exported to xlsx, additional data like the metadata
+#' describing the parameters that lead to the calculation of the fluorescence
+#' distribution, the cyTags and the gating strategy are saved in an extra sheet
+#' as well. If exporting to csv, only the fluorescence data from one single gate
 #' can be exported.
-#' @param fdmat An object of class 'fdmat' as produced by \code{\link{makefdmat}}. 
+#' @param fdmat An object of class 'fdmat' as produced by \code{\link{makefdmat}}.
 #' @inheritParams flowdexit
-#' @return Invisible NULL; used for its side effects, i.e. to export the data contained in 
+#' @return Invisible NULL; used for its side effects, i.e. to export the data contained in
 #' 'fdmat' to file.
 #' @examples
 #' \dontrun{
@@ -841,7 +841,7 @@ exportFdmatData <- function(fdmat, expo.gate=".", expo.name=".", expo.type=".", 
 	if (!is.null(expoGate)) {
 		fdmat <- cutFdmatToGate(fdmat, expoGate)
 	} # end if
-	
+
 	#
 	nrG <- length(fdmat) # as it has an object of class 'fdmat_single' in each list element
 	if (nrG > 1) {
@@ -867,7 +867,7 @@ exportFdmatData <- function(fdmat, expo.gate=".", expo.name=".", expo.type=".", 
 		names(metaList) <- c(fdmat@gateStrat@filename, "metadata", "cyTags")
 		names(flscList) <- flscNames
 		names(evpvList) <- evpvNames
-		expoList <- c(metaList, flscList, evpvList)		
+		expoList <- c(metaList, flscList, evpvList)
 		openxlsx::write.xlsx(expoList, fiName, rowNames=TRUE, overwrite=TRUE)
 		if (verbose) {cat("ok. \n")}
 	} else {
@@ -883,18 +883,18 @@ exportFdmatData <- function(fdmat, expo.gate=".", expo.name=".", expo.type=".", 
 } # EOF
 
 #' @title Extract Fluorescence Distribution Matrix
-#' @description Extract fluorescence distribution along a specified channel 
-#' from the gating set as defined in the gating strategy file and re-calculate 
-#' data to events per volume. 
+#' @description Extract fluorescence distribution along a specified channel
+#' from the gating set as defined in the gating strategy file and re-calculate
+#' data to events per volume.
 #' @param gs A gating set as produced by \code{\link{makeAddGatingSet}}.
 #' @param dev Logical. If set to true, a histogram showing the bins and the
 #' smoothed mid-points is plotted. (Only intended for development.) Defaults to
 #' FALSE.
 #' @inheritParams flowdexit
-#' @return An object of class "fdmat" containing a list holding an object of 
-#' class 'fdmat_single' in each list element, which in turn contains a matrix 
-#' holding the fluorescence distribution of a single gate, and the overall data 
-#' for events per volume unit in the slot 'eventsPerVol'. 
+#' @return An object of class "fdmat" containing a list holding an object of
+#' class 'fdmat_single' in each list element, which in turn contains a matrix
+#' holding the fluorescence distribution of a single gate, and the overall data
+#' for events per volume unit in the slot 'eventsPerVol'.
 #' @examples
 #' \dontrun{
 #' gs <- makeAddGatingSet()
@@ -920,7 +920,7 @@ makefdmat <- function(gs, name.dict=".", foN.dict=".", type.dict=".", expo=TRUE,
 	dictType <- checkDefToSetVal(type.dict, "dV_dictionaryType", "type.dict", stn, checkFor="char")
 	dictTypeE <- paste0(".", dictType)
 	#
-	checkObjClass(object=gs, "GatingSet_fd", argName="gs") 
+	checkObjClass(object=gs, "GatingSet_fd", argName="gs")
 	checkForVolumeData(gs, stn) # comes back FALSE if we do not want to use volume data.
 	#
 	eventsPerVol <- getEventsPerVolume(gs) # returns a list with class 'eventsPV' in each list element. Gets back a data frame NULL in each object of class 'eventsPV' if we do not want to use volume data
@@ -929,10 +929,10 @@ makefdmat <- function(gs, name.dict=".", foN.dict=".", type.dict=".", expo=TRUE,
 		checkFileExistence(foN_dict, nameDict, dictTypeE, addTxt="dictionary file ")
 		dictionary <- loadGaXFile(foN_dict, nameDict, dictType)
 		cyTags <- makeCyTags(gs, dictionary, stn) # extract from the sampleId column in the pheno Data
-	} else { # so we do not want to use the dic :-) 
+	} else { # so we do not want to use the dic :-)
 		cyTags <- new("cyTags", data.frame(NULL)) # due to the strange behavior when making class-unions (??)
 	}# end if useDic
-	#	
+	#
 	gsdf <- gs@gateStrat
 	gsdfUse <- gsdf[gsdf[,"keepData"],]
 	nrKeep <- nrow(gsdfUse)
@@ -951,7 +951,7 @@ makefdmat <- function(gs, name.dict=".", foN.dict=".", type.dict=".", expo=TRUE,
 	for (i in 1: length(outList)) { # re-sort events per volume and collect metadata
 		outList[[i]]@eventsPerVol <- eventsPerVol[[i]] # must have same length
 		outMd <- rbind(outMd, outList[[i]]@metadata)
-	} # end for i	
+	} # end for i
 	#
 	fdmat <- new("fdmat", outList, metadata=outMd, cyTags=cyTags, gateStrat=gs@gateStrat, pData=flowWorkspace::pData(gs), note="original")
 	#
@@ -965,36 +965,36 @@ makefdmat <- function(gs, name.dict=".", foN.dict=".", type.dict=".", expo=TRUE,
 } # EOF
 
 #' @title Plot Gates on All Flowframes in a Gating Set
-#' @description Plot all available gates on all flowframes in a gating set and 
-#' add layers for the number of events. (In raw format, i.e. *not* 
+#' @description Plot all available gates on all flowframes in a gating set and
+#' add layers for the number of events. (In raw format, i.e. *not*
 #' re-calculated to volume!)
-#' @details Plotting is performed by the function \code{\link[ggcyto]{ggcyto}}. 
-#' If a gating set without applied gates is provided to the first argument, 
+#' @details Plotting is performed by the function \code{\link[ggcyto]{ggcyto}}.
+#' If a gating set without applied gates is provided to the first argument,
 #' parameters \code{plotAll}, \code{spl} and \code{toPdf} do not apply.
 #' @param gs A gating set.
-#' @param ti Character length one, a possible character added to the title of 			
+#' @param ti Character length one, a possible character added to the title of
 #' the gate-plot.
-#' @param plotAll Logical. If left at the default \code{FALSE}, only the gates 
-#' where the parameter \code{keepData} in the gating strategy is set to 
-#' \code{TRUE} are plotted. If set to \code{TRUE}, all gates within the gating 
+#' @param plotAll Logical. If left at the default \code{FALSE}, only the gates
+#' where the parameter \code{keepData} in the gating strategy is set to
+#' \code{TRUE} are plotted. If set to \code{TRUE}, all gates within the gating
 #' strategy file will be plotted.
-#' @param spl Character length one. The name of the column in the cyTags that 
-#' should be used to split by before plotting. If left at the default 
-#' \code{NULL}, no splitting is performed. Possible values for 'spl' are the 
-#' column names of the cyTags saved in the object of class 'fdmat' as produced 
+#' @param spl Character length one. The name of the column in the cyTags that
+#' should be used to split by before plotting. If left at the default
+#' \code{NULL}, no splitting is performed. Possible values for 'spl' are the
+#' column names of the cyTags saved in the object of class 'fdmat' as produced
 #' by \code{\link{makefdmat}}.
-#' @param toPdf Logical. If the plots should be saved in a pdf. Defaults to 
+#' @param toPdf Logical. If the plots should be saved in a pdf. Defaults to
 #' TRUE
 #' @param fns Character length one. The filename suffix of the possible pdf.
-#' @param x Character length one. The name of channel where data was acquired to 
-#' be displayed on the x-axis. Only applies if a gating set without applied gate 
+#' @param x Character length one. The name of channel where data was acquired to
+#' be displayed on the x-axis. Only applies if a gating set without applied gate
 #' is provided to the argument \code{gs}.
-#' @param y Character length one. The name of channel where data was acquired to 
-#' be displayed on the y-axis. Only applies if a gating set without applied gate 
+#' @param y Character length one. The name of channel where data was acquired to
+#' be displayed on the y-axis. Only applies if a gating set without applied gate
 #' is provided to the argument \code{gs}.
-#' @param foN.plots Character length one. The name of the folder where possible 
-#' PDFs should be saved in. If left at the default '.', the value as defined in 
-#' the settings file (key 'foN_plots') will be used. 
+#' @param foN.plots Character length one. The name of the folder where possible
+#' PDFs should be saved in. If left at the default '.', the value as defined in
+#' the settings file (key 'foN_plots') will be used.
 #' @inheritParams flowdexit
 #' @examples
 #' \dontrun{
@@ -1003,7 +1003,7 @@ makefdmat <- function(gs, name.dict=".", foN.dict=".", type.dict=".", expo=TRUE,
 #' #
 #' fdm <- makefdmat(gs)
 #' fdm@cyTags # look at column names for splitting
-#' plotgates(gs, spl="fooBar") # to split the plot by values contained in column 
+#' plotgates(gs, spl="fooBar") # to split the plot by values contained in column
 #' # 'fooBar'.
 #' }
 #' @family Plotting functions
@@ -1047,7 +1047,7 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 		#
 		checkFileExistence(foN_dict, nameDict, dictTypeE, addTxt="dictionary file ")
 		dictionary <- loadGaXFile(foN_dict, nameDict, dictType)
-		cyTags <- makeCyTags(gs, dictionary, stn) # extract from the sampleId column in the pheno Data; returns FALSE if either the dictionary or the sampleId column from the single tubes 
+		cyTags <- makeCyTags(gs, dictionary, stn) # extract from the sampleId column in the pheno Data; returns FALSE if either the dictionary or the sampleId column from the single tubes
 		#
 		if (! spl %in% colnames(cyTags)) {
 			stop(paste0("Sorry, the provided split column '", spl, "' is not present in the provided gating set resp. its cyTags.\nPossible values are:\n'", paste0(colnames(cyTags), collapse="', '"), "'."), call.=FALSE)
@@ -1064,7 +1064,7 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 	filename <- suffix
 	filename <- paste(foN_plots, "/", filename, fns, ".pdf", sep="")
 	if (toPdf) { pdf(file=filename, width, height, onefile=TRUE, family='Helvetica', pointsize=12) }
-#	if (where != "pdf" & Sys.getenv("RSTUDIO") != 1) {dev.new(height=height, width=width)}	
+#	if (where != "pdf" & Sys.getenv("RSTUDIO") != 1) {dev.new(height=height, width=width)}
 	for (i in 1: nrow(gsdf)) {
 		xax <- gsdf[i,"GateOnX"]
 		yax <- gsdf[i,"GateOnY"]
@@ -1088,7 +1088,7 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 			} else { # so spl is null and we do not split
 				options(warn=-1)
 				plot(ggcyto::ggcyto(gs, subset=subs, ggplot2::aes_(x=xax, y=yax)) + ggplot2::ggtitle(tiUse) + ggplot2::geom_hex(bins=bins) +  ggcyto::geom_gate(gateName) + ggcyto::geom_stats(gateName, type="count") + ggcyto::ggcyto_par_set(limits="instrument"))
-				options(warn=0)				
+				options(warn=0)
 			} # end else
 		} # end if (plotAll | gsdf[i,"keepData"])
 		#
@@ -1103,18 +1103,18 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 } # EOF
 
 #' @title Save Fluorescence Distribution 'fdmat' Object
-#' @description Saves the R-object containing the fluorescence distributions 
+#' @description Saves the R-object containing the fluorescence distributions
 #' (the 'fdmat' object) in the standard data export / rawdata folder.
-#' @details The name of the saved file is put together using the default name 
-#' for data exports (settings.R file key 'fiN_dataExport'), the name and type 
-#' of the gating strategy, the character 'fdmatObj' and a possible filename 
+#' @details The name of the saved file is put together using the default name
+#' for data exports (settings.R file key 'fiN_dataExport'), the name and type
+#' of the gating strategy, the character 'fdmatObj' and a possible filename
 #' suffix as defined in 'fns'.
-#' @param fns Character length one or NULL. Possible character to be added to 
+#' @param fns Character length one or NULL. Possible character to be added to
 #' the filename.
 #' @inheritParams exportFdmatData
 #' @inheritParams flowdexit
-#' @return Invisible NULL; is called for its side effect, i.e. to save the fdmat 
-#' object to file. 
+#' @return Invisible NULL; is called for its side effect, i.e. to save the fdmat
+#' object to file.
 #' @examples
 #' \dontrun{
 #' fd_save(fdmat)
@@ -1151,16 +1151,16 @@ fd_save <- function(fdmat, fns=NULL, expo.folder=".", verbose=".") {
 } # EOF
 
 #' @title Load Fluorescence Distribution 'fdmat' Object
-#' @description Load the R-object containing the fluorescence distributions 
+#' @description Load the R-object containing the fluorescence distributions
 #' (the 'fdmat' object) from the standard data export / rawdata folder.
-#' @details If 'fn' is left at NULL, the file containing the default name 
+#' @details If 'fn' is left at NULL, the file containing the default name
 #' for exported data and gating strategy is being attempted to load.
 #' @param fn Character length one, the name of the file.
 #' @param expo.folder The name of the folder where the file should be looked for.
-#' If left at the default '.', the value as defined in the settings file (key 
+#' If left at the default '.', the value as defined in the settings file (key
 #' 'foN_rawData') will be used.
 #' @inheritParams flowdexit
-#' @return An object of class 'fdmat' as produced by \code{\link{makefdmat}} 
+#' @return An object of class 'fdmat' as produced by \code{\link{makefdmat}}
 #' or \code{\link{flowdexit}}.
 #' @family Accessory functions
 #' @export
@@ -1192,121 +1192,121 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 } # EOF
 
 #' @title Read in FCS Files and Extract Data
-#' @description Read in all fcs files from a specified folder, produce a 
-#' gating set, add gates as defined in the gating strategy file, extract 
-#' fluorescence distribution data from each gate, possibly re-calculate the 
-#' fluorescence distribution to events per volume unit, export all data to file 
+#' @description Read in all fcs files from a specified folder, produce a
+#' gating set, add gates as defined in the gating strategy file, extract
+#' fluorescence distribution data from each gate, possibly re-calculate the
+#' fluorescence distribution to events per volume unit, export all data to file
 #' and save the R-object holding all the data to file as well.
-#' @details While function 'flowdexit' returns fluorescence distributions 
-#' re-calculated to events per volume unit, the gating set that was produced 
-#' in the way of obtaining the fluorescence distribution data getas assigned 
-#' to the environment 'gsenv' under the name 'gatingSet'. Hence, it can be 
+#' @details While function 'flowdexit' returns fluorescence distributions
+#' re-calculated to events per volume unit, the gating set that was produced
+#' in the way of obtaining the fluorescence distribution data gets assigned
+#' to the environment 'gsenv' under the name 'gatingSet'. Hence, it can be
 #' accessed via \code{gsenv$gatingSet}. \cr \cr
-#' It is paramount to obtain the correct volume factor from the help / the 
+#' It is paramount to obtain the correct volume factor from the help / the
 #' manual of the FCM-machine that did produce the fcs files. Please see section
 #' 'Calculating Events per Volume Unit' for more details.
-#' @param fn Character length one. The name of the folder where FCS files should 
-#' be read from. If left at the default '.', the folder name as defined in the 
+#' @param fn Character length one. The name of the folder where FCS files should
+#' be read from. If left at the default '.', the folder name as defined in the
 #' settings file (key: 'foN_fcsFiles') will be used.
 #' @param patt A regular expression defining a possible subset of FCS files
 #' residing in the directory specified by \code{fn} to read in. Only matching
 #' patterns will be included.
-#' @param gateStrat Character length one. The name of the file defining the 
-#' gating strategy. If left at the default '.', the name as defined in the 
-#' settings file (key: 'fiN_gateStrat') will be used. 
-#' @param foN.gateStrat Character length one. The name of the folder where the 
-#' file defining the gating strategy and the gate definitions reside. If left 
-#' at the default '.', the name as defined in the settings file 
-#' (key: 'foN_gating') will be used. 
-#' @param type.gateStrat Character length one, can be either 'csv' or 'xlsx'. 
-## The type of file defining the gating strategy. Currently, csv and xlsx 
-#' files are supported. If left at the default '.', the filetype as defined in 
-#' the settings (key: 'dV_gateStratInputType') file will be used. 
-#' @param comp Logical. If compensation should be applied or not. If left at 
-#' the default '.', the value as defined in the settings file (key 'dV_comp') 
+#' @param gateStrat Character length one. The name of the file defining the
+#' gating strategy. If left at the default '.', the name as defined in the
+#' settings file (key: 'fiN_gateStrat') will be used.
+#' @param foN.gateStrat Character length one. The name of the folder where the
+#' file defining the gating strategy and the gate definitions reside. If left
+#' at the default '.', the name as defined in the settings file
+#' (key: 'foN_gating') will be used.
+#' @param type.gateStrat Character length one, can be either 'csv' or 'xlsx'.
+## The type of file defining the gating strategy. Currently, csv and xlsx
+#' files are supported. If left at the default '.', the filetype as defined in
+#' the settings (key: 'dV_gateStratInputType') file will be used.
+#' @param comp Logical. If compensation should be applied or not. If left at
+#' the default '.', the value as defined in the settings file (key 'dV_comp')
 #' will be used.
-#' @param tx Character length one. The transformation applied to *all* channels 
-#' within the individual flow sets. If left at the default '.', the value as 
-#' defined in the settings file (key 'dV_tx') will be used. (Currently only 
+#' @param tx Character length one. The transformation applied to *all* channels
+#' within the individual flow sets. If left at the default '.', the value as
+#' defined in the settings file (key 'dV_tx') will be used. (Currently only
 #' 'fjbiex' is implemented.)
-#' @param verbose Logical. If status messages should be displayed. If left at 
-#' the default '.', the value as defined in the settings file (key 'dV_verbose') 
+#' @param verbose Logical. If status messages should be displayed. If left at
+#' the default '.', the value as defined in the settings file (key 'dV_verbose')
 #' will be used.
 #' @param channel A regular expression indicating which channels, i.e. which
 #' columns to keep from the original flowframes; is passed down to argument
 #' \code{column.pattern} of \code{\link[flowCore]{read.flowSet}}. Set to NULL
-#' to read data from all channels. If left at the default '.', the value as 
+#' to read data from all channels. If left at the default '.', the value as
 #' defined in the settings file (key 'dV_channel') will be used.
-#' @param fcsRepair Logical. If set to TRUE, fcs-files in the folder 
-#' specified at argument 'fn' will be checked for multiplied entries in the 
-#' keywords, as after some testing the author came to the humble conclusion that 
+#' @param fcsRepair Logical. If set to TRUE, fcs-files in the folder
+#' specified at argument 'fn' will be checked for multiplied entries in the
+#' keywords, as after some testing the author came to the humble conclusion that
 #' these multiplied keywords can be the reason for the error message: \cr
-#' \code{"The HEADER and the TEXT segment define different starting 
+#' \code{"The HEADER and the TEXT segment define different starting
 #' point ... to read the data"}. \cr
-#' If 'fcsRepair' is set to TRUE, all except the last of each multiplied 
-#' keyword will be removed and the fcs file will be saved to disc, 
+#' If 'fcsRepair' is set to TRUE, all except the last of each multiplied
+#' keyword will be removed and the fcs file will be saved to disc,
 #' overwriting the original fcs file \strong{without further warning}. \cr
-#' Use the function \code{\link{checkRepairFcsFiles}} which does offer more 
-#' options to manually check and repair afflicted fcs files. There, it is 
-#' possible to display multiplied keywords and to select which one to keep. 
-#' @param expo.gate Which gate to export. NULL or numeric or character length 
-#' one. Set to NULL to export data from all those gates defined in the gating 
-#' strategy where 'keeoData' is set to TRUE. Provide a character length one 
-#' with a gate name or the number of that gate as defined in the gating strategy 
-#' to export data from this gate only. If left at the default '.', the value as 
+#' Use the function \code{\link{checkRepairFcsFiles}} which does offer more
+#' options to manually check and repair afflicted fcs files. There, it is
+#' possible to display multiplied keywords and to select which one to keep.
+#' @param expo.gate Which gate to export. NULL or numeric or character length
+#' one. Set to NULL to export data from all those gates defined in the gating
+#' strategy where 'keepData' is set to TRUE. Provide a character length one
+#' with a gate name or the number of that gate as defined in the gating strategy
+#' to export data from this gate only. If left at the default '.', the value as
 #' defined in the settings file (key 'dE_exportGate') will be used.
-#' @param expo.name Character length one. The name of the file holding the 
-#' exported fluorescence distribution(s). If left at the default '.', the value 
+#' @param expo.name Character length one. The name of the file holding the
+#' exported fluorescence distribution(s). If left at the default '.', the value
 #' as defined in the settings file (key 'fiN_dataExport') will be used.
 #' @param expo Logical, if extracted data should exported at all.
-#' @param expo.type Character length one. The filetype of the data export. 
-#' Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value 
+#' @param expo.type Character length one. The filetype of the data export.
+#' Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value
 #' as defined in the settings file (key 'dE_exportType') will be used.
-#' @param expo.folder Character length one. The name of the folder where exported 
-#' should reside. If left at the default '.', the value as defined in the 
+#' @param expo.folder Character length one. The name of the folder where exported
+#' should reside. If left at the default '.', the value as defined in the
 #' settings file (key 'foN_rawData') will be used.
-#' @param name.dict Character length one. The name of the dictionary. If left 
-#' at the default '.', the value as defined in the settings file (key 
+#' @param name.dict Character length one. The name of the dictionary. If left
+#' at the default '.', the value as defined in the settings file (key
 #' 'dD_dict_name') will be used.
-#' @param foN.dict Character length one. The name of the folder where the 
-#' dictionary resides. If left at the default '.', the value as defined in the 
+#' @param foN.dict Character length one. The name of the folder where the
+#' dictionary resides. If left at the default '.', the value as defined in the
 #' settings file (key 'foN_dictionary') will be used.
-#' @param type.dict Character length one. The filetype of the dictionary. Can 
-#' be one of 'csv' or 'xlsx'. If left at the default '.', the value as defined 
+#' @param type.dict Character length one. The filetype of the dictionary. Can
+#' be one of 'csv' or 'xlsx'. If left at the default '.', the value as defined
 #' in the settings file (key 'dD_dict_type') will be used.
-#' @param stf Logical. If the resulting object of class 'fdmat' should be saved 
-#' to file in the data export folder. Defaults to TRUE.  If saved, the name 
-#' of the gating strategy used to generate the data will be appended to the 
-#' filename. 
-#' @section Calculating Events per Volume Unit: 
-#' The calculation of events per volume unit is performed via the following 
-#' code: \code{round((nrEvRaw / vols) * volFac , 0)}, with \code{nrEvRaw} being 
-#' the number of (raw) events in a specific channel as saved in the fcs file, 
-#' \code{vols} being the acquired volume of a sample, and \code{volFac} being 
-#' a factor obtained from the manual of the FCM-machine. The 'volFac' is a 
-#' number provided by the manufacturer of the FCM-machine / of the volumetric 
-#' measurement module. It is the number required to convert raw events back 
-#' to events per volume. It must be obtained from the manual of the FCM-machine 
-#' resp. the volumetric measurement module. 
-#' The \code{volFac} is stored in the flowdex_settings.R file 
+#' @param stf Logical. If the resulting object of class 'fdmat' should be saved
+#' to file in the data export folder. Defaults to TRUE.  If saved, the name
+#' of the gating strategy used to generate the data will be appended to the
+#' filename.
+#' @section Calculating Events per Volume Unit:
+#' The calculation of events per volume unit is performed via the following
+#' code: \code{round((nrEvRaw / vols) * volFac , 0)}, with \code{nrEvRaw} being
+#' the number of (raw) events in a specific channel as saved in the fcs file,
+#' \code{vols} being the acquired volume of a sample, and \code{volFac} being
+#' a factor obtained from the manual of the FCM-machine. The 'volFac' is a
+#' number provided by the manufacturer of the FCM-machine / of the volumetric
+#' measurement module. It is the number required to convert raw events back
+#' to events per volume. It must be obtained from the manual of the FCM-machine
+#' resp. the volumetric measurement module.
+#' The \code{volFac} is stored in the flowdex_settings.R file
 #' (key: 'dV_volumeFactor').
-#' @section Regarding Compensation: Due to the circumstances when developing 
-#' this code, it was never required to apply any kind of compensation. The 
-#' functionality to apply compensation was therefore never tested or verified. 
-#' It is strongly advised to use caution when applying compensation. It might 
-#' well be necessary to modify the source code of this package in order to 
-#' achieve correct compensation results (compensation is applied in the 
+#' @section Regarding Compensation: Due to the circumstances when developing
+#' this code, it was never required to apply any kind of compensation. The
+#' functionality to apply compensation was therefore never tested or verified.
+#' It is strongly advised to use caution when applying compensation. It might
+#' well be necessary to modify the source code of this package in order to
+#' achieve correct compensation results (compensation is applied in the
 #' function \code{\link{makeGatingSet}}).
-#' @section Exporting Data: If data are exported to xlsx, additional data like 
-#' the metadata describing the parameters that lead to the calculation of 
-#' the fluorescence distribution, the cyTags and the gating strategy are 
-#' saved in an extra sheet as well. If exporting to csv, only the fluorescence 
+#' @section Exporting Data: If data are exported to xlsx, additional data like
+#' the metadata describing the parameters that lead to the calculation of
+#' the fluorescence distribution, the cyTags and the gating strategy are
+#' saved in an extra sheet as well. If exporting to csv, only the fluorescence
 #' data are exported.
-#' @return An object of class "fdmat" containing a list holding an object of 
-#' class 'fdmat_single' in each list element, which in turn contains a matrix 
-#' holding the fluorescence distribution of a single gate, possibly 
-#' re-calculated to events per volume unit, and the overall data 
-#' for events per volume unit in the slot 'eventsPerVol'. 
+#' @return An object of class "fdmat" containing a list holding an object of
+#' class 'fdmat_single' in each list element, which in turn contains a matrix
+#' holding the fluorescence distribution of a single gate, possibly
+#' re-calculated to events per volume unit, and the overall data
+#' for events per volume unit in the slot 'eventsPerVol'.
 #' @export
 flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", name.dict=".", foN.dict=".", type.dict=".", expo=TRUE, expo.gate=".", expo.name=".", expo.type=".", expo.folder=".", fcsRepair=FALSE, stf=TRUE, verbose=".") {
 	#
@@ -1327,7 +1327,7 @@ flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.
 		fd_save(fdmat, fns=NULL, expo.folder, verbose)
 	} # end if
 	#
-	return(invisible(fdmat))	
+	return(invisible(fdmat))
 } # EOF
 
 

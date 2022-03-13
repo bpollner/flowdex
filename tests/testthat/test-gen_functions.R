@@ -72,15 +72,15 @@ test_that("checkCharX_null", {
 }) # EOT
 
 test_that("checkCharX_null_Num", {
-    a <- "bla"; b= "argA"
+    a <- "bla"; b <- "argA"
     expect_null(checkCharX_null_Num(a, b))
-    a <- 1 ; b= "argA"
+    a <- 1 ; b <- "argA"
     expect_null(checkCharX_null_Num(a, b))
-    a <- NULL; b= "argA"
+    a <- NULL; b <- "argA"
     expect_null(checkCharX_null_Num(a, b))
-    a <- c(1,2,3); b= "argA"
+    a <- c(1,2,3); b <- "argA"
     expect_error(checkCharX_null_Num(a, b), "Please provide a numeric or character length 1")
-    a <- c("a", "b", "c"); b= "argA"
+    a <- c("a", "b", "c"); b <- "argA"
     expect_error(checkCharX_null_Num(a, b), "Please provide a numeric or character length 1")
 }) # EOT
 

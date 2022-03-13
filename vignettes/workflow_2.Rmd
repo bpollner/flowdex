@@ -95,7 +95,7 @@ To visualize the gated data call
     plotgates(gs1, toPdf = FALSE) # a bit much on one graphic
 
 This will plot all gated data from all samples in one page, what is a bit much -- making the single plot very small.\
-To improve this, it is possible to define a column name from the cyTags (as can be found in the 'fdmat' object) that then will be used to split the data, resulting in only those samples being plotted in the same graphic that share the same value in the specified cyTag-column:
+To improve this, it is possible to define a column name from the cyTags (as can be found in the 'fdmat' object) that then will be used to split the data, resulting in only those samples being plotted in the same graphic that share the same value in the specified cyTags-column:
 
     colnames(fdmat1@cyTags)
     plotgates(gs1, spl="Y_Time.d", toPdf = TRUE)

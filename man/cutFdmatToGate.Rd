@@ -9,8 +9,8 @@ cutFdmatToGate(fdmat, gate = NULL)
 \arguments{
 \item{fdmat}{An object of class 'fdmat' as produced by \code{\link{makefdmat}}.}
 
-\item{gate}{Numeric or Character length one. The designator for the gate to 
-keep, as defined in the gating strategy (from those gates where 'keepData' is 
+\item{gate}{Numeric or Character length one. The designator for the gate to
+keep, as defined in the gating strategy (from those gates where 'keepData' is
 set to TRUE.}
 }
 \value{

@@ -14,56 +14,56 @@ checkRepairFcsFiles(
 )
 }
 \arguments{
-\item{fn}{Character length one. The name of the folder where FCS files should 
-be read from. If left at the default '.', the folder name as defined in the 
+\item{fn}{Character length one. The name of the folder where FCS files should
+be read from. If left at the default '.', the folder name as defined in the
 settings file (key: 'foN_fcsFiles') will be used.}
 
-\item{fcsRepair}{Logical. If defect fcs files should be attempted to repair. 
-If left at the default FALSE, fcs files with double entries in their keywords 
-will only be listed. If set to TRUE, the keyword doublets will be deleted and 
+\item{fcsRepair}{Logical. If defect fcs files should be attempted to repair.
+If left at the default FALSE, fcs files with double entries in their keywords
+will only be listed. If set to TRUE, the keyword doublets will be deleted and
 the fcs file will be saved to disc. The original fcs file will be overwritten.}
 
-\item{confirm}{Logical. If confirmation is required before overwriting the 
-faulty fcs files with their corrected version. Defaults to TRUE. If set to 
+\item{confirm}{Logical. If confirmation is required before overwriting the
+faulty fcs files with their corrected version. Defaults to TRUE. If set to
 FALSE. original fcs files will be overwritten without further warning.}
 
-\item{showMultiples}{Logical, If the multiplied keywords should be displayed. 
+\item{showMultiples}{Logical, If the multiplied keywords should be displayed.
 Defaults to FALSE.}
 
-\item{keepLast}{Logical or Numeric. If the last or the first item of a keyword 
-multiplication should be kept. If left at the default TRUE, the last keyword 
-of a keyword multiplication will be kept, if set to FALSE the first will be 
-kept. Provide a numeric length one to denote the number of the multiplied 
+\item{keepLast}{Logical or Numeric. If the last or the first item of a keyword
+multiplication should be kept. If left at the default TRUE, the last keyword
+of a keyword multiplication will be kept, if set to FALSE the first will be
+kept. Provide a numeric length one to denote the number of the multiplied
 keyword to keep.}
 
-\item{verbose}{Logical. If status messages should be displayed. If left at 
-the default '.', the value as defined in the settings file (key 'dV_verbose') 
+\item{verbose}{Logical. If status messages should be displayed. If left at
+the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
-An (invisible) character vector holding the names of the fcs files 
-that were repaired. Mainly used for its side effect, i.e. to repair fcs files 
+An (invisible) character vector holding the names of the fcs files
+that were repaired. Mainly used for its side effect, i.e. to repair fcs files
 with doublets in the keywords.
 }
 \description{
-Check all fcs files in a specified folder for non-unique 
-keywords. Multiple entries in the keywords are removed, and the file is 
+Check all fcs files in a specified folder for non-unique
+keywords. Multiple entries in the keywords are removed, and the file is
 written back to disc. The original ("corrupt") fcs file will be overwritten.
 }
 \details{
-When reading in resp. working with some fcs files it can happen that 
-the following error message is displayed: \cr\code{"The HEADER and the TEXT 
+When reading in resp. working with some fcs files it can happen that
+the following error message is displayed: \cr\code{"The HEADER and the TEXT
 segment define different starting point ... to read the data"} \cr
-After some testing, the author came to the conclusion that a solution to this 
-error can be to delete multiple entries of the same keyword in the keywords 
-of the fcs file. (As fcs files *not* displaying this error seem to have only 
+After some testing, the author came to the conclusion that a solution to this
+error can be to delete multiple entries of the same keyword in the keywords
+of the fcs file. (As fcs files *not* displaying this error seem to have only
 unique keywords.)\cr
-It also appeared that always the last of the multiplied entries was the correct 
+It also appeared that always the last of the multiplied entries was the correct
 one, hence the default keeping of the *last* of multiple entries. \cr
-Currently, only uniformly multiplied keyword entries get remedied -- if there 
-should be a mixture of keyword-multiplication (e.g. some are two-fold, some 
+Currently, only uniformly multiplied keyword entries get remedied -- if there
+should be a mixture of keyword-multiplication (e.g. some are two-fold, some
 others are three-fold) an error message is displayed. \cr
-Other approaches to this problem via e.g. ignoring the text offset as possible 
+Other approaches to this problem via e.g. ignoring the text offset as possible
 in \code{\link[flowWorkspace]{load_cytoframe_from_fcs}} resulted in data loss.
 }
 \examples{

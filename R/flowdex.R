@@ -14,8 +14,8 @@
 #' \code{\link{flowdexit}} for further details.
 #' @section CAVE: Some functions like e.g. \code{\link{repairVolumes}},
 #' \code{\link{repairSID}} or \code{\link{checkRepairFcsFiles}} can re-write
-#' fcs files to disc, thereby overwriting original fcs files. It is therefor
-#' eadvised to work on a copy of the original fcs files.
+#' fcs files to disc, thereby overwriting original fcs files. It is therefore 
+#' recommended to work on a copy of the original fcs files.
 #' @author Bernhard Pollner
 #' @section Maintainer: Bernhard Pollner <bernhard.pollner@@mac.com>
 #' @section Links: Please see \url{https://bpollner.github.io/flowdex/} for

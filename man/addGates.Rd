@@ -15,40 +15,40 @@ addGates(
 \arguments{
 \item{gs}{A gating set as produced by \code{\link{makeGatingSet}}.}
 
-\item{gateStrat}{Character length one. The name of the file defining the 
-gating strategy. If left at the default '.', the name as defined in the 
+\item{gateStrat}{Character length one. The name of the file defining the
+gating strategy. If left at the default '.', the name as defined in the
 settings file (key: 'fiN_gateStrat') will be used.}
 
-\item{foN.gateStrat}{Character length one. The name of the folder where the 
-file defining the gating strategy and the gate definitions reside. If left 
-at the default '.', the name as defined in the settings file 
+\item{foN.gateStrat}{Character length one. The name of the folder where the
+file defining the gating strategy and the gate definitions reside. If left
+at the default '.', the name as defined in the settings file
 (key: 'foN_gating') will be used.}
 
-\item{type.gateStrat}{Character length one, can be either 'csv' or 'xlsx'. 
-files are supported. If left at the default '.', the filetype as defined in 
+\item{type.gateStrat}{Character length one, can be either 'csv' or 'xlsx'.
+files are supported. If left at the default '.', the filetype as defined in
 the settings (key: 'dV_gateStratInputType') file will be used.}
 
-\item{verbose}{Logical. If status messages should be displayed. If left at 
-the default '.', the value as defined in the settings file (key 'dV_verbose') 
+\item{verbose}{Logical. If status messages should be displayed. If left at
+the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
 A gating set.
 }
 \description{
-Load the predefined gating strategy (as .csv or .xlsx file) and 
+Load the predefined gating strategy (as .csv or .xlsx file) and
 apply the gates as defined in the file.
 }
 \details{
-The gating strategy file can hold one or more gates. One row in the 
-files represents one gate. In order to see a schematic representation of 
+The gating strategy file can hold one or more gates. One row in the
+files represents one gate. In order to see a schematic representation of
 'parent' and 'child' gates, simply use 'plot'.
 }
 \examples{
 \dontrun{
 gs <- addGates(gs)
 plot(gs)
-gs <- addGates(gs, gateStrat="fooBar.csv") # the use a different then the 
+gs <- addGates(gs, gateStrat="fooBar.csv") # the use a different then the
 # default gating strategy
 plot(gs)
 }

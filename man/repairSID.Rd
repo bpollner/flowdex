@@ -18,33 +18,33 @@ repairSID(
 \item{fs}{The object returned by this function if parameter \code{fs} is left
 at its default NULL, what then can be used as input for the parameter \code{fs}.}
 
-\item{name}{Character length one. The name of the fcs file within the flowset 
+\item{name}{Character length one. The name of the fcs file within the flowSet
 that should get a new sample ID.}
 
-\item{newSID}{Character legnth one. The new Sample ID.}
+\item{newSID}{Character length one. The new Sample ID.}
 
 \item{patt}{A regular expression defining a possible subset of FCS files
 residing in the directory specified by \code{fn} to read in. Only matching
 patterns will be included.}
 
-\item{fn}{Character length one. The name of the folder where FCS files should 
-be read from. If left at the default '.', the folder name as defined in the 
+\item{fn}{Character length one. The name of the folder where FCS files should
+be read from. If left at the default '.', the folder name as defined in the
 settings file (key: 'foN_fcsFiles') will be used.}
 
 \item{confirm}{Logical. If the user should be asked for additional confirmation
 before the rewriting of the fcs file is performed. Defaults to TRUE.}
 
-\item{fcsRepair}{Logical. If set to TRUE, fcs-files in the folder 
-specified at argument 'fn' will be checked for multiplied entries in the 
-keywords, as after some testing the author came to the humble conclusion that 
+\item{fcsRepair}{Logical. If set to TRUE, fcs-files in the folder
+specified at argument 'fn' will be checked for multiplied entries in the
+keywords, as after some testing the author came to the humble conclusion that
 these multiplied keywords can be the reason for the error message: \cr
-\code{"The HEADER and the TEXT segment define different starting 
+\code{"The HEADER and the TEXT segment define different starting
 point ... to read the data"}. \cr
-If 'fcsRepair' is set to TRUE, all except the last of each multiplied 
-keyword will be removed and the fcs file will be saved to disc, 
+If 'fcsRepair' is set to TRUE, all except the last of each multiplied
+keyword will be removed and the fcs file will be saved to disc,
 overwriting the original fcs file \strong{without further warning}. \cr
-Use the function \code{\link{checkRepairFcsFiles}} which does offer more 
-options to manually check and repair afflicted fcs files. There, it is 
+Use the function \code{\link{checkRepairFcsFiles}} which does offer more
+options to manually check and repair afflicted fcs files. There, it is
 possible to display multiplied keywords and to select which one to keep.}
 }
 \value{
@@ -60,18 +60,18 @@ To first obtain the flowSet, leave the parameter `fs`at its default
 NULL. By providing a pattern to `patt`, subgroups of fcs files can be read in.
 Provide the so obtained flowSet to the parameter `fs`, and specify the
 name and the new sample ID in order to re-write the specified file with its
-new Sample ID. 'object@phenoData@data' can be used to inspect and verify names 
+new Sample ID. 'object@phenoData@data' can be used to inspect and verify names
 of FCS files and the sample IDs therein -- see examples.
 }
 \section{Note}{
- A correct sample ID is of importance when using the 
-'dictionary' to expand the abbreviations in the sample ID - see 
+ A correct sample ID is of importance when using the
+'dictionary' to expand the abbreviations in the sample ID - see
 \url{https://bpollner.github.io/flowdex/articles/acquire_data.html}.
 }
 
 \examples{
 \dontrun{
-fs <- repairSID() # or 
+fs <- repairSID() # or
 fs <- repairSID(patt="foo")
 fs@phenoData@data
 repairSID(fs, "sample1", "newSID")

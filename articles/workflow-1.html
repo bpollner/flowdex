@@ -122,8 +122,8 @@ Only fcs files from the experiment group from day 6 (second third, i.e. 6 beake
 </h2>
 <p>All 6 samples seem to have a good representation of our desired population, the stained bacteria.<br>
 Lets assume we choose beaker ‘GPos_T6_th2_b5’, which is the 5th sample in this gating set, as sample to manually draw the polygon gate on:</p>
-<pre><code>drawGate(gsRed, flf=5 gn="root", pggId="BactStainV1", channels=".")
-# point and click to draw a polygon gate around the population of interest</code></pre>
+<pre><code><span class="fu"><a href="../reference/drawGate.html">drawGate</a></span><span class="op">(</span><span class="va">gsRed</span>, flf<span class="op">=</span><span class="fl">5</span>, gn<span class="op">=</span><span class="st">"root"</span>, pggId<span class="op">=</span><span class="st">"BactStainV1"</span>, channels<span class="op">=</span><span class="st">"."</span><span class="op">)</span>
+<span class="co"># point and click to draw a polygon gate around the population of interest</span></code></pre>
 <ul>
 <li><p><code>gn</code>is the name of the gate we want to use to display data. As no gates are yet defined let alone added to the gating set, we leave that at the default ‘root’.</p></li>
 <li><p><code>pggId</code> specifies the name the new polygon gate should be saved under. If left at the default, ‘polyGate’ will be used.</p></li>

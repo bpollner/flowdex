@@ -22,7 +22,8 @@ Install release version from CRAN via
 
 Or download from github:
 
-    library(devtools) install_github(repo="bpollner/flowdex", ref="main")`
+    library(devtools) 
+    install_github(repo="bpollner/flowdex", ref="main")
 
 ## Download Tutorial Dataset
 

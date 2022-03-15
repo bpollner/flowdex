@@ -1269,6 +1269,7 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 #' distribution of a single gate, and the overall data for events per volume
 #' unit in the slot \code{eventsPerVol}.
 #' @template example_linkToWeb
+#' @seealso \code{\link{flowdex}}, \code{\link{makefdmat}}
 #' @export
 flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", name.dict=".", foN.dict=".", type.dict=".", expo=TRUE, expo.gate=".", expo.name=".", expo.type=".", expo.folder=".", fcsRepair=FALSE, stf=TRUE, verbose=".") {
 	#

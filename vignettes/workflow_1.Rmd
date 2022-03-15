@@ -35,28 +35,36 @@ Each row in the gating strategy file defines a single gate along with its polygo
 
 Before drawing a polygon gate on a single sample, we have to read in some fcs files and produce the gating set.
 
-    gsAll <- makeGatingSet()
+``` r
+gsAll <- makeGatingSet()
+```
 
 If everything was left at the default, this will read in all 108 fcs-files contained in the folder 'fcsFiles'.\
 For the purpose of this demonstration we will restrict the fcs files to be read in to a lower number by defining a filename pattern: Only fcs files with matching pattern will be read in.
 
-    gsRed <- makeGatingSet(patt="GPos_T6_th2")
-    gsRed
+``` r
+gsRed <- makeGatingSet(patt="GPos_T6_th2")
+gsRed
+```
 
 Note the printout of the samples contained in the gating set and of the available channels.\
 Only fcs files from the experiment group from day 6 (second third, i.e. 6 beakers) were read in.
 
 We can now use this reduced gating set to visualise the raw fcs data by specifying the channel we want for the x and for the y axis:
 
-    plotgates(gsRed, toPdf = FALSE, x="FITC.A", y="PerCP.A")
+``` r
+plotgates(gsRed, toPdf = FALSE, x="FITC.A", y="PerCP.A")
+```
 
 ## Manually Draw Polygon Gate
 
 All 6 samples seem to have a good representation of our desired population, the stained bacteria.\
 Lets assume we choose beaker 'GPos_T6_th2_b5', which is the 5th sample in this gating set, as sample to manually draw the polygon gate on:
 
-    drawGate(gsRed, flf=5, gn="root", pggId="BactStainV1", channels=".")
-    # point and click to draw a polygon gate around the population of interest
+``` r
+drawGate(gsRed, flf=5, gn="root", pggId="BactStainV1", channels=".")
+# point and click to draw a polygon gate around the population of interest
+```
 
 -   `gn`is the name of the gate we want to use to display data. As no gates are yet defined let alone added to the gating set, we leave that at the default 'root'.
 
@@ -70,24 +78,30 @@ Lets assume we choose beaker 'GPos_T6_th2_b5', which is the 5th sample in this g
 
 If you are not satisfied with the polygon gate definition, you can draw it again while simultaneously displaying an other (the old) gate:
 
-    drawGate(gsRed, flf=5, gn="root", pggId="BactStainV1", show="BactStainV1") 
-    # point and click to draw an improved polygon gate around the population of interest
+``` r
+drawGate(gsRed, flf=5, gn="root", pggId="BactStainV1", show="BactStainV1") 
+# point and click to draw an improved polygon gate around the population of interest
+```
 
 Polygon gate definitions get automatically saved under the specified name in the folder 'gating'.
 
 You can leave the gate definition of 'BactStainV1' as you were drawing it, or you can copy the gate definition that was originally drawn for this project:
 
-    from <- paste0(destination, "/flowdexTutorial/gating/BactStainV1")
-    to <- paste0(destination, "/tapWater@home/gating")
-    file.copy(from, to, overwrite = TRUE)
+``` r
+from <- paste0(destination, "/flowdexTutorial/gating/BactStainV1")
+to <- paste0(destination, "/tapWater@home/gating")
+file.copy(from, to, overwrite = TRUE)
+```
 
 ## Write Gating Strategy
 
 For each gate that you want to apply to your gating set, there has to be one row in the gating strategy file. Now copy the template for the gating strategy file into the experiment home folder:
 
-    from <- paste0(destination, "/tapWater@home/templates/gateStrat.xlsx")
-    to <- paste0(destination, "/tapWater@home/gating")
-    file.copy(from, to)
+``` r
+from <- paste0(destination, "/tapWater@home/templates/gateStrat.xlsx")
+to <- paste0(destination, "/tapWater@home/gating")
+file.copy(from, to)
+```
 
 **Open the copied file**. For every gate, i.e. every row, all 8 fields have to filled in.
 
@@ -109,27 +123,33 @@ For each gate that you want to apply to your gating set, there has to be one row
 
 For the example at hand, fill in the gating strategy file as follows:
 
-    GateName: DNA+
-    Parent: foot
-    GateOnX: FITC.A
-    GateOnY: PerCP.A
-    GateDefinition: BactStainV1
-    extractOn: FITC.A
-    minRange: 1250
-    maxRange: 4000
-    keepData: TRUE
+``` r
+GateName: DNA+
+Parent: foot
+GateOnX: FITC.A
+GateOnY: PerCP.A
+GateDefinition: BactStainV1
+extractOn: FITC.A
+minRange: 1250
+maxRange: 4000
+keepData: TRUE
+```
 
 Or copy the already filled out gating strategy file defining the gate 'DNA+' with its polygon gate definition 'BactStainV1' from the tutorial folder:
 
-    from <- paste0(destination, "/flowdexTutorial/gating/gateStrat.xlsx")
-    to <- paste0(destination, "/tapWater@home/gating")
-    file.copy(from, to, overwrite=TRUE)
+``` r
+from <- paste0(destination, "/flowdexTutorial/gating/gateStrat.xlsx")
+to <- paste0(destination, "/tapWater@home/gating")
+file.copy(from, to, overwrite=TRUE)
+```
 
 Now everything should be ready to apply the gating strategy to the gating set:
 
-    gsRed_ga <- addGates(gsRed)
-    flowWorkspace::plot(gsRed_ga) # to view the gate hierarchy 
-    plotgates(gsRed_ga, toPdf = FALSE) # to view the gated data
+``` r
+gsRed_ga <- addGates(gsRed)
+flowWorkspace::plot(gsRed_ga) # to view the gate hierarchy 
+plotgates(gsRed_ga, toPdf = FALSE) # to view the gated data
+```
 
 ## Draw Gate, Add to Gating Strategy, Add Gate to Gating Set -- and Repeat
 
@@ -138,41 +158,49 @@ is repeated for every gate that should be applied to the fcs data.
 
 In the next iteration, i.e. when for example a second gate within the data from the first gate should be defined, one would call:
 
-    drawGate(gsRed_ga, flf=5, gn="DNA+", pggId="pg2", channels = c("FITC.A", "SSC.A"))
-    # point and click to draw a polygon gate around the population of interest
+``` r
+drawGate(gsRed_ga, flf=5, gn="DNA+", pggId="pg2", channels = c("FITC.A", "SSC.A"))
+# point and click to draw a polygon gate around the population of interest
 
-    # add the gate in the gating strategy file:
-    GateName: FooGate
-    Parent: DNA+
-    GateOnX: FITC.A
-    GateOnY: SSC.A
-    GateDefinition: pg2
-    extractOn: SSC.A
-    minRange: 0
-    maxRange: 4000
-    keepData: TRUE
+# add the gate in the gating strategy file:
+GateName: FooGate
+Parent: DNA+
+GateOnX: FITC.A
+GateOnY: SSC.A
+GateDefinition: pg2
+extractOn: SSC.A
+minRange: 0
+maxRange: 4000
+keepData: TRUE
 
-    gsRed_ga <- addGates(gsRed_ga) # add the gate to the gating set 
+gsRed_ga <- addGates(gsRed_ga) # add the gate to the gating set 
+```
 
 Repeat these three steps to define any set of possibly nested gates. You can always view the gating hierarchy and the gated data via:
 
-    flowWorkspace::plot(gsRed_ga) # to view the gating hierarchy
-    plotgates(gsRed_ga, toPdf = F) # to view the gated data
+``` r
+flowWorkspace::plot(gsRed_ga) # to view the gating hierarchy
+plotgates(gsRed_ga, toPdf = F) # to view the gated data
+```
 
 ### Use a Ready-Made Example for Nested Gates
 
 Now copy a ready made example for a gating strategy holding more than one gate from the tutorial folder in the experiment home folder
 
-    from <- list.files(paste0(destination, "/flowdexTutorial/gating"), full.names = TRUE)
-    to <- paste0(destination, "/tapWater@home/gating")
-    file.copy(from, to, overwrite=TRUE) # this might overwrite the polygon gate definition you created above
+``` r
+from <- list.files(paste0(destination, "/flowdexTutorial/gating"), full.names = TRUE)
+to <- paste0(destination, "/tapWater@home/gating")
+file.copy(from, to, overwrite=TRUE) # this might overwrite the polygon gate definition you created above
+```
 
 and apply it to a gating set. For ease of demonstration, we will again use the subset of the fcs files as above. Reading in the fcs files and adding the gates can be conveniently done using `makeAddGatingSet()`:
 
-    gsRed2 <- makeAddGatingSet(patt="GPos_T6_th2", gateStrat = "gateStrat_2")
-    # we are not using the default name for gating strategy any more
-    flowWorkspace::plot(gsRed2) # to view the gating hierarchy
-    plotgates(gsRed2, toPdf = F) # to view the gated data
+``` r
+gsRed2 <- makeAddGatingSet(patt="GPos_T6_th2", gateStrat = "gateStrat_2")
+# we are not using the default name for gating strategy any more
+flowWorkspace::plot(gsRed2) # to view the gating hierarchy
+plotgates(gsRed2, toPdf = F) # to view the gated data
+```
 
 Note that only those gated data get displayed in 'plotgates' where the field 'keepData' in the gating strategy file is set to 'TRUE'.\
 (Admittedly, the practical value of this gating hierarchy is rather non-existent, but it is merely for demonstrating the setup of nested gates...)

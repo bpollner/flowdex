@@ -152,6 +152,7 @@ makeEmptyEvPVDataFrame <- function(nr) {
 #' gating strategy file, containing a data frame with the overall events per
 #' volume unit for that gate in each list element.
 #' @template example_linkToWeb
+#' @seealso \code{\link{flowdexit}}
 #' @export
 getEventsPerVolume <- function(gs) {
 	stn <- autoUpS()

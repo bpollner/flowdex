@@ -18,12 +18,16 @@ knitr::opts_chunk$set(
 
 Install release version from CRAN via
 
-    install.packages("flowdex")
+``` r
+install.packages("flowdex")
+```
 
 Or download from github:
 
-    library(devtools) 
-    install_github(repo="bpollner/flowdex", ref="main")
+``` r
+library(devtools) 
+install_github(repo="bpollner/flowdex", ref="main")
+```
 
 ## Download Tutorial Dataset
 
@@ -32,11 +36,13 @@ Also, the workflow how to create the gating strategy file and the polygon gate d
 
 First, download the tutorial data from its Github repository to your desktop (or any place you prefer).
 
-    from <- "https://github.com/bpollner/data/raw/main/flowdexTutorial/flowdexTutorial.zip"
-    destination <- "~/desktop"
-    targetZip <- paste0(destination, "/flowdexTutorial.zip")
-    download.file(from, targetZip, mode="wb")
-    unzip(targetZip, exdir = destination)
+``` r
+from <- "https://github.com/bpollner/data/raw/main/flowdexTutorial/flowdexTutorial.zip"
+destination <- "~/desktop"
+targetZip <- paste0(destination, "/flowdexTutorial.zip")
+download.file(from, targetZip, mode="wb")
+unzip(targetZip, exdir = destination)
+```
 
 (The code of this tutorial is also available in the file 'flowdexTutorial.R' in the uncompressed folder.)
 
@@ -55,9 +61,11 @@ First, download the tutorial data from its Github repository to your desktop (or
 
 Package `flowdex` makes use of the dynamic settings file system provided by package `uniset`. This has to be initialised **just once** by calling
 
-    library(flowdex)
-    destination <- "~/desktop"
-    setupSettings(destination)
+``` r
+library(flowdex)
+destination <- "~/desktop"
+setupSettings(destination)
+```
 
 Follow the on-screen instructions and possibly re-start R.\
 From now on, various global settings and default values used by `flowdex` can conveniently be viewed and changed in the file `flowdex_settings.R` residing at `~/desktop/flowdex_SH` (if you kept it there as in the example).
@@ -68,13 +76,15 @@ From now on, various global settings and default values used by `flowdex` can co
 
 After having (only once) set up the [settings file system](#initialise-settings-file-system), you could dive straight in -- for a quickstart to immediately see what `flowdex` can do, call:
 
-    destination <- "~/desktop" # again, as R was possibly restarted
-    setwd(paste0(destination, "/flowdexTutorial"))
-    library(flowdex)
-    fdmat <- flowdexit() # this might take a few seconds
-    fdmat@pData # to inspect volume and sample ID data
-    fdmat@cyTags # to inspect class- and numerical variables assigned to each sample
-    fdmat[[1]] # to inspect fluorescence distribution
+``` r
+destination <- "~/desktop" # again, as R was possibly restarted
+setwd(paste0(destination, "/flowdexTutorial"))
+library(flowdex)
+fdmat <- flowdexit() # this might take a few seconds
+fdmat@pData # to inspect volume and sample ID data
+fdmat@cyTags # to inspect class- and numerical variables assigned to each sample
+fdmat[[1]] # to inspect fluorescence distribution
+```
 
 Look at 'flowdexTutorial/rawdata/flscData_gateStrat.xlsx.xlsx' to see the fluorescence distribution exported to file, observe the various sheets there.
 
@@ -85,11 +95,13 @@ Look at 'flowdexTutorial/rawdata/flscData_gateStrat.xlsx.xlsx' to see the fluore
 Take it step by step, not interested in the quickstart above: We assume that data from a single experiment will be residing in a single folder -- the 'home' folder for this experiment.\
 Within this home-folder, `flowdex` requires a simple folder structure to properly work. Create that folder structure now within a newly created experiment home-folder called 'tapWater\@home':
 
-    destination <- "~/desktop" # again, as R was possibly restarted
-    expHome <- paste0(destination, "/tapWater@home") 
-    dir.create(expHome)
-    setwd(expHome)
-    library(flowdex) # as you might have had to restart R above
-    genfs() # create the required folder structure
+``` r
+destination <- "~/desktop" # again, as R was possibly restarted
+expHome <- paste0(destination, "/tapWater@home") 
+dir.create(expHome)
+setwd(expHome)
+library(flowdex) # as you might have had to restart R above
+genfs() # create the required folder structure
+```
 
 Continue to [data acquisition](https://bpollner.github.io/flowdex/articles/acquire_data.html), or straight to [Workflow 2](https://bpollner.github.io/flowdex/articles/workflow_2.html), where you can learn how to extract fluorescence distributions and how to visualize them.

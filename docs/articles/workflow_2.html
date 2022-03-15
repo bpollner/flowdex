@@ -120,7 +120,8 @@ for an immediate example.</p></li>
 Started</a>.<br>
 Now copy (again) the relevant files from the tutorial folder in the
 experiment-home folder:</p>
-<pre><code><span class="va">destination</span> <span class="op">&lt;-</span> <span class="st">"~/desktop"</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">destination</span> <span class="op">&lt;-</span> <span class="st">"~/desktop"</span>
 <span class="va">fromFcs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/fcsFiles"</span><span class="op">)</span>, full.names<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">fromDict</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/dictionary"</span><span class="op">)</span>, full.names<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">fromGating</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/gating"</span><span class="op">)</span>, full.names<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
@@ -130,7 +131,7 @@ experiment-home folder:</p>
 <span class="co">#</span>
 <span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">fromFcs</span>, <span class="va">toFcs</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">fromDict</span>, <span class="va">toDict</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">fromGating</span>, <span class="va">toGating</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre>
+<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">fromGating</span>, <span class="va">toGating</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="flowdexit">Flowdexit<a class="anchor" aria-label="anchor" href="#flowdexit"></a>
@@ -153,10 +154,11 @@ structured ID character are listed in the folder called
 the folder called ‘gating’.</p></li>
 </ul>
 <p>If all that requirements are met, we can call:</p>
-<pre><code><span class="va">fdmat1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowdexit.html">flowdexit</a></span><span class="op">(</span><span class="op">)</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fdmat1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowdexit.html">flowdexit</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co"># and to inspect the result:</span>
 <span class="va">fdmat1</span> <span class="co"># displaying cyTags and sample IDs (in the slot pDAta)</span>
-<span class="va">fdmat1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="co"># displaying data from the first (and only) gate</span></code></pre>
+<span class="va">fdmat1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="co"># displaying data from the first (and only) gate</span></code></pre></div>
 <p>This will use the default gating strategy called ‘gateStrat’ (where
 one (1) gate is defined), extract the fluorescence distributions along
 the ‘FITC.A’ channel (in that example), <strong>re-calculate</strong>
@@ -168,24 +170,27 @@ save and load the resulting ‘fdmat’ object.)</p>
 <p>When calling <code><a href="../reference/flowdexit.html">flowdexit()</a></code>, the gating set built on the
 way to extract the fluorescence distributions gets assigned to an extra
 environment. It can be accessed via:</p>
-<pre><code><span class="va">gs1</span> <span class="op">&lt;-</span> <span class="va">gsenv</span><span class="op">$</span><span class="va">gatingSet</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gs1</span> <span class="op">&lt;-</span> <span class="va">gsenv</span><span class="op">$</span><span class="va">gatingSet</span>
 <span class="co"># inspect the gating set:</span>
 <span class="va">gs1</span>
-<span class="fu">flowWorkspace</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/flowWorkspace/man/plot-methods.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">gs1</span><span class="op">)</span></code></pre>
+<span class="fu">flowWorkspace</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/flowWorkspace/man/plot-methods.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">gs1</span><span class="op">)</span></code></pre></div>
 <p>Lets be a bit more ambitious and try the (slightly non-sensical)
 gating strategy where multiple nested gates are defined, called
 ‘gateStrat_2’:</p>
-<pre><code><span class="va">fdmat2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowdexit.html">flowdexit</a></span><span class="op">(</span>gateStrat <span class="op">=</span> <span class="st">"gateStrat_2"</span><span class="op">)</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fdmat2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowdexit.html">flowdexit</a></span><span class="op">(</span>gateStrat <span class="op">=</span> <span class="st">"gateStrat_2"</span><span class="op">)</span>
 <span class="co"># and to inspect the result:</span>
 <span class="va">fdmat2</span> <span class="co"># displaying cyTags and sample IDs (in the slot pDAta)</span>
 <span class="va">fdmat2</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="co"># displaying data from the first gate</span>
-<span class="va">fdmat2</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span> <span class="co"># displaying data from the second gate</span></code></pre>
+<span class="va">fdmat2</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span> <span class="co"># displaying data from the second gate</span></code></pre></div>
 <p>Again, the gating set that was produced on the way can be accessed
 via:</p>
-<pre><code><span class="va">gs2</span> <span class="op">&lt;-</span> <span class="va">gsenv</span><span class="op">$</span><span class="va">gatingSet</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gs2</span> <span class="op">&lt;-</span> <span class="va">gsenv</span><span class="op">$</span><span class="va">gatingSet</span>
 <span class="co"># inspect the gating set:</span>
 <span class="va">gs2</span>
-<span class="fu">flowWorkspace</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/flowWorkspace/man/plot-methods.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">gs2</span><span class="op">)</span></code></pre>
+<span class="fu">flowWorkspace</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/flowWorkspace/man/plot-methods.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">gs2</span><span class="op">)</span></code></pre></div>
 <p>Please observe that every call to <code><a href="../reference/flowdexit.html">flowdexit()</a></code> will
 assign the object <code>gatingSet</code>to the environment
 <code>gsenv</code>. So, only one gating set, the <strong>last
@@ -196,15 +201,17 @@ accessed in that environment.</p>
 <h2 id="visualize-gates">Visualize Gates<a class="anchor" aria-label="anchor" href="#visualize-gates"></a>
 </h2>
 <p>To visualize the gated data call</p>
-<pre><code><span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs1</span>, toPdf <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># a bit much on one graphic</span></code></pre>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs1</span>, toPdf <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># a bit much on one graphic</span></code></pre></div>
 <p>This will plot all gated data from all samples in one page, what is a
 bit much – making the single plot very small.<br>
 To improve this, it is possible to define a column name from the cyTags
 (as can be found in the ‘fdmat’ object) that then will be used to split
 the data, resulting in only those samples being plotted in the same
 graphic that share the same value in the specified cyTags-column:</p>
-<pre><code><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">fdmat1</span><span class="op">@</span><span class="va">cyTags</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs1</span>, spl<span class="op">=</span><span class="st">"Y_Time.d"</span>, toPdf <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">fdmat1</span><span class="op">@</span><span class="va">cyTags</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs1</span>, spl<span class="op">=</span><span class="st">"Y_Time.d"</span>, toPdf <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>(The resulting pdf can be found in the folder ‘plots’; ‘toPdf’
 defaults to TRUE).<br>
 This way we have only samples from the same day on one graphic - a more
@@ -212,12 +219,13 @@ useful output, but still rather small individual plots.</p>
 <p>A solution could be to read in only fcs files from the same day, then
 use <code><a href="../reference/plotgates.html">plotgates()</a></code> split by ‘C_treatment’. Lets try this using
 the function <code><a href="../reference/makeAddGatingSet.html">makeAddGatingSet()</a></code>:</p>
-<pre><code><span class="va">gs_d4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeAddGatingSet.html">makeAddGatingSet</a></span><span class="op">(</span>patt <span class="op">=</span> <span class="st">"T4"</span>, gateStrat <span class="op">=</span> <span class="st">"gateStrat_2"</span><span class="op">)</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gs_d4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeAddGatingSet.html">makeAddGatingSet</a></span><span class="op">(</span>patt <span class="op">=</span> <span class="st">"T4"</span>, gateStrat <span class="op">=</span> <span class="st">"gateStrat_2"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs_d4</span>, spl<span class="op">=</span><span class="st">"C_treatment"</span>, fns<span class="op">=</span><span class="st">"_day4"</span><span class="op">)</span>
 <span class="va">gs_d5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeAddGatingSet.html">makeAddGatingSet</a></span><span class="op">(</span>patt <span class="op">=</span> <span class="st">"T5"</span>, gateStrat <span class="op">=</span> <span class="st">"gateStrat_2"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs_d5</span>, spl<span class="op">=</span><span class="st">"C_treatment"</span>, fns<span class="op">=</span><span class="st">"_day5"</span><span class="op">)</span>
 <span class="va">gs_d6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeAddGatingSet.html">makeAddGatingSet</a></span><span class="op">(</span>patt <span class="op">=</span> <span class="st">"T6"</span>, gateStrat <span class="op">=</span> <span class="st">"gateStrat_2"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs_d6</span>, spl<span class="op">=</span><span class="st">"C_treatment"</span>, fns<span class="op">=</span><span class="st">"_day6"</span><span class="op">)</span></code></pre>
+<span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs_d6</span>, spl<span class="op">=</span><span class="st">"C_treatment"</span>, fns<span class="op">=</span><span class="st">"_day6"</span><span class="op">)</span></code></pre></div>
 <p>This gives nice and not too small graphics of the gated data in each
 sample. Please observe that gated data get plotted for every gate in the
 gating strategy where ‘keepData’ is set to TRUE.</p>
@@ -226,7 +234,8 @@ Set the argument ‘plotAll’ in the function ‘plotgates’ to TRUE to
 override this and to plot gated data from <strong>all</strong> gates
 defined in the gating strategy, what can be very helpful in the process
 of checking / verifying the gating strategy:</p>
-<pre><code><span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs_d6</span>, spl<span class="op">=</span><span class="st">"C_treatment"</span>, fns<span class="op">=</span><span class="st">"_day6_allGates"</span>, plotAll <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs_d6</span>, spl<span class="op">=</span><span class="st">"C_treatment"</span>, fns<span class="op">=</span><span class="st">"_day6_allGates"</span>, plotAll <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="visualize-fluorescence-distribution">Visualize Fluorescence Distribution<a class="anchor" aria-label="anchor" href="#visualize-fluorescence-distribution"></a>
@@ -237,7 +246,8 @@ for data analysis or presentation.)<br>
 As the purpose of <code>flowdex</code> is to extract fluorescence
 distributions, it would be borderline obscene not to have at least a
 basic way to visually inspect the result. You can do this by calling</p>
-<pre><code><span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat1</span><span class="op">)</span></code></pre>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat1</span><span class="op">)</span></code></pre></div>
 <p>(Again, the default behavior is to export the plot to a pdf located
 in the folder ‘plots’.)<br>
 Fluorescence intensities of all samples along the FITC channel (in this
@@ -248,17 +258,19 @@ So, for the purpose of this demonstration, we will look at a
 <em>subset</em> of the data, that is only samples from day 4 and the
 first third of beakers. We do this by providing a pattern to read in
 only those filenames that match this pattern:</p>
-<pre><code><span class="va">fdmat_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowdexit.html">flowdexit</a></span><span class="op">(</span>patt <span class="op">=</span> <span class="st">"T4_th1"</span><span class="op">)</span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fdmat_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowdexit.html">flowdexit</a></span><span class="op">(</span>patt <span class="op">=</span> <span class="st">"T4_th1"</span><span class="op">)</span>
 <span class="va">fdmat_s</span> <span class="co"># has now only 12 samples</span>
 <span class="va">gs_s</span> <span class="op">&lt;-</span> <span class="va">gsenv</span><span class="op">$</span><span class="va">gatingSet</span> <span class="co"># not required, just to keep it</span>
 <span class="co">#</span>
-<span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat_s</span>, toPdf <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># much nicer</span></code></pre>
+<span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat_s</span>, toPdf <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># much nicer</span></code></pre></div>
 <p>Again, as in <code><a href="../reference/plotgates.html">plotgates()</a></code>, it is possible to split the
 data by providing a column name of the cyTags to have only these samples
 in the graphic that have the same value in this cyTag:</p>
-<pre><code><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">fdmat_s</span><span class="op">@</span><span class="va">cyTags</span><span class="op">)</span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">fdmat_s</span><span class="op">@</span><span class="va">cyTags</span><span class="op">)</span>
 <span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat_s</span>, spl <span class="op">=</span> <span class="st">"C_treatment"</span>,  ti<span class="op">=</span><span class="st">"Day 4, first third"</span>,  toPdf <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat_s</span>, spl <span class="op">=</span> <span class="st">"C_treatment"</span>, fns<span class="op">=</span><span class="st">"_d4_th1"</span>, ti<span class="op">=</span><span class="st">"Day 4, first third"</span><span class="op">)</span> <span class="co"># export to pdf</span></code></pre>
+<span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat_s</span>, spl <span class="op">=</span> <span class="st">"C_treatment"</span>, fns<span class="op">=</span><span class="st">"_d4_th1"</span>, ti<span class="op">=</span><span class="st">"Day 4, first third"</span><span class="op">)</span> <span class="co"># export to pdf</span></code></pre></div>
 <p>Please refer to the manual at <code><a href="../reference/plotFlscDist.html">plotFlscDist()</a></code> to see the
 arguments for custom colors and custom linetypes.</p>
 <p>Go on to learn about the <a href="https://bpollner.github.io/flowdex/articles/accessory.html">Accessory

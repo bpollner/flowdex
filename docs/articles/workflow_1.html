@@ -131,21 +131,24 @@ its polygon gate definition. Gates can be nested or ‘standalone’.</p>
 </h2>
 <p>Before drawing a polygon gate on a single sample, we have to read in
 some fcs files and produce the gating set.</p>
-<pre><code><span class="va">gsAll</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeGatingSet.html">makeGatingSet</a></span><span class="op">(</span><span class="op">)</span></code></pre>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gsAll</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeGatingSet.html">makeGatingSet</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>If everything was left at the default, this will read in all 108
 fcs-files contained in the folder ‘fcsFiles’.<br>
 For the purpose of this demonstration we will restrict the fcs files to
 be read in to a lower number by defining a filename pattern: Only fcs
 files with matching pattern will be read in.</p>
-<pre><code><span class="va">gsRed</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeGatingSet.html">makeGatingSet</a></span><span class="op">(</span>patt<span class="op">=</span><span class="st">"GPos_T6_th2"</span><span class="op">)</span>
-<span class="va">gsRed</span></code></pre>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gsRed</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeGatingSet.html">makeGatingSet</a></span><span class="op">(</span>patt<span class="op">=</span><span class="st">"GPos_T6_th2"</span><span class="op">)</span>
+<span class="va">gsRed</span></code></pre></div>
 <p>Note the printout of the samples contained in the gating set and of
 the available channels.<br>
 Only fcs files from the experiment group from day 6 (second third,
 i.e. 6 beakers) were read in.</p>
 <p>We can now use this reduced gating set to visualise the raw fcs data
 by specifying the channel we want for the x and for the y axis:</p>
-<pre><code><span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gsRed</span>, toPdf <span class="op">=</span> <span class="cn">FALSE</span>, x<span class="op">=</span><span class="st">"FITC.A"</span>, y<span class="op">=</span><span class="st">"PerCP.A"</span><span class="op">)</span></code></pre>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gsRed</span>, toPdf <span class="op">=</span> <span class="cn">FALSE</span>, x<span class="op">=</span><span class="st">"FITC.A"</span>, y<span class="op">=</span><span class="st">"PerCP.A"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="manually-draw-polygon-gate">Manually Draw Polygon Gate<a class="anchor" aria-label="anchor" href="#manually-draw-polygon-gate"></a>
@@ -154,8 +157,9 @@ by specifying the channel we want for the x and for the y axis:</p>
 population, the stained bacteria.<br>
 Lets assume we choose beaker ‘GPos_T6_th2_b5’, which is the 5th sample
 in this gating set, as sample to manually draw the polygon gate on:</p>
-<pre><code><span class="fu"><a href="../reference/drawGate.html">drawGate</a></span><span class="op">(</span><span class="va">gsRed</span>, flf<span class="op">=</span><span class="fl">5</span>, gn<span class="op">=</span><span class="st">"root"</span>, pggId<span class="op">=</span><span class="st">"BactStainV1"</span>, channels<span class="op">=</span><span class="st">"."</span><span class="op">)</span>
-<span class="co"># point and click to draw a polygon gate around the population of interest</span></code></pre>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/drawGate.html">drawGate</a></span><span class="op">(</span><span class="va">gsRed</span>, flf<span class="op">=</span><span class="fl">5</span>, gn<span class="op">=</span><span class="st">"root"</span>, pggId<span class="op">=</span><span class="st">"BactStainV1"</span>, channels<span class="op">=</span><span class="st">"."</span><span class="op">)</span>
+<span class="co"># point and click to draw a polygon gate around the population of interest</span></code></pre></div>
 <ul>
 <li><p><code>gn</code>is the name of the gate we want to use to display
 data. As no gates are yet defined let alone added to the gating set, we
@@ -175,16 +179,18 @@ file located at ‘~/desktop/flowdex_SH’.)</p>
 <p>If you are not satisfied with the polygon gate definition, you can
 draw it again while simultaneously displaying an other (the old)
 gate:</p>
-<pre><code><span class="fu"><a href="../reference/drawGate.html">drawGate</a></span><span class="op">(</span><span class="va">gsRed</span>, flf<span class="op">=</span><span class="fl">5</span>, gn<span class="op">=</span><span class="st">"root"</span>, pggId<span class="op">=</span><span class="st">"BactStainV1"</span>, show<span class="op">=</span><span class="st">"BactStainV1"</span><span class="op">)</span> 
-<span class="co"># point and click to draw an improved polygon gate around the population of interest</span></code></pre>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/drawGate.html">drawGate</a></span><span class="op">(</span><span class="va">gsRed</span>, flf<span class="op">=</span><span class="fl">5</span>, gn<span class="op">=</span><span class="st">"root"</span>, pggId<span class="op">=</span><span class="st">"BactStainV1"</span>, show<span class="op">=</span><span class="st">"BactStainV1"</span><span class="op">)</span> 
+<span class="co"># point and click to draw an improved polygon gate around the population of interest</span></code></pre></div>
 <p>Polygon gate definitions get automatically saved under the specified
 name in the folder ‘gating’.</p>
 <p>You can leave the gate definition of ‘BactStainV1’ as you were
 drawing it, or you can copy the gate definition that was originally
 drawn for this project:</p>
-<pre><code><span class="va">from</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/gating/BactStainV1"</span><span class="op">)</span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">from</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/gating/BactStainV1"</span><span class="op">)</span>
 <span class="va">to</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/tapWater@home/gating"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre>
+<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="write-gating-strategy">Write Gating Strategy<a class="anchor" aria-label="anchor" href="#write-gating-strategy"></a>
@@ -192,9 +198,10 @@ drawn for this project:</p>
 <p>For each gate that you want to apply to your gating set, there has to
 be one row in the gating strategy file. Now copy the template for the
 gating strategy file into the experiment home folder:</p>
-<pre><code><span class="va">from</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/tapWater@home/templates/gateStrat.xlsx"</span><span class="op">)</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">from</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/tapWater@home/templates/gateStrat.xlsx"</span><span class="op">)</span>
 <span class="va">to</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/tapWater@home/gating"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span><span class="op">)</span></code></pre>
+<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span><span class="op">)</span></code></pre></div>
 <p><strong>Open the copied file</strong>. For every gate, i.e. every
 row, all 8 fields have to filled in.</p>
 <ul>
@@ -220,7 +227,8 @@ TRUE.</p></li>
 </ul>
 <p>For the example at hand, fill in the gating strategy file as
 follows:</p>
-<pre><code><span class="va">GateName</span><span class="op">:</span> <span class="va">DNA</span><span class="op">+</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">GateName</span><span class="op">:</span> <span class="va">DNA</span><span class="op">+</span>
 <span class="va">Parent</span><span class="op">:</span> <span class="va">foot</span>
 <span class="va">GateOnX</span><span class="op">:</span> <span class="va">FITC.A</span>
 <span class="va">GateOnY</span><span class="op">:</span> <span class="va">PerCP.A</span>
@@ -228,18 +236,20 @@ follows:</p>
 <span class="va">extractOn</span><span class="op">:</span> <span class="va">FITC.A</span>
 <span class="va">minRange</span><span class="op">:</span> <span class="fl">1250</span>
 <span class="va">maxRange</span><span class="op">:</span> <span class="fl">4000</span>
-<span class="va">keepData</span><span class="op">:</span> <span class="cn">TRUE</span></code></pre>
+<span class="va">keepData</span><span class="op">:</span> <span class="cn">TRUE</span></code></pre></div>
 <p>Or copy the already filled out gating strategy file defining the gate
 ‘DNA+’ with its polygon gate definition ‘BactStainV1’ from the tutorial
 folder:</p>
-<pre><code><span class="va">from</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/gating/gateStrat.xlsx"</span><span class="op">)</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">from</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/gating/gateStrat.xlsx"</span><span class="op">)</span>
 <span class="va">to</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/tapWater@home/gating"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre>
+<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Now everything should be ready to apply the gating strategy to the
 gating set:</p>
-<pre><code><span class="va">gsRed_ga</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addGates.html">addGates</a></span><span class="op">(</span><span class="va">gsRed</span><span class="op">)</span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gsRed_ga</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addGates.html">addGates</a></span><span class="op">(</span><span class="va">gsRed</span><span class="op">)</span>
 <span class="fu">flowWorkspace</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/flowWorkspace/man/plot-methods.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">gsRed_ga</span><span class="op">)</span> <span class="co"># to view the gate hierarchy </span>
-<span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gsRed_ga</span>, toPdf <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># to view the gated data</span></code></pre>
+<span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gsRed_ga</span>, toPdf <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># to view the gated data</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="draw-gate-add-to-gating-strategy-add-gate-to-gating-set-and-repeat">Draw Gate, Add to Gating Strategy, Add Gate to Gating Set – and
@@ -251,7 +261,8 @@ the gating strategy, and * adding that gate to the gating set<br>
 is repeated for every gate that should be applied to the fcs data.</p>
 <p>In the next iteration, i.e. when for example a second gate within the
 data from the first gate should be defined, one would call:</p>
-<pre><code><span class="fu"><a href="../reference/drawGate.html">drawGate</a></span><span class="op">(</span><span class="va">gsRed_ga</span>, flf<span class="op">=</span><span class="fl">5</span>, gn<span class="op">=</span><span class="st">"DNA+"</span>, pggId<span class="op">=</span><span class="st">"pg2"</span>, channels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"FITC.A"</span>, <span class="st">"SSC.A"</span><span class="op">)</span><span class="op">)</span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/drawGate.html">drawGate</a></span><span class="op">(</span><span class="va">gsRed_ga</span>, flf<span class="op">=</span><span class="fl">5</span>, gn<span class="op">=</span><span class="st">"DNA+"</span>, pggId<span class="op">=</span><span class="st">"pg2"</span>, channels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"FITC.A"</span>, <span class="st">"SSC.A"</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># point and click to draw a polygon gate around the population of interest</span>
 
 <span class="co"># add the gate in the gating strategy file:</span>
@@ -265,27 +276,30 @@ data from the first gate should be defined, one would call:</p>
 <span class="va">maxRange</span><span class="op">:</span> <span class="fl">4000</span>
 <span class="va">keepData</span><span class="op">:</span> <span class="cn">TRUE</span>
 
-<span class="va">gsRed_ga</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addGates.html">addGates</a></span><span class="op">(</span><span class="va">gsRed_ga</span><span class="op">)</span> <span class="co"># add the gate to the gating set </span></code></pre>
+<span class="va">gsRed_ga</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addGates.html">addGates</a></span><span class="op">(</span><span class="va">gsRed_ga</span><span class="op">)</span> <span class="co"># add the gate to the gating set </span></code></pre></div>
 <p>Repeat these three steps to define any set of possibly nested gates.
 You can always view the gating hierarchy and the gated data via:</p>
-<pre><code><span class="fu">flowWorkspace</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/flowWorkspace/man/plot-methods.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">gsRed_ga</span><span class="op">)</span> <span class="co"># to view the gating hierarchy</span>
-<span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gsRed_ga</span>, toPdf <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="co"># to view the gated data</span></code></pre>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">flowWorkspace</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/flowWorkspace/man/plot-methods.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">gsRed_ga</span><span class="op">)</span> <span class="co"># to view the gating hierarchy</span>
+<span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gsRed_ga</span>, toPdf <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="co"># to view the gated data</span></code></pre></div>
 <div class="section level3">
 <h3 id="use-a-ready-made-example-for-nested-gates">Use a Ready-Made Example for Nested Gates<a class="anchor" aria-label="anchor" href="#use-a-ready-made-example-for-nested-gates"></a>
 </h3>
 <p>Now copy a ready made example for a gating strategy holding more than
 one gate from the tutorial folder in the experiment home folder</p>
-<pre><code><span class="va">from</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/gating"</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">from</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/gating"</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">to</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/tapWater@home/gating"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="co"># this might overwrite the polygon gate definition you created above</span></code></pre>
+<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="co"># this might overwrite the polygon gate definition you created above</span></code></pre></div>
 <p>and apply it to a gating set. For ease of demonstration, we will
 again use the subset of the fcs files as above. Reading in the fcs files
 and adding the gates can be conveniently done using
 <code><a href="../reference/makeAddGatingSet.html">makeAddGatingSet()</a></code>:</p>
-<pre><code><span class="va">gsRed2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeAddGatingSet.html">makeAddGatingSet</a></span><span class="op">(</span>patt<span class="op">=</span><span class="st">"GPos_T6_th2"</span>, gateStrat <span class="op">=</span> <span class="st">"gateStrat_2"</span><span class="op">)</span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gsRed2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeAddGatingSet.html">makeAddGatingSet</a></span><span class="op">(</span>patt<span class="op">=</span><span class="st">"GPos_T6_th2"</span>, gateStrat <span class="op">=</span> <span class="st">"gateStrat_2"</span><span class="op">)</span>
 <span class="co"># we are not using the default name for gating strategy any more</span>
 <span class="fu">flowWorkspace</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/flowWorkspace/man/plot-methods.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">gsRed2</span><span class="op">)</span> <span class="co"># to view the gating hierarchy</span>
-<span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gsRed2</span>, toPdf <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="co"># to view the gated data</span></code></pre>
+<span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gsRed2</span>, toPdf <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="co"># to view the gated data</span></code></pre></div>
 <p>Note that only those gated data get displayed in ‘plotgates’ where
 the field ‘keepData’ in the gating strategy file is set to ‘TRUE’.<br>
 (Admittedly, the practical value of this gating hierarchy is rather

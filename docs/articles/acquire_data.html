@@ -106,9 +106,10 @@ samples, then come back and put your fcs files into the folder
 </h2>
 <p>Simulate data acquisition now by manually copying the files from
 ‘flowdexTutorial/fcsFiles’ to ‘tapWater\@home/fcsFiles’, or call</p>
-<pre><code><span class="va">from</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/fcsFiles"</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">from</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/fcsFiles"</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">to</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/tapWater@home/fcsFiles"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span><span class="op">)</span></code></pre>
+<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="using-structured-id-string-and-dictionary">Using Structured ID String and Dictionary<a class="anchor" aria-label="anchor" href="#using-structured-id-string-and-dictionary"></a>
@@ -142,7 +143,8 @@ exactly two elements: the key and the value, separated per default by
 <code>:</code> . For the sample above, the input in the sample-ID field
 in the GUI of the FCM-machine at the time of data acquisition now would
 be:</p>
-<pre><code><span class="va">tr</span><span class="op">:</span> <span class="va">GPos</span>; <span class="va">Td</span><span class="op">:</span> <span class="fl">4</span>; <span class="va">wt</span><span class="op">:</span> <span class="va">nativ</span>; <span class="va">ap</span><span class="op">:</span> <span class="va">no</span>; <span class="va">th</span><span class="op">:</span> <span class="va">th1</span>; <span class="va">ha</span><span class="op">:</span> <span class="va">ha1</span>; <span class="va">bk</span><span class="op">:</span> <span class="va">b3</span></code></pre>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tr</span><span class="op">:</span> <span class="va">GPos</span>; <span class="va">Td</span><span class="op">:</span> <span class="fl">4</span>; <span class="va">wt</span><span class="op">:</span> <span class="va">nativ</span>; <span class="va">ap</span><span class="op">:</span> <span class="va">no</span>; <span class="va">th</span><span class="op">:</span> <span class="va">th1</span>; <span class="va">ha</span><span class="op">:</span> <span class="va">ha1</span>; <span class="va">bk</span><span class="op">:</span> <span class="va">b3</span> </code></pre></div>
 <p>Here, we have 7 groups: tr, Td, wt, ap, th, ha and bk, all separated
 by a <code>;</code>. ‘tr’ e.g. will be expanded to ‘C_treatment’ as
 defined in the dictionary. ‘GPos’ is the value in the first group,
@@ -177,9 +179,10 @@ require a dictionary translating the present abbreviations to their long
 names. For that, manually copy the dictionary from
 <code>flowdexTutorial/dictionary/dictionary.xlsx</code> to
 <code>tapWater@home/dictionary</code>, or call</p>
-<pre><code><span class="va">from</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/dictionary"</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">from</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/dictionary"</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">to</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/tapWater@home/dictionary"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span><span class="op">)</span></code></pre>
+<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span><span class="op">)</span></code></pre></div>
 <p>Open the copied xlsx file, look at the column named ‘Abbreviation’:
 For each element name (the first part of an element) in the sample ID
 there is an entry in the dictionary, along with its long name (the final

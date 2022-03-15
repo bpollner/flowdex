@@ -101,10 +101,12 @@
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>Install release version from CRAN via</p>
-<pre><code><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"flowdex"</span><span class="op">)</span></code></pre>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"flowdex"</span><span class="op">)</span></code></pre></div>
 <p>Or download from github:</p>
-<pre><code><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span> 
-<span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span>repo<span class="op">=</span><span class="st">"bpollner/flowdex"</span>, ref<span class="op">=</span><span class="st">"main"</span><span class="op">)</span></code></pre>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span> 
+<span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span>repo<span class="op">=</span><span class="st">"bpollner/flowdex"</span>, ref<span class="op">=</span><span class="st">"main"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="download-tutorial-dataset">Download Tutorial Dataset<a class="anchor" aria-label="anchor" href="#download-tutorial-dataset"></a>
@@ -117,11 +119,12 @@ Also, the workflow how to create the gating strategy file and the
 polygon gate definitions will be explained.</p>
 <p>First, download the tutorial data from its Github repository to your
 desktop (or any place you prefer).</p>
-<pre><code><span class="va">from</span> <span class="op">&lt;-</span> <span class="st">"https://github.com/bpollner/data/raw/main/flowdexTutorial/flowdexTutorial.zip"</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">from</span> <span class="op">&lt;-</span> <span class="st">"https://github.com/bpollner/data/raw/main/flowdexTutorial/flowdexTutorial.zip"</span>
 <span class="va">destination</span> <span class="op">&lt;-</span> <span class="st">"~/desktop"</span>
 <span class="va">targetZip</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial.zip"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">targetZip</span>, mode<span class="op">=</span><span class="st">"wb"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/unzip.html" class="external-link">unzip</a></span><span class="op">(</span><span class="va">targetZip</span>, exdir <span class="op">=</span> <span class="va">destination</span><span class="op">)</span></code></pre>
+<span class="fu"><a href="https://rdrr.io/r/utils/unzip.html" class="external-link">unzip</a></span><span class="op">(</span><span class="va">targetZip</span>, exdir <span class="op">=</span> <span class="va">destination</span><span class="op">)</span></code></pre></div>
 <p>(The code of this tutorial is also available in the file
 ‘flowdexTutorial.R’ in the uncompressed folder.)</p>
 <div class="section level4">
@@ -160,9 +163,10 @@ for beaker) within each third.</li>
 <p>Package <code>flowdex</code> makes use of the dynamic settings file
 system provided by package <code>uniset</code>. This has to be
 initialised <strong>just once</strong> by calling</p>
-<pre><code><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bpollner.github.io/flowdex/">flowdex</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bpollner.github.io/flowdex/">flowdex</a></span><span class="op">)</span>
 <span class="va">destination</span> <span class="op">&lt;-</span> <span class="st">"~/desktop"</span>
-<span class="fu"><a href="../reference/setupSettings.html">setupSettings</a></span><span class="op">(</span><span class="va">destination</span><span class="op">)</span></code></pre>
+<span class="fu"><a href="../reference/setupSettings.html">setupSettings</a></span><span class="op">(</span><span class="va">destination</span><span class="op">)</span></code></pre></div>
 <p>Follow the on-screen instructions and possibly re-start R.<br>
 From now on, various global settings and default values used by
 <code>flowdex</code> can conveniently be viewed and changed in the file
@@ -177,13 +181,14 @@ example).</p>
 <p>After having (only once) set up the <a href="#initialise-settings-file-system">settings file system</a>, you
 could dive straight in – for a quickstart to immediately see what
 <code>flowdex</code> can do, call:</p>
-<pre><code><span class="va">destination</span> <span class="op">&lt;-</span> <span class="st">"~/desktop"</span> <span class="co"># again, as R was possibly restarted</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">destination</span> <span class="op">&lt;-</span> <span class="st">"~/desktop"</span> <span class="co"># again, as R was possibly restarted</span>
 <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial"</span><span class="op">)</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bpollner.github.io/flowdex/">flowdex</a></span><span class="op">)</span>
 <span class="va">fdmat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowdexit.html">flowdexit</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># this might take a few seconds</span>
 <span class="va">fdmat</span><span class="op">@</span><span class="va">pData</span> <span class="co"># to inspect volume and sample ID data</span>
 <span class="va">fdmat</span><span class="op">@</span><span class="va">cyTags</span> <span class="co"># to inspect class- and numerical variables assigned to each sample</span>
-<span class="va">fdmat</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="co"># to inspect fluorescence distribution</span></code></pre>
+<span class="va">fdmat</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="co"># to inspect fluorescence distribution</span></code></pre></div>
 <p>Look at ‘flowdexTutorial/rawdata/flscData_gateStrat.xlsx.xlsx’ to see
 the fluorescence distribution exported to file, observe the various
 sheets there.</p>
@@ -198,12 +203,13 @@ folder – the ‘home’ folder for this experiment.<br>
 Within this home-folder, <code>flowdex</code> requires a simple folder
 structure to properly work. Create that folder structure now within a
 newly created experiment home-folder called ‘tapWater@home’:</p>
-<pre><code><span class="va">destination</span> <span class="op">&lt;-</span> <span class="st">"~/desktop"</span> <span class="co"># again, as R was possibly restarted</span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">destination</span> <span class="op">&lt;-</span> <span class="st">"~/desktop"</span> <span class="co"># again, as R was possibly restarted</span>
 <span class="va">expHome</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/tapWater@home"</span><span class="op">)</span> 
 <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">expHome</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="va">expHome</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bpollner.github.io/flowdex/">flowdex</a></span><span class="op">)</span> <span class="co"># as you might have had to restart R above</span>
-<span class="fu"><a href="../reference/genfs.html">genfs</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># create the required folder structure</span></code></pre>
+<span class="fu"><a href="../reference/genfs.html">genfs</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># create the required folder structure</span></code></pre></div>
 <p>Continue to <a href="https://bpollner.github.io/flowdex/articles/acquire_data.html">data
 acquisition</a>, or straight to <a href="https://bpollner.github.io/flowdex/articles/workflow_2.html">Workflow
 2</a>, where you can learn how to extract fluorescence distributions and

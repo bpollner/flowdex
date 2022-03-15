@@ -1,11 +1,11 @@
 Package: flowdex
 Type: Package
-Title: Extract Fluorescence Distribution Data from FCM Files and Recalculate to Events per Volume
+Title: Extract Fluorescence Distribution Data from FCS Files and Recalculate to Events per Volume
 Version: 0.4.1
 Authors@R:
     person("Bernhard", "Pollner", email = "bernhard.pollner@mac.com", role = c("cre","aut"))
 Maintainer: Bernhard Pollner <bernhard.pollner@mac.com>
-Description: Extract fluorescence distribution data from any bivariate distribution within a previously defined flow cytometry gating set and recalculate the fluorescence distribution data to events per volume. To (meaningfully) use flowdex, the FCM files have to contain volumetric measurement data denoting the acquired sample volume.
+Description: Extract fluorescence distribution data from any bivariate distribution within a previously defined flow cytometry gating set and recalculate the fluorescence distribution data to events per volume unit. To (meaningfully) use flowdex, the fcs files have to contain volumetric measurement data denoting the acquired sample volume.
 License: file LICENSE
 License_restricts_use: yes
 Encoding: UTF-8

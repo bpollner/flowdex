@@ -33,7 +33,7 @@ within a single gate."><meta property="og:image" content="https://bpollner.githu
     <a class="dropdown-item" href="../articles/acquire_data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/workflow_1.html">Workflow 1: Define Gating Strategy and Polygon Gates</a>
     <a class="dropdown-item" href="../articles/workflow_2.html">Workflow 2: Extract Fluorescence Distributions</a>
-    <a class="dropdown-item" href="../articles/accessory.html">Accessory Functions</a>
+    <a class="dropdown-item" href="../articles/accessory.html">Repair &amp; Accessory Functions</a>
     <a class="dropdown-item" href="../articles/acknowledgements.html">Acknowledgements</a>
     <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="../articles/index.html">More articles...</a>
@@ -76,7 +76,8 @@ within a single gate.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>fdmat</dt>
-<dd><p>An object of class 'fdmat' as produced by <code><a href="makefdmat.html">makefdmat</a></code>.</p></dd>
+<dd><p>An object of <code><a href="class-fdmat.html">class-fdmat</a></code> as produced by
+<code><a href="makefdmat.html">makefdmat</a></code>.</p></dd>
 <dt>bandpass</dt>
 <dd><p>Numeric vector length two, holding the lower and upper
 boundaries of the bandpass filter.</p></dd>
@@ -92,6 +93,12 @@ values for gate name resp. number.)</p></dd>
 specified under 'gate'.</p>
     </div>
     <div class="section level2">
+    <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
+    <p><br>
+Please refer to  <a href="https://bpollner.github.io/flowdex/">https://bpollner.github.io/flowdex/</a> for executable 
+examples in the tutorial dataset.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other Accessory functions: 
 <code><a href="checkRepairFcsFiles.html">checkRepairFcsFiles</a>()</code>,
@@ -104,14 +111,6 @@ specified under 'gate'.</p>
 <code><a href="repairVolumes.html">repairVolumes</a>()</code></p></div>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">fdmat_bp</span> <span class="op">&lt;-</span> <span class="fu">applyBandpass</span><span class="op">(</span><span class="va">fdmat</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1400</span>, <span class="fl">1600</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">fdmat_bp</span> <span class="op">&lt;-</span> <span class="fu">applyBandpass</span><span class="op">(</span><span class="va">fdmat_bp</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">400</span>, <span class="fl">1300</span><span class="op">)</span>, <span class="st">"fooBar"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

@@ -31,7 +31,7 @@
     <a class="dropdown-item" href="../articles/acquire_data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/workflow_1.html">Workflow 1: Define Gating Strategy and Polygon Gates</a>
     <a class="dropdown-item" href="../articles/workflow_2.html">Workflow 2: Extract Fluorescence Distributions</a>
-    <a class="dropdown-item" href="../articles/accessory.html">Accessory Functions</a>
+    <a class="dropdown-item" href="../articles/accessory.html">Repair &amp; Accessory Functions</a>
     <a class="dropdown-item" href="../articles/acknowledgements.html">Acknowledgements</a>
     <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="../articles/index.html">More articles...</a>
@@ -99,7 +99,7 @@ defined in the settings file (key 'dV_tx') will be used. (Currently only
 'fjbiex' is implemented.)</p></dd>
 <dt>channel</dt>
 <dd><p>A regular expression indicating which channels, i.e. which
-columns to keep from the original flowframes; is passed down to argument
+columns to keep from the original flowFrames; is passed down to argument
 <code>column.pattern</code> of <code><a href="https://rdrr.io/pkg/flowCore/man/read.flowSet.html" class="external-link">read.flowSet</a></code>. Set to NULL
 to read data from all channels. If left at the default '.', the value as
 defined in the settings file (key 'dV_channel') will be used.</p></dd>
@@ -122,7 +122,7 @@ will be used.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A gating set produced by <code><a href="https://rdrr.io/pkg/flowWorkspace/man/GatingSet-class.html" class="external-link">GatingSet</a></code>.</p>
+    <p>A gating set as produced by <code><a href="https://rdrr.io/pkg/flowWorkspace/man/GatingSet-class.html" class="external-link">GatingSet</a></code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -138,6 +138,12 @@ It is strongly advised to use caution when applying compensation. It might
 well be necessary to modify the source code of this function
 (fork from <a href="https://github.com/bpollner/flowdex" class="external-link">https://github.com/bpollner/flowdex</a>) in order to achieve
 correct compensation results.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
+    <p><br>
+Please refer to  <a href="https://bpollner.github.io/flowdex/">https://bpollner.github.io/flowdex/</a> for executable 
+examples in the tutorial dataset.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

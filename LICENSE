@@ -1,0 +1,13 @@
+YEAR: 2022
+COPYRIGHT HOLDER: Bernhard Pollner
+
+
+The conditions and terms of the GPL >= 3 license are appended and modified as follows:
+
+- Permitted Purpose: The sole permitted purpose of the software "flowdex" is academic research
+
+- Restrictions: Non-academic or commercial use, including, but not limited to development of derivative works for commercial purposes including consulting is not permitted under this license.
+
+- Additional Restrictions:  Derivative works must be free, open source, and non-commercial, academic, research only. Commercial and internal business use is not permitted.
+
+(These items are taken from the "Exhibit A" of the license of package "flowWorkspace".)

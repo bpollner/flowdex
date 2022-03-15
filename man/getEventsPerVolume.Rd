@@ -17,5 +17,11 @@ volume unit for that gate in each list element.
 \description{
 From the data contained in the provided gating set, obtain a
 list containing the events per volume unit in an object of class 'eventsPV'
-for every gate in every single flowframe (.e. sample tube) in a list element.
+for every gate in every single flowFrame (.e. sample tube) in a list element.
 }
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
+}
+

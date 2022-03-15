@@ -29,6 +29,12 @@ Load the R-object containing the fluorescence distributions
 If 'fn' is left at NULL, the file containing the default name
 for exported data and gating strategy is being attempted to load.
 }
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
+}
+
 \seealso{
 Other Accessory functions: 
 \code{\link{applyBandpass}()},

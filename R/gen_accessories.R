@@ -28,11 +28,7 @@ checkBandpass <- function(bandpass) {
 #' @return The same object of class 'fdmat' as was provided to the argument
 #' 'fdmat', but with modified range of fluorescence intensities in the gate
 #' specified under 'gate'.
-#' @examples
-#' \dontrun{
-#' fdmat_bp <- applyBandpass(fdmat, c(1400, 1600))
-#' fdmat_bp <- applyBandpass(fdmat_bp, c(400, 1300), "fooBar")
-#' }
+#' @template example_linkToWeb
 #' @family Accessory functions
 #' @export
 applyBandpass <- function(fdmat, bandpass, gate=1) {
@@ -227,11 +223,7 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 #' @inheritParams plotgates
 #' @return (Invisible) NULL; is used for its side effects, i.e. to plot
 #' fluorescence distributions.
-#' @examples
-#' \dontrun{
-#' plotFlscDist(fdmat)
-#' plotFlscDist(fdmat, ti="fooBar", spl="C_Foo", ccol=c(1,1,4,4,1,1,4,4))
-#' }
+#' @template example_linkToWeb
 #' @family Plotting functions
 #' @export
 plotFlscDist <- function(fdmat, gate=NULL, ti="", spl=NULL, ylog=FALSE, ccol=NULL, clt=NULL, toPdf=TRUE, fns=NULL, foN.plots=".", ...) {

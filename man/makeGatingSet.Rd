@@ -33,7 +33,7 @@ defined in the settings file (key 'dV_tx') will be used. (Currently only
 'fjbiex' is implemented.)}
 
 \item{channel}{A regular expression indicating which channels, i.e. which
-columns to keep from the original flowframes; is passed down to argument
+columns to keep from the original flowFrames; is passed down to argument
 \code{column.pattern} of \code{\link[flowCore]{read.flowSet}}. Set to NULL
 to read data from all channels. If left at the default '.', the value as
 defined in the settings file (key 'dV_channel') will be used.}
@@ -73,6 +73,12 @@ It is strongly advised to use caution when applying compensation. It might
 well be necessary to modify the source code of this function
 (fork from \url{https://github.com/bpollner/flowdex}) in order to achieve
 correct compensation results.
+}
+
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
 }
 
 \seealso{

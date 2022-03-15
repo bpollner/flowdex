@@ -33,7 +33,7 @@ object to file."><meta property="og:image" content="https://bpollner.github.io/f
     <a class="dropdown-item" href="../articles/acquire_data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/workflow_1.html">Workflow 1: Define Gating Strategy and Polygon Gates</a>
     <a class="dropdown-item" href="../articles/workflow_2.html">Workflow 2: Extract Fluorescence Distributions</a>
-    <a class="dropdown-item" href="../articles/accessory.html">Accessory Functions</a>
+    <a class="dropdown-item" href="../articles/accessory.html">Repair &amp; Accessory Functions</a>
     <a class="dropdown-item" href="../articles/acknowledgements.html">Acknowledgements</a>
     <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="../articles/index.html">More articles...</a>
@@ -83,7 +83,8 @@ object to file.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>fdmat</dt>
-<dd><p>An object of class 'fdmat' as produced by <code><a href="makefdmat.html">makefdmat</a></code>.</p></dd>
+<dd><p>An object of <code><a href="class-fdmat.html">class-fdmat</a></code> as produced by
+<code><a href="makefdmat.html">makefdmat</a></code>.</p></dd>
 <dt>expo.gate</dt>
 <dd><p>Which gate to export. NULL or numeric or character length
 one. Set to NULL to export data from all those gates defined in the gating
@@ -110,8 +111,8 @@ will be used.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Invisible NULL; used for its side effects, i.e. to export the data contained in
-'fdmat' to file.</p>
+    <p>Invisible NULL; used for its side effects, i.e. to export the data
+contained in 'fdmat' to file.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -120,6 +121,12 @@ describing the parameters that lead to the calculation of the fluorescence
 distribution, the cyTags and the gating strategy are saved in an extra sheet
 as well. If exporting to csv, only the fluorescence data from one single gate
 can be exported.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
+    <p><br>
+Please refer to  <a href="https://bpollner.github.io/flowdex/">https://bpollner.github.io/flowdex/</a> for executable 
+examples in the tutorial dataset.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -134,15 +141,6 @@ can be exported.</p>
 <code><a href="repairVolumes.html">repairVolumes</a>()</code></p></div>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">gs</span> <span class="op">&lt;-</span> <span class="fu"><a href="makeAddGatingSet.html">makeAddGatingSet</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">fdm</span> <span class="op">&lt;-</span> <span class="fu"><a href="makefdmat.html">makefdmat</a></span><span class="op">(</span><span class="va">gs</span>, expo<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="co"># export is included here already</span></span>
-<span class="r-in"><span class="fu">exportFdmatData</span><span class="op">(</span><span class="va">fdm</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

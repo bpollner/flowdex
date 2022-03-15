@@ -67,12 +67,12 @@ the data resp. the fluorescence distribution. Its purpose is not to provide
 ample and sufficient data visualisation.
 }
 
-\examples{
-\dontrun{
-plotFlscDist(fdmat)
-plotFlscDist(fdmat, ti="fooBar", spl="C_Foo", ccol=c(1,1,4,4,1,1,4,4))
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
 }
-}
+
 \seealso{
 Other Plotting functions: 
 \code{\link{drawGate}()},

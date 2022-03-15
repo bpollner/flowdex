@@ -74,12 +74,12 @@ Extract fluorescence distribution along a specified channel
 from the gating set as defined in the gating strategy file and re-calculate
 data to events per volume.
 }
-\examples{
-\dontrun{
-gs <- makeAddGatingSet()
-fdm <- makefdmat(gs)
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
 }
-}
+
 \seealso{
 \code{\link{makeAddGatingSet}}, \code{\link{flowdexit}}
 

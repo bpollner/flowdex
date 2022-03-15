@@ -39,7 +39,7 @@ drawing the gate."><meta property="og:image" content="https://bpollner.github.io
     <a class="dropdown-item" href="../articles/acquire_data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/workflow_1.html">Workflow 1: Define Gating Strategy and Polygon Gates</a>
     <a class="dropdown-item" href="../articles/workflow_2.html">Workflow 2: Extract Fluorescence Distributions</a>
-    <a class="dropdown-item" href="../articles/accessory.html">Accessory Functions</a>
+    <a class="dropdown-item" href="../articles/accessory.html">Repair &amp; Accessory Functions</a>
     <a class="dropdown-item" href="../articles/acknowledgements.html">Acknowledgements</a>
     <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="../articles/index.html">More articles...</a>
@@ -99,9 +99,9 @@ drawing the gate.</p>
 <dd><p>A gating set as produced by <code><a href="makeGatingSet.html">makeGatingSet</a></code> or
 <code><a href="makeAddGatingSet.html">makeAddGatingSet</a></code>.</p></dd>
 <dt>flf</dt>
-<dd><p>Character or numeric length one. The identifier of the flowframe
+<dd><p>Character or numeric length one. The identifier of the flowFrame
 within the gating set where the gate should be drawn on. Optimally, this is
-a flowframe, i.e. sample, with a very good representation of the desired
+a flowFrame, i.e. sample, with a very good representation of the desired
 population. Possible input values can be determined via 'show'.</p></dd>
 <dt>gn</dt>
 <dd><p>Character length one. The name of a gate further specifying the
@@ -140,8 +140,9 @@ specified at 'ppgId'. Thus, the old gate will be replaced with the new one.</p><
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list with the locator coordinates resp. this data saved as an
-R-object in the folder specified at 'foN.gateStrat'.</p>
+    <p>A list with the locator coordinates. Mainly called for its side
+effect, i.e. the locator matrix data saved as an R-object in the folder
+specified at 'foN.gateStrat'.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -158,22 +159,18 @@ examples.</p>
 overwritten without asking!</p>
     </div>
     <div class="section level2">
+    <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
+    <p><br>
+Please refer to  <a href="https://bpollner.github.io/flowdex/">https://bpollner.github.io/flowdex/</a> for executable 
+examples in the tutorial dataset.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other Plotting functions: 
 <code><a href="plotFlscDist.html">plotFlscDist</a>()</code>,
 <code><a href="plotgates.html">plotgates</a>()</code></p></div>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">gs</span> <span class="op">&lt;-</span> <span class="fu"><a href="makeGatingSet.html">makeGatingSet</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">gs</span> <span class="co"># same as show(gs)</span></span>
-<span class="r-in"><span class="va">pgg</span> <span class="op">&lt;-</span> <span class="fu">drawGate</span><span class="op">(</span><span class="va">gs</span>, <span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">drawGate</span><span class="op">(</span><span class="va">gs</span>, <span class="fl">1</span>, showGate<span class="op">=</span><span class="st">"polyGate"</span><span class="op">)</span> <span class="co"># do show a previously defined gate</span></span>
-<span class="r-in"><span class="op">}</span></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

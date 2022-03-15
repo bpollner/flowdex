@@ -7,7 +7,8 @@
 applyBandpass(fdmat, bandpass, gate = 1)
 }
 \arguments{
-\item{fdmat}{An object of class 'fdmat' as produced by \code{\link{makefdmat}}.}
+\item{fdmat}{An object of \code{\link{class-fdmat}} as produced by
+\code{\link{makefdmat}}.}
 
 \item{bandpass}{Numeric vector length two, holding the lower and upper
 boundaries of the bandpass filter.}
@@ -25,12 +26,12 @@ specified under 'gate'.
 Apply a bandpass like filter to the fluorescence intensities
 within a single gate.
 }
-\examples{
-\dontrun{
-fdmat_bp <- applyBandpass(fdmat, c(1400, 1600))
-fdmat_bp <- applyBandpass(fdmat_bp, c(400, 1300), "fooBar")
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
 }
-}
+
 \seealso{
 Other Accessory functions: 
 \code{\link{checkRepairFcsFiles}()},

@@ -66,6 +66,12 @@ value and write the FCS-files back to disc. Original fcs get overwritten.
 This function is intended to be used when, for known or unknown
 reasons, there is no volume information encoded in the original fcs file.
 }
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
+}
+
 \seealso{
 Other Accessory functions: 
 \code{\link{applyBandpass}()},

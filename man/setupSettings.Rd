@@ -28,11 +28,6 @@ Please refer to  \url{https://bpollner.github.io/flowdex/} for executable
 examples in the tutorial dataset.
 }
 
-\examples{
-\dontrun{
-setupSettings(path="~/foo/bar")
-}
-}
 \seealso{
 \code{\link{fd_updateSettings}}
 }

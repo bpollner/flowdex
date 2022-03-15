@@ -49,7 +49,7 @@ defined in the settings file (key 'dV_tx') will be used. (Currently only
 'fjbiex' is implemented.)}
 
 \item{channel}{A regular expression indicating which channels, i.e. which
-columns to keep from the original flowframes; is passed down to argument
+columns to keep from the original flowFrames; is passed down to argument
 \code{column.pattern} of \code{\link[flowCore]{read.flowSet}}. Set to NULL
 to read data from all channels. If left at the default '.', the value as
 defined in the settings file (key 'dV_channel') will be used.}
@@ -85,12 +85,12 @@ This is a convenience wrapper for the two functions
  In order to see a schematic representation of 'parent' and 'child' gates,
 simply use 'plot'.
 }
-\examples{
-\dontrun{
-gs <-  makeAddGatingSet()
-plot(gs)
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
 }
-}
+
 \seealso{
 Other Extraction functions: 
 \code{\link{addGates}()},

@@ -2,7 +2,7 @@
 % Please edit documentation in R/gen-functions.R
 \name{plotgates}
 \alias{plotgates}
-\title{Plot Gates on All Flowframes in a Gating Set}
+\title{Plot Gates on All flowFrames in a Gating Set}
 \usage{
 plotgates(
   gs,
@@ -70,7 +70,7 @@ the settings file (key 'foN_plots') will be used.}
 data resp. to visualize the gating strategy.
 }
 \description{
-Plot all available gates on all flowframes in a gating set and
+Plot all available gates on all flowFrames in a gating set and
 add layers for the number of events. (In raw format, i.e. *not*
 re-calculated to volume!)
 }
@@ -79,17 +79,12 @@ Plotting is performed by the function \code{\link[ggcyto]{ggcyto}}.
 If a gating set without applied gates is provided to the first argument,
 parameters \code{plotAll}, \code{spl} and \code{toPdf} do not apply.
 }
-\examples{
-\dontrun{
-gs <- makeAddGatingSet()
-plotgates(gs)
-#
-fdm <- makefdmat(gs)
-fdm@cyTags # look at column names for splitting
-plotgates(gs, spl="fooBar") # to split the plot by values contained in column
-# 'fooBar'.
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
 }
-}
+
 \seealso{
 Other Plotting functions: 
 \code{\link{drawGate}()},

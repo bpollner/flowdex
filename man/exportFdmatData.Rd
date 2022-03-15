@@ -14,7 +14,8 @@ exportFdmatData(
 )
 }
 \arguments{
-\item{fdmat}{An object of class 'fdmat' as produced by \code{\link{makefdmat}}.}
+\item{fdmat}{An object of \code{\link{class-fdmat}} as produced by
+\code{\link{makefdmat}}.}
 
 \item{expo.gate}{Which gate to export. NULL or numeric or character length
 one. Set to NULL to export data from all those gates defined in the gating
@@ -54,13 +55,12 @@ distribution, the cyTags and the gating strategy are saved in an extra sheet
 as well. If exporting to csv, only the fluorescence data from one single gate
 can be exported.
 }
-\examples{
-\dontrun{
-gs <- makeAddGatingSet()
-fdm <- makefdmat(gs, expo=FALSE) # export is included here already
-exportFdmatData(fdm)
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
 }
-}
+
 \seealso{
 Other Accessory functions: 
 \code{\link{applyBandpass}()},

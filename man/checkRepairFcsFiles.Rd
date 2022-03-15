@@ -65,11 +65,12 @@ others are three-fold) an error message is displayed. \cr
 Other approaches to this problem via e.g. ignoring the text offset as possible
 in \code{\link[flowWorkspace]{load_cytoframe_from_fcs}} resulted in data loss.
 }
-\examples{
-\dontrun{
-checkRepairFcsFiles()
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
 }
-}
+
 \seealso{
 Other Accessory functions: 
 \code{\link{applyBandpass}()},

@@ -8,10 +8,6 @@
 #' @return (Invisible) NULL; is called for its side effects, i.e. to set up
 #' the settings-file system as provided by package 'uniset'.
 #' @template example_linkToWeb
-#' @examples
-#' \dontrun{
-#' setupSettings(path="~/foo/bar")
-#' }
 #' @seealso \code{\link{fd_updateSettings}}
 #' @export
 setupSettings <- function(path=NULL) {
@@ -27,6 +23,7 @@ setupSettings <- function(path=NULL) {
 #' @return A list holding key-value pairs as defined in the 'flowdex_settings.R'
 #' file.
 #' @seealso \code{\link{setupSettings}}
+#' @template example_linkToWeb
 #' @export
 fd_updateSettings <- function(silent=FALSE) {
 	return(updateSettings(silent))
@@ -88,12 +85,7 @@ copyAllTemplates <- function(home, stn) {
 #' current working directory.
 #' @return No return value, called for its side effects, i.e. the creation of
 #' the required folder structure.
-#' @examples
-#' \dontrun{
-#' home <- paste0(tempdir(), "/home")
-#' dir.create(home)
-#' genfs(home)
-#' }
+#' @template example_linkToWeb
 #' @family Accessory functions
 #' @export
 genfs <- function(where=getwd(), copyTemplates=TRUE) {
@@ -144,10 +136,7 @@ genfs <- function(where=getwd(), copyTemplates=TRUE) {
 #' @inheritParams flowdexit
 #' @return (Invisible) TRUE. Is used for its side effect, i.e. to repair fcs files
 #' with multiplied keywords and to write those fcs files to disc.
-#' @examples
-#' \dontrun{
-#' checkRepairFcsFiles()
-#' }
+#' @template example_linkToWeb
 #' @family Accessory functions
 #' @family Repair functions
 #' @export
@@ -333,6 +322,7 @@ readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL, volCheck=TRUE
 #' @return (Invisible) NULL. Is used for its side effects, i.e. to repair fcs
 #' files with missing volume data and write them to disc, thereby overwriting
 #' the original fcs files.
+#' @template example_linkToWeb
 #' @family Accessory functions
 #' @family Repair functions
 #' @export
@@ -417,14 +407,8 @@ repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm
 #' before the rewriting of the fcs file is performed. Defaults to TRUE.
 #' @return (Invisible) NULL. Is called for its side effects: the specified single
 #' fcs file gets written to disc with its new sample ID.
+#' @template example_linkToWeb
 #' @family Repair functions
-#' @examples
-#' \dontrun{
-#' fs <- repairSID() # or
-#' fs <- repairSID(patt="foo")
-#' fs@phenoData@data
-#' repairSID(fs, "sample1", "newSID")
-#' }
 #' @family Accessory functions
 #' @family Repair functions
 #' @export
@@ -476,6 +460,7 @@ repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".", confir
 #'(fork from \url{https://github.com/bpollner/flowdex}) in order to achieve
 #' correct compensation results.
 #' @return A gating set as produced by \code{\link[flowWorkspace]{GatingSet}}.
+#' @template example_linkToWeb
 #' @family Extraction functions
 #' @export
 makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", fcsRepair=FALSE, verbose=".") {
@@ -549,14 +534,7 @@ importCheckGatingStrategy <- function(fiN_gateStrat, stn, gsType=".", foName="."
 #' @param gs A gating set as produced by \code{\link{makeGatingSet}}.
 #' @inheritParams flowdexit
 #' @return An object of \code{\link{class-GatingSet_fd}}.
-#' @examples
-#' \dontrun{
-#' gs <- addGates(gs)
-#' plot(gs)
-#' gs <- addGates(gs, gateStrat="fooBar.csv") # the use a different then the
-#' # default gating strategy
-#' plot(gs)
-#' }
+#' @template example_linkToWeb
 #' @family Extraction functions
 #' @export
 addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", verbose=".") {
@@ -605,11 +583,7 @@ addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", v
 #' @inheritParams flowdexit
 #' @return An object of \code{\link{class-GatingSet_fd}} with added and
 #' recomputed gates.
-#' @examples
-#' \dontrun{
-#' gs <-  makeAddGatingSet()
-#' plot(gs)
-#' }
+#' @template example_linkToWeb
 #' @family Extraction functions
 #' @export
 makeAddGatingSet <- function(patt=NULL, fn=".", gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", fcsRepair=FALSE, verbose=".") {
@@ -646,9 +620,9 @@ makeAddGatingSet <- function(patt=NULL, fn=".", gateStrat=".", foN.gateStrat="."
 #' @inheritParams flowdexit
 #' @param gs A gating set as produced by \code{\link{makeGatingSet}} or
 #' \code{\link{makeAddGatingSet}}.
-#' @param flf Character or numeric length one. The identifier of the flowframe
+#' @param flf Character or numeric length one. The identifier of the flowFrame
 #' within the gating set where the gate should be drawn on. Optimally, this is
-#' a flowframe, i.e. sample, with a very good representation of the desired
+#' a flowFrame, i.e. sample, with a very good representation of the desired
 #' population. Possible input values can be determined via 'show'.
 #' @param gn Character length one. The name of a gate further specifying the
 #' desired subset of data; defaults to "root".
@@ -677,13 +651,7 @@ makeAddGatingSet <- function(patt=NULL, fn=".", gateStrat=".", foN.gateStrat="."
 #' @return A list with the locator coordinates. Mainly called for its side
 #' effect, i.e. the locator matrix data saved as an R-object in the folder
 #' specified at 'foN.gateStrat'.
-#' @examples
-#' \dontrun{
-#' gs <- makeGatingSet()
-#' gs # same as show(gs)
-#' pgg <- drawGate(gs, 1)
-#' drawGate(gs, 1, showGate="polyGate") # do show a previously defined gate
-#' }
+#' @template example_linkToWeb
 #' @family Plotting functions
 #' @export
 drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateStrat=".", useLoc=TRUE, locN=512, bnd=".", showGate=NULL) {
@@ -701,7 +669,7 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateS
 	bnd <- checkDefToSetVal(bnd, "dV_channelBoundaries", "bnd", stn, checkFor="numNull", len=4)
 	#
 	if (is.null(flf)) {
-		stop("Please provide either a name or an index to specify on which flowframe the gate should be drawn.\nUse `gsinfo()` to see possible values.", call.=FALSE)
+		stop("Please provide either a name or an index to specify on which flowFrame the gate should be drawn.\nUse `gsinfo()` to see possible values.", call.=FALSE)
 	}
 	datMat <- flowCore::fsApply(flowWorkspace::gs_pop_get_data(gs[flf], gn), function(x) x[, channels], use.exprs=TRUE)
 	datMat <- cleanUpInfinites(datMat)
@@ -774,13 +742,7 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateS
 #' @inheritParams exportFdmatData
 #' @return An object of \code{\link{class-fdmat}} containing only the data for
 #' the gate as specified in \code{gate}.
-#' @examples
-#' \dontrun{
-#' gs <- makeAddGatingSet()
-#' fdm <- makefdmat(gs)
-#' fdmCut <- cutFdmatToGate(fdm, 1)
-#' fdmCut <- cutFdmatToGate(fdm, "fooBar")
-#' }
+#' @template example_linkToWeb
 #' @family Accessory functions
 #' @export
 cutFdmatToGate <- function(fdmat, gate=NULL) {
@@ -808,16 +770,12 @@ cutFdmatToGate <- function(fdmat, gate=NULL) {
 #' distribution, the cyTags and the gating strategy are saved in an extra sheet
 #' as well. If exporting to csv, only the fluorescence data from one single gate
 #' can be exported.
-#' @param fdmat An object of class 'fdmat' as produced by \code{\link{makefdmat}}.
+#' @param fdmat An object of \code{\link{class-fdmat}} as produced by
+#' \code{\link{makefdmat}}.
 #' @inheritParams flowdexit
 #' @return Invisible NULL; used for its side effects, i.e. to export the data
 #' contained in 'fdmat' to file.
-#' @examples
-#' \dontrun{
-#' gs <- makeAddGatingSet()
-#' fdm <- makefdmat(gs, expo=FALSE) # export is included here already
-#' exportFdmatData(fdm)
-#' }
+#' @template example_linkToWeb
 #' @family Accessory functions
 #' @export
 exportFdmatData <- function(fdmat, expo.gate=".", expo.name=".", expo.type=".", expo.folder=".", verbose=".") {
@@ -902,11 +860,7 @@ exportFdmatData <- function(fdmat, expo.gate=".", expo.name=".", expo.type=".", 
 #' turn contains a matrix holding the fluorescence distribution of a single gate,
 #' and the overall data for events per volume unit in the slot
 #' \code{eventsPerVol}.
-#' @examples
-#' \dontrun{
-#' gs <- makeAddGatingSet()
-#' fdm <- makefdmat(gs)
-#' }
+#' @template example_linkToWeb
 #' @seealso \code{\link{makeAddGatingSet}}, \code{\link{flowdexit}}
 #' @family Extraction functions
 #' @export
@@ -974,8 +928,8 @@ makefdmat <- function(gs, name.dict=".", foN.dict=".", type.dict=".", expo=TRUE,
 	return(invisible(fdmat))
 } # EOF
 
-#' @title Plot Gates on All Flowframes in a Gating Set
-#' @description Plot all available gates on all flowframes in a gating set and
+#' @title Plot Gates on All flowFrames in a Gating Set
+#' @description Plot all available gates on all flowFrames in a gating set and
 #' add layers for the number of events. (In raw format, i.e. *not*
 #' re-calculated to volume!)
 #' @details Plotting is performed by the function \code{\link[ggcyto]{ggcyto}}.
@@ -1008,16 +962,7 @@ makefdmat <- function(gs, name.dict=".", foN.dict=".", type.dict=".", expo=TRUE,
 #' @inheritParams flowdexit
 #' @return (Invisible) NULL. Is used for its side effect, i.e. to plot gated
 #' data resp. to visualize the gating strategy.
-#' @examples
-#' \dontrun{
-#' gs <- makeAddGatingSet()
-#' plotgates(gs)
-#' #
-#' fdm <- makefdmat(gs)
-#' fdm@cyTags # look at column names for splitting
-#' plotgates(gs, spl="fooBar") # to split the plot by values contained in column
-#' # 'fooBar'.
-#' }
+#' @template example_linkToWeb
 #' @family Plotting functions
 #' @export
 plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, x=NULL, y=NULL, name.dict=".", foN.dict=".", type.dict=".", foN.plots=".") {
@@ -1132,10 +1077,7 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 #' @inheritParams flowdexit
 #' @return Invisible NULL; is called for its side effect, i.e. to save an
 #' object of \code{\link{class-fdmat}} to file.
-#' @examples
-#' \dontrun{
-#' fd_save(fdmat)
-#' }
+#' @template example_linkToWeb
 #' @family Accessory functions
 #' @export
 fd_save <- function(fdmat, fns=NULL, expo.folder=".", verbose=".") {
@@ -1179,6 +1121,7 @@ fd_save <- function(fdmat, fns=NULL, expo.folder=".", verbose=".") {
 #' @inheritParams flowdexit
 #' @return An object of \code{\link{class-fdmat}}  as produced by
 #' \code{\link{makefdmat}} or \code{\link{flowdexit}}.
+#' @template example_linkToWeb
 #' @family Accessory functions
 #' @export
 fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
@@ -1250,7 +1193,7 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 #' the default '.', the value as defined in the settings file (key 'dV_verbose')
 #' will be used.
 #' @param channel A regular expression indicating which channels, i.e. which
-#' columns to keep from the original flowframes; is passed down to argument
+#' columns to keep from the original flowFrames; is passed down to argument
 #' \code{column.pattern} of \code{\link[flowCore]{read.flowSet}}. Set to NULL
 #' to read data from all channels. If left at the default '.', the value as
 #' defined in the settings file (key 'dV_channel') will be used.
@@ -1325,6 +1268,7 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 #' element, which in turn contains a matrix holding the fluorescence
 #' distribution of a single gate, and the overall data for events per volume
 #' unit in the slot \code{eventsPerVol}.
+#' @template example_linkToWeb
 #' @export
 flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", name.dict=".", foN.dict=".", type.dict=".", expo=TRUE, expo.gate=".", expo.name=".", expo.type=".", expo.folder=".", fcsRepair=FALSE, stf=TRUE, verbose=".") {
 	#

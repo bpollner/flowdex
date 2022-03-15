@@ -21,9 +21,9 @@ drawGate(
 \item{gs}{A gating set as produced by \code{\link{makeGatingSet}} or
 \code{\link{makeAddGatingSet}}.}
 
-\item{flf}{Character or numeric length one. The identifier of the flowframe
+\item{flf}{Character or numeric length one. The identifier of the flowFrame
 within the gating set where the gate should be drawn on. Optimally, this is
-a flowframe, i.e. sample, with a very good representation of the desired
+a flowFrame, i.e. sample, with a very good representation of the desired
 population. Possible input values can be determined via 'show'.}
 
 \item{gn}{Character length one. The name of a gate further specifying the
@@ -85,14 +85,12 @@ examples.
 overwritten without asking!
 }
 
-\examples{
-\dontrun{
-gs <- makeGatingSet()
-gs # same as show(gs)
-pgg <- drawGate(gs, 1)
-drawGate(gs, 1, showGate="polyGate") # do show a previously defined gate
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
 }
-}
+
 \seealso{
 Other Plotting functions: 
 \code{\link{plotFlscDist}()},

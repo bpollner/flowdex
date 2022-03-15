@@ -7,7 +7,8 @@
 fd_save(fdmat, fns = NULL, expo.folder = ".", verbose = ".")
 }
 \arguments{
-\item{fdmat}{An object of class 'fdmat' as produced by \code{\link{makefdmat}}.}
+\item{fdmat}{An object of \code{\link{class-fdmat}} as produced by
+\code{\link{makefdmat}}.}
 
 \item{fns}{Character length one or NULL. Possible character to be added to
 the filename.}
@@ -34,11 +35,12 @@ for data exports (settings.R file key 'fiN_dataExport'), the name and type
 of the gating strategy, the character 'fdmatObj' and a possible filename
 suffix as defined in 'fns'.
 }
-\examples{
-\dontrun{
-fd_save(fdmat)
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
 }
-}
+
 \seealso{
 Other Accessory functions: 
 \code{\link{applyBandpass}()},

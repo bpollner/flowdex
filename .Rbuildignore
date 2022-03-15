@@ -8,3 +8,5 @@ _config.yml
 ^docs$
 ^pkgdown$
 index.md
+man-roxygen
+LICENSE.md

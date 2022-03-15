@@ -21,13 +21,12 @@ the required folder structure.
 Generate the required folder structure, and possibly copy the
 available templates (gate definitions, gating strategy, dictionary).
 }
-\examples{
-\dontrun{
-home <- paste0(tempdir(), "/home")
-dir.create(home)
-genfs(home)
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
 }
-}
+
 \seealso{
 Other Accessory functions: 
 \code{\link{applyBandpass}()},

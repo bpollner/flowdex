@@ -44,15 +44,12 @@ The gating strategy file can hold one or more gates. One row in the
 files represents one gate. In order to see a schematic representation of
 'parent' and 'child' gates, simply use 'plot'.
 }
-\examples{
-\dontrun{
-gs <- addGates(gs)
-plot(gs)
-gs <- addGates(gs, gateStrat="fooBar.csv") # the use a different then the
-# default gating strategy
-plot(gs)
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
 }
-}
+
 \seealso{
 Other Extraction functions: 
 \code{\link{makeAddGatingSet}()},

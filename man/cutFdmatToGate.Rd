@@ -7,7 +7,8 @@
 cutFdmatToGate(fdmat, gate = NULL)
 }
 \arguments{
-\item{fdmat}{An object of class 'fdmat' as produced by \code{\link{makefdmat}}.}
+\item{fdmat}{An object of \code{\link{class-fdmat}} as produced by
+\code{\link{makefdmat}}.}
 
 \item{gate}{Numeric or Character length one. The designator for the gate to
 keep, as defined in the gating strategy (from those gates where 'keepData' is
@@ -20,14 +21,12 @@ the gate as specified in \code{gate}.
 \description{
 Cut an object of class `fdmat` down to only a single gate
 }
-\examples{
-\dontrun{
-gs <- makeAddGatingSet()
-fdm <- makefdmat(gs)
-fdmCut <- cutFdmatToGate(fdm, 1)
-fdmCut <- cutFdmatToGate(fdm, "fooBar")
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
 }
-}
+
 \seealso{
 Other Accessory functions: 
 \code{\link{applyBandpass}()},

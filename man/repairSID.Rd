@@ -69,14 +69,12 @@ of FCS files and the sample IDs therein -- see examples.
 \url{https://bpollner.github.io/flowdex/articles/acquire_data.html}.
 }
 
-\examples{
-\dontrun{
-fs <- repairSID() # or
-fs <- repairSID(patt="foo")
-fs@phenoData@data
-repairSID(fs, "sample1", "newSID")
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
 }
-}
+
 \seealso{
 Other Repair functions: 
 \code{\link{checkRepairFcsFiles}()},

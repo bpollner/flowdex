@@ -1,8 +1,8 @@
 ---
-title: "Accessory Functions"
+title: "Repair & Accessory Functions"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Accessory Functions}
+  %\VignetteIndexEntry{Repair & Accessory Functions}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -87,7 +87,7 @@ It is more than likely that sometimes (e.g. in the long nights of data acquisiti
 `repairSID()` can be used to repair these faulty sample IDs.
 
 In the best case, a faulty sample ID comes to your attention because the translation of element names via the dictionary does not work.\
-In the worst case, the element value is wrong. This only comes to your attention when e.g. cross-referencing the sample names and the cyTags / the sample IDs in the pData slot of the ['fdmat' object](https://bpollner.github.io/flowdex/articles/workflow_2.html#flowdexit) (as produced e.g. by `flowdexit()` --- **if** there ares descriptive sample names...
+In the worst case, the element value is wrong. This only comes to your attention when e.g. cross-referencing the sample names and the cyTags / the sample IDs in the pData slot of the ['fdmat' object](https://bpollner.github.io/flowdex/articles/workflow_2.html#flowdexit) (as produced e.g. by `flowdexit()` --- **if** there are descriptive sample names...
 
 To repair a faulty sample ID in a single fcs file, you first have to read in all (or some; use argument `patt`) fcs files in a folder; they come back as `flowCore::flowSet()`.\
 Then this 'flowSet' is given again to the function `repairSID()`, but now a sample name and its new sample ID can be specified:

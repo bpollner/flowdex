@@ -4,6 +4,12 @@
     <loc>https://bpollner.github.io/flowdex/404.html</loc>
   </url>
   <url>
+    <loc>https://bpollner.github.io/flowdex/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://bpollner.github.io/flowdex/LICENSE.html</loc>
+  </url>
+  <url>
     <loc>https://bpollner.github.io/flowdex/articles/accessory.html</loc>
   </url>
   <url>
@@ -56,6 +62,24 @@
   </url>
   <url>
     <loc>https://bpollner.github.io/flowdex/reference/checkRepairFcsFiles.html</loc>
+  </url>
+  <url>
+    <loc>https://bpollner.github.io/flowdex/reference/class-GatingSet_fd.html</loc>
+  </url>
+  <url>
+    <loc>https://bpollner.github.io/flowdex/reference/class-cyTags.html</loc>
+  </url>
+  <url>
+    <loc>https://bpollner.github.io/flowdex/reference/class-eventsPV.html</loc>
+  </url>
+  <url>
+    <loc>https://bpollner.github.io/flowdex/reference/class-fdmat.html</loc>
+  </url>
+  <url>
+    <loc>https://bpollner.github.io/flowdex/reference/class-fdmat_single.html</loc>
+  </url>
+  <url>
+    <loc>https://bpollner.github.io/flowdex/reference/class-gatingStrategy_fd.html</loc>
   </url>
   <url>
     <loc>https://bpollner.github.io/flowdex/reference/cutFdmatToGate.html</loc>

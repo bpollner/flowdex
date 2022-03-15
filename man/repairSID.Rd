@@ -48,8 +48,8 @@ options to manually check and repair afflicted fcs files. There, it is
 possible to display multiplied keywords and to select which one to keep.}
 }
 \value{
-Nothing, called for its side effects: the specified single fcs file gets
-written to disc with its new sample ID.
+(Invisible) NULL. Is called for its side effects: the specified single
+fcs file gets written to disc with its new sample ID.
 }
 \description{
 Replace a faulty sample ID with a new one and write the single

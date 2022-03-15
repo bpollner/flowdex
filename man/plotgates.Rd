@@ -65,6 +65,10 @@ in the settings file (key 'dD_dict_type') will be used.}
 PDFs should be saved in. If left at the default '.', the value as defined in
 the settings file (key 'foN_plots') will be used.}
 }
+\value{
+(Invisible) NULL. Is used for its side effect, i.e. to plot gated
+data resp. to visualize the gating strategy.
+}
 \description{
 Plot all available gates on all flowframes in a gating set and
 add layers for the number of events. (In raw format, i.e. *not*

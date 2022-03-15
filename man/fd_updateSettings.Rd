@@ -9,6 +9,10 @@ fd_updateSettings(silent = FALSE)
 \arguments{
 \item{silent}{Logical}
 }
+\value{
+A list holding key-value pairs as defined in the 'flowdex_settings.R'
+file.
+}
 \description{
 Source the settings-list as defined in the settings.R file and
 create the object 'stn' in its environment. The settings-file system is

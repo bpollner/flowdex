@@ -63,10 +63,11 @@ smoothed mid-points is plotted. (Only intended for development.) Defaults to
 FALSE.}
 }
 \value{
-An object of class "fdmat" containing a list holding an object of
-class 'fdmat_single' in each list element, which in turn contains a matrix
-holding the fluorescence distribution of a single gate, and the overall data
-for events per volume unit in the slot 'eventsPerVol'.
+An object of \code{\link{class-fdmat}} containing a list holding
+an object of \code{\link{class-fdmat_single}} in each list element, which in
+turn contains a matrix holding the fluorescence distribution of a single gate,
+and the overall data for events per volume unit in the slot
+\code{eventsPerVol}.
 }
 \description{
 Extract fluorescence distribution along a specified channel

@@ -68,3 +68,13 @@ reference:
   - fd_save
   - fd_load
   - applyBandpass
+
+- title: "Class Documentation"
+  desc: ""
+  contents:
+  - class-eventsPV
+  - class-cyTags
+  - class-gatingStrategy_fd
+  - class-GatingSet_fd
+  - class-fdmat_single
+  - class-fdmat

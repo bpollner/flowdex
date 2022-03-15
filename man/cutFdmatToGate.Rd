@@ -14,8 +14,8 @@ keep, as defined in the gating strategy (from those gates where 'keepData' is
 set to TRUE.}
 }
 \value{
-An object of class `fdmat` containing only the data for the gate as
-specified in \code{gate}.
+An object of \code{\link{class-fdmat}} containing only the data for
+the gate as specified in \code{gate}.
 }
 \description{
 Cut an object of class `fdmat` down to only a single gate

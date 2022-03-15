@@ -21,7 +21,11 @@ if (dir.exists(paste0(ptp, "/inst"))) {
     } else {
         ptpInst <- ptp
 } # end else
-
+#
+ptSeOrig <- paste0(ptpInst, "/testHelpers/settingsFile/flowdex_settings_original.R")
+ptSeTarget <- paste0(ptpInst, "/flowdex_settings.R")
+file.copy(ptSeOrig, ptSeTarget, overwrite=TRUE)
+#
 stn <- source(paste0(ptpInst, "/flowdex_settings.R"))$value
 
 test_that("checkOnTest", {
@@ -618,4 +622,115 @@ test_that("plotFlscDist", {
 # plotFlscDist(fdm, gate=1, toPdf=TRUE, spl="C_treatment", foN.plots=foNPlots)
 
 
+
+
+
+
+#### Switching out the Original flowdex_settings.R file ####
+# the purpose is to test with the following keys changed:
+# dV_ignoreEdgePercent: from FALSE to 20
+# dV_use_volumeData: from TRUE to FALSE
+# dD_useDictionary: from TRUE to FALSE
+
+# first we have to replace the original settings.R file with an other one
+ptSeOrig <- paste0(ptpInst, "/testHelpers/settingsFile/flowdex_settings_original.R")
+ptSeManip_vol <- paste0(ptpInst, "/testHelpers/settingsFile/flowdex_settings_manip_vol_FALSE.R")
+ptSeManip_dic <- paste0(ptpInst, "/testHelpers/settingsFile/flowdex_settings_manip_dic_FALSE.R")
+ptSeManip_dic_vol <- paste0(ptpInst, "/testHelpers/settingsFile/flowdex_settings_manip_dic_vol_FALSE.R")
+ptSeManip_igp <- paste0(ptpInst, "/testHelpers/settingsFile/flowdex_settings_manip_igp_20.R")
+#
+ptSeTarget <- paste0(ptpInst, "/flowdex_settings.R")
+#
+copySettings <- function(origin) {
+    file.copy(origin, ptSeTarget, overwrite=TRUE)
+} # EOF
+
+
+### test for igp = 20 ###
+test_that("makefdmat", {
+    copySettings(ptSeManip_igp)
+    expect_s4_class(makefdmat(gsF, type.dict="xlsx", foN.dict = ptOrb4, expo=FALSE, dev=TRUE), "fdmat")
+    copySettings(ptSeOrig)
+}) # EOT
+# makefdmat(gsF, type.dict="xlsx", foN.dict = ptOrb4, expo=FALSE, dev = TRUE)
+
+
+
+### test fpr dV_use_volumeData = FALSE ###
+test_that("makefdmat not useing volume data", {
+    copySettings(ptSeOrig)
+    expect_null(plotFlscDist(makefdmat(gsF,  type.dict="xlsx", foN.dict = ptOrb4, expo=FALSE), gate=1, toPdf=F))
+    copySettings(ptSeManip_vol)
+    expect_null(plotFlscDist(makefdmat(gsF,  type.dict="xlsx", foN.dict = ptOrb4, expo=FALSE), gate=1, toPdf=F))
+    copySettings(ptSeOrig)
+}) # EOT
+
+## but now we also have to simulate that we do NOT have volume data in the fcs files
+# first copy them, then remove all volume data in the orb4 fcs files
+allOrb4 <- list.files(ptOrb4_fcs, full.names = TRUE)
+ptFcsOrb4_noVol <- paste0(pathToHome, "/fcs_orb4_noVol")
+dir.create(ptFcsOrb4_noVol)
+file.copy(allOrb4, ptFcsOrb4_noVol)
+# now remove all volume data in these fcs files
+repairVolumes(fn = ptFcsOrb4_noVol, vol = NA, includeAll = TRUE, confirm = FALSE)
+
+test_that("flowdexit with no volume data in the fcs files", {
+    copySettings(ptSeManip_vol)
+    expect_null(plotFlscDist(flowdexit(fn=ptFcsOrb4_noVol, foN.gateStrat = ptOrb4, foN.dict = ptOrb4, expo = FALSE, stf = FALSE), 1, toPdf = FALSE, ti="No Volume Data in the FCS Files"))
+    copySettings(ptSeOrig)
+}) # EOT
+
+
+### test fpr dD_useDictionary = FALSE ###
+# first NOT use the dictionary on a set of fcs files having a sample ID
+
+test_that("noDic WITH sample ID present", {
+    copySettings(ptSeManip_dic)
+    expect_s4_class(flowdexit(fn=ptOrb4_fcs, foN.gateStrat = ptOrb4, foN.dict = ptOrb4, expo = TRUE, expo.folder=ptRaw), "fdmat")
+    fdm_noDic <- flowdexit(fn=ptOrb4_fcs, foN.gateStrat = ptOrb4, foN.dict = ptOrb4, expo = TRUE, expo.folder=ptRaw)
+    gsDic <- gsenv$gatingSet
+    expect_error(plotgates(gsDic, spl="C_treatment", toPdf = FALSE ), "it is not possible to use 'spl'")
+    copySettings(ptSeOrig)
+}) # EOT
+
+# now remove all sample IDs of the orb4 fcs files
+allOrb4 <- list.files(ptOrb4_fcs, full.names = TRUE)
+ptFcsOrb4_noSID <- paste0(pathToHome, "/fcs_orb4_noSID")
+dir.create(ptFcsOrb4_noSID)
+file.copy(allOrb4, ptFcsOrb4_noSID, overwrite = TRUE)
+
+finas <- list.files(ptFcsOrb4_noSID)
+fs <- repairSID(fn = ptFcsOrb4_noSID)
+for (i in 1: length(finas)) {
+    repairSID(fs, fn = ptFcsOrb4_noSID, name = finas[i], newSID = "", confirm = FALSE)
+} # end for i
+# fs <- repairSID(fn = ptFcsOrb4_noSID)
+# flowWorkspace::pData(fs)
+#
+test_that("noDic withOUT sample ID present", {
+    copySettings(ptSeManip_dic)
+    expect_s4_class(flowdexit(fn=ptFcsOrb4_noSID, foN.gateStrat = ptOrb4, foN.dict = ptOrb4, expo = TRUE, expo.folder=ptRaw), "fdmat")
+    copySettings(ptSeOrig)
+}) # EOT
+
+## and now, just to be sure, all with noDic and noVol
+# first delete all volume data in the noSID fcs files
+repairVolumes(fn = ptFcsOrb4_noSID, vol = NA, includeAll = TRUE, confirm = FALSE)
+
+test_that("noDic noVolume in the fcs files", {
+    copySettings(ptSeManip_dic_vol)
+    expect_s4_class(flowdexit(fn=ptFcsOrb4_noSID, foN.gateStrat = ptOrb4, foN.dict = ptOrb4, expo = TRUE, expo.folder=ptRaw), "fdmat")
+    copySettings(ptSeOrig)
+}) # EOT
+
+copySettings(ptSeOrig)
+
+
+test_that("199 :-) ", {
+    expect_equal(1,1)
+}) # EOT
+
+test_that("200 :-) ", {
+    expect_equal(1,1)
+}) # EOT
 

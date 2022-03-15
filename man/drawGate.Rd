@@ -61,8 +61,9 @@ name of the 'old' would be provided at 'showGate' with the same name
 specified at 'ppgId'. Thus, the old gate will be replaced with the new one.}
 }
 \value{
-A list with the locator coordinates resp. this data saved as an
-R-object in the folder specified at 'foN.gateStrat'.
+A list with the locator coordinates. Mainly called for its side
+effect, i.e. the locator matrix data saved as an R-object in the folder
+specified at 'foN.gateStrat'.
 }
 \description{
 Produce a simple x~y dotplot on the specified channels that is

@@ -12,7 +12,7 @@ folder containing the settings.R file should be located. Defaults to 'NULL'.
 If left at the default 'NULL', the location should be selectable interactively.}
 }
 \value{
-No return value, is called for its side effects, i.e. to set up
+(Invisible) NULL; is called for its side effects, i.e. to set up
 the settings-file system as provided by package 'uniset'.
 }
 \description{
@@ -22,6 +22,12 @@ Perform the setup of the setting-system provided by package
 \details{
 Has to be done only once.
 }
+\section{Examples}{
+ \cr
+Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+examples in the tutorial dataset.
+}
+
 \examples{
 \dontrun{
 setupSettings(path="~/foo/bar")

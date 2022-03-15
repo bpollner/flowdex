@@ -56,7 +56,7 @@ the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
-A gating set produced by \code{\link[flowWorkspace]{GatingSet}}.
+A gating set as produced by \code{\link[flowWorkspace]{GatingSet}}.
 }
 \description{
 Read in FCS files and put them together in a gating set.

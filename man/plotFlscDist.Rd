@@ -52,6 +52,10 @@ the settings file (key 'foN_plots') will be used.}
 
 \item{...}{Additional plotting parameters passed on to 'matplot'}
 }
+\value{
+(Invisible) NULL; is used for its side effects, i.e. to plot
+fluorescence distributions.
+}
 \description{
 Plot the fluorescence distribution contained in the object of
 class 'fdmat'. For each gate contained in 'fdmat', a graphic will be

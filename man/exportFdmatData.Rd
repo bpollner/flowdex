@@ -40,8 +40,8 @@ the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
-Invisible NULL; used for its side effects, i.e. to export the data contained in
-'fdmat' to file.
+Invisible NULL; used for its side effects, i.e. to export the data
+contained in 'fdmat' to file.
 }
 \description{
 Export fluorescence distributions contained in the 'fdmat'

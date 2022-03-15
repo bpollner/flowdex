@@ -21,8 +21,8 @@ the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
-Invisible NULL; is called for its side effect, i.e. to save the fdmat
-object to file.
+Invisible NULL; is called for its side effect, i.e. to save an
+object of \code{\link{class-fdmat}} to file.
 }
 \description{
 Saves the R-object containing the fluorescence distributions

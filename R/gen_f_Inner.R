@@ -17,7 +17,7 @@ makeCyTags_inner <- function(gs,  dictionary, stn) { #
 	} # end if !pdExists
 	#
 
-	
+
 	## now everything should be good to go
 	cyt <- as.character(flowWorkspace::pData(gs)[, cnSampleId])
 	groupedList <- strsplit(cyt, grSep)
@@ -84,7 +84,7 @@ checkForVolumeData <- function(gs, stn) {
 	#
 	if (!useVolume) {
 		return(FALSE)
-	} # end if	
+	} # end if
 	#
 	options(warn=-1)
 	naInd <- which(is.na(as.numeric(as.character(flowWorkspace::pData(gs)[,"volume"]))))
@@ -144,17 +144,18 @@ makeEmptyEvPVDataFrame <- function(nr) {
 } # EOF
 
 #' @title Get Events per Volume Unit
-#' @description From the data contained in the provided gating set, obtain a 
-#' list containing the events per volume unit in an object of class 'eventsPV' 
+#' @description From the data contained in the provided gating set, obtain a
+#' list containing the events per volume unit in an object of class 'eventsPV'
 #' for every gate in every single flowframe (.e. sample tube) in a list element.
 #' @param gs A gating set as produced by \code{\link{makeAddGatingSet}}.
-#' @return A list with the same length as there are 'keepData == TRUE' in the 
-#' gating strategy file.
+#' @return A list with the same length as there are 'keepData == TRUE' in the
+#' gating strategy file, containing a data frame with the overall events per
+#' volume unit for that gate in each list element.
 #' @export
 getEventsPerVolume <- function(gs) {
 	stn <- autoUpS()
 	#
-	checkObjClass(object=gs, "GatingSet_fd", argName="gs") 
+	checkObjClass(object=gs, "GatingSet_fd", argName="gs")
 	useVolume <- checkForVolumeData(gs, stn) # gets back FALSE when dV_use_volumeData in settings is FALSE
 	#
 	volFac <- stn$dV_volumeFactor
@@ -269,13 +270,21 @@ recalcHistListToVolume <- function(histList, gs, volFac) {
 } # EOF
 
 # is also calculating events/ml
-checkCutFluorList <- function(fluorList, gs, apc=TRUE, coR=10, coV=125, volFac=1e6) {
+checkCutFluorList <- function(fluorList, gs, apc=TRUE, coR=10, coV=125, volFac=1e6, rcv=TRUE) {
 	if (apc) {
-		vols <- as.numeric(as.character(flowWorkspace::pData(gs)[,"volume"])) # read the acquired volumes from the pheno data of the gating set
+		if (rcv) {
+			vols <- as.numeric(as.character(flowWorkspace::pData(gs)[,"volume"])) # read the acquired volumes from the pheno data of the gating set
+		} else {
+			vols <- NULL
+		} # end else
 #		nrEvRaw <- as.numeric(unlist(lapply(fluorList, length)))
 		for (i in 1: length(fluorList)) {
 			nrEvRaw <- length(fluorList[[i]])
-			nrEvVol <- round((nrEvRaw/vols[i]) * volFac, 0) # calculate the events per volume
+			if (rcv) {
+				nrEvVol <- round((nrEvRaw/vols[i]) * volFac, 0) # calculate the events per volume
+			} else {
+				nrEvVol <- coV + 1
+			} # end else
 			if (nrEvRaw <= coR | nrEvVol <= coV) {
 				fluorList[[i]] <- numeric(0) # if below the defined cutoff values, set all the values to zero, i.e. have no single event in the list
 			} # end if
@@ -294,7 +303,7 @@ getHistoData <- function(gs, gateName="DNA+", chName="FITC.A", res=220, flRange=
 		stop(paste0("\nSorry, the channel '", chName, "' seems not to exist in the provided data."), call.=FALSE)
 	}
 	fluorList <- flowCore::fsApply(fls, function(x) x[,chName], use.exprs = TRUE, simplify = FALSE) # extract a single channel
-	fluorList <- checkCutFluorList(fluorList, gs, apc, coR, coV, volFac) # here perform the cutoff-value check; needs the gs for the volume in the pheno data
+	fluorList <- checkCutFluorList(fluorList, gs, apc, coR, coV, volFac, rcv) # here perform the cutoff-value check; needs the gs for the volume in the pheno data
 	outIndList <- lapply(fluorList, function(x) which(x > flRange[2]))
 	for (i in 1: length(fluorList)) {
 		if (length(outIndList[[i]]) > 0) {

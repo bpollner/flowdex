@@ -53,7 +53,7 @@ settings <- list(
 	
 	
 	## calculation of fluorescence distribution
-	dV_doRecalcToVolume = TRUE, 			## Logical. If counts should be re-calculated to volume.  Is set automatically to FALSE when 'dV_use_volumeData' above is set to FALSE
+	dV_doRecalcToVolume = TRUE, 			## Logical. If counts should be re-calculated to volume.
 	dV_volumeFactor = 1e6, 					## the volume factor as given from the manual / help of the FCS machine
 	dV_volumeUnit = "ml", 					## The volume unit the re-calculation of events will lead to (i.e. on graphics etc. it will read e.g. 'events/ml')
 	dV_resolution = 220, 					## Numeric length one. The resolution defining the number of bins for the histogram along the fluorescence-axis where data extraction is performed.
@@ -69,7 +69,7 @@ settings <- list(
 	
 	
 	## regarding dictionary
-	dD_useDictionary = TRUE, 				## If the cy-tag system and a dictionary should be used at all
+	dD_useDictionary = FALSE, 				## If the cy-tag system and a dictionary should be used at all
 	dD_dict_name = "dictionary", 			## the default name for the dictionary
 	dD_dict_type = "xlsx", 					## the default type of the dictionary (can be 'csv' or 'xlsx')
 	dD_elementSep = ":", 					## The character dividing the key-value pair in the sampleId

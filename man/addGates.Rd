@@ -33,7 +33,7 @@ the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
-A gating set.
+An object of \code{\link{class-GatingSet_fd}}.
 }
 \description{
 Load the predefined gating strategy (as .csv or .xlsx file) and

@@ -18,8 +18,8 @@ the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
-An object of class 'fdmat' as produced by \code{\link{makefdmat}}
-or \code{\link{flowdexit}}.
+An object of \code{\link{class-fdmat}}  as produced by
+\code{\link{makefdmat}} or \code{\link{flowdexit}}.
 }
 \description{
 Load the R-object containing the fluorescence distributions

@@ -53,13 +53,14 @@ the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
-Nothing, resp. the modified fcs files written back into the same folder
-and replacing the original ones.
+(Invisible) NULL. Is used for its side effects, i.e. to repair fcs
+files with missing volume data and write them to disc, thereby overwriting
+the original fcs files.
 }
 \description{
 Read in all or a subset of FCS files, replace missing volume
 values in the description of the single flowFrames with a provided default
-value and write the FCS-files back to disc.
+value and write the FCS-files back to disc. Original fcs get overwritten.
 }
 \details{
 This function is intended to be used when, for known or unknown

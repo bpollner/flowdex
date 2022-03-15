@@ -54,7 +54,9 @@ applyBandpass <- function(fdmat, bandpass, gate=1) {
     matSingle@.Data <- matSingle@.Data[, -(c(cutLow, cutHigh))]
     matSingle@metadata$flRange <- newFlRange
     newEvpv <- rowSums(matSingle@.Data) # basically area under curve for each sample (in the rows)
-    matSingle@eventsPerVol[,1] <- newEvpv # XXX we leave all the other columns be, for the moment. Not perfect.
+   	if (nrow(matSingle@eventsPerVol) != 0) {
+	    matSingle@eventsPerVol[,1] <- newEvpv # XXX we leave all the other columns be, for the moment. Not perfect.
+    } # end if
     matSingle@note <- "bandpass applied"
 	#
     fdmat@gateStrat[gaStrInd, "minRange"] <- bpFrom
@@ -106,7 +108,7 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 	if (ylog) {
 		plLog <- "y"
 		yaxt <- "l" # just so, because l works
-		yLabelAdd <- "[log]"
+		yLabelAdd <- ", [log]"
 		ZeV <- 1
 		for (i in 1: nrow(mat)) {
 			ind <- which(mat@.Data[i,] < 1)
@@ -137,7 +139,12 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 	} # end if
 	md <- mat@metadata
 	flsc <- getFlscX(mat)
-	evpv <- mat@eventsPerVol[,1]
+	if (nrow(mat@eventsPerVol) == 0) { # so we have no volume data
+		evpv <- NULL
+	} else {
+		evpv <- mat@eventsPerVol[,1]
+	} # end else
+
 	typeXaxChar <- "Fluorescence distribution along " # the default title
 	labXaxChar <- "Fluorescence intensity " # the default for the x-axis label
 	channelChar <- md[1, "extractOn"]
@@ -161,9 +168,9 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 	}
 
 	xlT <- paste0(labXaxChar, "(", extrOnAdd,")")
-	ylT <- paste0("Events ", yLabelAdd)
-	if (any(md$rcv)) {
-		ylT <- paste0("Events/", volUnit, ", ", yLabelAdd)
+	ylT <- paste0("Raw Events ", yLabelAdd)
+	if (any(md$rcv) & !is.null(evpv)) {
+		ylT <- paste0("Events/", volUnit, "", yLabelAdd)
 	} # end if
 	yRange <- c(0, max(t(mat)))
 	atY <- pretty(yRange)
@@ -171,7 +178,9 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 	abline(h=0, col="lightgray")
 	legTxt <- rownames(mat)
 #	legTxt <- paste(legTxt, " | ", prettyNum(evpv, big.mark=".", decimal.mark=","), " ev/ml", sep="")
-	legTxt <- paste0(legTxt, " | ", format(evpv, width=max(nchar(evpv)), big.mark = ".", decimal.mark=",", justify="right"), " ev/", volUnit)
+	if (!is.null(evpv)) {
+		legTxt <- paste0(legTxt, " | ", format(evpv, width=max(nchar(evpv)), big.mark = ".", decimal.mark=",", justify="right"), " ev/", volUnit)
+	} # end if
 	if (length(legTxt) > maxLegLe) {
 		cexLeg <- cexLegAlt
 		ncLegRight <- 2
@@ -216,6 +225,8 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 #' @param fns Character length one. The filename suffix, defaults to NULL.
 #' @param ... Additional plotting parameters passed on to 'matplot'
 #' @inheritParams plotgates
+#' @return (Invisible) NULL; is used for its side effects, i.e. to plot
+#' fluorescence distributions.
 #' @examples
 #' \dontrun{
 #' plotFlscDist(fdmat)

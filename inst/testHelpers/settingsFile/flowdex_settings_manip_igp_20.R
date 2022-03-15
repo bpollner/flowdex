@@ -53,14 +53,14 @@ settings <- list(
 	
 	
 	## calculation of fluorescence distribution
-	dV_doRecalcToVolume = TRUE, 			## Logical. If counts should be re-calculated to volume.  Is set automatically to FALSE when 'dV_use_volumeData' above is set to FALSE
+	dV_doRecalcToVolume = TRUE, 			## Logical. If counts should be re-calculated to volume.
 	dV_volumeFactor = 1e6, 					## the volume factor as given from the manual / help of the FCS machine
 	dV_volumeUnit = "ml", 					## The volume unit the re-calculation of events will lead to (i.e. on graphics etc. it will read e.g. 'events/ml')
 	dV_resolution = 220, 					## Numeric length one. The resolution defining the number of bins for the histogram along the fluorescence-axis where data extraction is performed.
 	dV_cutoff_raw = 10, 					## Numeric length one. The cutoff-value for the raw-events (disregarding the acquired volume). All data in any flowframe that has equal or less events in the specified gate than the value specified in dV_cutoff_raw will be set to zero.
 	dV_cutoff_Vol = 125, 					## Numeric length one. The cutoff-value for the events re-calculated to events per volume. All data in any flowframe that has equal or less events/vol in the specified gate than the value specified indV_cutoff_Vol will be set to zero.
 	dV_cutoff_apply = TRUE, 				## Logical. If the cutoff should be applied or not.If set to FALSE, any flowframe containing events lower than specified in dV_cutoff_raw and dV_cutoff_Vol will NOT be set to zero.
-	dV_ignoreEdgePercent = FALSE, 			##  "Ignore Edge Percent"; Logical or numeric length one. If left at the default FALSE, all data along the fluorescence-axis is taken into account. If set to a numeric, this percent of data on both edges of the fluorescence-axis is ignored.
+	dV_ignoreEdgePercent = 20, 			##  "Ignore Edge Percent"; Logical or numeric length one. If left at the default FALSE, all data along the fluorescence-axis is taken into account. If set to a numeric, this percent of data on both edges of the fluorescence-axis is ignored.
 	dV_doSmooth = TRUE, 					## Logical. If smoothing of the extracted data should be performed.
 	dV_smooth_n = 11,						## The width of the smoothing window
 	dV_smooth_p = 5, 						## The order of the smoothing function

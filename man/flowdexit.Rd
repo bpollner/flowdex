@@ -119,14 +119,14 @@ the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
-An object of class "fdmat" containing a list holding an object of
-class 'fdmat_single' in each list element, which in turn contains a matrix
-holding the fluorescence distribution of a single gate, possibly
-re-calculated to events per volume unit, and the overall data
-for events per volume unit in the slot 'eventsPerVol'.
+An (invisible) object of \code{\link{class-fdmat}} containing a
+list holding an object of \code{\link{class-fdmat_single}} in each list
+element, which in turn contains a matrix holding the fluorescence
+distribution of a single gate, and the overall data for events per volume
+unit in the slot \code{eventsPerVol}.
 }
 \description{
-Read in all fcs files from a specified folder, produce a
+Read in fcs files from a specified folder, produce a
 gating set, add gates as defined in the gating strategy file, extract
 fluorescence distribution data from each gate, possibly re-calculate the
 fluorescence distribution to events per volume unit, export all data to file
@@ -162,7 +162,8 @@ The \code{volFac} is stored in the flowdex_settings.R file
 this code, it was never required to apply any kind of compensation. The
 functionality to apply compensation was therefore never tested or verified.
 It is strongly advised to use caution when applying compensation. It might
-well be necessary to modify the source code of this package in order to
+well be necessary to modify the source code
+(\url{https://github.com/bpollner/flowdex}) of this package in order to
 achieve correct compensation results (compensation is applied in the
 function \code{\link{makeGatingSet}}).
 }

@@ -72,7 +72,8 @@ the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
-A gating set with added and recomputed gates.
+An object of \code{\link{class-GatingSet_fd}} with added and
+recomputed gates.
 }
 \description{
 Read in FCS files, put them together in a gating set and apply

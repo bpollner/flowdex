@@ -41,9 +41,8 @@ the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
-An (invisible) character vector holding the names of the fcs files
-that were repaired. Mainly used for its side effect, i.e. to repair fcs files
-with doublets in the keywords.
+(Invisible) TRUE. Is used for its side effect, i.e. to repair fcs files
+with multiplied keywords and to write those fcs files to disc.
 }
 \description{
 Check all fcs files in a specified folder for non-unique

@@ -22,8 +22,8 @@ the gate as specified in \code{gate}.
 Cut an object of class `fdmat` down to only a single gate
 }
 \section{Examples}{
- \cr
-Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+ 
+Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
 examples in the tutorial dataset.
 }
 

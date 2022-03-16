@@ -80,8 +80,8 @@ If a gating set without applied gates is provided to the first argument,
 parameters \code{plotAll}, \code{spl} and \code{toPdf} do not apply.
 }
 \section{Examples}{
- \cr
-Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+ 
+Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
 examples in the tutorial dataset.
 }
 

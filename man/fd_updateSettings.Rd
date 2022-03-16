@@ -19,8 +19,8 @@ create the object 'stn' in its environment. The settings-file system is
 based on functionality from package \code{\link[uniset]{uniset}}.
 }
 \section{Examples}{
- \cr
-Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+ 
+Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
 examples in the tutorial dataset.
 }
 

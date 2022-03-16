@@ -75,8 +75,8 @@ from the gating set as defined in the gating strategy file and re-calculate
 data to events per volume.
 }
 \section{Examples}{
- \cr
-Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+ 
+Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
 examples in the tutorial dataset.
 }
 

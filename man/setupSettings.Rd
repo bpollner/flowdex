@@ -23,8 +23,8 @@ Perform the setup of the setting-system provided by package
 Has to be done only once.
 }
 \section{Examples}{
- \cr
-Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+ 
+Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
 examples in the tutorial dataset.
 }
 

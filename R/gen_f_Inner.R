@@ -151,7 +151,9 @@ makeEmptyEvPVDataFrame <- function(nr) {
 #' @return A list with the same length as there are 'keepData == TRUE' in the
 #' gating strategy file, containing a data frame with the overall events per
 #' volume unit for that gate in each list element.
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @seealso \code{\link{flowdexit}}
 #' @export
 getEventsPerVolume <- function(gs) {

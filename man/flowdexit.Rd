@@ -45,6 +45,7 @@ at the default '.', the name as defined in the settings file
 (key: 'foN_gating') will be used.}
 
 \item{type.gateStrat}{Character length one, can be either 'csv' or 'xlsx'.
+The type of file defining the gating strategy. Currently, csv and xlsx
 files are supported. If left at the default '.', the filetype as defined in
 the settings (key: 'dV_gateStratInputType') file will be used.}
 
@@ -177,8 +178,8 @@ data are exported.
 }
 
 \section{Examples}{
- \cr
-Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+ 
+Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
 examples in the tutorial dataset.
 }
 

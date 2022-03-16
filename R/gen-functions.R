@@ -7,7 +7,9 @@
 #' If left at the default 'NULL', the location should be selectable interactively.
 #' @return (Invisible) NULL; is called for its side effects, i.e. to set up
 #' the settings-file system as provided by package 'uniset'.
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @seealso \code{\link{fd_updateSettings}}
 #' @export
 setupSettings <- function(path=NULL) {
@@ -23,7 +25,9 @@ setupSettings <- function(path=NULL) {
 #' @return A list holding key-value pairs as defined in the 'flowdex_settings.R'
 #' file.
 #' @seealso \code{\link{setupSettings}}
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @export
 fd_updateSettings <- function(silent=FALSE) {
 	return(updateSettings(silent))
@@ -85,7 +89,9 @@ copyAllTemplates <- function(home, stn) {
 #' current working directory.
 #' @return No return value, called for its side effects, i.e. the creation of
 #' the required folder structure.
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @family Accessory functions
 #' @export
 genfs <- function(where=getwd(), copyTemplates=TRUE) {
@@ -136,7 +142,9 @@ genfs <- function(where=getwd(), copyTemplates=TRUE) {
 #' @inheritParams flowdexit
 #' @return (Invisible) TRUE. Is used for its side effect, i.e. to repair fcs files
 #' with multiplied keywords and to write those fcs files to disc.
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @family Accessory functions
 #' @family Repair functions
 #' @export
@@ -322,7 +330,9 @@ readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL, volCheck=TRUE
 #' @return (Invisible) NULL. Is used for its side effects, i.e. to repair fcs
 #' files with missing volume data and write them to disc, thereby overwriting
 #' the original fcs files.
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @family Accessory functions
 #' @family Repair functions
 #' @export
@@ -407,8 +417,9 @@ repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE, confirm
 #' before the rewriting of the fcs file is performed. Defaults to TRUE.
 #' @return (Invisible) NULL. Is called for its side effects: the specified single
 #' fcs file gets written to disc with its new sample ID.
-#' @template example_linkToWeb
-#' @family Repair functions
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @family Accessory functions
 #' @family Repair functions
 #' @export
@@ -460,7 +471,9 @@ repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".", confir
 #'(fork from \url{https://github.com/bpollner/flowdex}) in order to achieve
 #' correct compensation results.
 #' @return A gating set as produced by \code{\link[flowWorkspace]{GatingSet}}.
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @family Extraction functions
 #' @export
 makeGatingSet <- function(patt=NULL, comp=".", fn=".", tx=".", channel=".", fcsRepair=FALSE, verbose=".") {
@@ -534,7 +547,9 @@ importCheckGatingStrategy <- function(fiN_gateStrat, stn, gsType=".", foName="."
 #' @param gs A gating set as produced by \code{\link{makeGatingSet}}.
 #' @inheritParams flowdexit
 #' @return An object of \code{\link{class-GatingSet_fd}}.
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @family Extraction functions
 #' @export
 addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", verbose=".") {
@@ -583,7 +598,9 @@ addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", v
 #' @inheritParams flowdexit
 #' @return An object of \code{\link{class-GatingSet_fd}} with added and
 #' recomputed gates.
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @family Extraction functions
 #' @export
 makeAddGatingSet <- function(patt=NULL, fn=".", gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", fcsRepair=FALSE, verbose=".") {
@@ -651,7 +668,9 @@ makeAddGatingSet <- function(patt=NULL, fn=".", gateStrat=".", foN.gateStrat="."
 #' @return A list with the locator coordinates. Mainly called for its side
 #' effect, i.e. the locator matrix data saved as an R-object in the folder
 #' specified at 'foN.gateStrat'.
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @family Plotting functions
 #' @export
 drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateStrat=".", useLoc=TRUE, locN=512, bnd=".", showGate=NULL) {
@@ -742,7 +761,9 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".", foN.gateS
 #' @inheritParams exportFdmatData
 #' @return An object of \code{\link{class-fdmat}} containing only the data for
 #' the gate as specified in \code{gate}.
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @family Accessory functions
 #' @export
 cutFdmatToGate <- function(fdmat, gate=NULL) {
@@ -775,7 +796,9 @@ cutFdmatToGate <- function(fdmat, gate=NULL) {
 #' @inheritParams flowdexit
 #' @return Invisible NULL; used for its side effects, i.e. to export the data
 #' contained in 'fdmat' to file.
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @family Accessory functions
 #' @export
 exportFdmatData <- function(fdmat, expo.gate=".", expo.name=".", expo.type=".", expo.folder=".", verbose=".") {
@@ -860,7 +883,9 @@ exportFdmatData <- function(fdmat, expo.gate=".", expo.name=".", expo.type=".", 
 #' turn contains a matrix holding the fluorescence distribution of a single gate,
 #' and the overall data for events per volume unit in the slot
 #' \code{eventsPerVol}.
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @seealso \code{\link{makeAddGatingSet}}, \code{\link{flowdexit}}
 #' @family Extraction functions
 #' @export
@@ -962,7 +987,9 @@ makefdmat <- function(gs, name.dict=".", foN.dict=".", type.dict=".", expo=TRUE,
 #' @inheritParams flowdexit
 #' @return (Invisible) NULL. Is used for its side effect, i.e. to plot gated
 #' data resp. to visualize the gating strategy.
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @family Plotting functions
 #' @export
 plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, x=NULL, y=NULL, name.dict=".", foN.dict=".", type.dict=".", foN.plots=".") {
@@ -1077,7 +1104,9 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE, 
 #' @inheritParams flowdexit
 #' @return Invisible NULL; is called for its side effect, i.e. to save an
 #' object of \code{\link{class-fdmat}} to file.
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @family Accessory functions
 #' @export
 fd_save <- function(fdmat, fns=NULL, expo.folder=".", verbose=".") {
@@ -1121,7 +1150,9 @@ fd_save <- function(fdmat, fns=NULL, expo.folder=".", verbose=".") {
 #' @inheritParams flowdexit
 #' @return An object of \code{\link{class-fdmat}}  as produced by
 #' \code{\link{makefdmat}} or \code{\link{flowdexit}}.
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @family Accessory functions
 #' @export
 fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
@@ -1179,7 +1210,7 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 #' at the default '.', the name as defined in the settings file
 #' (key: 'foN_gating') will be used.
 #' @param type.gateStrat Character length one, can be either 'csv' or 'xlsx'.
-## The type of file defining the gating strategy. Currently, csv and xlsx
+#' The type of file defining the gating strategy. Currently, csv and xlsx
 #' files are supported. If left at the default '.', the filetype as defined in
 #' the settings (key: 'dV_gateStratInputType') file will be used.
 #' @param comp Logical. If compensation should be applied or not. If left at
@@ -1268,7 +1299,9 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 #' element, which in turn contains a matrix holding the fluorescence
 #' distribution of a single gate, and the overall data for events per volume
 #' unit in the slot \code{eventsPerVol}.
-#' @template example_linkToWeb
+#' @section Examples: 
+#' Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
+#' examples in the tutorial dataset.
 #' @seealso \code{\link{flowdex}}, \code{\link{makefdmat}}
 #' @export
 flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", type.gateStrat=".", comp=".", tx=".", channel=".", name.dict=".", foN.dict=".", type.dict=".", expo=TRUE, expo.gate=".", expo.name=".", expo.type=".", expo.folder=".", fcsRepair=FALSE, stf=TRUE, verbose=".") {

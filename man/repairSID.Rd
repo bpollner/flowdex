@@ -70,16 +70,12 @@ of FCS files and the sample IDs therein -- see examples.
 }
 
 \section{Examples}{
- \cr
-Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+ 
+Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
 examples in the tutorial dataset.
 }
 
 \seealso{
-Other Repair functions: 
-\code{\link{checkRepairFcsFiles}()},
-\code{\link{repairVolumes}()}
-
 Other Accessory functions: 
 \code{\link{applyBandpass}()},
 \code{\link{checkRepairFcsFiles}()},

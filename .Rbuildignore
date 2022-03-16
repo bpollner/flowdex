@@ -10,3 +10,5 @@ _config.yml
 index.md
 man-roxygen
 LICENSE.md
+^doc$
+^Meta$

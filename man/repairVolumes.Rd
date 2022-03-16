@@ -67,8 +67,8 @@ This function is intended to be used when, for known or unknown
 reasons, there is no volume information encoded in the original fcs file.
 }
 \section{Examples}{
- \cr
-Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+ 
+Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
 examples in the tutorial dataset.
 }
 

@@ -20,8 +20,8 @@ list containing the events per volume unit in an object of class 'eventsPV'
 for every gate in every single flowFrame (.e. sample tube) in a list element.
 }
 \section{Examples}{
- \cr
-Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+ 
+Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
 examples in the tutorial dataset.
 }
 

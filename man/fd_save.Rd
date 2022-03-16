@@ -36,8 +36,8 @@ of the gating strategy, the character 'fdmatObj' and a possible filename
 suffix as defined in 'fns'.
 }
 \section{Examples}{
- \cr
-Please refer to  \url{https://bpollner.github.io/flowdex/} for executable 
+ 
+Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
 examples in the tutorial dataset.
 }
 

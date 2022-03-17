@@ -74,12 +74,26 @@ Extract fluorescence distribution along a specified channel
 from the gating set as defined in the gating strategy file and re-calculate
 data to events per volume.
 }
-\section{Examples}{
- 
-Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
-examples in the tutorial dataset.
+\examples{
+td <- tempdir()
+check_download_data(td)
+exp_home <- paste0(td, "/flowdex_examples")
+old_wd <- getwd()
+setwd(exp_home)
+#
+assign("get_settings_from_flowdex_package_root", TRUE, pos=.GlobalEnv)
+# only required to make the examples run automatically
+# you should not call 'assign' if you run the examples manually
+# the effect of setting 'get_settings_from_flowdex_package_root' to TRUE
+# is that the file 'flowdex_settings.R' in 'root' of the installed package
+# 'flowdex' will be sourced instead of the one in the user-defined location.
+#
+gs <- makeAddGatingSet()
+fdmat <- makefdmat(gs, expo = FALSE) # to NOT export the data
+fdmat <- makefdmat(gs)
+#
+setwd(old_wd)
 }
-
 \seealso{
 \code{\link{makeAddGatingSet}}, \code{\link{flowdexit}}
 

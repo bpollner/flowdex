@@ -21,7 +21,8 @@ settings file (key: 'foN_fcsFiles') will be used.}
 \item{fcsRepair}{Logical. If defect fcs files should be attempted to repair.
 If left at the default FALSE, fcs files with double entries in their keywords
 will only be listed. If set to TRUE, the keyword doublets will be deleted and
-the fcs file will be saved to disc. The original fcs file will be overwritten.}
+the fcs file will be saved to disc. The original fcs file will be
+overwritten.}
 
 \item{confirm}{Logical. If confirmation is required before overwriting the
 faulty fcs files with their corrected version. Defaults to TRUE. If set to
@@ -30,19 +31,19 @@ FALSE. original fcs files will be overwritten without further warning.}
 \item{showMultiples}{Logical, If the multiplied keywords should be displayed.
 Defaults to FALSE.}
 
-\item{keepLast}{Logical or Numeric. If the last or the first item of a keyword
-multiplication should be kept. If left at the default TRUE, the last keyword
-of a keyword multiplication will be kept, if set to FALSE the first will be
-kept. Provide a numeric length one to denote the number of the multiplied
-keyword to keep.}
+\item{keepLast}{Logical or Numeric. If the last or the first item of a 
+keyword multiplication should be kept. If left at the default TRUE, the 
+last keyword of a keyword multiplication will be kept, if set to FALSE the
+first will be kept. Provide a numeric length one to denote the number of 
+the multiplied keyword to keep.}
 
 \item{verbose}{Logical. If status messages should be displayed. If left at
 the default '.', the value as defined in the settings file (key 'dV_verbose')
 will be used.}
 }
 \value{
-(Invisible) TRUE. Is used for its side effect, i.e. to repair fcs files
-with multiplied keywords and to write those fcs files to disc.
+(Invisible) TRUE. Is used for its side effect, i.e. to repair fcs
+files with multiplied keywords and to write those fcs files to disc.
 }
 \description{
 Check all fcs files in a specified folder for non-unique
@@ -57,20 +58,37 @@ After some testing, the author came to the conclusion that a solution to this
 error can be to delete multiple entries of the same keyword in the keywords
 of the fcs file. (As fcs files *not* displaying this error seem to have only
 unique keywords.)\cr
-It also appeared that always the last of the multiplied entries was the correct
-one, hence the default keeping of the *last* of multiple entries. \cr
+It also appeared that always the last of the multiplied entries was the
+correct one, hence the default keeping of the *last* of multiple entries. \cr
 Currently, only uniformly multiplied keyword entries get remedied -- if there
 should be a mixture of keyword-multiplication (e.g. some are two-fold, some
 others are three-fold) an error message is displayed. \cr
-Other approaches to this problem via e.g. ignoring the text offset as possible
-in \code{\link[flowWorkspace]{load_cytoframe_from_fcs}} resulted in data loss.
+Other approaches to this problem via e.g. ignoring the text offset as
+possible in \code{\link[flowWorkspace]{load_cytoframe_from_fcs}} resulted
+in data loss.
 }
-\section{Examples}{
- 
-Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
-examples in the tutorial dataset.
+\examples{
+td <- tempdir()
+check_download_data(td)
+exp_home <- paste0(td, "/flowdex_examples")
+old_wd <- getwd()
+setwd(exp_home)
+#
+assign("get_settings_from_flowdex_package_root", TRUE, pos=.GlobalEnv)
+# only required to make the examples run automatically
+# you should not call 'assign' if you run the examples manually
+# the effect of setting 'get_settings_from_flowdex_package_root' to TRUE
+# is that the file 'flowdex_settings.R' in 'root' of the installed package
+# 'flowdex' will be sourced instead of the one in the user-defined location.
+#
+fon <- "fcsF_E_rep"
+\dontrun{
+checkRepairFcsFiles(fon)  # just to see what needs repairing
+} 
+checkRepairFcsFiles(fon, TRUE, FALSE)
+#
+setwd(old_wd)
 }
-
 \seealso{
 Other Accessory functions: 
 \code{\link{applyBandpass}()},

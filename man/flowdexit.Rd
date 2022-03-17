@@ -177,12 +177,34 @@ saved in an extra sheet as well. If exporting to csv, only the fluorescence
 data are exported.
 }
 
-\section{Examples}{
- 
-Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
-examples in the tutorial dataset.
+\section{Link}{
+ Please refer also to 
+\url{https://bpollner.github.io/flowdex/}.
 }
 
+\examples{
+td <- tempdir()
+check_download_data(td)
+exp_home <- paste0(td, "/flowdex_examples")
+old_wd <- getwd()
+setwd(exp_home)
+#
+assign("get_settings_from_flowdex_package_root", TRUE, pos=.GlobalEnv)
+# only required to make the examples run automatically
+# you should not call 'assign' if you run the examples manually
+# the effect of setting 'get_settings_from_flowdex_package_root' to TRUE
+# is that the file 'flowdex_settings.R' in 'root' of the installed package
+# 'flowdex' will be sourced instead of the one in the user-defined location.
+#
+fdmat <- flowdexit()
+fdmat2 <- flowdexit(gateStrat = "gateStrat_2")
+fdmat_small <- flowdexit(patt = "T4", expo = FALSE, stf = FALSE)
+#
+fdmat_small
+fdmat_small[[1]]
+#
+setwd(old_wd)
+}
 \seealso{
 \code{\link{flowdex}}, \code{\link{makefdmat}}
 }

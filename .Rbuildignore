@@ -8,8 +8,9 @@ _config.yml
 ^docs$
 ^pkgdown$
 index.md
-man-roxygen
 LICENSE.md
 ^doc$
 ^Meta$
 ^CRAN-SUBMISSION$
+cran-comments.md
+man-roxygen

@@ -28,20 +28,27 @@ file.copy(ptSeOrig, ptSeTarget, overwrite=TRUE)
 #
 stn <- source(paste0(ptpInst, "/flowdex_settings.R"))$value
 
+
+if (exists("get_settings_from_flowdex_package_root", where = .GlobalEnv)) {
+    rm(get_settings_from_flowdex_package_root) #
+} # end if
 test_that("checkOnTest", {
     expect_false(checkOnTest())
 }) # EOT
-assign("onFdT_bbp", TRUE, pos=.GlobalEnv) ## !!!! here assigning the onFdT_bbp variable !!! ##
+#
+assign("get_settings_from_flowdex_package_root", TRUE, pos=.GlobalEnv) ## !!!!
 test_that("checkOnTest", {
     expect_true(checkOnTest())
 }) # EOT
+
+
 
 tmpdir <- tempdir()
 homeDir <- "fld_Home"
 pathToHome <- paste0(tmpdir, "/", homeDir)
 noFo <- paste0(pathToHome, "/blabla")
 if (!dir.exists(pathToHome)) {
-	dir.create(pathToHome) # simulating the users experiment home directory
+    dir.create(pathToHome) # simulating the users experiment home directory
 }
 #
 
@@ -177,25 +184,25 @@ test_that("ignoreEdge", {
 
 
 ###### Setting up the folder structure ########
-test_that("checkPath", {
-    expect_true(checkPath(pathToHome))
-    expect_error(checkPath(noFo))
+test_that("check_path", {
+    expect_true(check_path(pathToHome))
+    expect_error(check_path(noFo))
 }) # EOT
 
 aaa <- "aaa"
-test_that("createSingleFolder", {
-    expect_true(createSingleFolder(tmpdir, aaa))
-    expect_false(createSingleFolder(tmpdir, aaa))
+test_that("create_single_folder", {
+    expect_true(create_single_folder(tmpdir, aaa))
+    expect_false(create_single_folder(tmpdir, aaa))
 }) # EOT
 unlink(paste0(tmpdir, "/aaa"), TRUE)
 
-test_that("createFolders", {
-    expect_true(createFolders(pathToHome, stn))
-    expect_false(createFolders(pathToHome, stn))
+test_that("create_folders", {
+    expect_true(create_folders(pathToHome, stn))
+    expect_false(create_folders(pathToHome, stn))
 }) # EOT
 
-test_that("copyAllTemplates", {
-    expect_true(copyAllTemplates(pathToHome, stn))
+test_that("copy_all_templates", {
+    expect_true(copy_all_templates(pathToHome, stn))
 }) # EOT
 
 unlink(pathToHome, TRUE)

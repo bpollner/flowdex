@@ -66,12 +66,25 @@ value and write the FCS-files back to disc. Original fcs get overwritten.
 This function is intended to be used when, for known or unknown
 reasons, there is no volume information encoded in the original fcs file.
 }
-\section{Examples}{
- 
-Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
-examples in the tutorial dataset.
+\examples{
+td <- tempdir()
+check_download_data(td)
+exp_home <- paste0(td, "/flowdex_examples")
+old_wd <- getwd()
+setwd(exp_home)
+#
+assign("get_settings_from_flowdex_package_root", TRUE, pos=.GlobalEnv)
+# only required to make the examples run automatically
+# you should not call 'assign' if you run the examples manually
+# the effect of setting 'get_settings_from_flowdex_package_root' to TRUE
+# is that the file 'flowdex_settings.R' in 'root' of the installed package
+# 'flowdex' will be sourced instead of the one in the user-defined location.
+#
+fon <- "fcsF_E_vol_sid"
+repairVolumes(vol=1234567, fn=fon, confirm = FALSE)
+#
+setwd(old_wd)
 }
-
 \seealso{
 Other Accessory functions: 
 \code{\link{applyBandpass}()},

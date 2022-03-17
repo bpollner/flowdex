@@ -35,12 +35,25 @@ for data exports (settings.R file key 'fiN_dataExport'), the name and type
 of the gating strategy, the character 'fdmatObj' and a possible filename
 suffix as defined in 'fns'.
 }
-\section{Examples}{
- 
-Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
-examples in the tutorial dataset.
+\examples{
+td <- tempdir()
+check_download_data(td)
+exp_home <- paste0(td, "/flowdex_examples")
+old_wd <- getwd()
+setwd(exp_home)
+#
+assign("get_settings_from_flowdex_package_root", TRUE, pos=.GlobalEnv)
+# only required to make the examples run automatically
+# you should not call 'assign' if you run the examples manually
+# the effect of setting 'get_settings_from_flowdex_package_root' to TRUE
+# is that the file 'flowdex_settings.R' in 'root' of the installed package
+# 'flowdex' will be sourced instead of the one in the user-defined location.
+#
+fdmat <- flowdexit(stf = FALSE)
+fd_save(fdmat, fns="_foo")
+#
+setwd(old_wd)
 }
-
 \seealso{
 Other Accessory functions: 
 \code{\link{applyBandpass}()},

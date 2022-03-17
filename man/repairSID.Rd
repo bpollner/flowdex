@@ -69,12 +69,40 @@ of FCS files and the sample IDs therein -- see examples.
 \url{https://bpollner.github.io/flowdex/articles/acquire_data.html}.
 }
 
-\section{Examples}{
- 
-Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
-examples in the tutorial dataset.
+\examples{
+td <- tempdir()
+check_download_data(td)
+exp_home <- paste0(td, "/flowdex_examples")
+old_wd <- getwd()
+setwd(exp_home)
+#
+assign("get_settings_from_flowdex_package_root", TRUE, pos=.GlobalEnv)
+# only required to make the examples run automatically
+# you should not call 'assign' if you run the examples manually
+# the effect of setting 'get_settings_from_flowdex_package_root' to TRUE
+# is that the file 'flowdex_settings.R' in 'root' of the installed package
+# 'flowdex' will be sourced instead of the one in the user-defined location.
+#
+fon <- "fcsF_E_vol_sid"
+repairVolumes(vol=1234567, fn=fon, confirm = FALSE) # because these files are also used 
+# to demonstrate function 'repairVolumes'. We need to repair the volumes there first
+flowset <- repairSID(fn = fon)
+flowset@phenoData@data # very bad sample ID in the fourth sample
+# view the correct sample IDs of the other samples
+# copy one of those correct sample IDs
+# paste and modify it - it should be beaker #3:
+nsid <- "tr: GPos; Td: 5; wt: nativ; ap: no; th: th1; ha: ha1; bk: b3"
+# also copy and paste the sample name
+sana <- "N_na_GPos_T5_th1_b3.fcs" # the  name of the sample having the faulty sample ID
+# now put all together and write fcs file with correct sample ID back to disk
+repairSID(fs=flowset, fn = fon, name = sana, newSID = nsid, confirm = FALSE)
+#
+# and check again:
+flowset <- repairSID(fn = fon)
+flowset@phenoData@data # all is good 
+#
+setwd(old_wd)
 }
-
 \seealso{
 Other Accessory functions: 
 \code{\link{applyBandpass}()},

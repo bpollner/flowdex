@@ -86,12 +86,27 @@ This is a convenience wrapper for the two functions
  In order to see a schematic representation of 'parent' and 'child' gates,
 simply use 'plot'.
 }
-\section{Examples}{
- 
-Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
-examples in the tutorial dataset.
+\examples{
+td <- tempdir()
+check_download_data(td)
+exp_home <- paste0(td, "/flowdex_examples")
+old_wd <- getwd()
+setwd(exp_home)
+#
+assign("get_settings_from_flowdex_package_root", TRUE, pos=.GlobalEnv)
+# only required to make the examples run automatically
+# you should not call 'assign' if you run the examples manually
+# the effect of setting 'get_settings_from_flowdex_package_root' to TRUE
+# is that the file 'flowdex_settings.R' in 'root' of the installed package
+# 'flowdex' will be sourced instead of the one in the user-defined location.
+#
+gs1 <- makeAddGatingSet()
+gs2 <- makeAddGatingSet(patt = "T4")
+gs3 <- makeAddGatingSet(gateStrat = "gateStrat_2")
+gs3
+#
+setwd(old_wd)
 }
-
 \seealso{
 Other Extraction functions: 
 \code{\link{addGates}()},

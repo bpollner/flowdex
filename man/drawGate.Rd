@@ -85,12 +85,41 @@ examples.
 overwritten without asking!
 }
 
-\section{Examples}{
- 
-Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
-examples in the tutorial dataset.
+\section{Link}{
+ Please refer also to 
+\url{https://bpollner.github.io/flowdex/articles/workflow_1.html} 
+for an in-depth description of the workflow how to create the gating 
+strategy.
 }
 
+\examples{
+td <- tempdir()
+check_download_data(td)
+exp_home <- paste0(td, "/flowdex_examples")
+old_wd <- getwd()
+setwd(exp_home)
+#
+assign("get_settings_from_flowdex_package_root", TRUE, pos=.GlobalEnv)
+# only required to make the examples run automatically
+# you should not call 'assign' if you run the examples manually
+# the effect of setting 'get_settings_from_flowdex_package_root' to TRUE
+# is that the file 'flowdex_settings.R' in 'root' of the installed package
+# 'flowdex' will be sourced instead of the one in the user-defined location.
+#
+# only required for the automated tests
+# this simulates the manual drawing of a gate:
+pathToPgg <- paste0(exp_home, "/gating/BactStainV1")
+assign("pathToPgg", pathToPgg, pos=.GlobalEnv) # do NOT call this ('assign')
+# when running example manually
+#####
+#####
+gs <- makeGatingSet(patt="GPos_T4")
+drawGate(gs, 1, useLoc = FALSE) # to just check
+drawGate(gs, 1, pggId = "new_pgg", showGate = "BactStainV1")
+drawGate(gs, 1, pggId = "new_pgg", showGate = "new_pgg") 
+#
+setwd(old_wd)
+}
 \seealso{
 Other Plotting functions: 
 \code{\link{plotFlscDist}()},

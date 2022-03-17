@@ -1,13 +1,14 @@
-###########################################################################################
-#################### Global variable for package 'flowdex' ################################
-###########################################################################################
+#############################################################################
+#################### Global variable for package 'flowdex' ##################
+#############################################################################
 
 
-
-# Do not change the name or the value of the object-value pair below. 
-uev <- uniset_env_name <-  ".flowdex_unisetEnv" 
-# Explanation: 
-# this is the name of the environment holding the !!uniset!! variables defining the target package name etc. in the '.onLoad' function in file 'zzz.R'
+# Do not change the name or the value of the object-value pair below.
+uev <- uniset_env_name <-  ".flowdex_unisetEnv"
+# Explanation:
+# this is the name of the environment holding the !!uniset!! variables
+# defining the target package name etc. in the '.onLoad' function in
+# file 'zzz.R'
 
 
 ########
@@ -16,6 +17,11 @@ uev <- uniset_env_name <-  ".flowdex_unisetEnv"
 
 
 # global variables
-gl_requiredGateStratColnames <- c("GateName", "Parent", "GateOnX", "GateOnY", "GateDefinition", "extractOn", "minRange", "maxRange", "keepData")
+gl_requiredGateStratColnames <- c("GateName", "Parent", "GateOnX", "GateOnY",
+    "GateDefinition", "extractOn", "minRange", "maxRange", "keepData")
 
 gl_fdmatObjSuff <- "_fdmatObj"
+
+gl_name_of_example_dataset <- "flowdex_examples"
+
+gl_data_source <- "https://github.com/bpollner/data/raw/main/flowdex_examples/flowdex_examples.zip"

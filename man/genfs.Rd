@@ -4,13 +4,13 @@
 \alias{genfs}
 \title{Generate Folder Structure}
 \usage{
-genfs(where = getwd(), copyTemplates = TRUE)
+genfs(where = getwd(), copy_templates = TRUE)
 }
 \arguments{
 \item{where}{Character length one, holding a valid path. Defaults to the
 current working directory.}
 
-\item{copyTemplates}{Logical, if available templates should be copied into
+\item{copy_templates}{Logical, if available templates should be copied into
 the folder 'templates'.}
 }
 \value{
@@ -21,12 +21,24 @@ the required folder structure.
 Generate the required folder structure, and possibly copy the
 available templates (gate definitions, gating strategy, dictionary).
 }
-\section{Examples}{
- 
-Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
-examples in the tutorial dataset.
+\examples{
+td <- tempdir()
+check_download_data(td)
+exp_home <- paste0(td, "/flowdex_examples")
+old_wd <- getwd()
+setwd(exp_home)
+#
+assign("get_settings_from_flowdex_package_root", TRUE, pos=.GlobalEnv)
+# only required to make the examples run automatically
+# you should not call 'assign' if you run the examples manually
+# the effect of setting 'get_settings_from_flowdex_package_root' to TRUE
+# is that the file 'flowdex_settings.R' in 'root' of the installed package
+# 'flowdex' will be sourced instead of the one in the user-defined location.
+#
+genfs(exp_home)
+#
+setwd(old_wd)
 }
-
 \seealso{
 Other Accessory functions: 
 \code{\link{applyBandpass}()},

@@ -64,7 +64,7 @@ Package `flowdex` makes use of the dynamic settings file system provided by pack
 ``` r
 library(flowdex)
 destination <- "~/desktop"
-setupSettings(destination)
+setup_settings(destination)
 ```
 
 Follow the on-screen instructions and possibly re-start R.\

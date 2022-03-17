@@ -55,12 +55,28 @@ distribution, the cyTags and the gating strategy are saved in an extra sheet
 as well. If exporting to csv, only the fluorescence data from one single gate
 can be exported.
 }
-\section{Examples}{
- 
-Please refer to \url{https://bpollner.github.io/flowdex/} for executable 
-examples in the tutorial dataset.
+\examples{
+td <- tempdir()
+check_download_data(td)
+exp_home <- paste0(td, "/flowdex_examples")
+old_wd <- getwd()
+setwd(exp_home)
+#
+assign("get_settings_from_flowdex_package_root", TRUE, pos=.GlobalEnv)
+# only required to make the examples run automatically
+# you should not call 'assign' if you run the examples manually
+# the effect of setting 'get_settings_from_flowdex_package_root' to TRUE
+# is that the file 'flowdex_settings.R' in 'root' of the installed package
+# 'flowdex' will be sourced instead of the one in the user-defined location.
+#
+fdmat <- flowdexit()
+exportFdmatData(fdmat)
+#
+fdmat <- flowdexit(gateStrat = "gateStrat_2")
+exportFdmatData(fdmat, expo.gate = 2, expo.name="data_gate_highSSC_only")
+#
+setwd(old_wd)
 }
-
 \seealso{
 Other Accessory functions: 
 \code{\link{applyBandpass}()},

@@ -12,22 +12,21 @@ Encoding: UTF-8
 URL: https://bpollner.github.io/flowdex/, https://github.com/bpollner/flowdex
 BugReports: https://github.com/bpollner/flowdex/issues
 Language: en-US
-LazyData: true
 RoxygenNote: 7.1.2
 Depends:
-	R (>= 3.3.2)
+    R (>= 3.3.2)
 Imports:
-	methods,
-	utils,
-	uniset, 
-	flowCore,
-	flowWorkspace,
-	openxlsx,
-	signal, 
-	ggcyto, 
-	ggplot2,
-	RColorBrewer,
-	scales
+    methods,
+    utils,
+    uniset, 
+    flowCore,
+    flowWorkspace,
+    openxlsx,
+    signal, 
+    ggcyto, 
+    ggplot2,
+    RColorBrewer,
+    scales
 Suggests: 
     covr,
     knitr,

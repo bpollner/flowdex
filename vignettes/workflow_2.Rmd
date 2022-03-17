@@ -111,7 +111,7 @@ To improve this, it is possible to define a column name from the cyTags (as can 
 
 ``` r
 colnames(fdmat1@cyTags)
-plotgates(gs1, spl="Y_Time.d", toPdf = TRUE)
+plotgates(gs1, spl = "Y_Time.d", toPdf = TRUE)
 ```
 
 (The resulting pdf can be found in the folder 'plots'; 'toPdf' defaults to TRUE).\
@@ -121,11 +121,11 @@ A solution could be to read in only fcs files from the same day, then use `plotg
 
 ``` r
 gs_d4 <- makeAddGatingSet(patt = "T4", gateStrat = "gateStrat_2")
-plotgates(gs_d4, spl="C_treatment", fns="_day4")
+plotgates(gs_d4, spl = "C_treatment", fns = "_day4")
 gs_d5 <- makeAddGatingSet(patt = "T5", gateStrat = "gateStrat_2")
-plotgates(gs_d5, spl="C_treatment", fns="_day5")
+plotgates(gs_d5, spl = "C_treatment", fns = "_day5")
 gs_d6 <- makeAddGatingSet(patt = "T6", gateStrat = "gateStrat_2")
-plotgates(gs_d6, spl="C_treatment", fns="_day6")
+plotgates(gs_d6, spl = "C_treatment", fns = "_day6")
 ```
 
 This gives nice and not too small graphics of the gated data in each sample. Please observe that gated data get plotted for every gate in the gating strategy where 'keepData' is set to TRUE.
@@ -134,7 +134,7 @@ This gives nice and not too small graphics of the gated data in each sample. Ple
 Set the argument 'plotAll' in the function 'plotgates' to TRUE to override this and to plot gated data from **all** gates defined in the gating strategy, what can be very helpful in the process of checking / verifying the gating strategy:
 
 ``` r
-plotgates(gs_d6, spl="C_treatment", fns="_day6_allGates", plotAll = TRUE)
+plotgates(gs_d6, spl = "C_treatment", fns = "_day6_allGates", plotAll = TRUE)
 ```
 
 ## Visualize Fluorescence Distribution

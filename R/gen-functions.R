@@ -334,7 +334,7 @@ readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL,
     checkRepairFcsFiles(fn=folderName, fcsRepair, confirm=FALSE, showMultiples=FALSE, keepLast=TRUE, verbose=FALSE)
     #
     rawdata <- try(flowCore::read.flowSet(path = folderName, pattern=patt, column.pattern=colPat, alter.names = TRUE, name.keyword="$FIL"), silent=FALSE)
-    if (class(rawdata) == "try-error") {
+    if (is(rawdata, "try-error")) {
         stop("Sorry, an error while trying to read in the flowSet occured.", call.=TRUE)
     } # end try error
     #
@@ -655,7 +655,7 @@ addGates <- function(gs, gateStrat=".", foN.gateStrat=".", type.gateStrat=".",
         names(gateMat) <- gateOn
         pgg <- flowCore::polygonGate(.gate=gateMat, filterId=pggName)
         erm <- try(flowWorkspace::gs_pop_add(gs, pgg, parent=gsdf[i,"Parent"], name=gsdf[i, "GateName"]), silent=TRUE) # gs_pop_add is in flowWorkspace
-        if (class(erm) == "try-error") {
+        if (is(erm, "try-error")) {
             msgTxt <- paste0("The gate '", gsdf[i, "GateName"], "' already contains the gate as defined in '", gsdf[i, "GateDefinition"], "'.")
             message(msgTxt)
         } # end if try error
@@ -838,7 +838,7 @@ drawGate <- function(gs, flf=NULL, gn="root", pggId=".", channels=".",
             stop(paste0("Sorry, the destination folder `", foN_gating, "` for the polygon gate data does not seem to exist."), call.=FALSE)
         }
         locMat <- getLocMat_TS(locN) # here the locator waits for user input; use ESC to stop input
-        if (class(locMat) == "try-error") {
+        if (is(locMat, "try-error")) {
             stop("Sorry, an error occurred while trying to use the locator.", call.=FALSE)
         }
         if (length(locMat[[1]]) < 3) {
@@ -1064,7 +1064,7 @@ makefdmat <- function(gs, name.dict=".", foN.dict=".", type.dict=".", expo=TRUE,
     #
     if (expo) {
         aaa <- try(exportFdmatData(fdmat, expoGate, expoName, expoType, expoFolder), silent=FALSE)
-        if (class(aaa) == "try-error") {
+        if (is(aaa, "try-error")) {
             message(paste0("Sorry, exporting data to ", expoType, " was not successful."), call.=FALSE)
         } # end if
     } # end if
@@ -1132,7 +1132,7 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE,
         foN_plots <- checkDefToSetVal(foN.plots, "foN_plots", "foN.plots", stn, checkFor="char")
     } # end if
     ##
-    if (class(gs) == "GatingSet") {
+    if (is(gs, "GatingSet")) {
         if (is.null(x) | is.null(y)) {
             stop("Please provide valid channel names to be displayed on the x- and y-axis.", call.=FALSE)
         }

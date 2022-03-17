@@ -83,7 +83,7 @@ assign("get_settings_from_flowdex_package_root", TRUE, pos=.GlobalEnv)
 # 'flowdex' will be sourced instead of the one in the user-defined location.
 #
 fon <- "fcsF_E_rep"
-\dontrun{
+\donttest{
 checkRepairFcsFiles(fon)  # just to see what needs repairing
 } 
 checkRepairFcsFiles(fon, TRUE, FALSE)

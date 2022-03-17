@@ -32,7 +32,7 @@ auto_up_s <- function() {
     #
     stn <-  try(get("settings", envir = get(".flowdex_settingsEnv",
         pos = "pkg_flowdex_envs")), silent = TRUE)
-    if (class(stn) == "try-error") {
+    if (is(stn, "try-error")) {
         # if no manual 'update_settings' has been called yet, this will
         # throw an error. Hence, we have to force the manual update here.
         uniset::uniset_updateSettings(get("uniset_env_name"),
@@ -59,7 +59,7 @@ getstn <- function() {
     #
     stn <-  try(get("settings", envir = get(".flowdex_settingsEnv",
         pos = "pkg_flowdex_envs")), silent = TRUE)
-    if (class(stn) == "try-error") {
+    if (is(stn, "try-error")) {
         # if no manual 'update_settings' has been called yet, this will throw
         # an error. Hence, we have to force the manual update here.
         uniset::uniset_updateSettings(get("uniset_env_name"),

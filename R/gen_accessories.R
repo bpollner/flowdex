@@ -55,7 +55,7 @@ applyBandpass <- function(fdmat, bandpass, gate=1) {
     matSingle@.Data <- matSingle@.Data[, -(c(cutLow, cutHigh))]
     matSingle@metadata$flRange <- newFlRange
     newEvpv <- rowSums(matSingle@.Data) # basically area under curve for each sample (in the rows)
-       if (nrow(matSingle@eventsPerVol) != 0) {
+        if (nrow(matSingle@eventsPerVol) != 0) {
         matSingle@eventsPerVol[,1] <- newEvpv # XXX we leave all the other columns be, for the moment. Not perfect.
     } # end if
     matSingle@note <- "bandpass applied"

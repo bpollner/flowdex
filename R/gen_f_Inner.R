@@ -66,7 +66,7 @@ makeCyTags_inner <- function(gs,  dictionary, stn) { #
         cydf <- cydf[, -naInd]
     }
     return(cydf)
-     #
+    #
 } # EOF
 
 makeCyTags <- function(gs, dictionary, stn) {
@@ -93,8 +93,8 @@ checkForVolumeData <- function(gs, stn) {
     verbIns <- "is"
     if (length(naInd) > 0) {
         if (length(naInd) > 1) {
-             tubeIns <- "tubes"
-             verbIns <- "are"
+            tubeIns <- "tubes"
+            verbIns <- "are"
         }
         stop(paste0("Sorry, it seems that for the ", tubeIns, " '", paste(rownames(flowWorkspace::pData(gs))[naInd], collapse="', '"), "' there ", verbIns, " no volume-data available."), call.=FALSE)
     } # end if
@@ -222,8 +222,8 @@ getSomeXmin <- function(fluorList) {
 } # EOF
 
 extractHistoData <- function(x, sm, flscRan, res=220, igp=FALSE, smN=11, smP=5, dev=FALSE) {
-       mainAdd <- ""; xRange <- NULL; mainTxt <- ""; plotHist <- FALSE; devPlot <- dev # used in DEV for plotting
-       if (devPlot) {xOrig <- x; plotHist <- TRUE; mainTxt <- paste0("resolution: ", res, mainAdd)}
+        mainAdd <- ""; xRange <- NULL; mainTxt <- ""; plotHist <- FALSE; devPlot <- dev # used in DEV for plotting
+        if (devPlot) {xOrig <- x; plotHist <- TRUE; mainTxt <- paste0("resolution: ", res, mainAdd)}
     #
     if (length(x) == 0) {
         return(list(mids=sm, countsSmo=0, countsOrig=0)) # is assigning the count of zero to a fluorescence value existent in the range; sm = "some minimum"
@@ -349,7 +349,7 @@ makefdmat_single <- function(gs, gateName="DNA+", chName="FITC.A", res=220, flRa
         vals <- histList[[i]]$countsOrig # take the original values (possibly re-calculated to volume)
         if (smo) {
             vals <- try(signal::sgolayfilt(vals, n=smN, p=smP), silent=TRUE) # smoothing
-            if (class(vals) == "try-errpr") {
+            if (is(vals, "try-error")) {
                 message("Smoothing was skipped as it producecd an error.") ## XXX improve here. Try to catch no-data scenarios earlier.
             }
             vals[which(vals < 0)] <- 0 # because with smoothing values below zero can appear

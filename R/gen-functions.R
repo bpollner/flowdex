@@ -181,7 +181,7 @@ genfs <- function(where=getwd(), copy_templates = TRUE) {
 #' @template t_ex_assign
 #' @examples
 #' fon <- "fcsF_E_rep"
-#' \dontrun{
+#' \donttest{
 #' checkRepairFcsFiles(fon)  # just to see what needs repairing
 #' } 
 #' checkRepairFcsFiles(fon, TRUE, FALSE)

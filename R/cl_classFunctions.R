@@ -122,7 +122,3 @@ show_fdmat_single <- function(object) {
     print(object@eventsPerVol)    
     return(invisible(NULL))
 } # EOF
-
-#     plot_gateStructure <- function(x, ...) {  
-#        flowWorkspace::plot(x=x)
-#    } # EOF

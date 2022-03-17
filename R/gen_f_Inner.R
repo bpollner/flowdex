@@ -29,9 +29,9 @@ makeCyTags_inner <- function(gs,  dictionary, stn) { #
     cnShort <- trimws(unlist(lapply(strsplit(aa, ":"), function(x) x[1])))     #  get the column names coded in short
     cydf <- as.data.frame(matrix(NA, nrow=(length(gs)), ncol=length(cnShort)))
     colnames(cydf) <- cnShort
-    for (i in 1: length(groupedList)) {
+    for (i in seq_along(groupedList)) {
         siTube <- groupedList[[i]]
-        for (k in 1: length(siTube)) {
+        for (k in seq_along(siTube)) {
             elm <- unlist(strsplit(siTube[k], elmSep))
             cnS <- trimws(elm[1])
             value <- trimws(elm[2])
@@ -41,7 +41,7 @@ makeCyTags_inner <- function(gs,  dictionary, stn) { #
     # now we have the class and y-variables (still as character) in a data frame; go and translate the column names using the dictionary
     dict <- dictionary # returns a data frame with the short names in the first column and the translation in the second
     cnLong <- character(length(cnShort))
-    for (i in 1: length(cnShort)) {
+    for (i in seq_along(cnShort)) {
         ind <- which(dict[,1] == cnShort[i])
         if (length(ind) == 0) {
             stop(paste0("Sorry, it seems that the designator `", cnShort[i], "` is not present in the dictionary."), call.=FALSE)
@@ -56,7 +56,7 @@ makeCyTags_inner <- function(gs,  dictionary, stn) { #
     # turns numbers into real numbers
     yInd <- which(grepl(paste0("^", yVarPref), cnLong)) # using a regular expression with the "^" saying that we look at the start of the string
     if (length(yInd > 0)) {
-        for (i in 1: length(yInd)) {
+        for (i in seq_along(yInd)) {
             cydf[,yInd[i]] <- as.numeric(cydf[,yInd[i]])
         } # end for i
     } # end if
@@ -211,7 +211,7 @@ ignoreEdge <- function(x, perc=5, minLe=10) {
 
 getSomeXmin <- function(fluorList) {
     someMin <- NULL
-    for (i in 1: length(fluorList)) {
+    for (i in seq_along(fluorList)) {
         if (is.null(someMin)) {
             if (length(fluorList[[i]]) > 0) { # so it is not empty
                 someMin <- round(min(fluorList[[i]]), 0)
@@ -252,14 +252,14 @@ extractHistoData <- function(x, sm, flscRan, res=220, igp=FALSE, smN=11, smP=5, 
 
 cleanUpHistList <- function(histList) {
     midsVec <- NULL
-    for (i in 1: length(histList)) {
+    for (i in seq_along(histList)) {
         if (is.null(midsVec)) {
             if (length(histList[[i]]$mids) > 1) { # so that is a non-empty sample
                 midsVec <- histList[[i]]$mids
             }
         }
     } # end for i
-    for (i in 1: length(histList)) {
+    for (i in seq_along(histList)) {
         if (length(histList[[i]]$mids) == 1) { # so that is an empty sample
             histList[[i]]$mids <- midsVec
             histList[[i]]$countsSmo <- rep(0, length(midsVec))
@@ -271,7 +271,7 @@ cleanUpHistList <- function(histList) {
 
 recalcHistListToVolume <- function(histList, gs, volFac) {
     volumes <- as.numeric(as.character(flowWorkspace::pData(gs)[,"volume"]))
-    for (i in 1: length(histList)) {
+    for (i in seq_along(histList)) {
         histList[[i]]$countsSmo <- ( histList[[i]]$countsSmo / volumes[[i]] ) * volFac # gives the counts in events/volume for each fluorescence unit
         histList[[i]]$countsOrig <- ( histList[[i]]$countsOrig / volumes[[i]] ) * volFac
     }
@@ -287,7 +287,7 @@ checkCutFluorList <- function(fluorList, gs, apc=TRUE, coR=10, coV=125, volFac=1
             vols <- NULL
         } # end else
 #        nrEvRaw <- as.numeric(unlist(lapply(fluorList, length)))
-        for (i in 1: length(fluorList)) {
+        for (i in seq_along(fluorList)) {
             nrEvRaw <- length(fluorList[[i]])
             if (rcv) {
                 nrEvVol <- round((nrEvRaw/vols[i]) * volFac, 0) # calculate the events per volume
@@ -314,14 +314,14 @@ getHistoData <- function(gs, gateName="DNA+", chName="FITC.A", res=220, flRange=
     fluorList <- flowCore::fsApply(fls, function(x) x[,chName], use.exprs = TRUE, simplify = FALSE) # extract a single channel
     fluorList <- checkCutFluorList(fluorList, gs, apc, coR, coV, volFac, rcv) # here perform the cutoff-value check; needs the gs for the volume in the pheno data
     outIndList <- lapply(fluorList, function(x) which(x > flRange[2]))
-    for (i in 1: length(fluorList)) {
+    for (i in seq_along(fluorList)) {
         if (length(outIndList[[i]]) > 0) {
             fluorList[[i]] <- fluorList[[i]][-(outIndList[[i]])] # cut off everything above max(flRange), so that in the histogram we have no data running over the defined breaks
         }
     }
     # same on the lower side
     outIndList <- lapply(fluorList, function(x) which(x < flRange[1]))
-    for (i in 1: length(fluorList)) {
+    for (i in seq_along(fluorList)) {
         if (length(outIndList[[i]]) > 0) {
             fluorList[[i]] <- fluorList[[i]][-(outIndList[[i]])] # cut off everything below min(flRange), so that in the histogram we have no data running below the defined breaks
         }
@@ -345,7 +345,7 @@ makefdmat_single <- function(gs, gateName="DNA+", chName="FITC.A", res=220, flRa
     histList <- getHistoData(gs, gateName, chName, res, flRange, apc, coR, coV, igp, smN, smP, rcv, dev, volFac) ### CORE ###
     flscX <- histList[[1]]$mids # just take the first one, the mids are all identical
     mat <- matrix(0, ncol=length(flscX), nrow=(length(histList)))
-    for (i in 1: length(histList)) {
+    for (i in seq_along(histList)) {
         vals <- histList[[i]]$countsOrig # take the original values (possibly re-calculated to volume)
         if (smo) {
             vals <- try(signal::sgolayfilt(vals, n=smN, p=smP), silent=FALSE) # smoothing

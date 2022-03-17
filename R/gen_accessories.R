@@ -276,12 +276,12 @@ plotFlscDist <- function(fdmat, gate=NULL, ti="", spl=NULL, ylog=FALSE, ccol=NUL
     if (toPdf) { pdf(file=filename, width, height, onefile=TRUE, family='Helvetica', pointsize=12) }
 #    if (where != "pdf" & Sys.getenv("RSTUDIO") != 1) {dev.new(height=height, width=width)}
     ####
-    for (k in 1: length(fdmat)) {
+    for (k in seq_along(fdmat)) {
         matSingle <- fdmat[[k]]
         if (!is.null(spl)) {
             splVals <- unique(cyTags[,spl])
             #
-            for (i in 1: length(splVals)) {
+            for (i in seq_along(splVals)) {
                 ind <- which(cyTags[,spl] == splVals[i])
                 maSiUse <- matSingle
                 maSiUse@.Data <- matSingle@.Data[ind,]

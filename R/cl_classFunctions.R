@@ -3,7 +3,7 @@
 
 show_GatingSet_flowWorkspace <- function(object) {
     saNames <- flowWorkspace::sampleNames(object)
-    nr <- 1: length(saNames)
+    nr <- seq_along(saNames)
     isnDF <- data.frame(nr, saNames)
     colnames(isnDF) <- c("Index", "SampleNames")
     #
@@ -22,7 +22,7 @@ show_GatingSet_flowWorkspace <- function(object) {
 
 show_GatingSet_fd <- function(object) {
     saNames <- flowWorkspace::sampleNames(object)
-    nr <- 1: length(saNames)
+    nr <- seq_along(saNames)
     isnDF <- data.frame(nr, saNames)
     colnames(isnDF) <- c("Index", "SampleNames")
     #

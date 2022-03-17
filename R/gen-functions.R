@@ -310,7 +310,7 @@ checkRepairFcsFiles <- function(fn=".", fcsRepair=FALSE, confirm=TRUE,
 
     ## now actually repair the fcs files
     # banaDef, ptfDef, takeOutInds
-    for (i in 1: length(banaDef)) {
+    for (i in seq_along(banaDef)) {
         siFF <- flowCore::read.FCS(ptfDef[i], ignore.text.offset=TRUE) # but I think that 'ignore.text.offset' is not really working here.
         newDes <- siFF@description[-takeOutInds[[i]]]
         newFF <- new("flowFrame",  exprs=siFF@exprs, parameters=siFF@parameters, description=newDes)
@@ -416,7 +416,7 @@ repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE,
         } # end if confirm
     } # end else
     if (verbose) { cat(paste0("Re-writing volume data of ", length(namesUse), " FCS files, using `", vol, "` to replace ", pomText, " values.\n")) }
-    for (i in 1: length(namesUse)) {
+    for (i in seq_along(namesUse)) {
         flowFile <- paste0("fs@frames$", namesUse[i])
         txt <- paste0(flowFile, "@description$VOL <- ", vol)
         eval(parse(text=txt)) # here write the provided volume into the description of a single flowFrame
@@ -949,7 +949,7 @@ exportFdmatData <- function(fdmat, expo.gate=".", expo.name=".",
     if (expoType == "xlsx") {
         flscList <- evpvList <- vector("list", length(fdmat))
         flscNames <- evpvNames <- vector("character", length(fdmat))
-        for (i in 1: length(flscList)) {
+        for (i in seq_along(flscList)) {
             thisGate <- fdmat[[i]]@gateName
             flscList[[i]] <- fdmat[[i]]@.Data
             flscNames[i] <- paste0(flscChar, "_", thisGate)
@@ -1050,7 +1050,7 @@ makefdmat <- function(gs, name.dict=".", foN.dict=".", type.dict=".", expo=TRUE,
     } # end for i
     #
     outMd <-  data.frame(NULL)
-    for (i in 1: length(outList)) { # re-sort events per volume and collect metadata
+    for (i in seq_along(outList)) { # re-sort events per volume and collect metadata
         outList[[i]]@eventsPerVol <- eventsPerVol[[i]] # must have same length
         outMd <- rbind(outMd, outList[[i]]@metadata)
     } # end for i
@@ -1187,7 +1187,7 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE,
         #        cyTagsUse <- cyTags[which(cyTags[,1] == gateName),]
                 cyTagsUse <- cyTags[1:length(gs),] # we just take the first gate, as all the indices are the same in all of the gates in the cyTags
                 splVals <- sort(unique(cyTagsUse[,spl]))
-                for (k in 1: length(splVals)) {
+                for (k in seq_along(splVals)) {
                     indsUse <- which(cyTagsUse[,spl] == splVals[k])
                     tiUse <- paste0(ti, " ", splVals[k], tiAdd, subs, ", gate: ", gateName, ", using `", gsdf[i,"GateDefinition"], "`")
                     options(warn=-1)
@@ -1433,7 +1433,7 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 #' @template t_ex_assign
 #' @examples
 #' fdmat <- flowdexit()
-#' fdmat2 <- flowdexit(gateStrat = "gateStrat_2")
+#' fdmat2 <- flowdexit(patt = "T5", gateStrat = "gateStrat_2")
 #' fdmat_small <- flowdexit(patt = "T4", expo = FALSE, stf = FALSE)
 #' #
 #' fdmat_small

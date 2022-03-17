@@ -708,7 +708,7 @@ file.copy(allOrb4, ptFcsOrb4_noSID, overwrite = TRUE)
 
 finas <- list.files(ptFcsOrb4_noSID)
 fs <- repairSID(fn = ptFcsOrb4_noSID)
-for (i in 1: length(finas)) {
+for (i in seq_along(finas)) {
     repairSID(fs, fn = ptFcsOrb4_noSID, name = finas[i], newSID = "", confirm = FALSE)
 } # end for i
 # fs <- repairSID(fn = ptFcsOrb4_noSID)

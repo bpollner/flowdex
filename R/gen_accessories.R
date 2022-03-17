@@ -124,9 +124,9 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
     zeroInd <- as.numeric(which(apply(mat,1, function(x) all(x==ZeV)))) # the indices of all the rows that contain all zero
     zeroChar <- rownames(mat)[zeroInd]
     if (length(zeroInd) > 0) {
-        dataInd <- seq(1:nrow(mat))[-zeroInd]
+        dataInd <- seq(1: nrow(mat))[-zeroInd]
     } else {
-        dataInd <- seq(1:nrow(mat))
+        dataInd <- seq(1: nrow(mat))
     }
     #
     mat@.Data <- mat@.Data[dataInd,] # only leave those rows in the matrix that do have data

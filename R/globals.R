@@ -24,4 +24,3 @@ gl_fdmatObjSuff <- "_fdmatObj"
 
 gl_name_of_example_dataset <- "flowdex_examples"
 
-gl_data_source <- "https://github.com/bpollner/data/raw/main/flowdex_examples/flowdex_examples.zip"

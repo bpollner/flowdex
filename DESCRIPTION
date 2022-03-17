@@ -4,17 +4,20 @@ Title: Extract Fluorescence Distribution Data from FCS Files and Recalculate to 
 Version: 0.4.1
 Authors@R:
     person("Bernhard", "Pollner", email = "bernhard.pollner@mac.com", role = c("cre","aut"))
-Maintainer: Bernhard Pollner <bernhard.pollner@mac.com>
-Description: Extract fluorescence distribution data from any bivariate distribution within a previously defined flow cytometry gating set and recalculate the fluorescence distribution data to events per volume unit. To (meaningfully) use flowdex, the fcs files have to contain volumetric measurement data denoting the acquired sample volume.
+Description: Extract fluorescence distribution data from fcs files and recalculate them to events per volume unit. 
+    Any custom-built gating strategy can be applied. 
+    Via a structured string in the sample ID field of each sample, additional class- and numerical variables can be generated.
+    To (meaningfully) use flowdex, the fcs files have to contain volumetric measurement data denoting the acquired sample volume.
 License: file LICENSE
 License_restricts_use: yes
 Encoding: UTF-8
 URL: https://bpollner.github.io/flowdex/, https://github.com/bpollner/flowdex
 BugReports: https://github.com/bpollner/flowdex/issues
 Language: en-US
+biocViews: FlowCytometry
 RoxygenNote: 7.1.2
 Depends:
-    R (>= 3.3.2)
+    R (>= 4.1.0)
 Imports:
     methods,
     utils,
@@ -26,7 +29,9 @@ Imports:
     ggcyto, 
     ggplot2,
     RColorBrewer,
-    scales
+    scales, 
+    grDevices,
+    graphics
 Suggests: 
     covr,
     knitr,

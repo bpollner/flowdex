@@ -51,10 +51,11 @@ if (!dir.exists(pathToHome)) {
     dir.create(pathToHome) # simulating the users experiment home directory
 }
 #
-
-
-
-
+data_source <- "https://github.com/bpollner/data/raw/main/flowdex_examples/flowdex_examples.zip"
+test_that("check_download_data", {
+    expect_false(check_download_data(pathToHome, data_source))
+    expect_true(check_download_data(pathToHome, data_source))
+}) # EOT
 
 
 ##### simple helpers #######

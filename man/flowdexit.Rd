@@ -184,7 +184,8 @@ data are exported.
 
 \examples{
 td <- tempdir()
-check_download_data(td)
+data_source <- "https://github.com/bpollner/data/raw/main/flowdex_examples/flowdex_examples.zip"
+check_download_data(td, data_source)
 exp_home <- paste0(td, "/flowdex_examples")
 old_wd <- getwd()
 setwd(exp_home)
@@ -197,7 +198,7 @@ assign("get_settings_from_flowdex_package_root", TRUE, pos=.GlobalEnv)
 # 'flowdex' will be sourced instead of the one in the user-defined location.
 #
 fdmat <- flowdexit()
-fdmat2 <- flowdexit(gateStrat = "gateStrat_2")
+fdmat2 <- flowdexit(patt = "T5", gateStrat = "gateStrat_2")
 fdmat_small <- flowdexit(patt = "T4", expo = FALSE, stf = FALSE)
 #
 fdmat_small

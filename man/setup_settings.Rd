@@ -24,7 +24,7 @@ Perform the setup of the setting-system provided by package
 Has to be done only once.
 }
 \examples{
-\dontrun{
+\donttest{
 where <- "~/desktop"
 setup_settings(where)
 }

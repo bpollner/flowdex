@@ -6,19 +6,24 @@
 #' dataset is downloaded.
 #' @param where Character length one. The path where the example dataset should
 #' be looked for.
+#' @param data_source The path to the remote .zip file
+#' @return Logical. FALSE if the remote .zip file was downloaded, TRUE if the 
+#' example dataset was present and no download was necessary.
 #' @examples
 #' td <- tempdir()
-#' check_download_data(td)
+#' data_source <- "https://github.com/bpollner/data/raw/main/flowdex_examples/flowdex_examples.zip"
+#' check_download_data(td, data_source)
 #' @export
-check_download_data <- function(where) {
-    data_source <- gl_data_source
+check_download_data <- function(where, data_source) {
     dsname <- gl_name_of_example_dataset
     ptds <- paste0(where, "/", dsname)
     if (! dir.exists(ptds)) {
         targ_zip <- paste0(where, "/", dsname, ".zip")
         download.file(data_source, targ_zip, mode = "wb") ## DOWNLOAD ##
         unzip(targ_zip, exdir = where)
+        return(FALSE)
     } # end if
+    return(TRUE)
 } # EOF
 
 #' @title Perform Settings Setup
@@ -32,7 +37,7 @@ check_download_data <- function(where) {
 #' @return (Invisible) NULL; is called for its side effects, i.e. to set up
 #' the settings-file system as provided by package 'uniset'.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' where <- "~/desktop"
 #' setup_settings(where)
 #' }

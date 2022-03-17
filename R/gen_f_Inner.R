@@ -201,7 +201,7 @@ ignoreEdge <- function(x, perc=5, minLe=10) {
         return(x)
     }
     cut <- round((perc * tot) / 100, 0)
-    cutIndLow <- 1:cut
+    cutIndLow <- 1 : cut
     cutIndHigh <- seq(length(x)-cut+1, length(x))
     cutOff <- c(cutIndLow, cutIndHigh)
     x <- sort(x)
@@ -348,7 +348,7 @@ makefdmat_single <- function(gs, gateName="DNA+", chName="FITC.A", res=220, flRa
     for (i in seq_along(histList)) {
         vals <- histList[[i]]$countsOrig # take the original values (possibly re-calculated to volume)
         if (smo) {
-            vals <- try(signal::sgolayfilt(vals, n=smN, p=smP), silent=FALSE) # smoothing
+            vals <- try(signal::sgolayfilt(vals, n=smN, p=smP), silent=TRUE) # smoothing
             if (class(vals) == "try-errpr") {
                 message("Smoothing was skipped as it producecd an error.") ## XXX improve here. Try to catch no-data scenarios earlier.
             }

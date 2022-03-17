@@ -4,11 +4,17 @@
 \alias{check_download_data}
 \title{Check and Download Example Dataset}
 \usage{
-check_download_data(where)
+check_download_data(where, data_source)
 }
 \arguments{
 \item{where}{Character length one. The path where the example dataset should
 be looked for.}
+
+\item{data_source}{The path to the remote .zip file}
+}
+\value{
+Logical. FALSE if the remote .zip file was downloaded, TRUE if the 
+example dataset was present and no download was necessary.
 }
 \description{
 Checks if the example dataset is present. If not, the example
@@ -16,5 +22,6 @@ dataset is downloaded.
 }
 \examples{
 td <- tempdir()
-check_download_data(td)
+data_source <- "https://github.com/bpollner/data/raw/main/flowdex_examples/flowdex_examples.zip"
+check_download_data(td, data_source)
 }

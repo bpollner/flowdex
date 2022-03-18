@@ -1,7 +1,7 @@
 Package: flowdex
 Type: Package
 Title: Extract Fluorescence Distribution Data from FCS Files and Recalculate to Events per Volume
-Version: 0.4.1
+Version: 0.4.2
 Authors@R:
     person("Bernhard", "Pollner", email = "bernhard.pollner@mac.com", role = c("cre","aut"))
 Description: Extract fluorescence distribution data from fcs files and recalculate them to events per volume unit. 

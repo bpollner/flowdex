@@ -4,9 +4,14 @@
 #' @title Check and Download Example Dataset
 #' @description Checks if the example dataset is present. If not, the example
 #' dataset is downloaded.
+#' @details Intended to be used within the examples; is downloading and
+#' unzipping the folder 'flowdex_examples' in the folder specified at argument
+#' 'where'. 
 #' @param where Character length one. The path where the example dataset should
 #' be looked for.
-#' @param data_source The path to the remote .zip file
+#' @param data_source The path to the remote .zip file.
+#' @param force_download Logical. If data should be downloaded anyway.
+#' Defaults to FALSE.
 #' @return Logical. FALSE if the remote .zip file was downloaded, TRUE if the 
 #' example dataset was present and no download was necessary.
 #' @examples
@@ -14,10 +19,10 @@
 #' data_source <- "https://github.com/bpollner/data/raw/main/flowdex_examples/flowdex_examples.zip"
 #' check_download_data(td, data_source)
 #' @export
-check_download_data <- function(where, data_source) {
+check_download_data <- function(where, data_source, force_download = FALSE) {
     dsname <- gl_name_of_example_dataset
     ptds <- paste0(where, "/", dsname)
-    if (! dir.exists(ptds)) {
+    if (! dir.exists(ptds) | force_download) {
         targ_zip <- paste0(where, "/", dsname, ".zip")
         download.file(data_source, targ_zip, mode = "wb") ## DOWNLOAD ##
         unzip(targ_zip, exdir = where)
@@ -181,9 +186,7 @@ genfs <- function(where=getwd(), copy_templates = TRUE) {
 #' @template t_ex_assign
 #' @examples
 #' fon <- "fcsF_E_rep"
-#' \donttest{
-#' checkRepairFcsFiles(fon)  # just to see what needs repairing
-#' } 
+#' # checkRepairFcsFiles(fon)  # just to see what needs repairing
 #' checkRepairFcsFiles(fon, TRUE, FALSE)
 #' @template t_ex_finale
 #' @family Accessory functions
@@ -376,6 +379,8 @@ readInFlowSet <- function(folderName=NULL, patt=NULL, colPat=NULL,
 #' @template t_ex_intro
 #' @template t_ex_assign
 #' @examples
+#' check_download_data(td, data_source, TRUE) # force download here
+#' #
 #' fon <- "fcsF_E_vol_sid"
 #' repairVolumes(vol=1234567, fn=fon, confirm = FALSE)
 #' @template t_ex_finale
@@ -1132,7 +1137,7 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE,
         foN_plots <- checkDefToSetVal(foN.plots, "foN_plots", "foN.plots", stn, checkFor="char")
     } # end if
     ##
-    if (is(gs, "GatingSet")) {
+    if (class(gs) == "GatingSet") {
         if (is.null(x) | is.null(y)) {
             stop("Please provide valid channel names to be displayed on the x- and y-axis.", call.=FALSE)
         }

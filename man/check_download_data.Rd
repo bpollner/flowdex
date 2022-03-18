@@ -4,13 +4,16 @@
 \alias{check_download_data}
 \title{Check and Download Example Dataset}
 \usage{
-check_download_data(where, data_source)
+check_download_data(where, data_source, force_download = FALSE)
 }
 \arguments{
 \item{where}{Character length one. The path where the example dataset should
 be looked for.}
 
-\item{data_source}{The path to the remote .zip file}
+\item{data_source}{The path to the remote .zip file.}
+
+\item{force_download}{Logical. If data should be downloaded anyway.
+Defaults to FALSE.}
 }
 \value{
 Logical. FALSE if the remote .zip file was downloaded, TRUE if the 

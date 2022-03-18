@@ -64,6 +64,9 @@
     <loc>https://bpollner.github.io/flowdex/reference/checkRepairFcsFiles.html</loc>
   </url>
   <url>
+    <loc>https://bpollner.github.io/flowdex/reference/check_download_data.html</loc>
+  </url>
+  <url>
     <loc>https://bpollner.github.io/flowdex/reference/class-GatingSet_fd.html</loc>
   </url>
   <url>
@@ -98,6 +101,9 @@
   </url>
   <url>
     <loc>https://bpollner.github.io/flowdex/reference/fd_updateSettings.html</loc>
+  </url>
+  <url>
+    <loc>https://bpollner.github.io/flowdex/reference/fd_update_settings.html</loc>
   </url>
   <url>
     <loc>https://bpollner.github.io/flowdex/reference/flowdex.html</loc>
@@ -137,5 +143,8 @@
   </url>
   <url>
     <loc>https://bpollner.github.io/flowdex/reference/setupSettings.html</loc>
+  </url>
+  <url>
+    <loc>https://bpollner.github.io/flowdex/reference/setup_settings.html</loc>
   </url>
 </urlset>

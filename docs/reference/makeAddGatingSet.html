@@ -12,7 +12,7 @@ the gating strategy as previously defined."><meta property="og:image" content="h
     
     <a class="navbar-brand me-2" href="../index.html">flowdex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -153,13 +153,6 @@ recomputed gates.</p>
 simply use 'plot'.</p>
     </div>
     <div class="section level2">
-    <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
-    
- 
-<p>Please refer to <a href="https://bpollner.github.io/flowdex/">https://bpollner.github.io/flowdex/</a> for executable 
-examples in the tutorial dataset.</p>
-    </div>
-    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other Extraction functions: 
 <code><a href="addGates.html">addGates</a>()</code>,
@@ -167,6 +160,78 @@ examples in the tutorial dataset.</p>
 <code><a href="makefdmat.html">makefdmat</a>()</code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">data_source</span> <span class="op">&lt;-</span> <span class="st">"https://github.com/bpollner/data/raw/main/flowdex_examples/flowdex_examples.zip"</span></span>
+<span class="r-in"><span class="fu"><a href="check_download_data.html">check_download_data</a></span><span class="op">(</span><span class="va">td</span>, <span class="va">data_source</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span class="va">exp_home</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"/flowdex_examples"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">old_wd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="va">exp_home</span><span class="op">)</span></span>
+<span class="r-in"><span class="co">#</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/assign.html" class="external-link">assign</a></span><span class="op">(</span><span class="st">"get_settings_from_flowdex_package_root"</span>, <span class="cn">TRUE</span>, pos<span class="op">=</span><span class="va">.GlobalEnv</span><span class="op">)</span></span>
+<span class="r-in"><span class="co"># only required to make the examples run automatically</span></span>
+<span class="r-in"><span class="co"># you should not call 'assign' if you run the examples manually</span></span>
+<span class="r-in"><span class="co"># the effect of setting 'get_settings_from_flowdex_package_root' to TRUE</span></span>
+<span class="r-in"><span class="co"># is that the file 'flowdex_settings.R' in 'root' of the installed package</span></span>
+<span class="r-in"><span class="co"># 'flowdex' will be sourced instead of the one in the user-defined location.</span></span>
+<span class="r-in"><span class="co">#</span></span>
+<span class="r-in"><span class="va">gs1</span> <span class="op">&lt;-</span> <span class="fu">makeAddGatingSet</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading in fcs files... ok. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Producing gating set... Applying fjbiexp transformation... ok. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Gating: (1 gate) </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> done!</span>
+<span class="r-in"><span class="va">gs2</span> <span class="op">&lt;-</span> <span class="fu">makeAddGatingSet</span><span class="op">(</span>patt <span class="op">=</span> <span class="st">"T4"</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading in fcs files... ok. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Producing gating set... Applying fjbiexp transformation... ok. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Gating: (1 gate) </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> done!</span>
+<span class="r-in"><span class="va">gs3</span> <span class="op">&lt;-</span> <span class="fu">makeAddGatingSet</span><span class="op">(</span>gateStrat <span class="op">=</span> <span class="st">"gateStrat_2"</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading in fcs files... ok. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Producing gating set... Applying fjbiexp transformation... ok. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Gating: (6 gates)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> done!</span>
+<span class="r-in"><span class="va">gs3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A GatingSet of class 'GatingSet_fd' with 12 samples:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Index             SampleNames</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      1 N_na_GNeg_T4_th1_b1.fcs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      2 N_na_GNeg_T4_th1_b2.fcs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      3 N_na_GNeg_T4_th1_b3.fcs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      4 N_na_GNeg_T5_th1_b1.fcs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5      5 N_na_GNeg_T5_th1_b2.fcs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6      6 N_na_GNeg_T5_th1_b3.fcs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7      7 N_na_GPos_T4_th1_b1.fcs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8      8 N_na_GPos_T4_th1_b2.fcs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9      9 N_na_GPos_T4_th1_b3.fcs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10    10 N_na_GPos_T5_th1_b1.fcs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11    11 N_na_GPos_T5_th1_b2.fcs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12    12 N_na_GPos_T5_th1_b3.fcs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The following 10 channels are available:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FSC.A    SSC.A    FITC.A    PE.A    PerCP.A    PE.Cy7.A    APC.A    APC.Cy7.A    V450.A    V500.A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The following gating strategy derived from file 'gateStrat_2.xlsx' has been applied:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           GateName           Parent GateOnX GateOnY  GateDefinition extractOn</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1             DNA+             root  FITC.A PerCP.A     BactStainV1    FITC.A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        Unstained             root  FITC.A PerCP.A     UnstainedV1    FITC.A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      HighSSC_fsc        Unstained   FSC.A   SSC.A  HighSSC_FSC_V1     FSC.A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     HighSSC_fitc             root  FITC.A PerCP.A HighSSC_FITC_V1    FITC.A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 HighSSC_fsc.fitc      HighSSC_fsc  FITC.A PerCP.A HighSSC_FITC_V1    FITC.A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6     HighSSC_ffif HighSSC_fsc.fitc   FSC.A   SSC.A  HighSSC_FSC_V1     FSC.A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   minRange maxRange keepData</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     1250     4000     TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        0     1000    FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        0     4000    FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        0     1000    FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        0     1000    FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        0     4000     TRUE</span>
+<span class="r-in"><span class="co">#</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="va">old_wd</span><span class="op">)</span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

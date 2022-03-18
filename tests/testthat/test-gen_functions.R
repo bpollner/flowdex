@@ -10,6 +10,8 @@ library(testthat)
 
 ###### Prepare #####
 
+rm(list=ls(all.names = TRUE))
+
 # the path to the function for this project to calculate code coverage
 myCodeCovPath <- "/Users/bernhard/Documents/RPS/flowdex_R/misc/func_codecov.R"
 assign("myCodeCovPath", myCodeCovPath, pos=.GlobalEnv)
@@ -28,10 +30,6 @@ file.copy(ptSeOrig, ptSeTarget, overwrite=TRUE)
 #
 stn <- source(paste0(ptpInst, "/flowdex_settings.R"))$value
 
-
-if (exists("get_settings_from_flowdex_package_root", where = .GlobalEnv)) {
-    rm(get_settings_from_flowdex_package_root) #
-} # end if
 test_that("checkOnTest", {
     expect_false(checkOnTest())
 }) # EOT
@@ -732,13 +730,3 @@ test_that("noDic noVolume in the fcs files", {
 }) # EOT
 
 copySettings(ptSeOrig)
-
-
-test_that("199 :-) ", {
-    expect_equal(1,1)
-}) # EOT
-
-test_that("200 :-) ", {
-    expect_equal(1,1)
-}) # EOT
-

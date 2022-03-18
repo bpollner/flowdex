@@ -12,7 +12,7 @@ available templates (gate definitions, gating strategy, dictionary)."><meta prop
     
     <a class="navbar-brand me-2" href="../index.html">flowdex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,7 +70,7 @@ available templates (gate definitions, gating strategy, dictionary).</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">genfs</span><span class="op">(</span>where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, copyTemplates <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">genfs</span><span class="op">(</span>where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, copy_templates <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -78,7 +78,7 @@ available templates (gate definitions, gating strategy, dictionary).</p>
     <dl><dt>where</dt>
 <dd><p>Character length one, holding a valid path. Defaults to the
 current working directory.</p></dd>
-<dt>copyTemplates</dt>
+<dt>copy_templates</dt>
 <dd><p>Logical, if available templates should be copied into
 the folder 'templates'.</p></dd>
 </dl></div>
@@ -86,13 +86,6 @@ the folder 'templates'.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>No return value, called for its side effects, i.e. the creation of
 the required folder structure.</p>
-    </div>
-    <div class="section level2">
-    <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
-    
- 
-<p>Please refer to <a href="https://bpollner.github.io/flowdex/">https://bpollner.github.io/flowdex/</a> for executable 
-examples in the tutorial dataset.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -107,6 +100,28 @@ examples in the tutorial dataset.</p>
 <code><a href="repairVolumes.html">repairVolumes</a>()</code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">data_source</span> <span class="op">&lt;-</span> <span class="st">"https://github.com/bpollner/data/raw/main/flowdex_examples/flowdex_examples.zip"</span></span>
+<span class="r-in"><span class="fu"><a href="check_download_data.html">check_download_data</a></span><span class="op">(</span><span class="va">td</span>, <span class="va">data_source</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span class="va">exp_home</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"/flowdex_examples"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">old_wd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="va">exp_home</span><span class="op">)</span></span>
+<span class="r-in"><span class="co">#</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/assign.html" class="external-link">assign</a></span><span class="op">(</span><span class="st">"get_settings_from_flowdex_package_root"</span>, <span class="cn">TRUE</span>, pos<span class="op">=</span><span class="va">.GlobalEnv</span><span class="op">)</span></span>
+<span class="r-in"><span class="co"># only required to make the examples run automatically</span></span>
+<span class="r-in"><span class="co"># you should not call 'assign' if you run the examples manually</span></span>
+<span class="r-in"><span class="co"># the effect of setting 'get_settings_from_flowdex_package_root' to TRUE</span></span>
+<span class="r-in"><span class="co"># is that the file 'flowdex_settings.R' in 'root' of the installed package</span></span>
+<span class="r-in"><span class="co"># 'flowdex' will be sourced instead of the one in the user-defined location.</span></span>
+<span class="r-in"><span class="co">#</span></span>
+<span class="r-in"><span class="fu">genfs</span><span class="op">(</span><span class="va">exp_home</span><span class="op">)</span></span>
+<span class="r-in"><span class="co">#</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="va">old_wd</span><span class="op">)</span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

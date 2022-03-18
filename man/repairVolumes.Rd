@@ -81,6 +81,8 @@ assign("get_settings_from_flowdex_package_root", TRUE, pos=.GlobalEnv)
 # is that the file 'flowdex_settings.R' in 'root' of the installed package
 # 'flowdex' will be sourced instead of the one in the user-defined location.
 #
+check_download_data(td, data_source, TRUE) # force download here
+#
 fon <- "fcsF_E_vol_sid"
 repairVolumes(vol=1234567, fn=fon, confirm = FALSE)
 #

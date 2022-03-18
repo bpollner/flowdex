@@ -14,7 +14,7 @@ written back to disc. The original ("corrupt") fcs file will be overwritten.'><m
     
     <a class="navbar-brand me-2" href="../index.html">flowdex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,7 +93,8 @@ settings file (key: 'foN_fcsFiles') will be used.</p></dd>
 <dd><p>Logical. If defect fcs files should be attempted to repair.
 If left at the default FALSE, fcs files with double entries in their keywords
 will only be listed. If set to TRUE, the keyword doublets will be deleted and
-the fcs file will be saved to disc. The original fcs file will be overwritten.</p></dd>
+the fcs file will be saved to disc. The original fcs file will be
+overwritten.</p></dd>
 <dt>confirm</dt>
 <dd><p>Logical. If confirmation is required before overwriting the
 faulty fcs files with their corrected version. Defaults to TRUE. If set to
@@ -102,11 +103,11 @@ FALSE. original fcs files will be overwritten without further warning.</p></dd>
 <dd><p>Logical, If the multiplied keywords should be displayed.
 Defaults to FALSE.</p></dd>
 <dt>keepLast</dt>
-<dd><p>Logical or Numeric. If the last or the first item of a keyword
-multiplication should be kept. If left at the default TRUE, the last keyword
-of a keyword multiplication will be kept, if set to FALSE the first will be
-kept. Provide a numeric length one to denote the number of the multiplied
-keyword to keep.</p></dd>
+<dd><p>Logical or Numeric. If the last or the first item of a 
+keyword multiplication should be kept. If left at the default TRUE, the 
+last keyword of a keyword multiplication will be kept, if set to FALSE the
+first will be kept. Provide a numeric length one to denote the number of 
+the multiplied keyword to keep.</p></dd>
 <dt>verbose</dt>
 <dd><p>Logical. If status messages should be displayed. If left at
 the default '.', the value as defined in the settings file (key 'dV_verbose')
@@ -114,8 +115,8 @@ will be used.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>(Invisible) TRUE. Is used for its side effect, i.e. to repair fcs files
-with multiplied keywords and to write those fcs files to disc.</p>
+    <p>(Invisible) TRUE. Is used for its side effect, i.e. to repair fcs
+files with multiplied keywords and to write those fcs files to disc.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -126,20 +127,14 @@ After some testing, the author came to the conclusion that a solution to this
 error can be to delete multiple entries of the same keyword in the keywords
 of the fcs file. (As fcs files *not* displaying this error seem to have only
 unique keywords.)<br>
-It also appeared that always the last of the multiplied entries was the correct
-one, hence the default keeping of the *last* of multiple entries. <br>
+It also appeared that always the last of the multiplied entries was the
+correct one, hence the default keeping of the *last* of multiple entries. <br>
 Currently, only uniformly multiplied keyword entries get remedied -- if there
 should be a mixture of keyword-multiplication (e.g. some are two-fold, some
 others are three-fold) an error message is displayed. <br>
-Other approaches to this problem via e.g. ignoring the text offset as possible
-in <code><a href="https://rdrr.io/pkg/flowWorkspace/man/load_cytoframe_from_fcs.html" class="external-link">load_cytoframe_from_fcs</a></code> resulted in data loss.</p>
-    </div>
-    <div class="section level2">
-    <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
-    
- 
-<p>Please refer to <a href="https://bpollner.github.io/flowdex/">https://bpollner.github.io/flowdex/</a> for executable 
-examples in the tutorial dataset.</p>
+Other approaches to this problem via e.g. ignoring the text offset as
+possible in <code><a href="https://rdrr.io/pkg/flowWorkspace/man/load_cytoframe_from_fcs.html" class="external-link">load_cytoframe_from_fcs</a></code> resulted
+in data loss.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -157,6 +152,38 @@ examples in the tutorial dataset.</p>
 <code><a href="repairVolumes.html">repairVolumes</a>()</code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">data_source</span> <span class="op">&lt;-</span> <span class="st">"https://github.com/bpollner/data/raw/main/flowdex_examples/flowdex_examples.zip"</span></span>
+<span class="r-in"><span class="fu"><a href="check_download_data.html">check_download_data</a></span><span class="op">(</span><span class="va">td</span>, <span class="va">data_source</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span class="va">exp_home</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"/flowdex_examples"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">old_wd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="va">exp_home</span><span class="op">)</span></span>
+<span class="r-in"><span class="co">#</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/assign.html" class="external-link">assign</a></span><span class="op">(</span><span class="st">"get_settings_from_flowdex_package_root"</span>, <span class="cn">TRUE</span>, pos<span class="op">=</span><span class="va">.GlobalEnv</span><span class="op">)</span></span>
+<span class="r-in"><span class="co"># only required to make the examples run automatically</span></span>
+<span class="r-in"><span class="co"># you should not call 'assign' if you run the examples manually</span></span>
+<span class="r-in"><span class="co"># the effect of setting 'get_settings_from_flowdex_package_root' to TRUE</span></span>
+<span class="r-in"><span class="co"># is that the file 'flowdex_settings.R' in 'root' of the installed package</span></span>
+<span class="r-in"><span class="co"># 'flowdex' will be sourced instead of the one in the user-defined location.</span></span>
+<span class="r-in"><span class="co">#</span></span>
+<span class="r-in"><span class="va">fon</span> <span class="op">&lt;-</span> <span class="st">"fcsF_E_rep"</span></span>
+<span class="r-in"><span class="co"># checkRepairFcsFiles(fon)  # just to see what needs repairing</span></span>
+<span class="r-in"><span class="fu">checkRepairFcsFiles</span><span class="op">(</span><span class="va">fon</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> The following 2 files from the folder 'fcsF_E_rep' </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> do have non-unique entries (all 2 fold) in their keywords:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> N_na_GNeg_T6_th1_b2.fcs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> N_na_GNeg_T6_th1_b3.fcs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> All except the last of each multiplied keyword were removed, and the original fcs file were overwritten.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (You can use 'checkRepairFcsFiles' directly and set 'showMultiples' to TRUE to display the multiplied keywords.)</span>
+<span class="r-in"><span class="co">#</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="va">old_wd</span><span class="op">)</span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

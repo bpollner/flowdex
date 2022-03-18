@@ -78,3 +78,8 @@ reference:
   - class-GatingSet_fd
   - class-fdmat_single
   - class-fdmat
+
+- title: "Other Functions"
+  desc: ""
+  contents:
+  - check_download_data

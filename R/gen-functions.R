@@ -43,7 +43,7 @@ check_download_data <- function(where, data_source, force_download = FALSE) {
 #' the settings-file system as provided by package 'uniset'.
 #' @examples
 #' \donttest{
-#' where <- "~/desktop"
+#' where <- path.expand("~")
 #' setup_settings(where)
 #' }
 #' @family Setup functions

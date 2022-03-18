@@ -23,6 +23,11 @@ example dataset was present and no download was necessary.
 Checks if the example dataset is present. If not, the example
 dataset is downloaded.
 }
+\details{
+Intended to be used within the examples; is downloading and
+unzipping the folder 'flowdex_examples' in the folder specified at argument
+'where'.
+}
 \examples{
 td <- tempdir()
 data_source <- "https://github.com/bpollner/data/raw/main/flowdex_examples/flowdex_examples.zip"

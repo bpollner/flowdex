@@ -4,7 +4,12 @@
 \alias{check_download_data}
 \title{Check and Download Example Dataset}
 \usage{
-check_download_data(where, data_source, force_download = FALSE)
+check_download_data(
+  where,
+  data_source,
+  force_download = FALSE,
+  dsname = "flowdex_examples"
+)
 }
 \arguments{
 \item{where}{Character length one. The path where the example dataset should
@@ -14,6 +19,9 @@ be looked for.}
 
 \item{force_download}{Logical. If data should be downloaded anyway.
 Defaults to FALSE.}
+
+\item{dsname}{Character length one. The name of the folder containing the 
+data. Defaults to 'flowdex_examples'.}
 }
 \value{
 Logical. FALSE if the remote .zip file was downloaded, TRUE if the 
@@ -25,7 +33,7 @@ dataset is downloaded.
 }
 \details{
 Intended to be used within the examples; is downloading and
-unzipping the folder 'flowdex_examples' in the folder specified at argument
+unzipping the folder 'dsname' in the folder specified at argument
 'where'.
 }
 \examples{

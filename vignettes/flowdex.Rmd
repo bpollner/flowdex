@@ -29,22 +29,36 @@ library(devtools)
 install_github(repo="bpollner/flowdex", ref="main")
 ```
 
-## Download Tutorial Dataset
+## Initialize Settings File System {#initialize-settings-file-system}
+
+Package `flowdex` makes use of the dynamic settings file system provided by package [`uniset`](https://bpollner.github.io/uniset/). This has to be initialised **just once** by calling
+
+```{r}
+library(flowdex)
+flowdex::setup_settings(path.expand("~"))
+```
+
+Follow the on-screen instructions and **possibly re-start R**.\
+From now on, various global settings and default values used by `flowdex` can conveniently be viewed and changed in the file `flowdex_settings.R` residing at
+
+```{r}
+path.expand("~")
+```
+
+## Download Tutorial Dataset {#download-tutorial-dataset}
 
 In order to walk the user over the main-features of package `flowdex`, a small tutorial-dataset has been created, along with gating strategy files and the required polygon-gate definitions.\
 Also, the workflow how to create the gating strategy file and the polygon gate definitions will be explained.
 
-First, download the tutorial data from its Github repository to your desktop (or any place you prefer).
+First, download the tutorial data from its Github repository:
 
-``` r
-from <- "https://github.com/bpollner/data/raw/main/flowdexTutorial/flowdexTutorial.zip"
-destination <- "~/desktop"
-targetZip <- paste0(destination, "/flowdexTutorial.zip")
-download.file(from, targetZip, mode="wb")
-unzip(targetZip, exdir = destination)
+```{r}
+library(flowdex)
+src <- "https://github.com/bpollner/data/raw/main/flowdex_tutorial/flowdex_tutorial.zip"
+td <- tempdir()
+# this is downloading and unzipping the tutorial data if not already present:
+flowdex::check_download_data(where = td, data_source = src, dsname = "flowdex_tutorial")
 ```
-
-(The code of this tutorial is also available in the file 'flowdexTutorial.R' in the uncompressed folder.)
 
 #### Note: Description of Tutorial Dataset
 
@@ -57,33 +71,20 @@ unzip(targetZip, exdir = destination)
 -   fcs files from day 4, day 5 and day 6 are included (denoted as T4, T5, and T6).
 -   The 18 samples per day from each group are further structured in 'thirds' and beaker number: th1, th2 and th3 for the first, second and third third of the 18 samples, b1, b2, ... up to b6 for the 6 samples (b for beaker) within each third.
 
-## Initialise Settings File System {#initialise-settings-file-system}
-
-Package `flowdex` makes use of the dynamic settings file system provided by package `uniset`. This has to be initialised **just once** by calling
-
-``` r
-library(flowdex)
-destination <- "~/desktop"
-setup_settings(destination)
-```
-
-Follow the on-screen instructions and possibly re-start R.\
-From now on, various global settings and default values used by `flowdex` can conveniently be viewed and changed in the file `flowdex_settings.R` residing at `~/desktop/flowdex_SH` (if you kept it there as in the example).
-
 ------------------------------------------------------------------------
 
 ## Quickstart {#quickstart}
 
-After having (only once) set up the [settings file system](#initialise-settings-file-system), you could dive straight in -- for a quickstart to immediately see what `flowdex` can do, call:
+After having (only once) set up the [settings file system](#initialize-settings-file-system) and having downloaded the [tutorial dataset](#download-tutorial-dataset), you could dive straight in -- for a quickstart to immediately see what `flowdex` can do, call:
 
-``` r
-destination <- "~/desktop" # again, as R was possibly restarted
-setwd(paste0(destination, "/flowdexTutorial"))
+```{r}
 library(flowdex)
+setwd(paste0(td, "/flowdex_tutorial"))
 fdmat <- flowdexit() # this might take a few seconds
-fdmat@pData # to inspect volume and sample ID data
-fdmat@cyTags # to inspect class- and numerical variables assigned to each sample
-fdmat[[1]] # to inspect fluorescence distribution
+fdmat@pData[1:5,] # to inspect volume and sample ID data
+fdmat@cyTags[1:5,] # to inspect class- and numerical variables assigned to each sample
+fdist <- fdmat[[1]] # to inspect fluorescence distribution
+fdist[1:5, 130:134] # pick some random fluorescence intensities
 ```
 
 Look at 'flowdexTutorial/rawdata/flscData_gateStrat.xlsx.xlsx' to see the fluorescence distribution exported to file, observe the various sheets there.
@@ -93,15 +94,13 @@ Look at 'flowdexTutorial/rawdata/flscData_gateStrat.xlsx.xlsx' to see the fluore
 ## Prepare Folder Structure
 
 Take it step by step, not interested in the quickstart above: We assume that data from a single experiment will be residing in a single folder -- the 'home' folder for this experiment.\
-Within this home-folder, `flowdex` requires a simple folder structure to properly work. Create that folder structure now within a newly created experiment home-folder called 'tapWater\@home':
+Within this home-folder, `flowdex` requires a simple folder structure to properly work. Create that folder structure now within a newly created experiment home-folder called 'tap_water_home':
 
-``` r
-destination <- "~/desktop" # again, as R was possibly restarted
-expHome <- paste0(destination, "/tapWater@home") 
-dir.create(expHome)
-setwd(expHome)
-library(flowdex) # as you might have had to restart R above
-genfs() # create the required folder structure
+```{r}
+td <- tempdir()
+exp_home <- paste0(td, "/tap_water_home") 
+dir.create(exp_home)
+flowdex::genfs(exp_home) # create the required folder structure in 'tap_water_home'
 ```
 
 Continue to [data acquisition](https://bpollner.github.io/flowdex/articles/acquire_data.html), or straight to [Workflow 2](https://bpollner.github.io/flowdex/articles/workflow_2.html), where you can learn how to extract fluorescence distributions and how to visualize them.

@@ -109,6 +109,36 @@
 <span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span>repo<span class="op">=</span><span class="st">"bpollner/flowdex"</span>, ref<span class="op">=</span><span class="st">"main"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="initialize-settings-file-system">Initialize Settings File System<a class="anchor" aria-label="anchor" href="#initialize-settings-file-system"></a>
+</h2>
+<p>Package <code>flowdex</code> makes use of the dynamic settings file
+system provided by package <a href="https://bpollner.github.io/uniset/" class="external-link"><code>uniset</code></a>. This
+has to be initialised <strong>just once</strong> by calling</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bpollner.github.io/flowdex/">flowdex</a></span><span class="op">)</span>
+<span class="fu">flowdex</span><span class="fu">::</span><span class="fu"><a href="../reference/setup_settings.html">setup_settings</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/path.expand.html" class="external-link">path.expand</a></span><span class="op">(</span><span class="st">"~"</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; The folder </span>
+<span class="co">#&gt; '/Users/bernhard/flowdex_SH' </span>
+<span class="co">#&gt; already existed.</span>
+<span class="co">#&gt; The file 'flowdex_settings.R' already existed in </span>
+<span class="co">#&gt; '/Users/bernhard/flowdex_SH'</span>
+<span class="co">#&gt; The variable 'flowdex_SH' already existed in the .Renviron file </span>
+<span class="co">#&gt; '/Users/bernhard/.Renviron'</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; The value of 'flowdex_SH' was correctly set to </span>
+<span class="co">#&gt; '/Users/bernhard/flowdex_SH'.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Setup successful</span></code></pre></div>
+<p>Follow the on-screen instructions and <strong>possibly re-start
+R</strong>.<br>
+From now on, various global settings and default values used by
+<code>flowdex</code> can conveniently be viewed and changed in the file
+<code>flowdex_settings.R</code> residing at</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/path.expand.html" class="external-link">path.expand</a></span><span class="op">(</span><span class="st">"~"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "/Users/bernhard"</span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="download-tutorial-dataset">Download Tutorial Dataset<a class="anchor" aria-label="anchor" href="#download-tutorial-dataset"></a>
 </h2>
 <p>In order to walk the user over the main-features of package
@@ -117,16 +147,14 @@ with gating strategy files and the required polygon-gate
 definitions.<br>
 Also, the workflow how to create the gating strategy file and the
 polygon gate definitions will be explained.</p>
-<p>First, download the tutorial data from its Github repository to your
-desktop (or any place you prefer).</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">from</span> <span class="op">&lt;-</span> <span class="st">"https://github.com/bpollner/data/raw/main/flowdexTutorial/flowdexTutorial.zip"</span>
-<span class="va">destination</span> <span class="op">&lt;-</span> <span class="st">"~/desktop"</span>
-<span class="va">targetZip</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial.zip"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">targetZip</span>, mode<span class="op">=</span><span class="st">"wb"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/unzip.html" class="external-link">unzip</a></span><span class="op">(</span><span class="va">targetZip</span>, exdir <span class="op">=</span> <span class="va">destination</span><span class="op">)</span></code></pre></div>
-<p>(The code of this tutorial is also available in the file
-‘flowdexTutorial.R’ in the uncompressed folder.)</p>
+<p>First, download the tutorial data from its Github repository:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bpollner.github.io/flowdex/">flowdex</a></span><span class="op">)</span>
+<span class="va">src</span> <span class="op">&lt;-</span> <span class="st">"https://github.com/bpollner/data/raw/main/flowdex_tutorial/flowdex_tutorial.zip"</span>
+<span class="va">td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co"># this is downloading and unzipping the tutorial data if not already present:</span>
+<span class="fu">flowdex</span><span class="fu">::</span><span class="fu"><a href="../reference/check_download_data.html">check_download_data</a></span><span class="op">(</span>where <span class="op">=</span> <span class="va">td</span>, data_source <span class="op">=</span> <span class="va">src</span>, dsname <span class="op">=</span> <span class="st">"flowdex_tutorial"</span><span class="op">)</span>
+<span class="co">#&gt; Download ok</span></code></pre></div>
 <div class="section level4">
 <h4 id="note-description-of-tutorial-dataset">Note: Description of Tutorial Dataset<a class="anchor" aria-label="anchor" href="#note-description-of-tutorial-dataset"></a>
 </h4>
@@ -155,40 +183,61 @@ T5, and T6).</li>
 third third of the 18 samples, b1, b2, … up to b6 for the 6 samples (b
 for beaker) within each third.</li>
 </ul>
-</div>
-</div>
-<div class="section level2">
-<h2 id="initialise-settings-file-system">Initialise Settings File System<a class="anchor" aria-label="anchor" href="#initialise-settings-file-system"></a>
-</h2>
-<p>Package <code>flowdex</code> makes use of the dynamic settings file
-system provided by package <code>uniset</code>. This has to be
-initialised <strong>just once</strong> by calling</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bpollner.github.io/flowdex/">flowdex</a></span><span class="op">)</span>
-<span class="va">destination</span> <span class="op">&lt;-</span> <span class="st">"~/desktop"</span>
-<span class="fu"><a href="../reference/setup_settings.html">setup_settings</a></span><span class="op">(</span><span class="va">destination</span><span class="op">)</span></code></pre></div>
-<p>Follow the on-screen instructions and possibly re-start R.<br>
-From now on, various global settings and default values used by
-<code>flowdex</code> can conveniently be viewed and changed in the file
-<code>flowdex_settings.R</code> residing at
-<code>~/desktop/flowdex_SH</code> (if you kept it there as in the
-example).</p>
 <hr>
+</div>
 </div>
 <div class="section level2">
 <h2 id="quickstart">Quickstart<a class="anchor" aria-label="anchor" href="#quickstart"></a>
 </h2>
-<p>After having (only once) set up the <a href="#initialise-settings-file-system">settings file system</a>, you
-could dive straight in – for a quickstart to immediately see what
-<code>flowdex</code> can do, call:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">destination</span> <span class="op">&lt;-</span> <span class="st">"~/desktop"</span> <span class="co"># again, as R was possibly restarted</span>
-<span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial"</span><span class="op">)</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bpollner.github.io/flowdex/">flowdex</a></span><span class="op">)</span>
+<p>After having (only once) set up the <a href="#initialize-settings-file-system">settings file system</a> and
+having downloaded the <a href="#download-tutorial-dataset">tutorial
+dataset</a>, you could dive straight in – for a quickstart to
+immediately see what <code>flowdex</code> can do, call:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bpollner.github.io/flowdex/">flowdex</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"/flowdex_tutorial"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">fdmat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowdexit.html">flowdexit</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># this might take a few seconds</span>
-<span class="va">fdmat</span><span class="op">@</span><span class="va">pData</span> <span class="co"># to inspect volume and sample ID data</span>
-<span class="va">fdmat</span><span class="op">@</span><span class="va">cyTags</span> <span class="co"># to inspect class- and numerical variables assigned to each sample</span>
-<span class="va">fdmat</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="co"># to inspect fluorescence distribution</span></code></pre></div>
+<span class="co">#&gt; Reading in fcs files... ok. </span>
+<span class="co">#&gt; Producing gating set... Applying fjbiexp transformation... ok. </span>
+<span class="co">#&gt; Gating: (1 gate)</span>
+<span class="co">#&gt; done!</span>
+<span class="co">#&gt; DNA+: Extracting binned data on FITC.A (res=220) and recalc. to volume... ok. </span>
+<span class="co">#&gt; Exporting data (1 gate) to xlsx...ok. </span>
+<span class="co">#&gt; fdmat-object saved.</span>
+<span class="va">fdmat</span><span class="op">@</span><span class="va">pData</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="op">]</span> <span class="co"># to inspect volume and sample ID data</span>
+<span class="co">#&gt;                                                                             sampleId</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b1.fcs tr: GNeg; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b2.fcs tr: GNeg; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b2</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b3.fcs tr: GNeg; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b3</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b4.fcs tr: GNeg; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b4</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b5.fcs tr: GNeg; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b5</span>
+<span class="co">#&gt;                                            name     btim volume</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b1.fcs N_na_GNeg_T4_th1_b1.fcs 14:14:27  45500</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b2.fcs N_na_GNeg_T4_th1_b2.fcs 14:16:12  45500</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b3.fcs N_na_GNeg_T4_th1_b3.fcs 14:17:52  45500</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b4.fcs N_na_GNeg_T4_th1_b4.fcs 14:19:30  45500</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b5.fcs N_na_GNeg_T4_th1_b5.fcs 14:22:30  45500</span>
+<span class="va">fdmat</span><span class="op">@</span><span class="va">cyTags</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="op">]</span> <span class="co"># to inspect class- and numerical variables assigned to each sample</span>
+<span class="co">#&gt;                         C_treatment Y_Time.d C_waterType C_addedPA C_third</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b1.fcs        GNeg        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b2.fcs        GNeg        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b3.fcs        GNeg        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b4.fcs        GNeg        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b5.fcs        GNeg        4       nativ        no     th1</span>
+<span class="co">#&gt;                         C_half C_beaker</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b1.fcs    ha1       b1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b2.fcs    ha1       b2</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b3.fcs    ha1       b3</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b4.fcs    ha1       b4</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b5.fcs    ha1       b5</span>
+<span class="va">fdist</span> <span class="op">&lt;-</span> <span class="va">fdmat</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="co"># to inspect fluorescence distribution</span>
+<span class="va">fdist</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">130</span><span class="op">:</span><span class="fl">134</span><span class="op">]</span> <span class="co"># pick some random fluorescence intensities</span>
+<span class="co">#&gt;                                flsc2876 flsc2889 flsc2901 flsc2914  flsc2926</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b1.fcs|DNA+ 14.1397064 6.147698 0.000000 0.000000 1.8443095</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b2.fcs|DNA+  0.0000000 0.000000 0.000000 0.000000 0.0000000</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b3.fcs|DNA+  0.9221548 0.000000 0.000000 3.073849 6.1476985</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b4.fcs|DNA+  6.1476985 3.073849 0.000000 0.000000 0.9221548</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b5.fcs|DNA+  6.1476985 7.326007 6.147698 3.073849 0.0000000</span></code></pre></div>
 <p>Look at ‘flowdexTutorial/rawdata/flscData_gateStrat.xlsx.xlsx’ to see
 the fluorescence distribution exported to file, observe the various
 sheets there.</p>
@@ -202,14 +251,12 @@ assume that data from a single experiment will be residing in a single
 folder – the ‘home’ folder for this experiment.<br>
 Within this home-folder, <code>flowdex</code> requires a simple folder
 structure to properly work. Create that folder structure now within a
-newly created experiment home-folder called ‘tapWater@home’:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">destination</span> <span class="op">&lt;-</span> <span class="st">"~/desktop"</span> <span class="co"># again, as R was possibly restarted</span>
-<span class="va">expHome</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/tapWater@home"</span><span class="op">)</span> 
-<span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">expHome</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="va">expHome</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bpollner.github.io/flowdex/">flowdex</a></span><span class="op">)</span> <span class="co"># as you might have had to restart R above</span>
-<span class="fu"><a href="../reference/genfs.html">genfs</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># create the required folder structure</span></code></pre></div>
+newly created experiment home-folder called ‘tap_water_home’:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">exp_home</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"/tap_water_home"</span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">exp_home</span><span class="op">)</span>
+<span class="fu">flowdex</span><span class="fu">::</span><span class="fu"><a href="../reference/genfs.html">genfs</a></span><span class="op">(</span><span class="va">exp_home</span><span class="op">)</span> <span class="co"># create the required folder structure in 'tap_water_home'</span></code></pre></div>
 <p>Continue to <a href="https://bpollner.github.io/flowdex/articles/acquire_data.html">data
 acquisition</a>, or straight to <a href="https://bpollner.github.io/flowdex/articles/workflow_2.html">Workflow
 2</a>, where you can learn how to extract fluorescence distributions and

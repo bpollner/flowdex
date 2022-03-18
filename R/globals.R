@@ -22,5 +22,3 @@ gl_requiredGateStratColnames <- c("GateName", "Parent", "GateOnX", "GateOnY",
 
 gl_fdmatObjSuff <- "_fdmatObj"
 
-gl_name_of_example_dataset <- "flowdex_examples"
-

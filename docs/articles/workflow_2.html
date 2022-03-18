@@ -118,20 +118,26 @@ for an immediate example.</p></li>
 </h2>
 <p>If not already done, set up the tutorial data as described in <a href="https://bpollner.github.io/flowdex/articles/flowdex.html">Get
 Started</a>.<br>
-Now copy (again) the relevant files from the tutorial folder in the
-experiment-home folder:</p>
+And, if not already done either, copy these files from the tutorial
+folder in the experiment-home folder:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">destination</span> <span class="op">&lt;-</span> <span class="st">"~/desktop"</span>
-<span class="va">fromFcs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/fcsFiles"</span><span class="op">)</span>, full.names<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="va">fromDict</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/dictionary"</span><span class="op">)</span>, full.names<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="va">fromGating</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/flowdexTutorial/gating"</span><span class="op">)</span>, full.names<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="va">toFcs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/tapWater@home/fcsFiles"</span><span class="op">)</span>
-<span class="va">toDict</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/tapWater@home/dictionary"</span><span class="op">)</span>
-<span class="va">toGating</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">destination</span>, <span class="st">"/tapWater@home/gating"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">fromFcs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"/flowdex_tutorial/fcsFiles"</span><span class="op">)</span>, full.names<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">fromDict</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"/flowdex_tutorial/dictionary"</span><span class="op">)</span>, full.names<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">fromGating</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"/flowdex_tutorial/gating"</span><span class="op">)</span>, full.names<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">toFcs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"/tap_water_home/fcsFiles"</span><span class="op">)</span>
+<span class="va">toDict</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"/tap_water_home/dictionary"</span><span class="op">)</span>
+<span class="va">toGating</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"/tap_water_home/gating"</span><span class="op">)</span>
 <span class="co">#</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">fromFcs</span>, <span class="va">toFcs</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">fromFcs</span>, <span class="va">toFcs</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] TRUE</span>
 <span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">fromDict</span>, <span class="va">toDict</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">fromGating</span>, <span class="va">toGating</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="co">#&gt; [1] TRUE</span>
+<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">fromGating</span>, <span class="va">toGating</span>, overwrite<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; [1] TRUE TRUE TRUE TRUE TRUE TRUE</span></code></pre></div>
+<p>Set the working directory to ‘tap_water_home’:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"/tap_water_home"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="flowdexit">Flowdexit<a class="anchor" aria-label="anchor" href="#flowdexit"></a>
@@ -154,11 +160,49 @@ structured ID character are listed in the folder called
 the folder called ‘gating’.</p></li>
 </ul>
 <p>If all that requirements are met, we can call:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fdmat1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowdexit.html">flowdexit</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co"># and to inspect the result:</span>
-<span class="va">fdmat1</span> <span class="co"># displaying cyTags and sample IDs (in the slot pDAta)</span>
-<span class="va">fdmat1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="co"># displaying data from the first (and only) gate</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fdmat1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowdexit.html">flowdexit</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># this might take a few seconds</span>
+<span class="co">#&gt; Reading in fcs files... ok. </span>
+<span class="co">#&gt; Producing gating set... Applying fjbiexp transformation... ok. </span>
+<span class="co">#&gt; Gating: (1 gate)</span>
+<span class="co">#&gt; done!</span>
+<span class="co">#&gt; DNA+: Extracting binned data on FITC.A (res=220) and recalc. to volume... ok. </span>
+<span class="co">#&gt; Exporting data (1 gate) to xlsx...ok. </span>
+<span class="co">#&gt; fdmat-object saved.</span>
+<span class="va">fdmat1</span><span class="op">@</span><span class="va">pData</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="op">]</span> <span class="co"># to inspect volume and sample ID data</span>
+<span class="co">#&gt;                                                                             sampleId</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b1.fcs tr: GNeg; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b2.fcs tr: GNeg; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b2</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b3.fcs tr: GNeg; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b3</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b4.fcs tr: GNeg; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b4</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b5.fcs tr: GNeg; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b5</span>
+<span class="co">#&gt;                                            name     btim volume</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b1.fcs N_na_GNeg_T4_th1_b1.fcs 14:14:27  45500</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b2.fcs N_na_GNeg_T4_th1_b2.fcs 14:16:12  45500</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b3.fcs N_na_GNeg_T4_th1_b3.fcs 14:17:52  45500</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b4.fcs N_na_GNeg_T4_th1_b4.fcs 14:19:30  45500</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b5.fcs N_na_GNeg_T4_th1_b5.fcs 14:22:30  45500</span>
+<span class="va">fdmat1</span><span class="op">@</span><span class="va">cyTags</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="op">]</span> <span class="co"># to inspect class- and numerical variables assigned to each sample</span>
+<span class="co">#&gt;                         C_treatment Y_Time.d C_waterType C_addedPA C_third</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b1.fcs        GNeg        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b2.fcs        GNeg        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b3.fcs        GNeg        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b4.fcs        GNeg        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b5.fcs        GNeg        4       nativ        no     th1</span>
+<span class="co">#&gt;                         C_half C_beaker</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b1.fcs    ha1       b1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b2.fcs    ha1       b2</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b3.fcs    ha1       b3</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b4.fcs    ha1       b4</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b5.fcs    ha1       b5</span>
+<span class="va">fdist</span> <span class="op">&lt;-</span> <span class="va">fdmat1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="co"># to inspect fluorescence distribution</span>
+<span class="va">fdist</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">130</span><span class="op">:</span><span class="fl">134</span><span class="op">]</span> <span class="co"># pick some random fluorescence intensities</span>
+<span class="co">#&gt;                                flsc2876 flsc2889 flsc2901 flsc2914  flsc2926</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b1.fcs|DNA+ 14.1397064 6.147698 0.000000 0.000000 1.8443095</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b2.fcs|DNA+  0.0000000 0.000000 0.000000 0.000000 0.0000000</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b3.fcs|DNA+  0.9221548 0.000000 0.000000 3.073849 6.1476985</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b4.fcs|DNA+  6.1476985 3.073849 0.000000 0.000000 0.9221548</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b5.fcs|DNA+  6.1476985 7.326007 6.147698 3.073849 0.0000000</span></code></pre></div>
 <p>This will use the default gating strategy called ‘gateStrat’ (where
 one (1) gate is defined), extract the fluorescence distributions along
 the ‘FITC.A’ channel (in that example), <strong>re-calculate</strong>
@@ -170,27 +214,90 @@ save and load the resulting ‘fdmat’ object.)</p>
 <p>When calling <code><a href="../reference/flowdexit.html">flowdexit()</a></code>, the gating set built on the
 way to extract the fluorescence distributions gets assigned to an extra
 environment. It can be accessed via:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gs1</span> <span class="op">&lt;-</span> <span class="va">gsenv</span><span class="op">$</span><span class="va">gatingSet</span>
-<span class="co"># inspect the gating set:</span>
-<span class="va">gs1</span>
-<span class="fu">flowWorkspace</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/flowWorkspace/man/plot-methods.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">gs1</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu">flowWorkspace</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/flowWorkspace/man/sampleNames.html" class="external-link">sampleNames</a></span><span class="op">(</span><span class="va">gs1</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 108</span>
+<span class="fu">flowWorkspace</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/flowWorkspace/man/plot-methods.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">gs1</span><span class="op">)</span> <span class="co"># inspect the gating hierarchy</span></code></pre></div>
+<p><img src="workflow_2_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <p>Lets be a bit more ambitious and try the (slightly non-sensical)
 gating strategy where multiple nested gates are defined, called
 ‘gateStrat_2’:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fdmat2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowdexit.html">flowdexit</a></span><span class="op">(</span>gateStrat <span class="op">=</span> <span class="st">"gateStrat_2"</span><span class="op">)</span>
-<span class="co"># and to inspect the result:</span>
-<span class="va">fdmat2</span> <span class="co"># displaying cyTags and sample IDs (in the slot pDAta)</span>
-<span class="va">fdmat2</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="co"># displaying data from the first gate</span>
-<span class="va">fdmat2</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span> <span class="co"># displaying data from the second gate</span></code></pre></div>
+<span class="co">#&gt; Reading in fcs files... ok. </span>
+<span class="co">#&gt; Producing gating set... Applying fjbiexp transformation... ok. </span>
+<span class="co">#&gt; Gating: (6 gates)</span>
+<span class="co">#&gt; done!</span>
+<span class="co">#&gt; DNA+: Extracting binned data on FITC.A (res=220) and recalc. to volume... ok. </span>
+<span class="co">#&gt; HighSSC_ffif: Extracting binned data on FSC.A (res=220) and recalc. to volume... ok. </span>
+<span class="co">#&gt; Exporting data (2 gates) to xlsx...ok. </span>
+<span class="co">#&gt; fdmat-object saved.</span>
+<span class="co">#</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">fdmat2</span>, max.level <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+<span class="co">#&gt; Formal class 'fdmat' [package "flowdex"] with 6 slots</span>
+<span class="co">#&gt;   ..@ .Data    :List of 2</span>
+<span class="co">#&gt;   ..@ metadata :'data.frame':    2 obs. of  14 variables:</span>
+<span class="co">#&gt;   ..@ cyTags   :'data.frame':    108 obs. of  7 variables:</span>
+<span class="co">#&gt; Formal class 'cyTags' [package "flowdex"] with 4 slots</span>
+<span class="co">#&gt;   ..@ gateStrat:'data.frame':    6 obs. of  9 variables:</span>
+<span class="co">#&gt; Formal class 'gatingStrategy_fd' [package "flowdex"] with 5 slots</span>
+<span class="co">#&gt;   ..@ pData    :'data.frame':    108 obs. of  4 variables:</span>
+<span class="co">#&gt;   ..@ note     : chr "original"</span>
+<span class="va">fdmat2</span><span class="op">@</span><span class="va">metadata</span>
+<span class="co">#&gt;       gateName        gateDef extractOn res   flRange  apc coR coV  rcv   igp</span>
+<span class="co">#&gt; 1         DNA+    BactStainV1    FITC.A 220 1250,4000 TRUE  10 125 TRUE FALSE</span>
+<span class="co">#&gt; 2 HighSSC_ffif HighSSC_FSC_V1     FSC.A 220    0,4000 TRUE  10 125 TRUE FALSE</span>
+<span class="co">#&gt;    smo smN smP ncpwl</span>
+<span class="co">#&gt; 1 TRUE  11   5     4</span>
+<span class="co">#&gt; 2 TRUE  11   5     4</span>
+<span class="va">fdmat2</span><span class="op">@</span><span class="va">gateStrat</span>
+<span class="co">#&gt;           GateName           Parent GateOnX GateOnY  GateDefinition extractOn</span>
+<span class="co">#&gt; 1             DNA+             root  FITC.A PerCP.A     BactStainV1    FITC.A</span>
+<span class="co">#&gt; 2        Unstained             root  FITC.A PerCP.A     UnstainedV1    FITC.A</span>
+<span class="co">#&gt; 3      HighSSC_fsc        Unstained   FSC.A   SSC.A  HighSSC_FSC_V1     FSC.A</span>
+<span class="co">#&gt; 4     HighSSC_fitc             root  FITC.A PerCP.A HighSSC_FITC_V1    FITC.A</span>
+<span class="co">#&gt; 5 HighSSC_fsc.fitc      HighSSC_fsc  FITC.A PerCP.A HighSSC_FITC_V1    FITC.A</span>
+<span class="co">#&gt; 6     HighSSC_ffif HighSSC_fsc.fitc   FSC.A   SSC.A  HighSSC_FSC_V1     FSC.A</span>
+<span class="co">#&gt;   minRange maxRange keepData</span>
+<span class="co">#&gt; 1     1250     4000     TRUE</span>
+<span class="co">#&gt; 2        0     1000    FALSE</span>
+<span class="co">#&gt; 3        0     4000    FALSE</span>
+<span class="co">#&gt; 4        0     1000    FALSE</span>
+<span class="co">#&gt; 5        0     1000    FALSE</span>
+<span class="co">#&gt; 6        0     4000     TRUE</span>
+<span class="co">#</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">fdmat2</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, max.level <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+<span class="co">#&gt; Formal class 'fdmat_single' [package "flowdex"] with 6 slots</span>
+<span class="co">#&gt;   ..@ .Data       : num [1:108, 1:219] 0 0 0 0 0 0 0 0 0 0 ...</span>
+<span class="co">#&gt;   .. ..- attr(*, "dimnames")=List of 2</span>
+<span class="co">#&gt;   ..@ eventsPerVol:'data.frame': 108 obs. of  4 variables:</span>
+<span class="co">#&gt; Formal class 'eventsPV' [package "flowdex"] with 6 slots</span>
+<span class="co">#&gt;   ..@ gateName    : chr "DNA+"</span>
+<span class="co">#&gt;   ..@ metadata    :'data.frame': 1 obs. of  14 variables:</span>
+<span class="co">#&gt;   ..@ ncpwl       : int 4</span>
+<span class="co">#&gt;   ..@ note        : chr "original"</span>
+<span class="co">#&gt;   ..$ dim     : int [1:2] 108 219</span>
+<span class="co">#&gt;   ..$ dimnames:List of 2</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">fdmat2</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, max.level <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+<span class="co">#&gt; Formal class 'fdmat_single' [package "flowdex"] with 6 slots</span>
+<span class="co">#&gt;   ..@ .Data       : num [1:108, 1:219] 0 0 0 0 0 0 0 0 0 0 ...</span>
+<span class="co">#&gt;   .. ..- attr(*, "dimnames")=List of 2</span>
+<span class="co">#&gt;   ..@ eventsPerVol:'data.frame': 108 obs. of  4 variables:</span>
+<span class="co">#&gt; Formal class 'eventsPV' [package "flowdex"] with 6 slots</span>
+<span class="co">#&gt;   ..@ gateName    : chr "HighSSC_ffif"</span>
+<span class="co">#&gt;   ..@ metadata    :'data.frame': 1 obs. of  14 variables:</span>
+<span class="co">#&gt;   ..@ ncpwl       : int 4</span>
+<span class="co">#&gt;   ..@ note        : chr "original"</span>
+<span class="co">#&gt;   ..$ dim     : int [1:2] 108 219</span>
+<span class="co">#&gt;   ..$ dimnames:List of 2</span>
+<span class="co">#</span></code></pre></div>
 <p>Again, the gating set that was produced on the way can be accessed
 via:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gs2</span> <span class="op">&lt;-</span> <span class="va">gsenv</span><span class="op">$</span><span class="va">gatingSet</span>
-<span class="co"># inspect the gating set:</span>
-<span class="va">gs2</span>
-<span class="fu">flowWorkspace</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/flowWorkspace/man/plot-methods.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">gs2</span><span class="op">)</span></code></pre></div>
+<span class="fu">flowWorkspace</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/flowWorkspace/man/plot-methods.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">gs2</span><span class="op">)</span> <span class="co"># inspect the gating hierarchy</span></code></pre></div>
+<p><img src="workflow_2_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>Please observe that every call to <code><a href="../reference/flowdexit.html">flowdexit()</a></code> will
 assign the object <code>gatingSet</code>to the environment
 <code>gsenv</code>. So, only one gating set, the <strong>last
@@ -201,80 +308,191 @@ accessed in that environment.</p>
 <h2 id="visualize-gates">Visualize Gates<a class="anchor" aria-label="anchor" href="#visualize-gates"></a>
 </h2>
 <p>To visualize the gated data call</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs1</span>, toPdf <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># a bit much on one graphic</span></code></pre></div>
-<p>This will plot all gated data from all samples in one page, what is a
-bit much – making the single plot very small.<br>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs1</span>, toPdf <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># too much on one graphic</span></code></pre></div>
+<p>This would plot <em>all</em> gated data from <em>all</em> samples in
+one page, what is a bit much – making the single plot too small.<br>
 To improve this, it is possible to define a column name from the cyTags
 (as can be found in the ‘fdmat’ object) that then will be used to split
 the data, resulting in only those samples being plotted in the same
 graphic that share the same value in the specified cyTags-column:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">fdmat1</span><span class="op">@</span><span class="va">cyTags</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs1</span>, spl <span class="op">=</span> <span class="st">"Y_Time.d"</span>, toPdf <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p>(The resulting pdf can be found in the folder ‘plots’; ‘toPdf’
-defaults to TRUE).<br>
+<span class="co">#&gt; [1] "C_treatment" "Y_Time.d"    "C_waterType" "C_addedPA"   "C_third"    </span>
+<span class="co">#&gt; [6] "C_half"      "C_beaker"</span>
+<span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs1</span>, spl <span class="op">=</span> <span class="st">"Y_Time.d"</span>, toPdf <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Plotting gates split by Y_Time.d...</span>
+<span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
+<span class="co">#&gt; .</span>
+<span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
+<span class="co">#&gt; .</span>
+<span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
+<span class="co">#&gt; ..ok.</span></code></pre></div>
+<p>(The resulting pdf can be found in the folder ‘tap_water_home/plots’;
+(‘toPdf’ defaults to TRUE)).<br>
 This way we have only samples from the same day on one graphic - a more
 useful output, but still rather small individual plots.</p>
 <p>A solution could be to read in only fcs files from the same day, then
 use <code><a href="../reference/plotgates.html">plotgates()</a></code> split by ‘C_treatment’. Lets try this using
 the function <code><a href="../reference/makeAddGatingSet.html">makeAddGatingSet()</a></code>:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">gs_d4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeAddGatingSet.html">makeAddGatingSet</a></span><span class="op">(</span>patt <span class="op">=</span> <span class="st">"T4"</span>, gateStrat <span class="op">=</span> <span class="st">"gateStrat_2"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs_d4</span>, spl <span class="op">=</span> <span class="st">"C_treatment"</span>, fns <span class="op">=</span> <span class="st">"_day4"</span><span class="op">)</span>
-<span class="va">gs_d5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeAddGatingSet.html">makeAddGatingSet</a></span><span class="op">(</span>patt <span class="op">=</span> <span class="st">"T5"</span>, gateStrat <span class="op">=</span> <span class="st">"gateStrat_2"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs_d5</span>, spl <span class="op">=</span> <span class="st">"C_treatment"</span>, fns <span class="op">=</span> <span class="st">"_day5"</span><span class="op">)</span>
-<span class="va">gs_d6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeAddGatingSet.html">makeAddGatingSet</a></span><span class="op">(</span>patt <span class="op">=</span> <span class="st">"T6"</span>, gateStrat <span class="op">=</span> <span class="st">"gateStrat_2"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs_d6</span>, spl <span class="op">=</span> <span class="st">"C_treatment"</span>, fns <span class="op">=</span> <span class="st">"_day6"</span><span class="op">)</span></code></pre></div>
-<p>This gives nice and not too small graphics of the gated data in each
-sample. Please observe that gated data get plotted for every gate in the
-gating strategy where ‘keepData’ is set to TRUE.</p>
-<p><br>
-Set the argument ‘plotAll’ in the function ‘plotgates’ to TRUE to
-override this and to plot gated data from <strong>all</strong> gates
-defined in the gating strategy, what can be very helpful in the process
-of checking / verifying the gating strategy:</p>
+<p>(The resulting PDFs can again be found in
+‘tap_water_home/plots’.)</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="va">gs_d6</span>, spl <span class="op">=</span> <span class="st">"C_treatment"</span>, fns <span class="op">=</span> <span class="st">"_day6_allGates"</span>, plotAll <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="co"># with only one gate (use default gating strategy) again, just to show it here in the vignette</span>
+<span class="fu"><a href="../reference/plotgates.html">plotgates</a></span><span class="op">(</span><span class="fu"><a href="../reference/makeAddGatingSet.html">makeAddGatingSet</a></span><span class="op">(</span>patt <span class="op">=</span> <span class="st">"T6"</span><span class="op">)</span>, spl <span class="op">=</span> <span class="st">"C_treatment"</span>, toPdf <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; Reading in fcs files... ok. </span>
+<span class="co">#&gt; Producing gating set... Applying fjbiexp transformation... ok. </span>
+<span class="co">#&gt; Gating: (1 gate)</span>
+<span class="co">#&gt; done!</span>
+<span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
+<span class="co">#&gt; .</span>
+<span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></code></pre></div>
+<p><img src="workflow_2_files/figure-html/unnamed-chunk-9-1.png" width="700"><img src="workflow_2_files/figure-html/unnamed-chunk-9-2.png" width="700"></p>
+<pre><code><span class="co">#&gt; ..</span></code></pre>
+<p>This should give nice graphics of the gated data in each sample.
+Please observe that gated data get plotted for every gate in the gating
+strategy where ‘keepData’ is set to TRUE.<br>
+Set the argument ‘plotAll’ in the function <code><a href="../reference/plotgates.html">plotgates()</a></code> to
+TRUE to override this and to plot gated data from <strong>all</strong>
+gates defined in the gating strategy, what can be very helpful in the
+process of checking / verifying the gating strategy:</p>
 </div>
 <div class="section level2">
 <h2 id="visualize-fluorescence-distribution">Visualize Fluorescence Distribution<a class="anchor" aria-label="anchor" href="#visualize-fluorescence-distribution"></a>
 </h2>
-<p>(Note: The functionality to visualize the fluorescence distribution
-is merely intended to give a first view of the data. It is not intended
-for data analysis or presentation.)<br>
-As the purpose of <code>flowdex</code> is to extract fluorescence
+<p>As the purpose of <code>flowdex</code> is to extract fluorescence
 distributions, it would be borderline obscene not to have at least a
-basic way to visually inspect the result. You can do this by calling</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat1</span><span class="op">)</span></code></pre></div>
+basic way to visually inspect the result.   (Note: The functionality to
+visualize the fluorescence distribution is merely intended to give a
+first view of the data. It is not intended for data analysis or
+presentation.)<br></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat1</span><span class="op">)</span>
+<span class="co">#&gt; Plotting fluorescence distributions  ...</span>
+<span class="co">#&gt; ok</span></code></pre></div>
 <p>(Again, the default behavior is to export the plot to a pdf located
 in the folder ‘plots’.)<br>
 Fluorescence intensities of all samples along the FITC channel (in this
 example) are displayed <strong>re-calculated to events per volume on the
 y-axis</strong> .<br>
-Again, too much information.<br>
-So, for the purpose of this demonstration, we will look at a
-<em>subset</em> of the data, that is only samples from day 4 and the
-first third of beakers. We do this by providing a pattern to read in
-only those filenames that match this pattern:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+Again, too much information.<br></p>
+<p>So, for the purpose of this demonstration, we will look at a
+<em>subset</em> of the data - only samples from day 4 and the first
+third of beakers. We do this by providing a pattern to read in only
+those filenames that match this pattern:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fdmat_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowdexit.html">flowdexit</a></span><span class="op">(</span>patt <span class="op">=</span> <span class="st">"T4_th1"</span><span class="op">)</span>
+<span class="co">#&gt; Reading in fcs files... ok. </span>
+<span class="co">#&gt; Producing gating set... Applying fjbiexp transformation... ok. </span>
+<span class="co">#&gt; Gating: (1 gate)</span>
+<span class="co">#&gt; done!</span>
+<span class="co">#&gt; DNA+: Extracting binned data on FITC.A (res=220) and recalc. to volume... ok. </span>
+<span class="co">#&gt; Exporting data (1 gate) to xlsx...ok. </span>
+<span class="co">#&gt; fdmat-object saved.</span>
 <span class="va">fdmat_s</span> <span class="co"># has now only 12 samples</span>
+<span class="co">#&gt; An object of class 'fdmat' [package 'flowdex'] with 6 slots</span>
+<span class="co">#&gt; containing data from 12 samples in 1 gate.</span>
+<span class="co">#&gt; Fluorescence distribution has been re-calculated to events per ml.</span>
+<span class="co">#&gt; (use 'object[[1]]' to inspect the first list element containing the first fluorescence distribution)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slot 'metadata':</span>
+<span class="co">#&gt;   gateName     gateDef extractOn res   flRange  apc coR coV  rcv   igp  smo smN</span>
+<span class="co">#&gt; 1     DNA+ BactStainV1    FITC.A 220 1250,4000 TRUE  10 125 TRUE FALSE TRUE  11</span>
+<span class="co">#&gt;   smP ncpwl</span>
+<span class="co">#&gt; 1   5     4</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slot 'cyTags':</span>
+<span class="co">#&gt;                         C_treatment Y_Time.d C_waterType C_addedPA C_third</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b1.fcs        GNeg        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b2.fcs        GNeg        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b3.fcs        GNeg        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b4.fcs        GNeg        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b5.fcs        GNeg        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b6.fcs        GNeg        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b1.fcs        GPos        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b2.fcs        GPos        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b3.fcs        GPos        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b4.fcs        GPos        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b5.fcs        GPos        4       nativ        no     th1</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b6.fcs        GPos        4       nativ        no     th1</span>
+<span class="co">#&gt;                         C_half C_beaker</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b1.fcs    ha1       b1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b2.fcs    ha1       b2</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b3.fcs    ha1       b3</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b4.fcs    ha1       b4</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b5.fcs    ha1       b5</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b6.fcs    ha1       b6</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b1.fcs    ha1       b1</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b2.fcs    ha1       b2</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b3.fcs    ha1       b3</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b4.fcs    ha1       b4</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b5.fcs    ha1       b5</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b6.fcs    ha1       b6</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slot 'gateStrat':</span>
+<span class="co">#&gt;   GateName Parent GateOnX GateOnY GateDefinition extractOn minRange maxRange</span>
+<span class="co">#&gt; 1     DNA+   root  FITC.A PerCP.A    BactStainV1    FITC.A     1250     4000</span>
+<span class="co">#&gt;   keepData</span>
+<span class="co">#&gt; 1     TRUE</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slot 'pData':</span>
+<span class="co">#&gt;                                                                             sampleId</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b1.fcs tr: GNeg; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b1</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b2.fcs tr: GNeg; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b2</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b3.fcs tr: GNeg; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b3</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b4.fcs tr: GNeg; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b4</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b5.fcs tr: GNeg; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b5</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b6.fcs tr: GNeg; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b6</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b1.fcs tr: GPos; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b1</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b2.fcs tr: GPos; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b2</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b3.fcs tr: GPos; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b3</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b4.fcs tr: GPos; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b4</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b5.fcs tr: GPos; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b5</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b6.fcs tr: GPos; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b6</span>
+<span class="co">#&gt;                                            name     btim volume</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b1.fcs N_na_GNeg_T4_th1_b1.fcs 14:14:27  45500</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b2.fcs N_na_GNeg_T4_th1_b2.fcs 14:16:12  45500</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b3.fcs N_na_GNeg_T4_th1_b3.fcs 14:17:52  45500</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b4.fcs N_na_GNeg_T4_th1_b4.fcs 14:19:30  45500</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b5.fcs N_na_GNeg_T4_th1_b5.fcs 14:22:30  45500</span>
+<span class="co">#&gt; N_na_GNeg_T4_th1_b6.fcs N_na_GNeg_T4_th1_b6.fcs 14:24:12  45500</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b1.fcs N_na_GPos_T4_th1_b1.fcs 15:01:20  70000</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b2.fcs N_na_GPos_T4_th1_b2.fcs 15:03:47  45000</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b3.fcs N_na_GPos_T4_th1_b3.fcs 15:05:36  45000</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b4.fcs N_na_GPos_T4_th1_b4.fcs 15:07:24  45500</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b5.fcs N_na_GPos_T4_th1_b5.fcs 15:09:08  45500</span>
+<span class="co">#&gt; N_na_GPos_T4_th1_b6.fcs N_na_GPos_T4_th1_b6.fcs 15:10:45  45500</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slot 'note':</span>
+<span class="co">#&gt; [1] "original"</span>
 <span class="va">gs_s</span> <span class="op">&lt;-</span> <span class="va">gsenv</span><span class="op">$</span><span class="va">gatingSet</span> <span class="co"># not required, just to keep it</span>
 <span class="co">#</span>
 <span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat_s</span>, toPdf <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># much nicer</span></code></pre></div>
+<p><img src="workflow_2_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 <p>Again, as in <code><a href="../reference/plotgates.html">plotgates()</a></code>, it is possible to split the
 data by providing a column name of the cyTags to have only these samples
 in the graphic that have the same value in this cyTag:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">fdmat_s</span><span class="op">@</span><span class="va">cyTags</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat_s</span>, spl <span class="op">=</span> <span class="st">"C_treatment"</span>,  ti<span class="op">=</span><span class="st">"Day 4, first third"</span>,  toPdf <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat_s</span>, spl <span class="op">=</span> <span class="st">"C_treatment"</span>, fns<span class="op">=</span><span class="st">"_d4_th1"</span>, ti<span class="op">=</span><span class="st">"Day 4, first third"</span><span class="op">)</span> <span class="co"># export to pdf</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">fdmat_s</span><span class="op">@</span><span class="va">cyTags</span><span class="op">)</span> <span class="co"># we choose "C_treatment"</span>
+<span class="co">#&gt; [1] "C_treatment" "Y_Time.d"    "C_waterType" "C_addedPA"   "C_third"    </span>
+<span class="co">#&gt; [6] "C_half"      "C_beaker"</span>
+<span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat_s</span>, spl <span class="op">=</span> <span class="st">"C_treatment"</span>,  ti<span class="op">=</span><span class="st">"Day 4, first third"</span>,  toPdf <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<p><img src="workflow_2_files/figure-html/unnamed-chunk-13-1.png" width="700"><img src="workflow_2_files/figure-html/unnamed-chunk-13-2.png" width="700"></p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plotFlscDist.html">plotFlscDist</a></span><span class="op">(</span><span class="va">fdmat_s</span>, spl <span class="op">=</span> <span class="st">"C_treatment"</span>, fns<span class="op">=</span><span class="st">"_d4_th1"</span>, ti<span class="op">=</span><span class="st">"Day 4, first third"</span><span class="op">)</span> <span class="co"># export also to pdf</span>
+<span class="co">#&gt; Plotting fluorescence distributions split by C_treatment ...</span>
+<span class="co">#&gt; ok</span></code></pre></div>
 <p>Please refer to the manual at <code><a href="../reference/plotFlscDist.html">plotFlscDist()</a></code> to see the
 arguments for custom colors and custom linetypes.</p>
 <p>Go on to learn about the <a href="https://bpollner.github.io/flowdex/articles/accessory.html">Accessory
-Functions</a>.</p>
+Functions</a>, e.g. about using the function
+<code><a href="../reference/applyBandpass.html">applyBandpass()</a></code> to apply a bandpass-like filter to the
+fluorescence intensities.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

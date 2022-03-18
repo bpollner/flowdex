@@ -12,25 +12,38 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+#
+library(flowdex)
+src <- "https://github.com/bpollner/data/raw/main/flowdex_tutorial/flowdex_tutorial.zip"
+td <- tempdir()
+# this is downloading and unzipping the tutorial data if not already present:
+flowdex::check_download_data(where = td, data_source = src, dsname = "flowdex_tutorial")
+#
+exp_home <- paste0(td, "/tap_water_home") 
+dir.create(exp_home)
+setwd(exp_home)
+flowdex::genfs() # create the required folder structure in 'tap_water_home'
 ```
 
 After running the setup as described in [Get Started](https://bpollner.github.io/flowdex/articles/flowdex.html), it is time for data acquisition -- go and measure your samples, then come back and put your fcs files into the folder 'fcsFiles'.
 
 ## Simulate Data Acquisition
 
-Simulate data acquisition now by manually copying the files from 'flowdexTutorial/fcsFiles' to 'tapWater\\\@home/fcsFiles', or call
+Simulate data acquisition now by copying the files from 'flowdexTutorial/fcsFiles' to 'tap_water_home/fcsFiles':
 
-``` r
-from <- list.files(paste0(destination, "/flowdexTutorial/fcsFiles"), full.names = TRUE)
-to <- paste0(destination, "/tapWater@home/fcsFiles")
-file.copy(from, to)
+``` {r}
+td <- tempdir()
+from <- list.files(paste0(td, "/flowdex_tutorial/fcsFiles"), full.names = TRUE)
+to <- paste0(td, "/tap_water_home/fcsFiles")
+cs <- file.copy(from, to)
+all(cs)
 ```
 
 ## Using Structured ID String and Dictionary {#using-structured-id-string-and-dictionary}
 
 If so desired, it is possible to generate class- and numerical variables further describing each sample resp. the dataset by providing a structured character string to the **Sample-ID field** of each sample in the GUI of the FCM-machine **at the time of data acquisition**.
 
-This character string will then later be expanded using a dictionary (located in 'tapWater\@home/dictionary') to expand the abbreviations to its long names.
+This character string will then later be expanded using a dictionary (located in 'tap_water_home/dictionary') to expand the abbreviations to its long names.
 
 ### Using the Structured ID String
 
@@ -42,7 +55,7 @@ The structured character string now contains **elements and groups**, each separ
 
 There can be as many groups as desired. A single group consists of exactly two elements: the key and the value, separated per default by `:` . For the sample above, the input in the sample-ID field in the GUI of the FCM-machine at the time of data acquisition now would be:
 
-``` r
+```
 tr: GPos; Td: 4; wt: nativ; ap: no; th: th1; ha: ha1; bk: b3 
 ```
 
@@ -54,11 +67,11 @@ Here, we have 7 groups: tr, Td, wt, ap, th, ha and bk, all separated by a `;`. '
 
 ### Using the Dictionary
 
-Considering the sample-IDs present in our tutorial fcs files, we require a dictionary translating the present abbreviations to their long names. For that, manually copy the dictionary from `flowdexTutorial/dictionary/dictionary.xlsx` to `tapWater@home/dictionary`, or call
+Considering the sample-IDs present in our tutorial fcs files, we require a dictionary translating the present abbreviations to their long names. For that, copy the dictionary from `flowdex_tutorial/dictionary/dictionary.xlsx` to `tap_water_home/dictionary`:
 
-``` r
-from <- list.files(paste0(destination, "/flowdexTutorial/dictionary"), full.names = TRUE)
-to <- paste0(destination, "/tapWater@home/dictionary")
+``` {r}
+from <- list.files(paste0(td, "/flowdex_tutorial/dictionary"), full.names = TRUE)
+to <- paste0(td, "/tap_water_home/dictionary")
 file.copy(from, to)
 ```
 
@@ -72,6 +85,6 @@ Open the copied xlsx file, look at the column named 'Abbreviation': For each ele
 
 -   Prepending the long names in the dictionary with either class-variable or numerical variable prefix is **mandatory**.
 
-By now we should have 108 fcs files in 'tapWater\@home/fcsFiles' and one file 'dictionary.xlsx' in the folder 'tapWater\@home/dictionary'.
+By now we should have 108 fcs files in 'tap_water_home/fcsFiles' and one file 'dictionary.xlsx' in the folder 'tap_water_home/dictionary'.
 
 Continue to [Workflow 1](https://bpollner.github.io/flowdex/articles/workflow_1.html).

@@ -7,14 +7,44 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r, setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+#
+library(flowdex)
+src <- "https://github.com/bpollner/data/raw/main/flowdex_tutorial/flowdex_tutorial.zip"
+td <- tempdir()
+# this is downloading and unzipping the tutorial data if not already present:
+flowdex::check_download_data(where = td, data_source = src, dsname = "flowdex_tutorial")
+#
+exp_home <- paste0(td, "/tap_water_home") 
+dir.create(exp_home, showWarnings = FALSE)
+flowdex::genfs(exp_home) # create the required folder structure in 'tap_water_home'
+#
+from <- list.files(paste0(td, "/flowdex_tutorial/fcsFiles"), full.names = TRUE)
+to <- paste0(td, "/tap_water_home/fcsFiles")
+cs <- file.copy(from, to)
+#
+from <- list.files(paste0(td, "/flowdex_tutorial/dictionary"), full.names = TRUE)
+to <- paste0(td, "/tap_water_home/dictionary")
+file.copy(from, to)
+#
+fromGating <- list.files(paste0(td, "/flowdex_tutorial/gating"), full.names=TRUE)
+toGating <- paste0(td, "/tap_water_home/gating")
+file.copy(fromGating, toGating, overwrite=TRUE)
+#
+knitr::opts_knit$set(root.dir = paste0(tempdir(), "/tap_water_home"))
 ```
 
-If not already done, set up the tutorial data as described in [Get Started](https://bpollner.github.io/flowdex/articles/flowdex.html).
+If not already done, set up the tutorial data as described in [Get Started](https://bpollner.github.io/flowdex/articles/flowdex.html) and [Workflow 2](https://bpollner.github.io/flowdex/articles/workflow_2).
+
+Set the working directory to 'tap_water_home':
+
+```{r}
+setwd(paste0(td, "/tap_water_home"))
+```
 
 ## Check and Repair fcs Files
 
@@ -34,23 +64,28 @@ If so desired, `checkRepairFcsFiles()` can be called manually in order to have m
 
 For the purpose of this demonstration, some fcs files provoking the error as described above are included in the tutorial dataset. First, copy the faulty fcs files to a folder in the experiment-home directory:
 
-``` r
-destination <- "~/desktop"
-from <- list.files(paste0(destination, "/flowdexTutorial/fcsF_E_rep"), full.names=TRUE)
-to <- paste0(destination, "/tapWater@home/fcsF_E_rep")
+```{r warning=FALSE}
+td <- tempdir()
+from <- list.files(paste0(td, "/flowdex_tutorial/fcsF_E_rep"), full.names=TRUE)
+to <- paste0(td, "/tap_water_home/fcsF_E_rep")
 dir.create(to)
 file.copy(from, to, overwrite=TRUE)
 ```
 
-Now check:
+Now check for faulty fcs files:
 
-``` r
+```r
 checkRepairFcsFiles(fn="fcsF_E_rep")
+
+#> The following 2 files from the folder 'fcsF_E_rep' 
+#> do have non-unique entries (all 2 fold) in their keywords:
+#> N_na_GNeg_T6_th1_b2.fcs
+#> N_na_GNeg_T6_th1_b3.fcs
+#> Fehler: Consider setting 'fcsRepair' to TRUE.
+#> CAVE: Original fcs files will then be overwritten.
 ```
-
 We see that two files have multiplied keywords. Repair them by calling
-
-``` r
+```{r}
 checkRepairFcsFiles(fn="fcsF_E_rep", fcsRepair = TRUE, confirm = FALSE)
 # check again, all should be good now:
 checkRepairFcsFiles(fn="fcsF_E_rep")
@@ -66,29 +101,29 @@ In case it happened that the volumetric measurement of a single sample did not s
 
 First, copy some (manipulated) fcs files to a folder in the experiment-home directory:
 
-``` r
-destination <- "~/desktop"
-from <- list.files(paste0(destination, "/flowdexTutorial/fcsF_E_vol_sid"), full.names=TRUE)
-to <- paste0(destination, "/tapWater@home/fcsF_E_vol_sid")
+```{r warning=FALSE}
+from <- list.files(paste0(td, "/flowdex_tutorial/fcsF_E_vol_sid"), full.names=TRUE)
+to <- paste0(td, "/tap_water_home/fcsF_E_vol_sid")
 dir.create(to)
 file.copy(from, to, overwrite=TRUE)
 ```
 
 In order to repair missing volume data, call
 
-``` r
-repairVolumes(fn = "fcsF_E_vol_sid", vol=1234567)
-# press enter to confirm
+```{r}
+# repairVolumes(fn = "fcsF_E_vol_sid", vol=1234567) # press enter to confirm, displays more information. 
+# (Not suitable for the vignette.)
+#
+repairVolumes(fn = "fcsF_E_vol_sid", vol=1234567, confirm=FALSE)
 # and check again:
 repairVolumes(fn = "fcsF_E_vol_sid", vol=1234567) # all should be good
-file.copy(from, to, overwrite=TRUE) # restore the "bad" files
-repairVolumes(fn = "fcsF_E_vol_sid", vol=1234567, confirm=FALSE)
-# to run it without having to confirm
 ```
+
+Please note that when leaving `confirm` at its default TRUE, more details regarding the fcs files to be repaired / re-written to disc are displayed.
 
 If you want to force **all fcs files** in a folder to have the **same** volume data, you can set the argument `includeAll` to TRUE:
 
-``` r
+```{r}
 repairVolumes(fn = "fcsF_E_vol_sid", vol=1010101, confirm=FALSE, includeAll = TRUE)
 ```
 
@@ -104,18 +139,25 @@ In the worst case, the element value is wrong. This only comes to your attention
 To repair a faulty sample ID in a single fcs file, you first have to read in all (or some; use argument `patt`) fcs files in a folder; they come back as `flowCore::flowSet()`.\
 Then this 'flowSet' is given again to the function `repairSID()`, but now a sample name and its new sample ID can be specified:
 
-``` r
+``` {r}
 flowset <- repairSID(fn = "fcsF_E_vol_sid")
+#
 flowset@phenoData@data # very bad sample ID in the fourth sample
+
+#
 # view the correct sample IDs of the other samples
 # copy one of those correct sample IDs
 # paste and modify it - it should be beaker #3:
 nsid <- "tr: GPos; Td: 5; wt: nativ; ap: no; th: th1; ha: ha1; bk: b3"
+
+#
 # also copy and paste the sample name
 sana <- "N_na_GPos_T5_th1_b3.fcs" # the  name of the sample having the faulty sample ID
+
+#
 # now put all together and write fcs file with correct sample ID back to disk
-repairSID(fs=flowset, fn="fcsF_E_vol_sid", name=sana, newSID = nsid)
-# press enter to confirm
+repairSID(fs=flowset, fn="fcsF_E_vol_sid", name=sana, newSID = nsid, confirm = FALSE)
+
 #
 # and check again:
 flowset <- repairSID(fn = "fcsF_E_vol_sid")
@@ -127,7 +169,7 @@ flowset@phenoData@data # all is good
 Function `applyBandpass()` does exactly what it says -- it applies a bandpass-like filter to the fluorescence intensities stemming from a single gate.\
 If not already done before, create an 'fdmat' object containing only a small subset of the data:
 
-``` r
+``` {r}
 fdmat_s <- flowdexit(patt = "T4_th1")
 plotFlscDist(fdmat_s, toPdf = FALSE)
 ```
@@ -135,7 +177,7 @@ plotFlscDist(fdmat_s, toPdf = FALSE)
 We see not much signal below the fluorescence intensity 1600 and above 2400.\
 Lets apply a bandpass filter to our 'fdmat' object so that only those fluorescence intensities between 1600 and 2400 remain:
 
-``` r
+``` {r}
 fdmat_s_bp <- applyBandpass(fdmat_s, bandpass = c(1600, 2400))
 fdmat_s[[1]] # compare
 fdmat_s_bp[[1]] # 
@@ -146,12 +188,14 @@ ncol(fdmat_s_bp[[1]])
 Also the number of overall events per volume unit are updated - observe and compare the number in the legend in the next plot and the one from before.\
 Visualize the difference using `plotFlscDist()`:
 
-``` r
+``` {r}
 plotFlscDist(fdmat_s_bp, toPdf = FALSE)
 ```
 
 Finally, the rawdata with applied bandpass filter can be exported via
 
-``` r
+``` {r}
 exportFdmatData(fdmat_s_bp, expo.name = "flscData_d4_th1")
 ```
+
+Enjoy! 

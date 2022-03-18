@@ -5,13 +5,15 @@
 #' @description Checks if the example dataset is present. If not, the example
 #' dataset is downloaded.
 #' @details Intended to be used within the examples; is downloading and
-#' unzipping the folder 'flowdex_examples' in the folder specified at argument
+#' unzipping the folder 'dsname' in the folder specified at argument
 #' 'where'. 
 #' @param where Character length one. The path where the example dataset should
 #' be looked for.
 #' @param data_source The path to the remote .zip file.
 #' @param force_download Logical. If data should be downloaded anyway.
 #' Defaults to FALSE.
+#' @param dsname Character length one. The name of the folder containing the 
+#' data. Defaults to 'flowdex_examples'. 
 #' @return Logical. FALSE if the remote .zip file was downloaded, TRUE if the 
 #' example dataset was present and no download was necessary.
 #' @examples
@@ -19,16 +21,17 @@
 #' data_source <- "https://github.com/bpollner/data/raw/main/flowdex_examples/flowdex_examples.zip"
 #' check_download_data(td, data_source)
 #' @export
-check_download_data <- function(where, data_source, force_download = FALSE) {
-    dsname <- gl_name_of_example_dataset
+check_download_data <- function(where, data_source, force_download = FALSE,
+    dsname = "flowdex_examples") {
     ptds <- paste0(where, "/", dsname)
     if (! dir.exists(ptds) | force_download) {
         targ_zip <- paste0(where, "/", dsname, ".zip")
         download.file(data_source, targ_zip, mode = "wb") ## DOWNLOAD ##
         unzip(targ_zip, exdir = where)
-        return(FALSE)
+        cat("Download ok\n")
+        return(invisible(FALSE))
     } # end if
-    return(TRUE)
+    return(invisible(TRUE))
 } # EOF
 
 #' @title Perform Settings Setup

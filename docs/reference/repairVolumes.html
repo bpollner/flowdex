@@ -155,7 +155,6 @@ reasons, there is no volume information encoded in the original fcs file.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">data_source</span> <span class="op">&lt;-</span> <span class="st">"https://github.com/bpollner/data/raw/main/flowdex_examples/flowdex_examples.zip"</span></span>
 <span class="r-in"><span class="fu"><a href="check_download_data.html">check_download_data</a></span><span class="op">(</span><span class="va">td</span>, <span class="va">data_source</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span class="va">exp_home</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"/flowdex_examples"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">old_wd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="va">exp_home</span><span class="op">)</span></span>
@@ -168,7 +167,7 @@ reasons, there is no volume information encoded in the original fcs file.</p>
 <span class="r-in"><span class="co"># 'flowdex' will be sourced instead of the one in the user-defined location.</span></span>
 <span class="r-in"><span class="co">#</span></span>
 <span class="r-in"><span class="fu"><a href="check_download_data.html">check_download_data</a></span><span class="op">(</span><span class="va">td</span>, <span class="va">data_source</span>, <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># force download here</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Download ok</span>
 <span class="r-in"><span class="co">#</span></span>
 <span class="r-in"><span class="va">fon</span> <span class="op">&lt;-</span> <span class="st">"fcsF_E_vol_sid"</span></span>
 <span class="r-in"><span class="fu">repairVolumes</span><span class="op">(</span>vol<span class="op">=</span><span class="fl">1234567</span>, fn<span class="op">=</span><span class="va">fon</span>, confirm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>

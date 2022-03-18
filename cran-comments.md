@@ -3,92 +3,24 @@
 ## Windows Server 2022
 
 
-Build ID:    flowdex_0.4.1.tar.gz-1e71635eb4bb4120a393a3a26204b0ab    
-Platform:    Windows Server 2022, R-devel, 64 bit    
-Submitted:    12 minutes 17 seconds ago    
-Build time:    12 minutes 12.1 seconds    
-
-NOTES:    
-* checking CRAN incoming feasibility ... NOTE    
-Maintainer: 'Bernhard Pollner <bernhard.pollner@mac.com>'    
-    
-    
-
-New submission
-
-Non-FOSS package license (file LICENSE)
-
-Possibly misspelled words in DESCRIPTION:
-  FCS (3:52)
-  cytometry (9:118)
-  fcs (9:252)
-  flowdex (9:239)
-  volumetric (9:278)
-* checking R code for possible problems ... NOTE
-Found the following calls to attach():
-File 'flowdex/R/zzz.R':
-  attach(what = NULL, name = nsp)
-See section 'Good practice' in '?attach'.   
-* checking for detritus in the temp directory ... NOTE
-Found the following files/directories:
-  'lastMiKTeXException'
-
 
 ## Ubuntu Linux
 
-flowdex 0.4.1: PREPERROR    
-Build ID:    flowdex_0.4.1.tar.gz-8015593f440a4be695e89b443c9fe8c1     
-Platform:    Ubuntu Linux 20.04.1 LTS, R-release, GCC    
-Submitted:    46 minutes 36.3 seconds ago    
-Build time:    46 minutes 32.7 seconds    
-    
-    
+
 
 ## Fedora Linux
 
-flowdex 0.4.1: PREPERROR    
-Build ID:    flowdex_0.4.1.tar.gz-0ade8e0245b2436d8fc13a08ab53d9d0    
-Platform:    Fedora Linux, R-devel, clang, gfortran    
-Submitted:    47 minutes 29.1 seconds ago    
-Build time:    47 minutes 23.8 seconds    
-    
-    
+
 
 ## Regarding the Prep-Error on Ubuntu and Fedora Linux
 If I am interpreting this error message correctly, then an error occurred when **preparing** to run package flowdex, not in package flowdex itself.
    
-    
-This is peculiar, as the run on Ubuntu as provided by **Github** is executing smoothly:
-[https://github.com/bpollner/flowdex/actions/runs/1990060024](https://github.com/bpollner/flowdex/actions/runs/1990060024)
-
 
 # Results from devtools::check_win_devel()
 
-2 Notes:   
-* checking CRAN incoming feasibility ... NOTE
-Maintainer: 'Bernhard Pollner <bernhard.pollner@mac.com>'
 
-New submission
 
-Non-FOSS package license (file LICENSE)
 
-Possibly misspelled words in DESCRIPTION:
-  FCS (3:52)
-  bivariate (9:62)
-  cytometry (9:118)
-  fcs (9:252)
-  flowdex (9:239)
-   
-   
-* checking R code for possible problems ... [21s] NOTE
-Found the following calls to attach():
-File 'flowdex/R/zzz.R':
-  attach(what = NULL, name = nsp)
-See section 'Good practice' in '?attach'.
-
-See [https://win-builder.r-project.org/9txt07HvQHTm/](https://win-builder.r-project.org/9txt07HvQHTm/)
-   
-   
 
 *****
 

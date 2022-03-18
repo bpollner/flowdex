@@ -157,7 +157,6 @@ in data loss.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">data_source</span> <span class="op">&lt;-</span> <span class="st">"https://github.com/bpollner/data/raw/main/flowdex_examples/flowdex_examples.zip"</span></span>
 <span class="r-in"><span class="fu"><a href="check_download_data.html">check_download_data</a></span><span class="op">(</span><span class="va">td</span>, <span class="va">data_source</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span class="va">exp_home</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"/flowdex_examples"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">old_wd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd</a></span><span class="op">(</span><span class="va">exp_home</span><span class="op">)</span></span>

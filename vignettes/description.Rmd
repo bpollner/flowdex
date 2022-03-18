@@ -28,15 +28,15 @@ Finally, the fluorescence-distribution data that were (possibly) re-calculated t
 
 To (meaningfully) use flowdex, the fcs files have to contain volumetric measurement data denoting the acquired sample volume.
 
-`flowdex` is leaning heavily on the packages `{flowCore}`and `{flowWorkspace}` for data import, generation of gating sets etc.
+`flowdex` is leaning heavily on the packages [`flowCore`](https://rdrr.io/bioc/flowCore/) and [`flowWorkspace`](https://rdrr.io/bioc/flowWorkspace/) for data import, generation of gating sets etc.
 
 To sum it up, package flowdex can:
 
--   Extract fluorescence distribution data from fcs files and recalculate them to events per volume unit,
+-   **Extract fluorescence distribution** data from fcs files and **recalculate** them **to events per volume** unit,
 
--   Generate variables describing the dataset by using a structured character string in the sample-Id field of the sample at the time of data acquisition, and
+-   **Generate variables** describing the dataset by using a structured character string in the sample-Id field of the sample at the time of data acquisition, and
 
--   Visualise fluorescence distributions and export them to file.
+-   Visualise fluorescence distributions and **export** them **to file**.
 
 ## Advantage
 

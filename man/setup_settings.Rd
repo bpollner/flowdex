@@ -25,7 +25,7 @@ Has to be done only once.
 }
 \examples{
 \donttest{
-where <- "~/desktop"
+where <- path.expand("~")
 setup_settings(where)
 }
 }

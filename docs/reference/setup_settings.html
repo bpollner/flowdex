@@ -99,18 +99,18 @@ the settings-file system as provided by package 'uniset'.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="va">where</span> <span class="op">&lt;-</span> <span class="st">"~/desktop"</span></span>
+<span class="r-in"><span class="va">where</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/path.expand.html" class="external-link">path.expand</a></span><span class="op">(</span><span class="st">"~"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">setup_settings</span><span class="op">(</span><span class="va">where</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The folder </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> '/Users/bernhard/desktop/flowdex_SH' </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> '/Users/bernhard/flowdex_SH' </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> already existed.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The file 'flowdex_settings.R' already existed in </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> '/Users/bernhard/desktop/flowdex_SH'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> '/Users/bernhard/flowdex_SH'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The variable 'flowdex_SH' already existed in the .Renviron file </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> '/Users/bernhard/.Renviron'</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The value of 'flowdex_SH' was correctly set to </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> '/Users/bernhard/desktop/flowdex_SH'.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> '/Users/bernhard/flowdex_SH'.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Setup successful</span>
 <span class="r-in"><span class="co"># }</span></span>

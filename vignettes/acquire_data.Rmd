@@ -12,6 +12,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+```
+
+```{r}
 #
 library(flowdex)
 src <- "https://github.com/bpollner/data/raw/main/flowdex_tutorial/flowdex_tutorial.zip"

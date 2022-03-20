@@ -1,6 +1,9 @@
 url: https://bpollner.github.io/flowdex/
 template:
   bootstrap: 5
+  
+ search:
+   engine: fuse
 
 articles:
 - title: Description

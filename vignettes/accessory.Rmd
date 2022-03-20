@@ -13,30 +13,3 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-
-```{r, setup, include = FALSE}
-#
-library(flowdex)
-src <- "https://github.com/bpollner/data/raw/main/flowdex_tutorial/flowdex_tutorial.zip"
-td <- tempdir()
-# this is downloading and unzipping the tutorial data if not already present:
-flowdex::check_download_data(where = td, data_source = src, dsname = "flowdex_tutorial")
-#
-exp_home <- paste0(td, "/tap_water_home") 
-dir.create(exp_home, showWarnings = FALSE)
-flowdex::genfs(exp_home) # create the required folder structure in 'tap_water_home'
-#
-from <- list.files(paste0(td, "/flowdex_tutorial/fcsFiles"), full.names = TRUE)
-to <- paste0(td, "/tap_water_home/fcsFiles")
-cs <- file.copy(from, to)
-#
-from <- list.files(paste0(td, "/flowdex_tutorial/dictionary"), full.names = TRUE)
-to <- paste0(td, "/tap_water_home/dictionary")
-file.copy(from, to)
-#
-fromGating <- list.files(paste0(td, "/flowdex_tutorial/gating"), full.names=TRUE)
-toGating <- paste0(td, "/tap_water_home/gating")
-file.copy(fromGating, toGating, overwrite=TRUE)
-#
-knitr::opts_knit$set(root.dir = paste0(tempdir(), "/tap_water_home"))
-```

@@ -15,6 +15,7 @@ plotFlscDist(
   toPdf = TRUE,
   fns = NULL,
   foN.plots = ".",
+  leg = TRUE,
   ...
 )
 }
@@ -49,6 +50,8 @@ TRUE.}
 \item{foN.plots}{Character length one. The name of the folder where possible
 PDFs should be saved in. If left at the default '.', the value as defined in
 the settings file (key 'foN_plots') will be used.}
+
+\item{leg}{Logical, if the legend should be plotted. Defaults to TRUE.}
 
 \item{...}{Additional plotting parameters passed on to 'matplot'}
 }

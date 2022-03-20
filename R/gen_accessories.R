@@ -89,7 +89,7 @@ makeColors <- function(nrCols, stn) {
     } # end else
 } # EOF
 
-plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, ...) {
+plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, leg=TRUE, ...) {
     lty <- 1
     plLog <- ""
     yaxt <-"n"
@@ -170,8 +170,10 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 
     xlT <- paste0(labXaxChar, "(", extrOnAdd,")")
     ylT <- paste0("Raw Events ", yLabelAdd)
+    legTxt_evApndx <- paste0(" rev")
     if (any(md$rcv) & !is.null(evpv)) {
         ylT <- paste0("Events/", volUnit, "", yLabelAdd)
+        legTxt_evApndx <- paste0(" ev/", volUnit)
     } # end if
     yRange <- c(0, max(t(mat)))
     atY <- pretty(yRange)
@@ -180,7 +182,7 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
     legTxt <- rownames(mat)
 #    legTxt <- paste(legTxt, " | ", prettyNum(evpv, big.mark=".", decimal.mark=","), " ev/ml", sep="")
     if (!is.null(evpv)) {
-        legTxt <- paste0(legTxt, " | ", format(evpv, width=max(nchar(evpv)), big.mark = ".", decimal.mark=",", justify="right"), " ev/", volUnit)
+        legTxt <- paste0(legTxt, " | ", format(evpv, width=max(nchar(evpv)), big.mark = ".", decimal.mark=",", justify="right"), legTxt_evApndx)
     } # end if
     if (length(legTxt) > maxLegLe) {
         cexLeg <- cexLegAlt
@@ -190,9 +192,13 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
         cexLeg <- cexLegAlt
         ncLegLeft <- 2
     }
-    legend("topright", legTxt, col=cols, lty=lty, lwd=1, cex=cexLeg, ncol=ncLegRight, bg=legBgCol)
+    if (leg) {
+        legend("topright", legTxt, col=cols, lty=lty, lwd=1, cex=cexLeg, ncol=ncLegRight, bg=legBgCol)
+    }
     if (length(zeroChar) > 0) {
-        legend("topleft", zeroChar, cex=cexLeg, title="Zero:", ncol=ncLegLeft, bg=legBgCol)
+        if (leg) {
+            legend("topleft", zeroChar, cex=cexLeg, title="Zero:", ncol=ncLegLeft, bg=legBgCol)
+        }
     }
     if (!ylog) {
         axis(side=2, at=atY, labels=scales::scientific_format(1)(atY)) # could add las=2
@@ -224,6 +230,7 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 #' @param toPdf Logical. If output should be saved in results as PDF. Defaults to
 #' TRUE.
 #' @param fns Character length one. The filename suffix, defaults to NULL.
+#' @param leg Logical, if the legend should be plotted. Defaults to TRUE.
 #' @param ... Additional plotting parameters passed on to 'matplot'
 #' @inheritParams plotgates
 #' @return (Invisible) NULL; is used for its side effects, i.e. to plot
@@ -237,7 +244,7 @@ plotCounts_inner <- function(mat, stn, ti="", ylog=FALSE, ccol=NULL, clt=NULL, .
 #' @template t_ex_finale
 #' @family Plotting functions
 #' @export
-plotFlscDist <- function(fdmat, gate=NULL, ti="", spl=NULL, ylog=FALSE, ccol=NULL, clt=NULL, toPdf=TRUE, fns=NULL, foN.plots=".", ...) {
+plotFlscDist <- function(fdmat, gate=NULL, ti="", spl=NULL, ylog=FALSE, ccol=NULL, clt=NULL, toPdf=TRUE, fns=NULL, foN.plots=".", leg=TRUE, ...) {
     #
     stn <- auto_up_s()
     #
@@ -286,11 +293,11 @@ plotFlscDist <- function(fdmat, gate=NULL, ti="", spl=NULL, ylog=FALSE, ccol=NUL
                 maSiUse <- matSingle
                 maSiUse@.Data <- matSingle@.Data[ind,]
                 maSiUse@eventsPerVol@.Data <- matSingle@eventsPerVol[ind,] # I know. We could have a method for subscripting the 'fdmat_single'. Later. XXX
-                plotCounts_inner(maSiUse, stn, ti, ylog, ccol, clt, ...)
+                plotCounts_inner(maSiUse, stn, ti, ylog, ccol, clt, leg, ...)
             } # end for i going through the splitVals
             #
         } else { # so spl is null, we do not want to split
-            plotCounts_inner(matSingle, stn, ti, ylog, ccol, clt, ...)
+            plotCounts_inner(matSingle, stn, ti, ylog, ccol, clt, leg, ...)
         } # end else
     } # end for k going through the fdmat
     ####

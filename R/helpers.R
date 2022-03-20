@@ -257,7 +257,6 @@ assignHereStnValues <- function(stn) {
     apc <- stn$dV_cutoff_apply
     coR <- stn$dV_cutoff_raw
     coV <- stn$dV_cutoff_Vol
-    rcv <- stn$dV_doRecalcToVolume
     igp <- stn$dV_ignoreEdgePercent
     smo <- stn$dV_doSmooth
     smN <- stn$dV_smooth_n
@@ -274,7 +273,6 @@ assignHereStnValues <- function(stn) {
     doAssign("apc", apc)
     doAssign("coR", coR)
     doAssign("coV", coV)
-    doAssign("rcv", rcv)
     doAssign("igp", igp)
     doAssign("smo", smo)
     doAssign("smN", smN)
@@ -288,7 +286,7 @@ assignHereStnValues <- function(stn) {
     return(TRUE)
 } # EOF
 
-checkAssignInput <- function(stn, fn, gateStrat, foN.gateStrat, type.gateStrat, comp, tx, channel, name.dict, foN.dict, type.dict, expo.gate, expo.name, expo.type, expo.folder, verbose) {
+checkAssignInput <- function(stn, fn, gateStrat, foN.gateStrat, type.gateStrat, comp, tx, channel, name.dict, foN.dict, type.dict, expo.gate, expo.name, expo.type, expo.folder, rcv, verbose) {
     #
     doAssign <- function(name, value, npf=2) {
         assign(name, value, pos=parent.frame(n=npf))
@@ -308,6 +306,7 @@ checkAssignInput <- function(stn, fn, gateStrat, foN.gateStrat, type.gateStrat, 
     expo.name <- checkDefToSetVal(expo.name, "fiN_dataExport", "expo.name", stn, checkFor="char")
     expo.type <- checkDefToSetVal(expo.type, "dE_exportType", "expo.type", stn, checkFor="char")
     expo.folder <- checkDefToSetVal(expo.folder, "foN_rawData", "expo.folder", stn, checkFor="char")
+    rcv <- checkDefToSetVal(rcv, "dV_doRecalcToVolume", "rcv", stn, checkFor="logi")
     verbose <- checkDefToSetVal(verbose, "dV_verbose", "verbose", stn, checkFor="logi")
     ##
     ##
@@ -325,9 +324,10 @@ checkAssignInput <- function(stn, fn, gateStrat, foN.gateStrat, type.gateStrat, 
     doAssign("expo.name", expo.name)
     doAssign("expo.type", expo.type)
     doAssign("expo.folder", expo.folder)
+    doAssign("rcv", rcv)
     doAssign("verbose", verbose)
     #
-    return(TRUE)    
+    return(TRUE)
 } # EOF
 
 assignGatingSetToEnv <- function(gs) {

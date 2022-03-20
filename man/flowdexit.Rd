@@ -23,6 +23,7 @@ flowdexit(
   expo.folder = ".",
   fcsRepair = FALSE,
   stf = TRUE,
+  rcv = ".",
   verbose = "."
 )
 }
@@ -114,6 +115,11 @@ possible to display multiplied keywords and to select which one to keep.}
 to file in the data export folder. Defaults to TRUE.  If saved, the name
 of the gating strategy used to generate the data will be appended to the
 filename.}
+
+\item{rcv}{Logical. If the fluorescence distributions should be
+re-calculated to events per volume unit. If left at the default '.', the
+value as defined in the settings file (key 'dV_doRecalcToVolume') will be
+used.}
 
 \item{verbose}{Logical. If status messages should be displayed. If left at
 the default '.', the value as defined in the settings file (key 'dV_verbose')

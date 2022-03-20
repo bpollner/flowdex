@@ -13,21 +13,21 @@ To (meaningfully) use flowdex, the FCM files have to contain volumetric
 measurement data denoting the acquired sample volume.
 }
 \details{
-When calling \code{\link{flowdexit}}, the gating set "gs" is assigned
-to the parent envelope.
+When calling \code{\link{flowdexit}}, the gating set "gs" is
+assigned to the parent envelope.
 }
 \section{Important}{
- In order to be able to correctly re-calculate raw events 
-to events per volume unit, it is paramount to obtain the correct volume factor 
-from the manual of the FCM-machine / the volumetric measurement module. Please
-see the section 'Calculating Events per Volume Unit' at 
-\code{\link{flowdexit}} for further details.
+ In order to be able to correctly re-calculate raw events
+to events per volume unit, it is paramount to obtain the correct volume
+factor from the manual of the FCM-machine / the volumetric measurement
+module. Please see the section 'Calculating Events per Volume Unit'
+at \code{\link{flowdexit}} for further details.
 }
 
 \section{CAVE}{
  Some functions like e.g. \code{\link{repairVolumes}},
 \code{\link{repairSID}} or \code{\link{checkRepairFcsFiles}} can re-write
-fcs files to disc, thereby overwriting original fcs files. It is therefore 
+fcs files to disc, thereby overwriting original fcs files. It is therefore
 recommended to work on a copy of the original fcs files.
 }
 

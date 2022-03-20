@@ -14,6 +14,7 @@ makefdmat(
   expo.name = ".",
   expo.type = ".",
   expo.folder = ".",
+  rcv = ".",
   verbose = ".",
   dev = FALSE
 )
@@ -53,6 +54,11 @@ as defined in the settings file (key 'dE_exportType') will be used.}
 \item{expo.folder}{Character length one. The name of the folder where
 exported data should reside. If left at the default '.', the value as
 defined in the settings file (key 'foN_rawData') will be used.}
+
+\item{rcv}{Logical. If the fluorescence distributions should be
+re-calculated to events per volume unit. If left at the default '.', the
+value as defined in the settings file (key 'dV_doRecalcToVolume') will be
+used.}
 
 \item{verbose}{Logical. If status messages should be displayed. If left at
 the default '.', the value as defined in the settings file (key 'dV_verbose')

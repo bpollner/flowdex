@@ -496,7 +496,7 @@ repairVolumes <- function(patt=NULL, vol=NULL, fn=".", includeAll=FALSE,
 #' @family Accessory functions
 #' @family Repair functions
 #' @export
-repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".", 
+repairSID <- function(fs=NULL, name=NULL, newSID=NULL, patt=NULL, fn=".",
     confirm=TRUE, fcsRepair=FALSE) {
     stn <- auto_up_s()
     #
@@ -760,9 +760,9 @@ makeAddGatingSet <- function(patt=NULL, fn=".", gateStrat=".", foN.gateStrat="."
 #' @return A list with the locator coordinates. Mainly called for its side
 #' effect, i.e. the locator matrix data saved as an R-object in the folder
 #' specified at 'foN.gateStrat'.
-#' @section Link: Please refer also to 
-#' \url{https://bpollner.github.io/flowdex/articles/workflow_1.html} 
-#' for an in-depth description of the workflow how to create the gating 
+#' @section Link: Please refer also to
+#' \url{https://bpollner.github.io/flowdex/articles/workflow_1.html}
+#' for an in-depth description of the workflow how to create the gating
 #' strategy.
 #' @template t_ex_intro
 #' @template t_ex_assign
@@ -1012,15 +1012,16 @@ exportFdmatData <- function(fdmat, expo.gate=".", expo.name=".",
 #' @seealso \code{\link{makeAddGatingSet}}, \code{\link{flowdexit}}
 #' @family Extraction functions
 #' @export
-makefdmat <- function(gs, name.dict=".", foN.dict=".", type.dict=".", expo=TRUE, 
-    expo.gate=".", expo.name=".", expo.type=".", expo.folder=".", verbose=".",
-    dev=FALSE) {
+makefdmat <- function(gs, name.dict=".", foN.dict=".", type.dict=".", expo=TRUE,
+    expo.gate=".", expo.name=".", expo.type=".", expo.folder=".", rcv=".",
+    verbose=".", dev=FALSE) {
     #
     stn <- auto_up_s()
     #
-    outMat <- outMd <- res <- apc <- coR <- coV <- rcv <- igp <- smo <- smN <- smP <- 
-        chPrevWl <- volFac <- dictionary <- useDic <- cyTags <- NULL # some get assigned below
+    outMat <- outMd <- res <- apc <- coR <- coV <- igp <- smo <- smN <- smP <- chPrevWl <- volFac <- dictionary <- useDic <- cyTags <- NULL
+         # some get assigned below
     assignHereStnValues(stn)
+    rcv <- checkDefToSetVal(rcv, "dV_doRecalcToVolume", "rcv", stn, checkFor="logi")
     if (!stn$dV_use_volumeData) {
         rcv <- FALSE # because if we do not want to use volume data, that implies we do not want to recalculate back to volume even if we *have* volume data
     } # end if
@@ -1410,6 +1411,10 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 #' to file in the data export folder. Defaults to TRUE.  If saved, the name
 #' of the gating strategy used to generate the data will be appended to the
 #' filename.
+#' @param rcv Logical. If the fluorescence distributions should be
+#' re-calculated to events per volume unit. If left at the default '.', the
+#' value as defined in the settings file (key 'dV_doRecalcToVolume') will be
+#' used.
 #' @section Calculating Events per Volume Unit:
 #' The calculation of events per volume unit is performed via the following
 #' code: \code{round((nrEvRaw / vols) * volFac , 0)}, with \code{nrEvRaw} being
@@ -1454,23 +1459,29 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 #' @template t_ex_finale
 #' @seealso \code{\link{flowdex}}, \code{\link{makefdmat}}
 #' @export
-flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".", 
-    type.gateStrat=".", comp=".", tx=".", channel=".", name.dict=".", 
-    foN.dict=".", type.dict=".", expo=TRUE, expo.gate=".", expo.name=".", 
-    expo.type=".", expo.folder=".", fcsRepair=FALSE, stf=TRUE, verbose=".") {
+flowdexit <- function(fn=".", patt=NULL, gateStrat=".", foN.gateStrat=".",
+    type.gateStrat=".", comp=".", tx=".", channel=".", name.dict=".",
+    foN.dict=".", type.dict=".", expo=TRUE, expo.gate=".", expo.name=".",
+    expo.type=".", expo.folder=".", fcsRepair=FALSE, stf=TRUE, rcv=".",
+    verbose=".") {
     #
     stn <- auto_up_s()
     #
-    checkAssignInput(stn, fn, gateStrat, foN.gateStrat, type.gateStrat, comp, tx, channel, name.dict, foN.dict, type.dict, expo.gate, expo.name, expo.type, expo.folder, verbose)    # is possibly re-assigning the values here
+    checkAssignInput(stn, fn, gateStrat, foN.gateStrat, type.gateStrat, comp,
+        tx, channel, name.dict, foN.dict, type.dict, expo.gate, expo.name,
+        expo.type, expo.folder, rcv, verbose) 
+        # is possibly re-assigning the values here
     #
-    gsdf <- importCheckGatingStrategy(gateStrat, stn, type.gateStrat, foN.gateStrat)
+    gsdf <- importCheckGatingStrategy(gateStrat, stn, type.gateStrat,
+        foN.gateStrat)
     checkPggExistence(gsdf, foN.gateStrat, gateStrat)
     #
     gs <- makeGatingSet(patt, comp, fn, tx, channel, fcsRepair, verbose)
     gs <- addGates(gs, gateStrat, foN.gateStrat, type.gateStrat, verbose)
     assignGatingSetToEnv(gs)
     #
-    fdmat <- makefdmat(gs, name.dict, foN.dict, type.dict, expo, expo.gate, expo.name, expo.type, expo.folder, verbose)
+    fdmat <- makefdmat(gs, name.dict, foN.dict, type.dict, expo, expo.gate,
+        expo.name, expo.type, expo.folder, rcv, verbose)
     #
     if (stf) {
         fd_save(fdmat, fns=NULL, expo.folder, verbose)

@@ -86,9 +86,9 @@ overwritten without asking!
 }
 
 \section{Link}{
- Please refer also to 
-\url{https://bpollner.github.io/flowdex/articles/workflow_1.html} 
-for an in-depth description of the workflow how to create the gating 
+ Please refer also to
+\url{https://bpollner.github.io/flowdex/articles/workflow_1.html}
+for an in-depth description of the workflow how to create the gating
 strategy.
 }
 

@@ -52,6 +52,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/description.html">Description</a>
+    <a class="dropdown-item" href="../articles/bottled_water.html">Re-Calculate to Events per Volume Unit</a>
     <a class="dropdown-item" href="../articles/acquire_data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/workflow_1.html">Workflow 1: Define Gating Strategy and Polygon Gates</a>
     <a class="dropdown-item" href="../articles/workflow_2.html">Workflow 2: Extract Fluorescence Distributions</a>
@@ -245,12 +246,12 @@ gating strategy where multiple nested gates are defined, called
 <span class="co">#&gt;   ..@ pData    :'data.frame':    108 obs. of  4 variables:</span>
 <span class="co">#&gt;   ..@ note     : chr "original"</span>
 <span class="va">fdmat2</span><span class="op">@</span><span class="va">metadata</span>
-<span class="co">#&gt;       gateName        gateDef extractOn res   flRange  apc coR coV  rcv   igp</span>
-<span class="co">#&gt; 1         DNA+    BactStainV1    FITC.A 220 1250,4000 TRUE  10 125 TRUE FALSE</span>
-<span class="co">#&gt; 2 HighSSC_ffif HighSSC_FSC_V1     FSC.A 220    0,4000 TRUE  10 125 TRUE FALSE</span>
-<span class="co">#&gt;    smo smN smP ncpwl</span>
-<span class="co">#&gt; 1 TRUE  11   5     4</span>
-<span class="co">#&gt; 2 TRUE  11   5     4</span>
+<span class="co">#&gt;                          gateName        gateDef extractOn res   flRange  apc</span>
+<span class="co">#&gt; dV_doRecalcToVolume          DNA+    BactStainV1    FITC.A 220 1250,4000 TRUE</span>
+<span class="co">#&gt; dV_doRecalcToVolume1 HighSSC_ffif HighSSC_FSC_V1     FSC.A 220    0,4000 TRUE</span>
+<span class="co">#&gt;                      coR coV  rcv   igp  smo smN smP ncpwl</span>
+<span class="co">#&gt; dV_doRecalcToVolume   10 125 TRUE FALSE TRUE  11   5     4</span>
+<span class="co">#&gt; dV_doRecalcToVolume1  10 125 TRUE FALSE TRUE  11   5     4</span>
 <span class="va">fdmat2</span><span class="op">@</span><span class="va">gateStrat</span>
 <span class="co">#&gt;           GateName           Parent GateOnX GateOnY  GateDefinition extractOn</span>
 <span class="co">#&gt; 1             DNA+             root  FITC.A PerCP.A     BactStainV1    FITC.A</span>
@@ -397,10 +398,10 @@ those filenames that match this pattern:</p>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Slot 'metadata':</span>
-<span class="co">#&gt;   gateName     gateDef extractOn res   flRange  apc coR coV  rcv   igp  smo smN</span>
-<span class="co">#&gt; 1     DNA+ BactStainV1    FITC.A 220 1250,4000 TRUE  10 125 TRUE FALSE TRUE  11</span>
-<span class="co">#&gt;   smP ncpwl</span>
-<span class="co">#&gt; 1   5     4</span>
+<span class="co">#&gt;                     gateName     gateDef extractOn res   flRange  apc coR coV</span>
+<span class="co">#&gt; dV_doRecalcToVolume     DNA+ BactStainV1    FITC.A 220 1250,4000 TRUE  10 125</span>
+<span class="co">#&gt;                      rcv   igp  smo smN smP ncpwl</span>
+<span class="co">#&gt; dV_doRecalcToVolume TRUE FALSE TRUE  11   5     4</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Slot 'cyTags':</span>

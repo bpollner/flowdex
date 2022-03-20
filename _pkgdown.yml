@@ -7,11 +7,13 @@ articles:
   mavbar: ~
   contents:
   - description
+  - bottled_water
 
 - title: Usage
   navbar: ~
   contents:
   - description
+  - bottled_water
   - acquire_data
   - workflow_1
   - workflow_2

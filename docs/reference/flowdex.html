@@ -38,6 +38,7 @@ measurement data denoting the acquired sample volume."><meta property="og:image"
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/description.html">Description</a>
+    <a class="dropdown-item" href="../articles/bottled_water.html">Re-Calculate to Events per Volume Unit</a>
     <a class="dropdown-item" href="../articles/acquire_data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/workflow_1.html">Workflow 1: Define Gating Strategy and Polygon Gates</a>
     <a class="dropdown-item" href="../articles/workflow_2.html">Workflow 2: Extract Fluorescence Distributions</a>
@@ -83,22 +84,22 @@ measurement data denoting the acquired sample volume.</p>
 
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>When calling <code><a href="flowdexit.html">flowdexit</a></code>, the gating set "gs" is assigned
-to the parent envelope.</p>
+    <p>When calling <code><a href="flowdexit.html">flowdexit</a></code>, the gating set "gs" is
+assigned to the parent envelope.</p>
     </div>
     <div class="section level2">
     <h2 id="important">Important<a class="anchor" aria-label="anchor" href="#important"></a></h2>
-    <p>In order to be able to correctly re-calculate raw events 
-to events per volume unit, it is paramount to obtain the correct volume factor 
-from the manual of the FCM-machine / the volumetric measurement module. Please
-see the section 'Calculating Events per Volume Unit' at 
-<code><a href="flowdexit.html">flowdexit</a></code> for further details.</p>
+    <p>In order to be able to correctly re-calculate raw events
+to events per volume unit, it is paramount to obtain the correct volume
+factor from the manual of the FCM-machine / the volumetric measurement
+module. Please see the section 'Calculating Events per Volume Unit'
+at <code><a href="flowdexit.html">flowdexit</a></code> for further details.</p>
     </div>
     <div class="section level2">
     <h2 id="cave">CAVE<a class="anchor" aria-label="anchor" href="#cave"></a></h2>
     <p>Some functions like e.g. <code><a href="repairVolumes.html">repairVolumes</a></code>,
 <code><a href="repairSID.html">repairSID</a></code> or <code><a href="checkRepairFcsFiles.html">checkRepairFcsFiles</a></code> can re-write
-fcs files to disc, thereby overwriting original fcs files. It is therefore 
+fcs files to disc, thereby overwriting original fcs files. It is therefore
 recommended to work on a copy of the original fcs files.</p>
     </div>
     <div class="section level2">

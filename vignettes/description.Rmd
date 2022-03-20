@@ -46,6 +46,8 @@ If the FCM-machine used for data acquisition does have a volumetric measurement 
 
 In other words, the y-axis of any fluorescence distribution can be displayed in a fixed scale, i.e. events per volume unit. This enables the **comparison of numbers on a fixed scale** across samples, groups or experiments, **instead** of being confined to **compare percentages** of sub-groups of an overall population.
 
+Please see the article [Re-Calculate to Events per Voliume Unit](file:///Users/bernhard/Documents/RPS/flowdex_R/flowdex/docs/articles/bottled_water.html) for an illustration of the benefit of being able to recalculate fluorescence distributions to sample volume.
+
 ## Two Workflow Scenarios
 
 There are two basic scenarios when using `flowdex` that further define the appropriate workflow:

@@ -21,8 +21,9 @@ flowdex::check_download_data(where = td, data_source = src, dsname = "flowdex_tu
 #
 exp_home <- paste0(td, "/tap_water_home") 
 dir.create(exp_home)
-setwd(exp_home)
-flowdex::genfs() # create the required folder structure in 'tap_water_home'
+# setwd(exp_home)
+flowdex::genfs(exp_home) # create the required folder structure in 'tap_water_home'
+# knitr::opts_knit$set(root.dir = paste0(tempdir(), "/tap_water_home"))
 ```
 
 After running the setup as described in [Get Started](https://bpollner.github.io/flowdex/articles/flowdex.html), it is time for data acquisition -- go and measure your samples, then come back and put your fcs files into the folder 'fcsFiles'.

@@ -36,6 +36,7 @@ and save the R-object holding all the data to file as well."><meta property="og:
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/description.html">Description</a>
+    <a class="dropdown-item" href="../articles/bottled_water.html">Re-Calculate to Events per Volume Unit</a>
     <a class="dropdown-item" href="../articles/acquire_data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/workflow_1.html">Workflow 1: Define Gating Strategy and Polygon Gates</a>
     <a class="dropdown-item" href="../articles/workflow_2.html">Workflow 2: Extract Fluorescence Distributions</a>
@@ -98,6 +99,7 @@ and save the R-object holding all the data to file as well.</p>
   expo.folder <span class="op">=</span> <span class="st">"."</span>,
   fcsRepair <span class="op">=</span> <span class="cn">FALSE</span>,
   stf <span class="op">=</span> <span class="cn">TRUE</span>,
+  rcv <span class="op">=</span> <span class="st">"."</span>,
   verbose <span class="op">=</span> <span class="st">"."</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -171,9 +173,9 @@ as defined in the settings file (key 'fiN_dataExport') will be used.</p></dd>
 Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value
 as defined in the settings file (key 'dE_exportType') will be used.</p></dd>
 <dt>expo.folder</dt>
-<dd><p>Character length one. The name of the folder where exported
-should reside. If left at the default '.', the value as defined in the
-settings file (key 'foN_rawData') will be used.</p></dd>
+<dd><p>Character length one. The name of the folder where
+exported data should reside. If left at the default '.', the value as
+defined in the settings file (key 'foN_rawData') will be used.</p></dd>
 <dt>fcsRepair</dt>
 <dd><p>Logical. If set to TRUE, fcs-files in the folder
 specified at argument 'fn' will be checked for multiplied entries in the
@@ -191,6 +193,11 @@ possible to display multiplied keywords and to select which one to keep.</p></dd
 to file in the data export folder. Defaults to TRUE.  If saved, the name
 of the gating strategy used to generate the data will be appended to the
 filename.</p></dd>
+<dt>rcv</dt>
+<dd><p>Logical. If the fluorescence distributions should be
+re-calculated to events per volume unit. If left at the default '.', the
+value as defined in the settings file (key 'dV_doRecalcToVolume') will be
+used.</p></dd>
 <dt>verbose</dt>
 <dd><p>Logical. If status messages should be displayed. If left at
 the default '.', the value as defined in the settings file (key 'dV_verbose')
@@ -252,7 +259,7 @@ data are exported.</p>
     </div>
     <div class="section level2">
     <h2 id="link">Link<a class="anchor" aria-label="anchor" href="#link"></a></h2>
-    <p>Please refer also to 
+    <p>Please refer also to
 <a href="https://bpollner.github.io/flowdex/">https://bpollner.github.io/flowdex/</a>.</p>
     </div>
     <div class="section level2">
@@ -308,10 +315,10 @@ data are exported.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Slot 'metadata':</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   gateName     gateDef extractOn res   flRange  apc coR coV  rcv   igp  smo smN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     DNA+ BactStainV1    FITC.A 220 1250,4000 TRUE  10 125 TRUE FALSE TRUE  11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   smP ncpwl</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   5     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     gateName     gateDef extractOn res   flRange  apc coR coV</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dV_doRecalcToVolume     DNA+ BactStainV1    FITC.A 220 1250,4000 TRUE  10 125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                      rcv   igp  smo smN smP ncpwl</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> dV_doRecalcToVolume TRUE FALSE TRUE  11   5     4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Slot 'cyTags':</span>

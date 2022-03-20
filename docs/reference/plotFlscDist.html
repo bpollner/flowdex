@@ -32,6 +32,7 @@ produced."><meta property="og:image" content="https://bpollner.github.io/flowdex
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/description.html">Description</a>
+    <a class="dropdown-item" href="../articles/bottled_water.html">Re-Calculate to Events per Volume Unit</a>
     <a class="dropdown-item" href="../articles/acquire_data.html">Acquire Data</a>
     <a class="dropdown-item" href="../articles/workflow_1.html">Workflow 1: Define Gating Strategy and Polygon Gates</a>
     <a class="dropdown-item" href="../articles/workflow_2.html">Workflow 2: Extract Fluorescence Distributions</a>
@@ -84,6 +85,7 @@ produced.</p>
   toPdf <span class="op">=</span> <span class="cn">TRUE</span>,
   fns <span class="op">=</span> <span class="cn">NULL</span>,
   foN.plots <span class="op">=</span> <span class="st">"."</span>,
+  leg <span class="op">=</span> <span class="cn">TRUE</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -121,6 +123,8 @@ TRUE.</p></dd>
 <dd><p>Character length one. The name of the folder where possible
 PDFs should be saved in. If left at the default '.', the value as defined in
 the settings file (key 'foN_plots') will be used.</p></dd>
+<dt>leg</dt>
+<dd><p>Logical, if the legend should be plotted. Defaults to TRUE.</p></dd>
 <dt>...</dt>
 <dd><p>Additional plotting parameters passed on to 'matplot'</p></dd>
 </dl></div>

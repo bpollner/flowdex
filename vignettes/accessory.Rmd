@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, setup, include = FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -74,7 +74,7 @@ file.copy(from, to, overwrite=TRUE)
 
 Now check for faulty fcs files:
 
-```r
+``` r
 checkRepairFcsFiles(fn="fcsF_E_rep")
 
 #> The following 2 files from the folder 'fcsF_E_rep' 
@@ -84,7 +84,9 @@ checkRepairFcsFiles(fn="fcsF_E_rep")
 #> Fehler: Consider setting 'fcsRepair' to TRUE.
 #> CAVE: Original fcs files will then be overwritten.
 ```
+
 We see that two files have multiplied keywords. Repair them by calling
+
 ```{r}
 checkRepairFcsFiles(fn="fcsF_E_rep", fcsRepair = TRUE, confirm = FALSE)
 # check again, all should be good now:
@@ -139,7 +141,7 @@ In the worst case, the element value is wrong. This only comes to your attention
 To repair a faulty sample ID in a single fcs file, you first have to read in all (or some; use argument `patt`) fcs files in a folder; they come back as `flowCore::flowSet()`.\
 Then this 'flowSet' is given again to the function `repairSID()`, but now a sample name and its new sample ID can be specified:
 
-``` {r}
+```{r}
 flowset <- repairSID(fn = "fcsF_E_vol_sid")
 #
 flowset@phenoData@data # very bad sample ID in the fourth sample
@@ -169,7 +171,7 @@ flowset@phenoData@data # all is good
 Function `applyBandpass()` does exactly what it says -- it applies a bandpass-like filter to the fluorescence intensities stemming from a single gate.\
 If not already done before, create an 'fdmat' object containing only a small subset of the data:
 
-``` {r}
+```{r}
 fdmat_s <- flowdexit(patt = "T4_th1")
 plotFlscDist(fdmat_s, toPdf = FALSE)
 ```
@@ -177,7 +179,7 @@ plotFlscDist(fdmat_s, toPdf = FALSE)
 We see not much signal below the fluorescence intensity 1600 and above 2400.\
 Lets apply a bandpass filter to our 'fdmat' object so that only those fluorescence intensities between 1600 and 2400 remain:
 
-``` {r}
+```{r}
 fdmat_s_bp <- applyBandpass(fdmat_s, bandpass = c(1600, 2400))
 fdmat_s[[1]] # compare
 fdmat_s_bp[[1]] # 
@@ -188,14 +190,14 @@ ncol(fdmat_s_bp[[1]])
 Also the number of overall events per volume unit are updated - observe and compare the number in the legend in the next plot and the one from before.\
 Visualize the difference using `plotFlscDist()`:
 
-``` {r}
+```{r}
 plotFlscDist(fdmat_s_bp, toPdf = FALSE)
 ```
 
 Finally, the rawdata with applied bandpass filter can be exported via
 
-``` {r}
+```{r}
 exportFdmatData(fdmat_s_bp, expo.name = "flscData_d4_th1")
 ```
 
-Enjoy! 
+Enjoy!

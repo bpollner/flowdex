@@ -50,9 +50,9 @@ as defined in the settings file (key 'fiN_dataExport') will be used.}
 Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value
 as defined in the settings file (key 'dE_exportType') will be used.}
 
-\item{expo.folder}{Character length one. The name of the folder where exported
-should reside. If left at the default '.', the value as defined in the
-settings file (key 'foN_rawData') will be used.}
+\item{expo.folder}{Character length one. The name of the folder where
+exported data should reside. If left at the default '.', the value as
+defined in the settings file (key 'foN_rawData') will be used.}
 
 \item{verbose}{Logical. If status messages should be displayed. If left at
 the default '.', the value as defined in the settings file (key 'dV_verbose')

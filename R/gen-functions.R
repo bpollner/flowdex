@@ -1394,9 +1394,9 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 #' @param expo.type Character length one. The filetype of the data export.
 #' Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value
 #' as defined in the settings file (key 'dE_exportType') will be used.
-#' @param expo.folder Character length one. The name of the folder where exported
-#' should reside. If left at the default '.', the value as defined in the
-#' settings file (key 'foN_rawData') will be used.
+#' @param expo.folder Character length one. The name of the folder where
+#' exported data should reside. If left at the default '.', the value as
+#' defined in the settings file (key 'foN_rawData') will be used.
 #' @param name.dict Character length one. The name of the dictionary. If left
 #' at the default '.', the value as defined in the settings file (key
 #' 'dD_dict_name') will be used.
@@ -1440,7 +1440,7 @@ fd_load <- function(fn=NULL, expo.folder=".", verbose=".") {
 #' element, which in turn contains a matrix holding the fluorescence
 #' distribution of a single gate, and the overall data for events per volume
 #' unit in the slot \code{eventsPerVol}.
-#' @section Link: Please refer also to 
+#' @section Link: Please refer also to
 #' \url{https://bpollner.github.io/flowdex/}.
 #' @template t_ex_intro
 #' @template t_ex_assign

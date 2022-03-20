@@ -93,9 +93,9 @@ as defined in the settings file (key 'fiN_dataExport') will be used.}
 Possible values are 'csv' and 'xlsx'.  If left at the default '.', the value
 as defined in the settings file (key 'dE_exportType') will be used.}
 
-\item{expo.folder}{Character length one. The name of the folder where exported
-should reside. If left at the default '.', the value as defined in the
-settings file (key 'foN_rawData') will be used.}
+\item{expo.folder}{Character length one. The name of the folder where
+exported data should reside. If left at the default '.', the value as
+defined in the settings file (key 'foN_rawData') will be used.}
 
 \item{fcsRepair}{Logical. If set to TRUE, fcs-files in the folder
 specified at argument 'fn' will be checked for multiplied entries in the
@@ -178,7 +178,7 @@ data are exported.
 }
 
 \section{Link}{
- Please refer also to 
+ Please refer also to
 \url{https://bpollner.github.io/flowdex/}.
 }
 

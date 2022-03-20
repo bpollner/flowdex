@@ -1,4 +1,4 @@
----
+    ---
 title: "Repair & Accessory Functions"
 output: rmarkdown::html_vignette
 vignette: >
@@ -7,11 +7,14 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, setup, include = FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+```
+
+```{r, setup, include = FALSE}
 #
 library(flowdex)
 src <- "https://github.com/bpollner/data/raw/main/flowdex_tutorial/flowdex_tutorial.zip"

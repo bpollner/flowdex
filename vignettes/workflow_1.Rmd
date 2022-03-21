@@ -242,7 +242,7 @@ and apply it to a gating set. For ease of demonstration, we will again use a sub
 # we are not using the default name for gating strategy any more:
 gsRed2 <- makeAddGatingSet(patt="GPos_T6_th2", gateStrat = "gateStrat_2")
 flowWorkspace::plot(gsRed2) # to view the gating hierarchy
-plotgates(gsRed2, toPdf = F) # to view the gated data
+plotgates(gsRed2, toPdf = FALSE) # to view the gated data
 ```
 
 Note that only those gated data get displayed in `plotgates()` where the field 'keepData' in the gating strategy file is set to 'TRUE'.\

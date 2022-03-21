@@ -14,3 +14,11 @@ LICENSE.md
 ^CRAN-SUBMISSION$
 cran-comments.md
 man-roxygen
+accessory.Rmd
+acknowledgements.Rmd
+acquire_data.Rmd
+bottled_water.Rmd
+description.Rmd
+flowdex.Rmd
+workflow_1.Rmd
+workflow_2.Rmd

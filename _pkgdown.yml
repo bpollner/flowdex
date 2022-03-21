@@ -2,28 +2,29 @@ url: https://bpollner.github.io/flowdex/
 template:
   bootstrap: 5
 
-articles:
-- title: Description
-  mavbar: ~
-  contents:
-  - description
-  - bottled_water
-
-- title: Usage
-  navbar: ~
-  contents:
-  - description
-  - bottled_water
-  - acquire_data
-  - workflow_1
-  - workflow_2
-  - accessory
-
-- title: Acknowledgements
-  navbar: ~
-  contents:
-  - acknowledgements
-
+navbar:
+ components:
+   articles:
+    text: Articles
+    menu:
+    - text: Background
+    - text: Description
+      href: articles/description.html
+    - text: Re-Calculate to Events per Volume Unit
+      href: articles/bottled_water.html
+    - text: -------
+    - text: "Tutorial"
+    - text: "Acquire Data"
+      href: articles/acquire_data.html
+    - text: "Workflow 1: Define Gating Strategy and Polygon Gates"
+      href: articles/workflow_1.html
+    - text: "Workflow 2: Extract Fluorescence Distributions"
+      href: articles/workflow_2.html
+    - text: "Repair & Accessory Functions"
+      href: articles/accessory.html
+    - text: -------
+    - text: "Acknowledgements"
+      href: articles/acknowledgements.html
 
 reference:
 - title: "Package flowdex"

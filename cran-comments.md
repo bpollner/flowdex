@@ -16,9 +16,91 @@
 If I am interpreting this error message correctly, then an error occurred when **preparing** to run package flowdex, not in package flowdex itself.
    
 
+
+*****
+
+
 # Results from devtools::check_win_devel()
 
+* using log directory 'd:/RCompile/CRANguest/R-devel/flowdex.Rcheck'
+* using R Under development (unstable) (2022-03-20 r81946 ucrt)
+* using platform: x86_64-w64-mingw32 (64-bit)
+* using session charset: UTF-8
+* checking for file 'flowdex/DESCRIPTION' ... OK
+* checking extension type ... Package
+* this is package 'flowdex' version '0.4.2'
+* package encoding: UTF-8
+* checking CRAN incoming feasibility ... NOTE
+Maintainer: 'Bernhard Pollner <bernhard.pollner@mac.com>'
 
+New submission
+
+Non-FOSS package license (file LICENSE)
+
+Possibly misspelled words in DESCRIPTION:
+  FCS (3:52)
+  fcs (8:58, 11:40)
+  flowdex (11:27)
+
+Package has a VignetteBuilder field but no prebuilt vignette index.
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking whether package 'flowdex' can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking for future file timestamps ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking use of S3 registration ... OK
+* checking dependencies in R code ... OK
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... [20s] NOTE
+Found the following calls to attach():
+File 'flowdex/R/zzz.R':
+  attach(what = NULL, name = nsp)
+See section 'Good practice' in '?attach'.
+
+Found if() conditions comparing class() to string:
+File 'flowdex/R/gen-functions.R': if (class(gs) == "GatingSet") ...
+Use inherits() (or maybe is()) instead.
+* checking Rd files ... [1s] OK
+* checking Rd metadata ... OK
+* checking Rd line widths ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... OK
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking examples ... [92s] NOTE
+Examples with CPU (user + system) or elapsed time > 10s
+           user system elapsed
+plotgates 21.99   0.80   24.64
+addGates   4.82   6.08   12.01
+* checking for unstated dependencies in 'tests' ... OK
+* checking tests ... [72s] OK
+  Running 'testthat.R' [71s]
+* checking PDF version of manual ... OK
+* checking for detritus in the temp directory ... OK
+* DONE
+Status: 3 NOTEs
 
 
 
@@ -28,11 +110,25 @@ If I am interpreting this error message correctly, then an error occurred when *
 # Regarding the non-FOSS license
 This is due to the limitations imposed by [package flowWorkspace](https://bioconductor.org/packages/release/bioc/html/flowWorkspace.html)
 
+I am not sure if the license as I formulated it is necessary like that.
+But when I set the license to GPL, then I get the note: 
+
+Package has a FOSS license but eventually depends on the following
+packages which restrict use:
+  flowWorkspace, cytolib
+
+
+I did try to find a standard license that says research only, not commercially, but I could not find one.
+
+So, the license file as I formulated is the best I could do in order to encompass the requirements I believe are there due to e.g. package flowWorkspace.
+
+If I amn wrong and the file-license as I formulated it is not necessary or correct, I would therefore kindly ask for your help to find the appropriate licensing for package flowdex.
 
 
 *****
 
 # Regarding the call to "attach()"
+
 Please allow me to explain why I strongly believe that the call to "attach" is perfectly justified in this case:
 
 Attach(), and also detach(), is called from the .onLoad and the .onUnload function. In this case, attach() is required for the functionality of the required package „uniset“ (of which I am the author as well.)
@@ -99,5 +195,5 @@ As I pointed out, the environment contains 5 objects with long and very specific
 The use of attach() here is not in the sense as described frowned upon in the Good Practice rules. 
 To sum it up, I can not think of any situation where attaching these 5 objects in their environment could lead to problems.
    
-Bernhard Pollner, 16.03.2022
+Bernhard Pollner, 21.03.2022
 

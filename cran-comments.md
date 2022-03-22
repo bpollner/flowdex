@@ -2,25 +2,17 @@
 
 ## Windows Server 2022
 
-Build ID:
-flowdex_0.4.2.tar.gz-e7f3cd4d05f24fe39e21decc879eb5d0
+[https://builder.r-hub.io/status/flowdex_0.4.2.tar.gz-94433876e57049f2bff4ed2815cb234a](https://builder.r-hub.io/status/flowdex_0.4.2.tar.gz-94433876e57049f2bff4ed2815cb234a)
 
-I got emailed back a PREPERROR, and it could look like there is a problem 
-setting up the build-environment ??
+Here, R-CMD-CHECK comes back with errors. As I understand it, the runner 
+was not able to download the content required to run the tests, hence the 
+errors.
 
-In the output, it says:
-
-  51#> VERBOSE: Downloading https://builder.r-hub.io/file/087ed903c6354d0c9cbff55121621eab
-  52#> VERBOSE: GET https://builder.r-hub.io/file/087ed903c6354d0c9cbff55121621eab with 0-byte payload
-  53#> VERBOSE: received 898229-byte response of content type application/octet-stream
-  54#> FATAL: no longer a configured node for windows-ucrt-80153829
-  55#> java.lang.IllegalStateException: no longer a configured node for windows-ucrt-80153829
-
-Please not that devtools::check_win_devel() goes through without a problem, 
+But please not that devtools::check_win_devel() goes through without a problem, 
 see below.
 
-Also the run on Windows 2019 as provided by Github is ok:
-[https://github.com/bpollner/flowdex/actions/runs/2016601930](https://github.com/bpollner/flowdex/actions/runs/2016601930)
+Also the run on Windows 2019 as provided by Github is perfectly ok:
+[https://github.com/bpollner/flowdex/actions/runs/2021219945](https://github.com/bpollner/flowdex/actions/runs/2021219945)
 
 
 
@@ -28,89 +20,93 @@ Also the run on Windows 2019 as provided by Github is ok:
 ## Ubuntu Linux
 
 Build ID:
-flowdex_0.4.2.tar.gz-bd945804e266441cb289de75781bdf80
+flowdex_0.4.2.tar.gz-803b1af37ca94abe95cdb73e128f3c60
+
+[https://builder.r-hub.io/status/flowdex_0.4.2.tar.gz-803b1af37ca94abe95cdb73e128f3c60](https://builder.r-hub.io/status/flowdex_0.4.2.tar.gz-803b1af37ca94abe95cdb73e128f3c60)
 
 On the results I got emailed back it says "PREPERROR". but when I look at the 
-file R-CMD-CHECK goes through as follows:
+file R-CMD-CHECK goes through as follows, and the final line is:
+
+ Finished: SUCCESS
 
 ### output from ubuntu linux
-19702#> About to run xvfb-run R CMD check --as-cran flowdex_0.4.2.tar.gz
-19703#> 'getOption("repos")' replaces Bioconductor standard repositories, see
-19704#> '?repositories' for details
-19705#> replacement repositories:
-19706#> CRAN: https://cloud.r-project.org
-19707#> * using log directory ‘/home/docker/flowdex.Rcheck’
-19708#> * using R version 4.1.2 (2021-11-01)
-19709#> * using platform: x86_64-pc-linux-gnu (64-bit)
-19710#> * using session charset: UTF-8
-19711#> * using option ‘--as-cran’
-19712#> * checking for file ‘flowdex/DESCRIPTION’ ... OK
-19713#> * checking extension type ... Package
-19714#> * this is package ‘flowdex’ version ‘0.4.2’
-19715#> * package encoding: UTF-8
-19716#> * checking CRAN incoming feasibility ... NOTE
-19717#> Maintainer: ‘Bernhard Pollner ’
-19718#> New submission
-19719#> Non-FOSS package license (file LICENSE)
-19720#> Possibly mis-spelled words in DESCRIPTION:
-19721#> fcs (8:58, 11:40)
-19722#> FCS (3:52)
-19723#> flowdex (11:27)
-19724#> Package has a VignetteBuilder field but no prebuilt vignette index.
-19725#> * checking package namespace information ... OK
-19726#> * checking package dependencies ... OK
-19727#> * checking if this is a source package ... OK
-19728#> * checking if there is a namespace ... OK
-19729#> * checking for executable files ... OK
-19730#> * checking for hidden files and directories ... OK
-19731#> * checking for portable file names ... OK
-19732#> * checking for sufficient/correct file permissions ... OK
-19733#> * checking whether package ‘flowdex’ can be installed ... OK
-19734#> * checking installed package size ... OK
-19735#> * checking package directory ... OK
-19736#> * checking for future file timestamps ... OK
-19737#> * checking DESCRIPTION meta-information ... OK
-19738#> * checking top-level files ... OK
-19739#> * checking for left-over files ... OK
-19740#> * checking index information ... OK
-19741#> * checking package subdirectories ... OK
-19742#> * checking R files for non-ASCII characters ... OK
-19743#> * checking R files for syntax errors ... OK
-19744#> * checking whether the package can be loaded ... OK
-19745#> * checking whether the package can be loaded with stated dependencies ... OK
-19746#> * checking whether the package can be unloaded cleanly ... OK
-19747#> * checking whether the namespace can be loaded with stated dependencies ... OK
-19748#> * checking whether the namespace can be unloaded cleanly ... OK
-19749#> * checking loading without being on the library search path ... OK
-19750#> * checking use of S3 registration ... OK
-19751#> * checking dependencies in R code ... OK
-19752#> * checking S3 generic/method consistency ... OK
-19753#> * checking replacement functions ... OK
-19754#> * checking foreign function calls ... OK
-19755#> * checking R code for possible problems ... NOTE
-19756#> Found the following calls to attach():
-19757#> File ‘flowdex/R/zzz.R’:
-19758#> attach(what = NULL, name = nsp)
-19759#> See section ‘Good practice’ in ‘?attach’.
-19760#> * checking Rd files ... OK
-19761#> * checking Rd metadata ... OK
-19762#> * checking Rd line widths ... OK
-19763#> * checking Rd cross-references ... OK
-19764#> * checking for missing documentation entries ... OK
-19765#> * checking for code/documentation mismatches ... OK
-19766#> * checking Rd \usage sections ... OK
-19767#> * checking Rd contents ... OK
-19768#> * checking for unstated dependencies in examples ... OK
-19769#> * checking examples ... NOTE
-19770#> Examples with CPU (user + system) or elapsed time > 5s
-19771#> user system elapsed
-19772#> plotgates 32.768 0.328 46.209
-19773#> exportFdmatData 4.713 0.230 7.434
-19774#> flowdexit 4.066 0.163 5.257
+
+
+19704#> About to run xvfb-run R CMD check --as-cran flowdex_0.4.2.tar.gz
+19705#> 'getOption("repos")' replaces Bioconductor standard repositories, see
+19706#> '?repositories' for details
+19707#> replacement repositories:
+19708#> CRAN: https://cloud.r-project.org
+19709#> * using log directory ‘/home/docker/flowdex.Rcheck’
+19710#> * using R version 4.1.2 (2021-11-01)
+19711#> * using platform: x86_64-pc-linux-gnu (64-bit)
+19712#> * using session charset: UTF-8
+19713#> * using option ‘--as-cran’
+19714#> * checking for file ‘flowdex/DESCRIPTION’ ... OK
+19715#> * checking extension type ... Package
+19716#> * this is package ‘flowdex’ version ‘0.4.2’
+19717#> * package encoding: UTF-8
+19718#> * checking CRAN incoming feasibility ... NOTE
+19719#> Maintainer: ‘Bernhard Pollner ’
+19720#> New submission
+19721#> Non-FOSS package license (file LICENSE)
+19722#> Possibly mis-spelled words in DESCRIPTION:
+19723#> fcs (8:58, 11:40)
+19724#> FCS (3:52)
+19725#> flowdex (11:27)
+19726#> Package has a VignetteBuilder field but no prebuilt vignette index.
+19727#> * checking package namespace information ... OK
+19728#> * checking package dependencies ... OK
+19729#> * checking if this is a source package ... OK
+19730#> * checking if there is a namespace ... OK
+19731#> * checking for executable files ... OK
+19732#> * checking for hidden files and directories ... OK
+19733#> * checking for portable file names ... OK
+19734#> * checking for sufficient/correct file permissions ... OK
+19735#> * checking whether package ‘flowdex’ can be installed ... OK
+19736#> * checking installed package size ... OK
+19737#> * checking package directory ... OK
+19738#> * checking for future file timestamps ... OK
+19739#> * checking DESCRIPTION meta-information ... OK
+19740#> * checking top-level files ... OK
+19741#> * checking for left-over files ... OK
+19742#> * checking index information ... OK
+19743#> * checking package subdirectories ... OK
+19744#> * checking R files for non-ASCII characters ... OK
+19745#> * checking R files for syntax errors ... OK
+19746#> * checking whether the package can be loaded ... OK
+19747#> * checking whether the package can be loaded with stated dependencies ... OK
+19748#> * checking whether the package can be unloaded cleanly ... OK
+19749#> * checking whether the namespace can be loaded with stated dependencies ... OK
+19750#> * checking whether the namespace can be unloaded cleanly ... OK
+19751#> * checking loading without being on the library search path ... OK
+19752#> * checking use of S3 registration ... OK
+19753#> * checking dependencies in R code ... OK
+19754#> * checking S3 generic/method consistency ... OK
+19755#> * checking replacement functions ... OK
+19756#> * checking foreign function calls ... OK
+19757#> * checking R code for possible problems ... NOTE
+19758#> Found the following calls to attach():
+19759#> File ‘flowdex/R/zzz.R’:
+19760#> attach(what = NULL, name = nsp)
+19761#> See section ‘Good practice’ in ‘?attach’.
+19762#> * checking Rd files ... OK
+19763#> * checking Rd metadata ... OK
+19764#> * checking Rd line widths ... OK
+19765#> * checking Rd cross-references ... OK
+19766#> * checking for missing documentation entries ... OK
+19767#> * checking for code/documentation mismatches ... OK
+19768#> * checking Rd \usage sections ... OK
+19769#> * checking Rd contents ... OK
+19770#> * checking for unstated dependencies in examples ... OK
+19771#> * checking examples ... NOTE
+19772#> Examples with CPU (user + system) or elapsed time > 5s
+19773#> user system elapsed
+19774#> plotgates 30.356 0.287 24.541
 19775#> * checking examples with --run-donttest ... OK
 19776#> * checking for unstated dependencies in ‘tests’ ... OK
 19777#> * checking tests ...
-19778#> Running ‘testthat.R’ [55s/82s]
+19778#> Running ‘testthat.R’ [43s/41s]
 19779#> OK
 19780#> * checking PDF version of manual ... OK
 19781#> * checking for non-standard things in the check directory ... OK
@@ -121,17 +117,21 @@ file R-CMD-CHECK goes through as follows:
 19786#> ‘/home/docker/flowdex.Rcheck/00check.log’
 19787#> for details.
 
-
-
 ## Fedora Linux
 
 Build ID:
-flowdex_0.4.2.tar.gz-49757959decc415b8f165c43e7af17c3
+flowdex_0.4.2.tar.gz-ae1175f5f1d54f9bbd2672f6cb2cb880
+
+[https://builder.r-hub.io/status/flowdex_0.4.2.tar.gz-ae1175f5f1d54f9bbd2672f6cb2cb880](https://builder.r-hub.io/status/flowdex_0.4.2.tar.gz-ae1175f5f1d54f9bbd2672f6cb2cb880)
+
 
 On the results I got emailed back it says "PREPERROR". but when I look at the 
-file R-CMD-CHECK goes through as follows:
+file R-CMD-CHECK goes through as follows, and the final line is:
+
+ Finished: SUCCESS
 
 ### output from fedora linux
+
 53824#> About to run xvfb-run R CMD check --as-cran flowdex_0.4.2.tar.gz
 53825#> 'getOption("repos")' replaces Bioconductor standard repositories, see
 53826#> '?repositories' for details
@@ -202,39 +202,30 @@ file R-CMD-CHECK goes through as follows:
 53891#> * checking examples ... NOTE
 53892#> Examples with CPU (user + system) or elapsed time > 5s
 53893#> user system elapsed
-53894#> plotgates 29.016 0.608 43.153
-53895#> exportFdmatData 4.692 0.286 6.787
-53896#> flowdexit 3.828 0.228 6.704
-53897#> makeAddGatingSet 3.333 0.187 5.709
-53898#> * checking examples with --run-donttest ... OK
-53899#> * checking for unstated dependencies in ‘tests’ ... OK
-53900#> * checking tests ...
-53901#> Running ‘testthat.R’ [54s/78s]
-53902#> OK
-53903#> * checking PDF version of manual ... OK
-53904#> * checking for non-standard things in the check directory ... OK
-53905#> * checking for detritus in the temp directory ... OK
-53906#> * DONE
-53907#> Status: 3 NOTEs
-53908#> See
-53909#> ‘/home/docker/flowdex.Rcheck/00check.log’
-53910#> for details.
-
-
-
-
+53894#> plotgates 27.355 0.654 24.531
+53895#> * checking examples with --run-donttest ... OK
+53896#> * checking for unstated dependencies in ‘tests’ ... OK
+53897#> * checking tests ...
+53898#> Running ‘testthat.R’ [46s/43s]
+53899#> OK
+53900#> * checking PDF version of manual ... OK
+53901#> * checking for non-standard things in the check directory ... OK
+53902#> * checking for detritus in the temp directory ... OK
+53903#> * DONE
+53904#> Status: 3 NOTEs
+53905#> See
+53906#> ‘/home/docker/flowdex.Rcheck/00check.log’
+53907#> for details.
 
 *****
 
 
 # Results from devtools::check_win_devel()
 
-[https://win-builder.r-project.org/A3q638t6j0w7](https://win-builder.r-project.org/A3q638t6j0w7)
-
-
+[https://win-builder.r-project.org/K0tBS3UFz28z](https://win-builder.r-project.org/K0tBS3UFz28z)
 
 * using log directory 'd:/RCompile/CRANguest/R-devel/flowdex.Rcheck'
-* using R Under development (unstable) (2022-03-20 r81946 ucrt)
+* using R Under development (unstable) (2022-03-21 r81954 ucrt)
 * using platform: x86_64-w64-mingw32 (64-bit)
 * using session charset: UTF-8
 * checking for file 'flowdex/DESCRIPTION' ... OK
@@ -282,15 +273,11 @@ Package has a VignetteBuilder field but no prebuilt vignette index.
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
-* checking R code for possible problems ... [20s] NOTE
+* checking R code for possible problems ... [34s] NOTE
 Found the following calls to attach():
 File 'flowdex/R/zzz.R':
   attach(what = NULL, name = nsp)
 See section 'Good practice' in '?attach'.
-
-Found if() conditions comparing class() to string:
-File 'flowdex/R/gen-functions.R': if (class(gs) == "GatingSet") ...
-Use inherits() (or maybe is()) instead.
 * checking Rd files ... [1s] OK
 * checking Rd metadata ... OK
 * checking Rd line widths ... OK
@@ -300,20 +287,21 @@ Use inherits() (or maybe is()) instead.
 * checking Rd \usage sections ... OK
 * checking Rd contents ... OK
 * checking for unstated dependencies in examples ... OK
-* checking examples ... [92s] NOTE
+* checking examples ... [195s] NOTE
 Examples with CPU (user + system) or elapsed time > 10s
-           user system elapsed
-plotgates 21.99   0.80   24.64
-addGates   4.82   6.08   12.01
+                 user system elapsed
+plotgates       42.97   1.84   54.08
+addGates         7.41  11.96   21.10
+repairVolumes    5.06  11.73   17.19
+exportFdmatData  8.08   1.01   17.02
+flowdexit        6.89   0.95   10.77
 * checking for unstated dependencies in 'tests' ... OK
-* checking tests ... [72s] OK
-  Running 'testthat.R' [71s]
+* checking tests ... [160s] OK
+  Running 'testthat.R' [160s]
 * checking PDF version of manual ... OK
 * checking for detritus in the temp directory ... OK
 * DONE
 Status: 3 NOTEs
-
-
 
 *****
 

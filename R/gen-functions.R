@@ -1141,7 +1141,8 @@ plotgates <- function(gs, ti="", spl=NULL, fns=NULL, plotAll=FALSE, toPdf=TRUE,
         foN_plots <- checkDefToSetVal(foN.plots, "foN_plots", "foN.plots", stn, checkFor="char")
     } # end if
     ##
-    if (class(gs) == "GatingSet") {
+    gsChar <- class(gs)
+    if (gsChar == "GatingSet") {
         if (is.null(x) | is.null(y)) {
             stop("Please provide valid channel names to be displayed on the x- and y-axis.", call.=FALSE)
         }

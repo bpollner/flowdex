@@ -2,6 +2,8 @@ checkOnTest <- function() {
     if (exists("get_settings_from_flowdex_package_root", where = .GlobalEnv)) {
         if (get("get_settings_from_flowdex_package_root", pos = .GlobalEnv)) {
             return(TRUE)
+        } else {
+            return(FALSE)
         }
     } else {
         return(FALSE)
